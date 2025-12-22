@@ -7,6 +7,7 @@
 export default {
   name: 'App',
   fyufyu
+  ;hjygviuvihj
 }
 </script>
 
