@@ -1,0 +1,198 @@
+/* 
+ * 全局基础样式
+ * 定义项目中通用的基础样式规则
+ */
+
+/* CSS 自定义属性 */
+:root {
+  --color-background: #f8fafc;
+  --color-background-soft: #f1f5f9;
+  --color-background-mute: #e2e8f0;
+
+  --color-text: #1e293b;
+  --color-text-soft: #64748b;
+  --color-text-inverse: #f1f5f9;
+
+  --color-border: #cbd5e1;
+  --color-border-hover: #94a3b8;
+
+  --muted: #6b7280;
+  --card-bg: rgba(255,255,255,0.95);
+
+  --border-radius: 6px;
+  --border-radius-medium: 8px;
+  --border-radius-big: 12px;
+  --border-radius-circle: 50%;
+
+  --shadow-small: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-big: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* 深色主题 */
+:root.dark {
+  --color-background: #0f172a;
+  --color-background-soft: #1e2b3a;
+  --color-background-mute: #334155;
+
+  --color-text: #f1f5f9;
+  --color-text-soft: #94a3b8;
+  --color-text-inverse: #1e2b3a;
+
+  --color-border: #475569;
+  --color-border-hover: #64748b;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 登录页面通用响应式样式 */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius-big);
+  box-shadow: var(--shadow-big);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 登录页面响应式设计 */
+@media (max-width: 1199px) {
+  .presentation-box {
+    display: none !important;
+  }
+  
+  .content-wrapper {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-box {
+    margin: 0;
+    padding: 30px 20px;
+    max-width: 100%;
+    width: 90%;
+    border-radius: 0;
+  }
+  
+  .login-header {
+    margin-bottom: 25px;
+  }
+  
+  .login-header h2 {
+    font-size: 22px;
+  }
+  
+  .login-form .el-form-item {
+    margin-bottom: 18px;
+  }
+  
+  .login-button {
+    height: 46px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    margin: 0;
+    padding: 25px 15px;
+    width: 95%;
+    min-width: 280px;
+  }
+  
+  .login-header h2 {
+    font-size: 20px;
+  }
+  
+  .login-header p {
+    font-size: 13px;
+  }
+  
+  .login-form .el-input__wrapper {
+    padding: 0 12px;
+  }
+  
+  .login-button {
+    height: 44px;
+    font-size: 14px;
+  }
+  
+  .captcha-form-item .captcha-input-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .captcha-form-item .captcha-input-container .code-btn {
+    width: 100%;
+  }
+}
+
+/* 针对非常小的屏幕优化 */
+@media (max-width: 360px) {
+  .login-box {
+    padding: 20px 10px;
+    min-width: 260px;
+  }
+  
+  .login-header h2 {
+    font-size: 18px;
+  }
+  
+  .login-button {
+    height: 42px;
+    font-size: 13px;
+  }
+}
+
+/* 针对大屏幕优化 */
+@media (min-width: 1200px) {
+  .presentation-box {
+    display: block !important;
+  }
+  
+  .login-box {
+    max-width: 420px;
+  }
+}
