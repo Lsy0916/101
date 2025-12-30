@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
   <img src="https://vuejs.org/images/logo.png" width="100" alt="Vue Logo"/>
   <h1>学校机房上机管理系统</h1>
@@ -198,3 +199,7 @@ npm run preview
 2. 使用 ES6+ 语法
 3. 组件命名遵循 PascalCase
 4. 提交前运行代码检查
+=======
+# 101
+101
+>>>>>>> 55a09d9cfe615e4ce51b4bc8979e7a29b05eb923
