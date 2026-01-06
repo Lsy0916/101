@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '@/views//login/LoginView.vue'
+import LoginView from '@/views/login/LoginView.vue'
 import HomePage from '@/views/HomePage.vue'
+import AssessmentCenter from '@/views/AssessmentCenter.vue'
+import AssessmentTake from '@/views/AssessmentTake.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -9,13 +11,25 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomePage
+      component: HomePage,
+      meta: { noPadding: true, transparentNavbar: true }
+    },
+    {
+      path: '/assessment',
+      name: 'assessment',
+      component: AssessmentCenter
+    },
+    {
+      path: '/assessment/take/:id',
+      name: 'assessment-take',
+      component: AssessmentTake,
+      meta: { hideNavbar: true, hideFooter: true }
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
-      meta: { requiresGuest: false }
+      meta: { requiresGuest: false, noPadding: true, transparentNavbar: true }
     }
   ]
 })

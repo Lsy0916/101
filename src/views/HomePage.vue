@@ -63,7 +63,7 @@
         <button class="carousel-btn next" @click="nextSlide" aria-label="Next slide">
           <el-icon><ArrowRight /></el-icon>
         </button>
-
+        
         <!-- 向下滚动指示器 -->
         <div class="scroll-down-indicator" @click="scrollToNextSection">
           <span class="scroll-text">Scroll Down</span>
@@ -249,16 +249,16 @@
     </section>
 
     <!-- 回到顶部与快速导航 -->
-    <div class="back-to-top-container"
+    <div class="back-to-top-container" 
          :class="{ 'visible': scrollY > 100 }"
-         @mouseenter="showNavMenu = true"
+         @mouseenter="showNavMenu = true" 
          @mouseleave="showNavMenu = false">
-
+      
       <transition name="fade-slide">
         <div class="nav-menu" v-show="showNavMenu">
-          <div
-            v-for="item in navSections"
-            :key="item.id"
+          <div 
+            v-for="item in navSections" 
+            :key="item.id" 
             class="menu-item"
             @click.stop="scrollToSection(item.id)"
           >
@@ -372,15 +372,15 @@ const handleDragStart = (e) => {
 
 const handleDragMove = (e) => {
   if (!isDragging.value) return
-
+  
   const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
   const currentTime = performance.now()
   const deltaTime = currentTime - lastTime.value
-
+  
   if (deltaTime > 0) {
     velocity.value = (currentX - lastX.value) / deltaTime
   }
-
+  
   lastX.value = currentX
   lastTime.value = currentTime
 
@@ -398,7 +398,7 @@ const handleDragEnd = () => {
 
   const threshold = 100
   const velocityThreshold = 0.5 // 惯性触发阈值
-
+  
   // 结合位移和速度判断切换
   if (Math.abs(dragOffset.value) > threshold || Math.abs(velocity.value) > velocityThreshold) {
     if (dragOffset.value > 0 || velocity.value > velocityThreshold) {
@@ -421,7 +421,11 @@ const handleMouseLeave = () => {
 }
 
 const handleSlideAction = (slide) => {
-  ElMessage.success(`准备：${slide.buttonText}`)
+  if (slide.buttonText === '开始规划' || slide.buttonText === '了解更多') {
+    router.push({ name: 'assessment' })
+  } else {
+    ElMessage.success(`准备：${slide.buttonText}`)
+  }
 }
 
 // 导航栏相关状态
@@ -681,7 +685,7 @@ onMounted(() => {
   window.addEventListener('wheel', handleWheel, { passive: false })
   preloadImages()
   startCarousel()
-
+  
   // 初始化滚动显现观察器
   const observerCallback = (entries) => {
     entries.forEach(entry => {
@@ -1250,7 +1254,6 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: 24px 24px;
   opacity: 0.5;
   z-index: 0;
 }
@@ -1786,16 +1789,16 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-
+  
   .about-image-wrapper {
     order: -1;
     margin-bottom: 2rem;
   }
-
+  
   .contact-info {
     padding: 2rem;
   }
-
+  
   .contact-form-wrapper {
     padding: 2rem;
   }
@@ -1809,7 +1812,7 @@ onUnmounted(() => {
   .section-header h2 {
     font-size: 1.75rem;
   }
-
+  
   .carousel-indicators {
     display: none;
   }
@@ -1818,7 +1821,7 @@ onUnmounted(() => {
     width: 50px;
     height: 60px;
   }
-
+  
   .carousel-btn .el-icon {
     font-size: 24px;
   }

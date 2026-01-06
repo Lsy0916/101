@@ -5,15 +5,15 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
 
 <template>
   <div class="main-layout">
-    <Navbar />
-    <main class="main-content">
+    <Navbar v-if="!$route.meta.hideNavbar" />
+    <main class="main-content" :class="{ 'no-padding': $route.meta.transparentNavbar || $route.meta.hideNavbar }">
       <router-view v-slot="{ Component }">
         <transition name="page-fade" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
     </main>
-    <footer class="main-footer">
+    <footer class="main-footer" v-if="!$route.meta.hideFooter">
       <div class="footer-content">
         <div class="footer-grid">
           <!-- 品牌介绍 -->
@@ -93,6 +93,13 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
 .main-content {
   flex: 1;
   width: 100%;
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+.main-content.no-padding {
+  padding-top: 0;
+  min-height: 100vh;
 }
 
 .main-footer {

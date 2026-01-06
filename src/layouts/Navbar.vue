@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import {
   User,
   ArrowDown,
@@ -13,10 +13,14 @@ import {
 import { useTheme, useLocale } from '../composables/settings'
 
 const router = useRouter()
+const route = useRoute()
 const { isDark, themeMode, setThemeMode } = useTheme()
 const { locale, setLocale } = useLocale()
 const isScrolled = ref(false)
 const showMobileMenu = ref(false)
+
+const isTransparentPage = computed(() => route.meta.transparentNavbar === true)
+const shouldBeTransparent = computed(() => isTransparentPage.value && !isScrolled.value)
 
 const handleThemeCommand = (command) => {
   setThemeMode(command)
@@ -119,8 +123,18 @@ function goHome() {
 
 function handleNav(item) {
   showMobileMenu.value = false
-  // 这里可以根据 item.key 跳转到具体路由，目前先跳转到首页作为示例
-  router.push({ path: '/', query: { tab: item.key } })
+  // 识别测评相关的 key，跳转到测评中心
+  const assessmentKeys = ['phq9', 'gad7', 'pss', 'riasec', 'mbti', 'anchor', 'evaluation']
+  if (assessmentKeys.includes(item.key)) {
+    if (item.key === 'evaluation') {
+      router.push({ name: 'assessment' })
+    } else {
+      router.push({ name: 'assessment', query: { scale: item.key } })
+    }
+  } else {
+    // 其他功能暂时跳转到首页对应 tab
+    router.push({ path: '/', query: { tab: item.key } })
+  }
 }
 
 function handleCommand(command) {
@@ -131,7 +145,7 @@ function handleCommand(command) {
 </script>
 
 <template>
-  <header class="nav-header" :class="{ 'is-scrolled': isScrolled }">
+  <header class="nav-header" :class="{ 'is-scrolled': isScrolled, 'is-transparent': shouldBeTransparent }">
     <div class="nav-container">
       <!-- Logo -->
       <div class="nav-left">
@@ -146,7 +160,7 @@ function handleCommand(command) {
       <!-- Desktop Menu -->
       <nav class="nav-center desktop-only">
         <div v-for="menu in menuData" :key="menu.key" class="menu-item-group">
-          <div class="menu-item">
+          <div class="menu-item" @click="handleNav(menu)">
             {{ menu.label }}
             <el-icon class="arrow-icon"><ArrowDown /></el-icon>
           </div>
@@ -156,7 +170,12 @@ function handleCommand(command) {
               <div v-for="group in menu.children" :key="group.title" class="mega-column">
                 <h4 class="mega-title">{{ group.title }}</h4>
                 <ul class="mega-list">
-                  <li v-for="item in group.items" :key="item.key" class="mega-item">
+                  <li 
+                    v-for="item in group.items" 
+                    :key="item.key" 
+                    class="mega-item"
+                    @click="handleNav(item)"
+                  >
                     {{ item.label }}
                   </li>
                 </ul>
@@ -256,6 +275,10 @@ function handleCommand(command) {
             <template #title>
               <span class="mobile-collapse-title">{{ menu.label }}</span>
             </template>
+            <!-- 增加跳转到中心页面的入口 -->
+            <div v-if="menu.key === 'evaluation'" class="mobile-center-link" @click="handleNav(menu)">
+              <el-icon><Monitor /></el-icon> 进入测评中心首页
+            </div>
             <div v-for="group in menu.children" :key="group.title" class="mobile-group">
               <p class="mobile-group-title">{{ group.title }}</p>
               <div
@@ -343,9 +366,11 @@ function handleCommand(command) {
   left: 0;
   z-index: 1000;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.nav-header:not(.is-scrolled) {
+.nav-header.is-transparent {
   background-color: transparent !important;
   background: transparent !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -353,7 +378,7 @@ function handleCommand(command) {
 }
 
 /* 顶部透明时，仅当悬停在菜单区域时取消透明 */
-.nav-header:not(.is-scrolled):has(.nav-center:hover) {
+.nav-header.is-transparent:has(.nav-center:hover) {
   background-color: rgba(255, 255, 255, 0.98) !important;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -370,67 +395,67 @@ function handleCommand(command) {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 
-.nav-header:not(.is-scrolled) .logo-text {
+.nav-header.is-transparent .logo-text {
   background: white;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.nav-header:not(.is-scrolled):has(.nav-center:hover) .logo-text {
+.nav-header.is-transparent:has(.nav-center:hover) .logo-text {
   background: linear-gradient(90deg, #0052d9, #1890ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.nav-header:not(.is-scrolled) .menu-item {
+.nav-header.is-transparent .menu-item {
   color: rgba(255, 255, 255, 0.9);
 }
 
-.nav-header:not(.is-scrolled):has(.nav-center:hover) .menu-item {
+.nav-header.is-transparent:has(.nav-center:hover) .menu-item {
   color: #374151;
 }
 
-.nav-header:not(.is-scrolled) .menu-item:hover {
+.nav-header.is-transparent .menu-item:hover {
   background: rgba(255, 255, 255, 0.15);
   color: white;
 }
 
-.nav-header:not(.is-scrolled):has(.nav-center:hover) .menu-item:hover {
+.nav-header.is-transparent:has(.nav-center:hover) .menu-item:hover {
   background: rgba(0, 82, 217, 0.08);
   color: #0052d9;
 }
 
-.nav-header:not(.is-scrolled) .icon-btn {
+.nav-header.is-transparent .icon-btn {
   color: white;
 }
 
-.nav-header:not(.is-scrolled):has(.nav-center:hover) .icon-btn {
+.nav-header.is-transparent:has(.nav-center:hover) .icon-btn {
   color: #64748b;
 }
 
-.nav-header:not(.is-scrolled) .lang-btn {
+.nav-header.is-transparent .lang-btn {
   border-color: rgba(255, 255, 255, 0.4);
   color: white;
 }
 
-.nav-header:not(.is-scrolled):has(.nav-center:hover) .lang-btn {
+.nav-header.is-transparent:has(.nav-center:hover) .lang-btn {
   border-color: #e2e8f0;
   color: #64748b;
 }
 
-.nav-header:not(.is-scrolled) .username {
+.nav-header.is-transparent .username {
   color: white;
 }
 
-.nav-header:not(.is-scrolled):has(.nav-center:hover) .username {
+.nav-header.is-transparent:has(.nav-center:hover) .username {
   color: #1e293b;
 }
 
-.nav-header:not(.is-scrolled) .mobile-menu-btn {
+.nav-header.is-transparent .mobile-menu-btn {
   color: white;
 }
 
-.nav-header:not(.is-scrolled):has(.nav-center:hover) .mobile-menu-btn {
+.nav-header.is-transparent:has(.nav-center:hover) .mobile-menu-btn {
   color: #1e293b;
 }
 
@@ -733,6 +758,26 @@ function handleCommand(command) {
   font-size: 1.1rem;
   font-weight: 600;
   color: #1a1a1a;
+}
+
+.mobile-center-link {
+  margin: 8px 16px 16px;
+  padding: 12px;
+  background: #f0f7ff;
+  color: #0052d9;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid #d0e7ff;
+}
+
+.mobile-center-link:active {
+  background: #e0efff;
 }
 
 .mobile-group {
