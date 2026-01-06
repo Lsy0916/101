@@ -1,9 +1,9 @@
 <script setup>
+import MainLayout from './layouts/MainLayout.vue'
 </script>
 
 <template>
-<!--  路由视图-->
-  <RouterView />
+  <MainLayout />
 </template>
 
 <style>

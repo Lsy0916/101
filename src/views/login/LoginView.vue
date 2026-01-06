@@ -27,7 +27,7 @@ const bgImage = ref('');
 onMounted(() => {
   // 创建一个Image对象来预加载背景图片
   const img = new Image();
-  img.src = new URL('@/assets/images/tsinghua-bg.jpg', import.meta.url).href;
+  img.src = new URL('@/assets/images/nist-bg.jpg', import.meta.url).href;
 
   // 可以考虑使用WebP格式或更小尺寸的图片来优化性能
   // 或者使用CSS背景图片的渐进式加载
@@ -36,7 +36,7 @@ onMounted(() => {
 
 <style scoped>
 .login-container {
-  background: url(@/assets/images/tsinghua-bg.jpg) no-repeat center center;
+  background: url(@/assets/images/nist-bg.jpg) no-repeat center center;
   background-size: cover;
   position: relative;
   padding: 0;

@@ -1,429 +1,278 @@
-<!-- 主布局组件 -->
-<template>
-  <el-container class="layout-container">
-    <!-- 侧边栏 -->
-    <el-aside
-      :width="isCollapse ? '64px' : '200px'"
-      class="sidebar-container"
-      :class="{ 'sidebar-collapse': isCollapse }"
-    >
-      <div class="sidebar-logo">
-        <img v-if="!isCollapse" src="@/assets/logo.svg" alt="Logo" class="logo-img" />
-        <span v-if="!isCollapse" class="logo-title">机房管理系统</span>
-      </div>
-
-      <el-scrollbar>
-        <el-menu
-          :default-active="activeMenu"
-          :collapse="isCollapse"
-          :collapse-transition="false"
-          background-color="#304156"
-          text-color="#bfcbd9"
-          active-text-color="#409eff"
-          unique-opened
-          router
-        >
-          <template v-for="route in permissionRoutes" :key="route.path">
-            <el-menu-item
-              v-if="!route.children || route.children.length === 0"
-              :index="route.path"
-            >
-              <el-icon v-if="route.meta?.icon">
-                <component :is="route.meta.icon" />
-              </el-icon>
-              <template #title>{{ route.meta?.title }}</template>
-            </el-menu-item>
-
-            <el-sub-menu
-              v-else
-              :index="route.path"
-            >
-              <template #title>
-                <el-icon v-if="route.meta?.icon">
-                  <component :is="route.meta.icon" />
-                </el-icon>
-                <span>{{ route.meta?.title }}</span>
-              </template>
-
-              <el-menu-item
-                v-for="child in route.children"
-                :key="child.path"
-                :index="route.path + '/' + child.path"
-              >
-                {{ child.meta?.title }}
-              </el-menu-item>
-            </el-sub-menu>
-          </template>
-        </el-menu>
-      </el-scrollbar>
-    </el-aside>
-
-    <!-- 主内容区域 -->
-    <el-container>
-      <!-- 顶部导航栏 -->
-      <el-header class="header-container">
-        <div class="navbar-left">
-          <el-button
-            class="menu-toggle"
-            @click="toggleSidebar"
-            circle
-            :icon="isCollapse ? Expand : Fold"
-          />
-        </div>
-
-        <div class="navbar-right">
-          <!-- 深色模式切换 -->
-          <el-switch
-            v-model="isDark"
-            inline-prompt
-            :active-icon="Moon"
-            :inactive-icon="Sunny"
-            @change="toggleDark"
-          />
-
-          <!-- 用户信息下拉菜单 -->
-          <el-dropdown @command="handleUserCommand">
-            <div class="user-dropdown">
-              <el-avatar :size="32" :src="userAvatar" />
-              <span class="user-name">{{ userInfo.name }}</span>
-            </div>
-
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-                <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
-      </el-header>
-
-      <!-- 页面内容 -->
-      <el-main class="main-container">
-        <router-view />
-      </el-main>
-    </el-container>
-  </el-container>
-</template>
-
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useAuthStore } from '@/stores/auth'
-import { Fold, Expand, Sunny, Moon } from '@element-plus/icons-vue'
-
-// 使用 Pinia store
-const authStore = useAuthStore()
-const { userInfo } = storeToRefs(authStore)
-const { roleId } = storeToRefs(authStore)
-
-// 使用用户提供的头像URL，如果没有则构建默认路径
-const userAvatar = computed(() => {
-  if (userInfo.value && userInfo.value.avatarUrl) {
-    return 'src/assets/avatar/' + roleId.value + '/' + userInfo.value.avatarUrl
-  }
-  return ''
-})
-
-// 路由相关
-const route = useRoute()
-const router = useRouter()
-
-// 响应式状态
-const isCollapse = ref(false)
-const isDark = ref(false)
-
-// 计算属性
-const activeMenu = computed(() => route.path)
-const permissionRoutes = computed(() => {
-  // 根据角色过滤路由
-  const roleId = userInfo.value?.roleId
-  return getRoutesByRole(roleId)
-})
-
-// 方法
-const toggleSidebar = () => {
-  isCollapse.value = !isCollapse.value
-}
-
-const toggleDark = (val) => {
-  isDark.value = val === true || val === 'true' || val === 1 || val === '1'
-  if (isDark.value) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-  localStorage.setItem('darkMode', isDark.value)
-}
-
-const handleUserCommand = (command) => {
-  switch (command) {
-    case 'profile':
-      router.push('/profile')
-      break
-    case 'logout':
-      authStore.logout()
-      router.push('/login')
-      break
-  }
-}
-
-// 根据角色获取路由
-const getRoutesByRole = (roleId) => {
-  // 根据角色返回不同的路由配置
-
-  const routes = {
-    student: [
-      {
-        path: '/dashboard',
-        meta: { title: '首页', icon: 'House' }
-      },
-      {
-        path: '/profile',
-        meta: { title: '个人信息', icon: 'User' }
-      },
-      {
-        path: '/schedule',
-        meta: { title: '我的课表', icon: 'Calendar' }
-      },
-      {
-        path: '/booking',
-        meta: { title: '机房预约', icon: 'Monitor' }
-      },
-      {
-        path: '/my-bookings',
-        meta: { title: '我的预约', icon: 'Calendar' }
-      },
-      {
-        path: '/notice',
-        meta: { title: '机房公告', icon: 'Bell' }
-      }
-    ],
-    teacher: [
-      {
-        path: '/dashboard',
-        meta: { title: '首页', icon: 'House' }
-      },
-      {
-        path: '/profile',
-        meta: { title: '个人信息', icon: 'User' }
-      },
-      {
-        path: '/students',
-        meta: { title: '学生信息', icon: 'User' }
-      },
-      {
-        path: '/schedule',
-        meta: { title: '我的课表', icon: 'Calendar' }
-      },
-      {
-        path: '/booking',
-        meta: { title: '机房预约', icon: 'Monitor' }
-      },
-      {
-        path: '/my-bookings',
-        meta: { title: '我的预约', icon: 'Calendar' }
-      },
-      {
-        path: '/reservations',
-        meta: { title: '预约管理', icon: 'Calendar' }
-      },
-      {
-        path: '/notice',
-        meta: { title: '机房公告', icon: 'Bell' }
-      }
-    ],
-    admin: [
-      {
-        path: '/dashboard',
-        meta: { title: '首页', icon: 'House' }
-      },
-      {
-        path: '/profile',
-        meta: { title: '个人信息', icon: 'User' }
-      },
-      {
-        path: '/users',
-        meta: { title: '用户管理', icon: 'User' }
-      },
-      {
-        path: '/rooms',
-        meta: { title: '机房管理', icon: 'Monitor' }
-      },
-      {
-        path: '/seats',
-        meta: { title: '座位管理', icon: 'Tickets' }
-      },
-      {
-        path: '/reservation-audit',
-        meta: { title: '预约审核', icon: 'Check' }
-      },
-      {
-        path: '/logs',
-        meta: { title: '系统日志', icon: 'Document' }
-      }
-    ]
-  }
-
-  return routes[roleId] || []
-}
-
-// 响应式处理
-const handleResize = () => {
-  const width = document.body.clientWidth
-  if (width < 768) {
-    isCollapse.value = true
-  } else {
-    isCollapse.value = false
-  }
-}
-
-// 生命周期钩子
-onMounted(() => {
-  handleResize()
-  window.addEventListener('resize', handleResize)
-
-  // 恢复深色模式设置
-  const darkMode = localStorage.getItem('darkMode') === 'true'
-  isDark.value = darkMode
-  if (darkMode) {
-    document.documentElement.classList.add('dark')
-  }
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', handleResize)
-})
+import Navbar from './Navbar.vue'
+import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
 </script>
 
-<style lang="scss" scoped>
-.layout-container {
-  height: 100vh;
-  border: none;
-  margin: 0;
+<template>
+  <div class="main-layout">
+    <Navbar />
+    <main class="main-content">
+      <router-view v-slot="{ Component }">
+        <transition name="page-fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </main>
+    <footer class="main-footer">
+      <div class="footer-content">
+        <div class="footer-grid">
+          <!-- 品牌介绍 -->
+          <div class="footer-brand">
+            <h3 class="footer-logo">生涯心旅</h3>
+            <p class="brand-desc">致力于为大学生提供专业的心理健康服务与职业生涯规划指导，结合AI技术与专业咨询，用心呵护每一份成长。</p>
+            <div class="social-links">
+              <a href="#" class="social-icon"><el-icon><Share /></el-icon></a>
+              <a href="#" class="social-icon"><el-icon><Message /></el-icon></a>
+            </div>
+          </div>
+          
+          <!-- 平台导航 -->
+          <div class="footer-column">
+            <h4>平台导航</h4>
+            <ul class="footer-menu">
+              <li><a href="#home">首页</a></li>
+              <li><a href="#services">服务介绍</a></li>
+              <li><a href="#about">关于我们</a></li>
+              <li><a href="#news">最新动态</a></li>
+            </ul>
+          </div>
+
+          <!-- 服务项目 -->
+          <div class="footer-column">
+            <h4>服务项目</h4>
+            <ul class="footer-menu">
+              <li><a href="#">心理咨询</a></li>
+              <li><a href="#">生涯规划</a></li>
+              <li><a href="#">心理测评</a></li>
+              <li><a href="#">职业辅导</a></li>
+            </ul>
+          </div>
+
+          <!-- 联系方式 -->
+          <div class="footer-column">
+            <h4>联系我们</h4>
+            <ul class="contact-list">
+              <li>
+                <el-icon><Location /></el-icon>
+                <span>北京市海淀区科技园路88号</span>
+              </li>
+              <li>
+                <el-icon><Phone /></el-icon>
+                <span>400-123-4567</span>
+              </li>
+              <li>
+                <el-icon><Message /></el-icon>
+                <span>info@careerpulse.com</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-inner">
+          <p>© 2026 生涯心旅. All Rights Reserved.</p>
+          <div class="footer-links">
+            <span>隐私政策</span>
+            <span>服务条款</span>
+            <span>帮助中心</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</template>
+
+<style scoped>
+.main-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
+.main-footer {
+  background: white;
+  border-top: 1px solid #eef2f6;
+  color: #4b5563;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 3rem;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0052d9;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.brand-desc {
+  line-height: 1.6;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  max-width: 90%;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f0f7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0052d9;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icon:hover {
+  background: #0052d9;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.footer-column h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.footer-menu {
+  list-style: none;
   padding: 0;
+  margin: 0;
+}
 
-  .sidebar-container {
-    background-color: #304156;
-    transition: width 0.28s;
-    box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-    overflow: hidden;
-    border: none;
-    margin: 0;
-    padding: 0;
+.footer-menu li {
+  margin-bottom: 0.8rem;
+}
 
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 50px;
-      line-height: 50px;
-      background: #2b2f3a;
-      border: none;
-      margin: 0;
-      padding: 0;
+.footer-menu a {
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-size: 0.95rem;
+}
 
-      .logo-img {
-        width: 32px;
-        height: 32px;
-        margin-right: 12px;
-      }
+.footer-menu a:hover {
+  color: #0052d9;
+  padding-left: 5px;
+}
 
-      .logo-title {
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 16px;
-        white-space: nowrap;
-      }
-    }
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-    :deep(.el-menu) {
-      border: none;
-      height: calc(100% - 50px);
-      margin: 0;
-      padding: 0;
-    }
-  }
+.contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 1rem;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
 
-  .sidebar-collapse {
-    .sidebar-logo {
-      .logo-img {
-        margin-right: 0;
-      }
+.contact-list .el-icon {
+  color: #0052d9;
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
 
-      .logo-title {
-        display: none;
-      }
-    }
-  }
+.footer-bottom {
+  border-top: 1px solid #f1f5f9;
+  padding: 1.5rem 0;
+  background: #fcfcfd;
+}
 
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 50px;
-    padding: 0 20px;
-    background: #ffffff;
-    border: none;
-    margin: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .navbar-left {
-      display: flex;
-      align-items: center;
-    }
+.footer-inner p {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin: 0;
+}
 
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+.footer-links {
+  display: flex;
+  gap: 24px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
 
-      .user-dropdown {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        border: none;
+.footer-links span {
+  cursor: pointer;
+  transition: color 0.2s;
+}
 
-        .user-name {
-          margin-left: 10px;
-          font-size: 14px;
-        }
-      }
-    }
-  }
+.footer-links span:hover {
+  color: #0052d9;
+}
 
-  .main-container {
-    background-color: #f0f2f5;
-    padding: 20px;
-    margin: 0;
-    overflow: auto;
-    border: none;
-
-    :deep(.el-scrollbar) {
-      border: none;
-    }
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
 }
 
-// 深色主题样式
-html.dark {
-  .header-container {
-    background: #1d1e1f;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+@media (max-width: 576px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
-
-  .main-container {
-    background-color: #0a0a0a;
-    padding: 20px;
+  
+  .footer-inner {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
   }
+}
 
-  .sidebar-container {
-    background-color: #304156;
+/* Page Transitions */
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .sidebar-logo {
-      background: #121212;
-    }
-  }
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>
