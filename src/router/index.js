@@ -3,6 +3,8 @@ import LoginView from '@/views/login/LoginView.vue'
 import HomePage from '@/views/HomePage.vue'
 import AssessmentCenter from '@/views/AssessmentCenter.vue'
 import AssessmentTake from '@/views/AssessmentTake.vue'
+import ArticleCenter from '@/views/ArticleCenter.vue'
+import ArticleList from '@/views/ArticleList.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -24,6 +26,16 @@ const router = createRouter({
       name: 'assessment-take',
       component: AssessmentTake,
       meta: { hideNavbar: true, hideFooter: true }
+    },
+    {
+      path: '/articles',
+      name: 'articles',
+      component: ArticleCenter
+    },
+    {
+      path: '/articles/list',
+      name: 'article-list',
+      component: ArticleList
     },
     {
       path: '/login',

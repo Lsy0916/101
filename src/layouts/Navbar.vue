@@ -75,6 +75,28 @@ const menuData = [
     ]
   },
   {
+    label: '文章资讯',
+    key: 'articles',
+    children: [
+      {
+        title: '热门推荐',
+        items: [
+          { label: '每日精选', key: 'daily' },
+          { label: '专题报道', key: 'featured' }
+        ]
+      },
+      {
+        title: '分类浏览',
+        items: [
+          { label: '全部文章', key: 'article-list' },
+          { label: '心理健康', key: 'psychology' },
+          { label: '生涯导航', key: 'career' },
+          { label: '成长故事', key: 'stories' }
+        ]
+      }
+    ]
+  },
+  {
     label: '生涯规划',
     key: 'planning',
     children: [
@@ -123,6 +145,19 @@ function goHome() {
 
 function handleNav(item) {
   showMobileMenu.value = false
+  
+  // 处理文章资讯跳转
+  if (item.key === 'articles' || item.key === 'article-list' || ['daily', 'featured', 'psychology', 'career', 'stories'].includes(item.key)) {
+    if (item.key === 'article-list') {
+      router.push({ name: 'article-list' })
+    } else if (item.key === 'articles') {
+      router.push({ name: 'articles' })
+    } else {
+      router.push({ name: 'articles', query: { category: item.key } })
+    }
+    return
+  }
+
   // 识别测评相关的 key，跳转到测评中心
   const assessmentKeys = ['phq9', 'gad7', 'pss', 'riasec', 'mbti', 'anchor', 'evaluation']
   if (assessmentKeys.includes(item.key)) {
