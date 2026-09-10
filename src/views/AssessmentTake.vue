@@ -1,33 +1,23 @@
 <template>
   <div class="immersive-assessment">
-    <!-- 背景装饰 -->
-    <div class="bg-blobs">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-    </div>
-
     <!-- 沉浸式顶栏 -->
     <header class="take-header">
       <div class="header-left">
-        <el-button link @click="confirmExit" class="exit-btn">
+        <button class="exit-btn" @click="confirmExit">
           <el-icon><Close /></el-icon>
-          <span>退出测试</span>
-        </el-button>
+          <span>退出</span>
+        </button>
         <div class="divider"></div>
         <div class="scale-meta">
           <span class="scale-name">{{ currentScale?.name }}</span>
-          <span class="scale-progress-text">第 {{ currentIndex + 1 }} / {{ currentScale?.questions.length }} 题</span>
+          <span class="scale-progress-text">{{ currentIndex + 1 }} / {{ currentScale?.questions.length }}</span>
         </div>
       </div>
       <div class="header-center">
-        <el-progress 
-          :percentage="progress" 
-          :show-text="false" 
-          :stroke-width="8" 
-          class="top-progress"
-          :color="currentScaleInfo?.color"
-        />
+        <div class="top-progress-track">
+          <div class="top-progress-fill" :style="{ width: progress + '%' }"></div>
+        </div>
+        <span class="top-progress-pct">{{ progress }}%</span>
       </div>
       <div class="header-right">
         <div class="timer">
@@ -39,20 +29,23 @@
 
     <!-- 答题主体区 -->
     <main class="take-body">
+      <!-- 装饰性大号背景编号 -->
+      <span class="bg-question-num">Q{{ String(currentIndex + 1).padStart(2, '0') }}</span>
       <transition name="q-slide" mode="out-in">
         <div :key="currentIndex" class="question-container">
           <div class="q-card-immersive">
             <div class="q-header">
               <div class="q-badge-row">
-                <span class="q-badge" :style="{ backgroundColor: currentScaleInfo?.color }">Q{{ currentIndex + 1 }}</span>
+                <span class="q-badge">Q{{ currentIndex + 1 }}</span>
                 <span class="q-category-tag">{{ currentScaleInfo?.category === 'mental' ? '心理健康' : '生涯发展' }}</span>
+                <span class="q-progress-mark">{{ currentIndex + 1 }} / {{ currentScale?.questions.length }}</span>
               </div>
               <h2 class="q-text">{{ currentQuestion?.text }}</h2>
             </div>
 
             <div class="q-options-immersive">
-              <div 
-                v-for="(opt, idx) in (currentScale?.options || scaleOptions[currentScale?.optionType])" 
+              <div
+                v-for="(opt, idx) in (currentScale?.options || scaleOptions[currentScale?.optionType])"
                 :key="opt.value"
                 class="opt-card"
                 :class="{ selected: answers[currentQuestion?.id] === opt.value }"
@@ -76,61 +69,56 @@
     <!-- 沉浸式底栏 -->
     <footer class="take-footer">
       <div class="footer-inner">
-        <el-button 
-          size="large" 
-          link
-          :disabled="currentIndex === 0" 
+        <button
+          :disabled="currentIndex === 0"
           @click="prevQuestion"
           class="nav-btn"
         >
           <el-icon><ArrowLeft /></el-icon>
           <span>上一题</span>
-        </el-button>
-        
+        </button>
+
         <div class="step-dots">
-          <span 
-            v-for="(_, idx) in currentScale?.questions" 
-            :key="idx" 
+          <span
+            v-for="(_, idx) in currentScale?.questions"
+            :key="idx"
             class="dot"
             :class="{ active: idx === currentIndex, completed: answers[currentScale?.questions[idx].id] !== undefined }"
           ></span>
         </div>
 
-        <el-button 
+        <button
           v-if="!isLastQuestion"
-          type="primary" 
-          size="large" 
-          round
           :disabled="answers[currentQuestion?.id] === undefined"
           @click="nextQuestion"
           class="nav-btn-primary"
         >
           <span>下一题</span>
           <el-icon><ArrowRight /></el-icon>
-        </el-button>
-        <el-button 
+        </button>
+        <button
           v-else
-          type="success" 
-          size="large" 
-          round
           :loading="submitting"
           :disabled="!allAnswered"
           @click="handleSubmit"
-          class="nav-btn-success"
+          class="nav-btn-primary"
         >
           <span>提交报告</span>
           <el-icon><Finished /></el-icon>
-        </el-button>
+        </button>
       </div>
     </footer>
 
     <!-- 提交中遮罩 -->
-    <div v-if="submitting" class="submitting-overlay">
-      <div class="loading-box">
-        <el-icon class="is-loading"><Loading /></el-icon>
-        <p>AI 正在分析您的回答，生成深度报告...</p>
+    <transition name="fade">
+      <div v-if="submitting" class="submitting-overlay">
+        <div class="loading-box">
+          <div class="loading-spinner"></div>
+          <p>正在分析您的回答，生成深度报告...</p>
+          <p class="loading-sub">请稍候</p>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -281,9 +269,9 @@ const scales = {
       { id: 10, text: '处理问题时：A.脚踏实地；B.脑洞大开', dim: 'SN' }
     ],
     calc: (score, details) => {
-      const type = (details.E >= details.I ? 'E' : 'I') + 
-                   (details.S >= details.N ? 'S' : 'N') + 
-                   (details.T >= details.F ? 'T' : 'F') + 
+      const type = (details.E >= details.I ? 'E' : 'I') +
+                   (details.S >= details.N ? 'S' : 'N') +
+                   (details.T >= details.F ? 'T' : 'F') +
                    (details.J >= details.P ? 'J' : 'P')
       return {
         level: type,
@@ -351,7 +339,7 @@ function handleSubmit() {
   setTimeout(() => {
     let total = 0
     const details = {}
-    
+
     // 初始化 details
     if (currentScaleKey.value === 'riasec') {
       ['R', 'I', 'A', 'S', 'E', 'C'].forEach(k => details[k] = 0)
@@ -411,113 +399,148 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+/* 沉浸式答题 - 黑白极简专注风格 */
 .immersive-assessment {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #f8fafc;
+  background: #fafafa;
   z-index: 2000;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', sans-serif;
 }
 
-/* 背景装饰 */
-.bg-blobs {
+/* 装饰性大号背景编号 */
+.bg-question-num {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(280px, 42vw, 520px);
+  font-weight: 900;
+  color: #000;
+  opacity: 0.028;
+  letter-spacing: -16px;
+  line-height: 0.8;
   pointer-events: none;
-
-  .blob {
-    position: absolute;
-    filter: blur(80px);
-    border-radius: 50%;
-    opacity: 0.4;
-    animation: blob-float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .blob-1 {
-    width: 500px;
-    height: 500px;
-    background: #e0e7ff;
-    top: -100px;
-    right: -100px;
-  }
-
-  .blob-2 {
-    width: 400px;
-    height: 400px;
-    background: #f0fdf4;
-    bottom: -100px;
-    left: -100px;
-    animation-delay: -5s;
-  }
-
-  .blob-3 {
-    width: 300px;
-    height: 300px;
-    background: #fff1f2;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation-delay: -10s;
-  }
+  user-select: none;
+  z-index: 0;
+  font-variant-numeric: tabular-nums;
 }
 
-@keyframes blob-float {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0, 0) scale(1); }
-}
-
+/* 顶栏 */
 .take-header {
-  height: 80px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
+  height: 72px;
+  background: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  border-bottom: 1px solid rgba(241, 245, 249, 0.5);
+  border-bottom: 1px solid #f0f0f0;
   z-index: 10;
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    .exit-btn { 
-      font-size: 1rem; 
-      color: #64748b; 
-      font-weight: 500;
-      &:hover { color: #ef4444; background: #fee2e2; }
-      span { margin-left: 6px; }
-    }
-    .divider { width: 1px; height: 28px; background: #e2e8f0; }
-    .scale-meta {
-      display: flex; flex-direction: column;
-      .scale-name { font-weight: 700; color: #0f172a; font-size: 1rem; }
-      .scale-progress-text { font-size: 0.85rem; color: #64748b; margin-top: 2px; }
-    }
-  }
-
-  .header-center { flex: 1; max-width: 460px; padding: 0 40px; }
-  .header-right {
-    .timer {
-      display: flex; align-items: center; gap: 8px;
-      color: #334155; font-family: 'JetBrains Mono', monospace; font-size: 1.15rem;
-      background: #f1f5f9; padding: 8px 16px; border-radius: 12px;
-      font-weight: 600;
-      border: 1px solid #e2e8f0;
-    }
-  }
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.exit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.exit-btn:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: #e5e5e5;
+}
+
+.scale-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.scale-name {
+  font-weight: 600;
+  color: #111;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.scale-progress-text {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.header-center {
+  flex: 1;
+  max-width: 440px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.top-progress-track {
+  flex: 1;
+  height: 3px;
+  background: #f0f0f0;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.top-progress-fill {
+  height: 100%;
+  background: #111;
+  border-radius: 0;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top-progress-pct {
+  font-size: 12px;
+  color: #999;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+  min-width: 36px;
+  text-align: right;
+}
+
+.header-right .timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+  font-family: 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+  font-size: 14px;
+  background: #f5f5f5;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid #eee;
+}
+
+/* 主体 */
 .take-body {
   flex: 1;
   display: flex;
@@ -526,163 +549,358 @@ onUnmounted(() => {
   padding: 40px 24px;
   overflow-y: auto;
   position: relative;
-  z-index: 1;
 }
 
 .question-container {
   width: 100%;
-  max-width: 760px;
+  max-width: 720px;
+  position: relative;
+  z-index: 1;
 }
 
 .q-card-immersive {
-  background: white;
-  border-radius: 40px;
-  padding: 56px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f1f5f9;
+  background: #fff;
+  border-radius: 24px;
+  padding: 56px 48px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+}
 
-  .q-header {
-    margin-bottom: 48px;
-    .q-badge-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .q-badge {
-      display: inline-block; padding: 6px 14px; border-radius: 10px;
-      color: white; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.5px;
-    }
-    .q-category-tag {
-      font-size: 0.85rem; color: #64748b; background: #f1f5f9;
-      padding: 6px 12px; border-radius: 10px; font-weight: 600;
-    }
-    .q-text { font-size: 2.2rem; color: #0f172a; font-weight: 800; line-height: 1.35; }
-  }
+.q-header {
+  margin-bottom: 36px;
+}
 
-  .q-options-immersive {
-    display: flex; flex-direction: column; gap: 16px;
-    .opt-card {
-      padding: 24px 32px; border: 2px solid #f1f5f9; border-radius: 24px;
-      cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex; align-items: center; justify-content: space-between;
-      background: #f8fafc;
-      animation: slide-in 0.5s ease-out backwards;
-      animation-delay: var(--delay);
+.q-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
 
-      .opt-content {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
+.q-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
 
-      .opt-index {
-        width: 36px; height: 36px; border-radius: 12px;
-        background: white; border: 1px solid #e2e8f0;
-        display: flex; align-items: center; justify-content: center;
-        font-weight: 700; color: #64748b; font-size: 1rem;
-        transition: all 0.3s;
-      }
+.q-category-tag {
+  font-size: 12px;
+  color: #666;
+  background: #f5f5f5;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+}
 
-      .opt-label { font-size: 1.25rem; color: #334155; font-weight: 600; }
-      .opt-check {
-        width: 32px; height: 32px; border-radius: 50%; border: 2px solid #cbd5e1;
-        display: flex; align-items: center; justify-content: center; color: white;
-        transition: all 0.3s;
-      }
+.q-progress-mark {
+  margin-left: auto;
+  font-size: 12px;
+  color: #999;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+}
 
-      &:hover { 
-        border-color: #0052d9; transform: translateX(8px); 
-        background: #f0f7ff;
-        .opt-index { border-color: #0052d9; color: #0052d9; }
-      }
+.q-text {
+  font-size: clamp(22px, 2.6vw, 30px);
+  color: #111;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
 
-      &.selected {
-        border-color: #0052d9; background: #0052d9;
-        box-shadow: 0 10px 20px rgba(0, 82, 217, 0.15);
-        .opt-label { color: white; }
-        .opt-index { background: rgba(255,255,255,0.2); border-color: transparent; color: white; }
-        .opt-check { border-color: white; color: white; background: rgba(255,255,255,0.2); }
-      }
-    }
-  }
+/* 选项 */
+.q-options-immersive {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.opt-card {
+  padding: 20px 24px;
+  border: 1.5px solid #eee;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  animation: slide-in 0.4s ease-out backwards;
+  animation-delay: var(--delay);
+  position: relative;
+  overflow: hidden;
+}
+
+.opt-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #111;
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.opt-card.selected::before {
+  transform: scaleY(1);
+}
+
+.opt-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.opt-index {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #888;
+  font-size: 14px;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+
+.opt-label {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.opt-check {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+
+.opt-card:hover {
+  border-color: #111;
+  transform: translateX(4px);
+}
+
+.opt-card:hover .opt-index {
+  border-color: #111;
+  color: #111;
+}
+
+.opt-card.selected {
+  border-color: #111;
+  background: #111;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.opt-card.selected .opt-label {
+  color: #fff;
+}
+
+.opt-card.selected .opt-index {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: transparent;
+  color: #fff;
+}
+
+.opt-card.selected .opt-check {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 @keyframes slide-in {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* 底栏 */
 .take-footer {
-  height: 100px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(241, 245, 249, 0.5);
+  height: 88px;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 32px;
   z-index: 10;
-
-  .footer-inner {
-    width: 100%; max-width: 900px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-
-  .nav-btn {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #64748b;
-    padding: 12px 24px;
-    &:hover { color: #0052d9; }
-    span { margin-left: 8px; }
-  }
-
-  .nav-btn-primary, .nav-btn-success {
-    padding: 14px 36px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    box-shadow: 0 10px 20px -5px rgba(0, 82, 217, 0.3);
-    span { margin-right: 8px; }
-  }
-
-  .step-dots {
-    display: flex; gap: 10px;
-    .dot {
-      width: 10px; height: 10px; border-radius: 50%; background: #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      &.active { width: 32px; border-radius: 6px; background: #0052d9; }
-      &.completed { background: #94a3b8; }
-    }
-  }
 }
 
+.footer-inner {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  padding: 12px 20px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.nav-btn:hover:not(:disabled) {
+  color: #111;
+  background: #f5f5f5;
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nav-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #111;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.nav-btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.step-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.step-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e5e5e5;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-dots .dot.active {
+  width: 28px;
+  border-radius: 4px;
+  background: #111;
+}
+
+.step-dots .dot.completed {
+  background: #999;
+}
+
+/* 提交遮罩 */
 .submitting-overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255,255,255,0.9); backdrop-filter: blur(15px);
-  z-index: 3000; display: flex; align-items: center; justify-content: center;
-  .loading-box {
-    text-align: center;
-    .is-loading { font-size: 4rem; color: #0052d9; margin-bottom: 24px; }
-    p { font-size: 1.25rem; color: #0f172a; font-weight: 700; }
-  }
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-box {
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #eee;
+  border-top-color: #111;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-box p {
+  font-size: 16px;
+  color: #111;
+  font-weight: 600;
+  margin: 0;
+}
+
+.loading-sub {
+  font-size: 13px !important;
+  color: #999 !important;
+  font-weight: 400 !important;
+  margin-top: 6px !important;
 }
 
 /* 页面切换动画 */
 .q-slide-enter-active, .q-slide-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.q-slide-enter-from { opacity: 0; transform: translateX(30px) scale(0.98); }
-.q-slide-leave-to { opacity: 0; transform: translateX(-30px) scale(0.98); }
+.q-slide-enter-from { opacity: 0; transform: translateX(24px) scale(0.98); }
+.q-slide-leave-to { opacity: 0; transform: translateX(-24px) scale(0.98); }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to { opacity: 0; }
 
 @media (max-width: 768px) {
-  .take-header { height: 72px; padding: 0 16px; .header-center { display: none; } }
-  .q-card-immersive { 
-    padding: 32px 24px; border-radius: 32px;
-    .q-text { font-size: 1.6rem; }
+  .take-header { height: 64px; padding: 0 16px; }
+  .header-center { display: none; }
+  .scale-name { font-size: 13px; }
+  .q-card-immersive {
+    padding: 32px 24px;
+    border-radius: 20px;
   }
-  .q-options-immersive .opt-card { padding: 20px; border-radius: 20px; .opt-label { font-size: 1.1rem; } }
-  .take-footer { height: 88px; padding: 0 16px; }
-  .step-dots { display: none !important; }
+  .q-text { font-size: 20px; }
+  .opt-card { padding: 16px 18px; border-radius: 14px; }
+  .opt-label { font-size: 15px; }
+  .take-footer { height: 76px; padding: 0 16px; }
+  .step-dots { display: none; }
   .nav-btn span { display: none; }
+  .nav-btn-primary { padding: 12px 24px; font-size: 14px; }
 }
 </style>

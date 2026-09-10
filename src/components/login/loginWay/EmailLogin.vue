@@ -11,7 +11,7 @@
     <el-form-item prop="school">
       <el-select
           v-model="emailLoginForm.school"
-          placeholder="请选择学校"
+          :placeholder="t('login.form.schoolPlaceholder')"
           size="large"
           clearable
           filterable
@@ -31,7 +31,7 @@
     <el-form-item prop="email">
       <el-input
           v-model="emailLoginForm.email"
-          placeholder="请输入邮箱"
+          :placeholder="t('login.form.emailPlaceholder')"
           prefix-icon="Message"
           size="large"
           clearable
@@ -42,7 +42,7 @@
       <div class="captcha-input-container">
         <el-input
             v-model="emailLoginForm.code"
-            placeholder="请输入验证码"
+            :placeholder="t('login.form.codePlaceholder')"
             size="large"
             maxlength="6"
         />
@@ -52,7 +52,7 @@
             size="large"
             class="code-btn"
         >
-          {{ emailCountdown > 0 ? `${emailCountdown}s后重发` : '获取验证码' }}
+          {{ emailCountdown > 0 ? t('login.form.codeResend', { n: emailCountdown }) : t('login.form.getCode') }}
         </el-button>
       </div>
     </el-form-item>
@@ -68,18 +68,23 @@
           round
       >
         <el-icon><Message /></el-icon>
-        邮箱登录
+        {{ t('login.form.emailBtn') }}
       </el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { ElMessage } from 'element-plus';
 import { sendEmailCode as apiSendEmailCode } from '@/api/captcha';
 import { School, Message } from '@element-plus/icons-vue';
+
+const router = useRouter();
+const { t } = useI18n();
 
 // 登录表单数据
 const emailLoginForm = reactive({
@@ -105,27 +110,27 @@ const schools = ref([
 ]);
 
 // 邮箱登录表单验证规则
-const emailLoginRules = reactive({
+const emailLoginRules = computed(() => ({
   school: [
-    { required: true, message: '请选择学校', trigger: 'change' }
+    { required: true, message: t('login.form.schoolRequired'), trigger: 'change' }
   ],
   email: [
-    { required: true, message: '请输入邮箱', trigger: 'blur' },
+    { required: true, message: t('login.form.emailRequired'), trigger: 'blur' },
     {
       pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      message: '请输入正确的邮箱格式',
+      message: t('login.form.emailFormat'),
       trigger: 'blur'
     }
   ],
   code: [
-    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { required: true, message: t('login.form.codeRequired'), trigger: 'blur' },
     {
       pattern: /^\d{6}$/,
-      message: '验证码为6位数字',
+      message: t('login.form.codeFormat'),
       trigger: 'blur'
     }
   ]
-});
+}));
 
 // 发送邮箱验证码
 const handleSendEmailCode = async () => {
@@ -143,7 +148,7 @@ const handleSendEmailCode = async () => {
     });
 
     if (response.status === 200) {
-      ElMessage.success('验证码已发送');
+      ElMessage.success(t('login.form.codeSent'));
 
       // 开始倒计时
       emailCountdown.value = 60;
@@ -154,50 +159,45 @@ const handleSendEmailCode = async () => {
         }
       }, 1000);
     } else {
-      ElMessage.error(response.message || '验证码发送失败');
+      ElMessage.error(response.message || t('login.form.codeSendFail'));
     }
-  } catch (error) {
-    console.error('发送邮箱验证码失败:', error);
-    ElMessage.error('验证码发送失败，请稍后重试');
+  } catch {
+    ElMessage.error(t('login.form.codeSendRetry'));
   }
 };
 
 // 邮箱登录处理函数
 const handleEmailLogin = async () => {
-  if (!emailLoginFormRef.value) return;
+  // 临时：跳过校验，只要输入即可登录用于查看效果
+  loading.value = true;
 
-  // 验证表单
-  await emailLoginFormRef.value.validate((valid) => {
-    if (valid) {
-      // 设置加载状态
-      loading.value = true;
-
-      // 调用登录API
-      const authStore = useAuthStore();
-      authStore.login({
-        roleId: 'student',
-        loginType: 'email', // 邮箱登录
-        email: emailLoginForm.email,
-        code: emailLoginForm.code
-      }).then(result => {
-        if (result.success) {
-          ElMessage.success(result.message);
-          // 登录成功后跳转到学生首页
-          window.location.href = '/student';
-        } else {
-          ElMessage.error(result.message);
-        }
-      }).catch(error => {
-        ElMessage.error(error.message || '登录失败');
-      }).finally(() => {
-        loading.value = false;
-      });
+  const authStore = useAuthStore();
+  authStore.login({
+    roleId: 'student',
+    loginType: 'email',
+    email: emailLoginForm.email,
+    code: emailLoginForm.code
+  }).then(result => {
+    if (result.success) {
+      ElMessage.success(result.message);
+      router.push({ name: 'home' });
     } else {
-      console.log('表单验证失败');
-      return false;
+      ElMessage.error(result.message);
     }
+  }).catch(error => {
+    ElMessage.error(error.message || t('login.form.loginFail'));
+  }).finally(() => {
+    loading.value = false;
   });
 };
+
+// 组件卸载前清理倒计时定时器，避免内存泄漏
+onBeforeUnmount(() => {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -214,7 +214,7 @@ const handleEmailLogin = async () => {
 
 .login-button {
   width: 100%;
-  margin-top: 8px; /* 减少按钮上方间距 */
+  margin-top: 8px;
   border-radius: 8px;
   height: 48px;
   font-size: 16px;
@@ -222,15 +222,17 @@ const handleEmailLogin = async () => {
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   letter-spacing: 1px;
   transform: translateY(0);
+  background: linear-gradient(135deg, #0052d9, #1890ff);
+  border: none;
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(64, 158, 255, 0.45);
+  box-shadow: 0 8px 20px rgba(0, 82, 217, 0.4);
 }
 
 .login-button:active {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 82, 217, 0.35);
 }
 </style>

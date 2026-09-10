@@ -3,19 +3,27 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import {
   User,
+  UserFilled,
   ArrowDown,
   Moon,
   Sunny,
   Monitor,
   Check,
+  Setting,
+  SwitchButton,
   Menu as MenuIcon
 } from '@element-plus/icons-vue'
 import { useTheme, useLocale } from '../composables/settings'
+import { useCommandPalette } from '../composables/useCommandPalette'
+import { useAuthStore } from '@/stores/auth'
+import InitialAvatar from '@/components/InitialAvatar.vue'
 
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStore()
 const { isDark, themeMode, setThemeMode } = useTheme()
 const { locale, setLocale } = useLocale()
+const { toggle: togglePalette } = useCommandPalette()
 const isScrolled = ref(false)
 const showMobileMenu = ref(false)
 
@@ -39,12 +47,26 @@ const getLocaleLabel = (code) => {
   return map[code] || '简体中文'
 }
 
+let scrollTicking = false
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 20
+  if (scrollTicking) return
+  scrollTicking = true
+  requestAnimationFrame(() => {
+    const y = window.scrollY
+    if (y > 30 && !isScrolled.value) {
+      isScrolled.value = true
+      document.documentElement.style.setProperty('--navbar-h', '64px')
+    } else if (y < 10 && isScrolled.value) {
+      isScrolled.value = false
+      document.documentElement.style.setProperty('--navbar-h', '80px')
+    }
+    scrollTicking = false
+  })
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
+  document.documentElement.style.setProperty('--navbar-h', '80px')
+  window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
@@ -53,85 +75,77 @@ onUnmounted(() => {
 
 const menuData = [
   {
-    label: '测评中心',
+    labelKey: 'nav.menu.evaluation',
     key: 'evaluation',
     children: [
       {
-        title: '心理量表',
+        titleKey: 'nav.group.mentalScales',
         items: [
-          { label: '抑郁自评 (PHQ-9)', key: 'phq9' },
-          { label: '焦虑自评 (GAD-7)', key: 'gad7' },
-          { label: '压力感量表 (PSS)', key: 'pss' }
+          { labelKey: 'nav.item.phq9', key: 'phq9' },
+          { labelKey: 'nav.item.gad7', key: 'gad7' },
+          { labelKey: 'nav.item.pss', key: 'pss' }
         ]
       },
       {
-        title: '职业量表',
+        titleKey: 'nav.group.careerScales',
         items: [
-          { label: '霍兰德兴趣 (RIASEC)', key: 'riasec' },
-          { label: '性格测试 (MBTI)', key: 'mbti' },
-          { label: '职业锚测评', key: 'anchor' }
+          { labelKey: 'nav.item.riasec', key: 'riasec' },
+          { labelKey: 'nav.item.mbti', key: 'mbti' }
         ]
       }
     ]
   },
   {
-    label: '文章资讯',
+    labelKey: 'nav.menu.articles',
     key: 'articles',
     children: [
       {
-        title: '热门推荐',
+        titleKey: 'nav.group.hotPicks',
         items: [
-          { label: '每日精选', key: 'daily' },
-          { label: '专题报道', key: 'featured' }
+          { labelKey: 'nav.item.daily', key: 'daily' },
+          { labelKey: 'nav.item.featured', key: 'featured' }
         ]
       },
       {
-        title: '分类浏览',
+        titleKey: 'nav.group.browseByCategory',
         items: [
-          { label: '全部文章', key: 'article-list' },
-          { label: '心理健康', key: 'psychology' },
-          { label: '生涯导航', key: 'career' },
-          { label: '成长故事', key: 'stories' }
+          { labelKey: 'nav.item.articleList', key: 'article-list' },
+          { labelKey: 'nav.item.psychology', key: 'psychology' },
+          { labelKey: 'nav.item.career', key: 'career' },
+          { labelKey: 'nav.item.stories', key: 'stories' }
         ]
       }
     ]
   },
   {
-    label: '生涯规划',
-    key: 'planning',
+    labelKey: 'nav.menu.activities',
+    key: 'activities',
     children: [
       {
-        title: '目标设定',
+        titleKey: 'nav.group.featuredActivities',
         items: [
-          { label: '学期计划', key: 'semester' },
-          { label: '里程碑管理', key: 'milestone' }
-        ]
-      },
-      {
-        title: '技能成长',
-        items: [
-          { label: '技能树看板', key: 'skill-tree' },
-          { label: '课程路径', key: 'courses' }
+          { labelKey: 'nav.item.timeCapsule', key: 'time-capsule' },
+          { labelKey: 'nav.item.square', key: 'square' }
         ]
       }
     ]
   },
   {
-    label: '资源中心',
-    key: 'resources',
+    labelKey: 'nav.menu.counseling',
+    key: 'counseling',
     children: [
       {
-        title: '职业百科',
+        titleKey: 'nav.group.professionalService',
         items: [
-          { label: '行业趋势', key: 'trends' },
-          { label: '校友经验', key: 'alumni' }
+          { labelKey: 'nav.item.booking', key: 'booking' }
         ]
       },
       {
-        title: '机会发现',
+        titleKey: 'nav.group.counselingSupport',
         items: [
-          { label: '实习信息', key: 'internship' },
-          { label: '校园活动', key: 'activities' }
+          { labelKey: 'nav.item.consultants', key: 'consultants' },
+          { labelKey: 'nav.item.notice', key: 'notice' },
+          { labelKey: 'nav.item.faq', key: 'faq' }
         ]
       }
     ]
@@ -145,7 +159,19 @@ function goHome() {
 
 function handleNav(item) {
   showMobileMenu.value = false
-  
+
+  // 处理时光胶囊跳转（活动中心父菜单与子项都进入胶囊广场）
+  if (item.key === 'time-capsule' || item.key === 'activities') {
+    router.push({ name: 'time-capsule' })
+    return
+  }
+
+  // 处理交流广场跳转
+  if (item.key === 'square') {
+    router.push({ name: 'square' })
+    return
+  }
+
   // 处理文章资讯跳转
   if (item.key === 'articles' || item.key === 'article-list' || ['daily', 'featured', 'psychology', 'career', 'stories'].includes(item.key)) {
     if (item.key === 'article-list') {
@@ -158,23 +184,39 @@ function handleNav(item) {
     return
   }
 
-  // 识别测评相关的 key，跳转到测评中心
-  const assessmentKeys = ['phq9', 'gad7', 'pss', 'riasec', 'mbti', 'anchor', 'evaluation']
+  // 识别测评相关的 key，跳转到测评中心并打开量表介绍
+  const assessmentKeys = ['phq9', 'gad7', 'pss', 'riasec', 'mbti', 'evaluation']
   if (assessmentKeys.includes(item.key)) {
     if (item.key === 'evaluation') {
       router.push({ name: 'assessment' })
     } else {
-      router.push({ name: 'assessment', query: { scale: item.key } })
+      router.push({ name: 'assessment', query: { scale: item.key, view: 'intro' } })
     }
-  } else {
-    // 其他功能暂时跳转到首页对应 tab
-    router.push({ path: '/', query: { tab: item.key } })
+    return
   }
+
+  // 心理咨询相关跳转
+  const counselingKeys = ['counseling', 'booking', 'consultants', 'notice', 'faq']
+  if (counselingKeys.includes(item.key)) {
+    if (item.key === 'counseling') {
+      router.push({ name: 'counseling' })
+    } else {
+      router.push({ name: 'counseling', query: { tab: item.key } })
+    }
+    return
+  }
+
+  // 兜底：跳转首页
+  router.push('/')
 }
 
 function handleCommand(command) {
   if (command === 'logout') {
-    router.push('/login')
+    authStore.logout()
+  } else if (command === 'profile') {
+    router.push({ name: 'profile' })
+  } else if (command === 'settings') {
+    router.push({ name: 'settings' })
   }
 }
 </script>
@@ -188,7 +230,7 @@ function handleCommand(command) {
           <div class="logo-box">
             <img src="@/assets/logo.svg" alt="Logo" class="logo-img"/>
           </div>
-          <span class="logo-text">生涯心旅</span>
+          <span class="logo-text">{{ $t('nav.brand') }}</span>
         </div>
       </div>
 
@@ -196,22 +238,22 @@ function handleCommand(command) {
       <nav class="nav-center desktop-only">
         <div v-for="menu in menuData" :key="menu.key" class="menu-item-group">
           <div class="menu-item" @click="handleNav(menu)">
-            {{ menu.label }}
+            {{ $t(menu.labelKey) }}
             <el-icon class="arrow-icon"><ArrowDown /></el-icon>
           </div>
           <!-- Mega Menu -->
           <div class="mega-menu">
             <div class="mega-menu-inner">
-              <div v-for="group in menu.children" :key="group.title" class="mega-column">
-                <h4 class="mega-title">{{ group.title }}</h4>
+              <div v-for="group in menu.children" :key="group.titleKey" class="mega-column">
+                <h4 class="mega-title">{{ $t(group.titleKey) }}</h4>
                 <ul class="mega-list">
-                  <li 
-                    v-for="item in group.items" 
-                    :key="item.key" 
+                  <li
+                    v-for="item in group.items"
+                    :key="item.key"
                     class="mega-item"
                     @click="handleNav(item)"
                   >
-                    {{ item.label }}
+                    {{ $t(item.labelKey) }}
                   </li>
                 </ul>
               </div>
@@ -223,6 +265,12 @@ function handleCommand(command) {
       <!-- Actions -->
       <div class="nav-right">
         <div class="action-items">
+          <!-- Command Palette Trigger -->
+          <button class="cmd-trigger desktop-only" @click="togglePalette" :aria-label="$t('nav.search')">
+            <svg class="cmd-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <span class="cmd-trigger-text">{{ $t('nav.search') }}</span>
+          </button>
+
           <!-- Theme Toggle Dropdown -->
           <el-dropdown @command="handleThemeCommand" trigger="click">
             <button class="icon-btn">
@@ -233,15 +281,15 @@ function handleCommand(command) {
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="light">
-                  <el-icon><Sunny /></el-icon> 浅色
+                  <el-icon><Sunny /></el-icon> {{ $t('nav.theme.light') }}
                   <el-icon v-if="themeMode === 'light'" class="check-icon"><Check /></el-icon>
                 </el-dropdown-item>
                 <el-dropdown-item command="dark">
-                  <el-icon><Moon /></el-icon> 深色
+                  <el-icon><Moon /></el-icon> {{ $t('nav.theme.dark') }}
                   <el-icon v-if="themeMode === 'dark'" class="check-icon"><Check /></el-icon>
                 </el-dropdown-item>
                 <el-dropdown-item command="auto">
-                  <el-icon><Monitor /></el-icon> 跟随系统
+                  <el-icon><Monitor /></el-icon> {{ $t('nav.theme.auto') }}
                   <el-icon v-if="themeMode === 'auto'" class="check-icon"><Check /></el-icon>
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -271,19 +319,39 @@ function handleCommand(command) {
             </template>
           </el-dropdown>
 
-          <el-dropdown @command="handleCommand" trigger="click">
+          <el-dropdown v-if="authStore.isLoggedIn" @command="handleCommand" trigger="click" popper-class="user-dropdown-popper">
             <div class="user-profile">
-              <el-avatar :size="32" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" />
-              <span class="username desktop-only">王同学</span>
+              <InitialAvatar :name="authStore.userInfo?.name || 'U'" :size="32" />
+              <span class="username desktop-only">{{ authStore.userInfo?.name || $t('nav.user.guest') }}</span>
+              <el-icon class="caret"><ArrowDown /></el-icon>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="profile">个人中心</el-dropdown-item>
-                <el-dropdown-item command="settings">账号设置</el-dropdown-item>
-                <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
+                <div class="dropdown-header">
+                  <InitialAvatar :name="authStore.userInfo?.name || 'U'" :size="44" />
+                  <div class="dropdown-header-info">
+                    <span class="dropdown-header-name">{{ authStore.userInfo?.name || $t('nav.user.guest') }}</span>
+                    <span class="dropdown-header-id">{{ authStore.userInfo?.userId || '—' }}</span>
+                  </div>
+                </div>
+                <el-dropdown-item command="profile">
+                  <el-icon><User /></el-icon>
+                  {{ $t('nav.user.profile') }}
+                </el-dropdown-item>
+                <el-dropdown-item command="settings">
+                  <el-icon><Setting /></el-icon>
+                  {{ $t('nav.user.settings') }}
+                </el-dropdown-item>
+                <el-dropdown-item divided command="logout">
+                  <el-icon><SwitchButton /></el-icon>
+                  {{ $t('nav.user.logout') }}
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
+          <el-button v-else type="primary" plain class="login-btn-desktop" @click="router.push({ name: 'login' })">
+            {{ $t('nav.user.login') }}
+          </el-button>
 
           <button class="mobile-menu-btn mobile-only" @click="showMobileMenu = true">
             <el-icon><MenuIcon /></el-icon>
@@ -298,7 +366,7 @@ function handleCommand(command) {
     v-model="showMobileMenu"
     direction="rtl"
     size="85%"
-    title="菜单导航"
+    :title="$t('nav.mobile.menuTitle')"
     :with-header="true"
     class="mobile-drawer"
     append-to-body
@@ -308,14 +376,14 @@ function handleCommand(command) {
         <el-collapse accordion>
           <el-collapse-item v-for="menu in menuData" :key="menu.key" :name="menu.key">
             <template #title>
-              <span class="mobile-collapse-title">{{ menu.label }}</span>
+              <span class="mobile-collapse-title">{{ $t(menu.labelKey) }}</span>
             </template>
             <!-- 增加跳转到中心页面的入口 -->
             <div v-if="menu.key === 'evaluation'" class="mobile-center-link" @click="handleNav(menu)">
-              <el-icon><Monitor /></el-icon> 进入测评中心首页
+              <el-icon><Monitor /></el-icon> {{ $t('nav.mobile.enterCenter') }}
             </div>
-            <div v-for="group in menu.children" :key="group.title" class="mobile-group">
-              <p class="mobile-group-title">{{ group.title }}</p>
+            <div v-for="group in menu.children" :key="group.titleKey" class="mobile-group">
+              <p class="mobile-group-title">{{ $t(group.titleKey) }}</p>
               <div
                 v-for="item in group.items"
                 :key="item.key"
@@ -323,7 +391,7 @@ function handleCommand(command) {
                 @click="handleNav(item)"
               >
                 <span class="mobile-item-dot"></span>
-                {{ item.label }}
+                {{ $t(item.labelKey) }}
               </div>
             </div>
           </el-collapse-item>
@@ -332,7 +400,7 @@ function handleCommand(command) {
 
       <div class="mobile-footer-actions">
             <div class="mobile-action-section">
-              <p class="mobile-section-title">外观主题</p>
+              <p class="mobile-section-title">{{ $t('nav.mobile.appearance') }}</p>
               <div class="mobile-action-grid">
                 <div
                   class="mobile-grid-item"
@@ -340,7 +408,7 @@ function handleCommand(command) {
                   @click="setThemeMode('light')"
                 >
                   <el-icon><Sunny /></el-icon>
-                  <span>浅色</span>
+                  <span>{{ $t('nav.theme.light') }}</span>
                 </div>
                 <div
                   class="mobile-grid-item"
@@ -348,7 +416,7 @@ function handleCommand(command) {
                   @click="setThemeMode('dark')"
                 >
                   <el-icon><Moon /></el-icon>
-                  <span>深色</span>
+                  <span>{{ $t('nav.theme.dark') }}</span>
                 </div>
                 <div
                   class="mobile-grid-item"
@@ -356,13 +424,13 @@ function handleCommand(command) {
                   @click="setThemeMode('auto')"
                 >
                   <el-icon><Monitor /></el-icon>
-                  <span>自动</span>
+                  <span>{{ $t('nav.theme.auto') }}</span>
                 </div>
               </div>
             </div>
 
             <div class="mobile-action-section">
-              <p class="mobile-section-title">语言设置</p>
+              <p class="mobile-section-title">{{ $t('nav.mobile.language') }}</p>
               <div class="mobile-action-grid">
                 <div
                   class="mobile-grid-item"
@@ -394,13 +462,15 @@ function handleCommand(command) {
 
 <style scoped>
 .nav-header {
-  height: 80px;
+  height: var(--navbar-h, 80px);
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
@@ -492,6 +562,30 @@ function handleCommand(command) {
 
 .nav-header.is-transparent:has(.nav-center:hover) .mobile-menu-btn {
   color: #1e293b;
+}
+
+.nav-header.is-transparent .cmd-trigger {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
+}
+
+.nav-header.is-transparent:has(.nav-center:hover) .cmd-trigger {
+  background: #f8fafc;
+  border-color: #eef2f6;
+  color: #6b7280;
+}
+
+.nav-header.is-transparent .cmd-trigger:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.6);
+  color: white;
+}
+
+.nav-header.is-transparent:has(.nav-center:hover) .cmd-trigger:hover {
+  background: #f0f7ff;
+  border-color: #d0e7ff;
+  color: #0052d9;
 }
 
 .nav-container {
@@ -683,6 +777,52 @@ function handleCommand(command) {
   color: #0052d9;
 }
 
+.cmd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 12px;
+  background: #f8fafc;
+  border: 1px solid #eef2f6;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.25s ease;
+  color: #6b7280;
+}
+
+.cmd-trigger:hover {
+  border-color: #d0e7ff;
+  background: #f0f7ff;
+  color: #0052d9;
+}
+
+.cmd-search-icon {
+  flex-shrink: 0;
+}
+
+.cmd-trigger-text {
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+
+.cmd-kbd {
+  font-size: 10px;
+  font-weight: 600;
+  color: #9ca3af;
+  border: 1px solid #e5e7eb;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: #fff;
+  letter-spacing: 0.5px;
+}
+
+.cmd-trigger:hover .cmd-kbd {
+  color: #0052d9;
+  border-color: #d0e7ff;
+}
+
 .lang-btn {
   background: transparent;
   border: 1px solid #e2e8f0;
@@ -703,21 +843,47 @@ function handleCommand(command) {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 5px 14px 5px 5px;
+  border-radius: 24px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
 }
 
 .user-profile:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 82, 217, 0.06);
+  border-color: #d0e7ff;
+}
+
+.user-profile .caret {
+  font-size: 11px;
+  color: #6b7280;
+  transition: transform 0.25s ease;
 }
 
 .username {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
-  color: #333;
+  color: #1f2937;
   transition: all 0.3s ease;
+}
+
+.login-btn-desktop {
+  padding: 8px 20px !important;
+  border-radius: 20px !important;
+  font-weight: 600;
+  font-size: 13px;
+  border-color: #0052d9 !important;
+  color: #0052d9 !important;
+  background: rgba(0, 82, 217, 0.06) !important;
+  transition: all 0.3s ease;
+}
+
+.login-btn-desktop:hover {
+  background: #0052d9 !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 82, 217, 0.2);
 }
 
 /* Mobile Specific */
@@ -956,5 +1122,106 @@ function handleCommand(command) {
   .mobile-only {
     display: none;
   }
+}
+</style>
+
+<style>
+/* 用户下拉菜单（teleported popper） */
+.user-dropdown-popper.el-popper {
+  border-radius: 16px !important;
+  border: 1px solid #eef2f6 !important;
+  box-shadow: 0 12px 40px rgba(0, 82, 217, 0.12) !important;
+  padding: 6px !important;
+  overflow: hidden;
+}
+
+.user-dropdown-popper .el-dropdown-menu {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.user-dropdown-popper .dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 12px 16px;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #f0f7ff, #e6f0ff);
+  border-radius: 12px;
+  border-bottom: 1px solid #d0e7ff;
+}
+
+.user-dropdown-popper .dropdown-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.user-dropdown-popper .dropdown-header-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.user-dropdown-popper .dropdown-header-id {
+  font-size: 12px;
+  color: #6b7280;
+  letter-spacing: 0.3px;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  margin: 2px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item .el-icon {
+  font-size: 16px;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item:hover {
+  background: #f0f7ff !important;
+  color: #0052d9 !important;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item:hover .el-icon {
+  color: #0052d9;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item.is-divided {
+  margin-top: 6px;
+  position: relative;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item.is-divided::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: #eef2f6;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item.is-divided:hover {
+  color: #ef4444 !important;
+  background: #fef2f2 !important;
+}
+
+.user-dropdown-popper .el-dropdown-menu__item.is-divided:hover .el-icon {
+  color: #ef4444;
 }
 </style>

@@ -62,103 +62,36 @@ export const useAuthStore = defineStore('auth', () => {
   // 登录方法
   const login = async (loginData) => {
     try {
-      // 根据登录类型构建请求数据
-      const data = {
-        roleId: loginData.roleId
-      }
-      
-      // 根据登录类型添加相应的参数
-      if (loginData.loginType === 'phone') {
-        // 手机登录
-        data.phone = loginData.phone
-        data.code = loginData.code
-        data.loginType = loginData.loginType
-      } else if (loginData.loginType === 'email') {
-        // 邮箱登录
-        data.email = loginData.email
-        data.code = loginData.code
-        data.loginType = loginData.loginType
-      } else {
-        // 默认账号密码登录
-        data.userId = loginData.userId
-        data.password = loginData.password
-        if (loginData.school) data.school = loginData.school
-        if (loginData.captcha) data.captcha = loginData.captcha
-        if (loginData.remember) data.remember = loginData.remember
+      // 临时：跳过 API 校验，直接登录用于查看效果
+      const mockToken = 'mock-token-' + Date.now()
+      const mockUserInfo = {
+        name: loginData.userId || loginData.phone || loginData.email || '测试用户',
+        roleId: loginData.roleId || 'student',
+        userId: loginData.userId || '',
+        school: loginData.school || ''
       }
 
-      // 调用真实 API 请求
-      const response = await loginApi(data)
+      token.value = mockToken
+      userInfo.value = mockUserInfo
+      roleId.value = loginData.roleId || 'student'
 
-      // 检查响应结构，确保包含必要的字段
-      if (response.status === 200 || response.statusText === 'ok') {
-        // 登录成功，将用户信息保存到本地存储中
-        // 如果已存在则进行覆盖
-        const responseData = response.data;
-        token.value = responseData.token
+      localStorage.setItem('token', mockToken)
+      localStorage.setItem('userInfo', JSON.stringify(mockUserInfo))
 
-        try {
-          userInfo.value = responseData.userInfo ? responseData.userInfo : JSON.parse(localStorage.getItem('userInfo'))
-        } catch (e) {
-          userInfo.value = responseData.userInfo || {}
-        }
-        roleId.value = responseData.userInfo?.roleId || userInfo.value?.roleId
-
-        // 如果选择了记住登录信息
-        if (loginData.remember) {
-          rememberMe.value = true
-          // 根据登录类型保存相应信息
-          if (loginData.loginType === 'phone') {
-            localStorage.setItem('savedPhone', data.phone)
-          } else if (loginData.loginType === 'email') {
-            localStorage.setItem('savedEmail', data.email)
-          } else {
-            localStorage.setItem('savedUserId', data.userId)
-            localStorage.setItem('savedPassword', data.password)
-          }
-        } else {
-          rememberMe.value = false
-          localStorage.removeItem('savedUserId')
-          localStorage.removeItem('savedPassword')
-          localStorage.removeItem('savedPhone')
-          localStorage.removeItem('savedEmail')
-        }
-
-        return {
-          success: true,
-          data: {
-            token: token.value,
-            userInfo: userInfo.value,
-            roleId: roleId.value
-          },
-          message: '登录成功'
-        }
-      } else {
-        // 登录失败
-        return {
-          success: false,
-          message: response?.message || '登录失败'
-        }
+      return {
+        success: true,
+        data: {
+          token: mockToken,
+          userInfo: mockUserInfo,
+          roleId: roleId.value
+        },
+        message: '登录成功'
       }
     } catch (error) {
       console.error('登录失败:', error)
-      // 根据错误类型提供更具体的错误信息
-      let errorMessage = '登录过程中发生错误'
-      if (error.message) {
-        if (error.message.includes('500')) {
-          errorMessage = '服务器内部错误，请稍后再试'
-        } else if (error.message.includes('404')) {
-          errorMessage = '请求的登录接口不存在'
-        } else if (error.message.includes('网络错误')) {
-          errorMessage = '网络连接失败，请检查网络设置'
-        } else {
-          errorMessage = error.message
-        }
-      }
-
       return {
         success: false,
-        message: errorMessage
+        message: '登录过程中发生错误'
       }
     }
   }
@@ -353,6 +286,8 @@ export const useAuthStore = defineStore('auth', () => {
     isAdmin,
     login,
     logout,
+    register,
+    forgotPassword,
     getUserInfoById,
     refreshAuthStatus
   }

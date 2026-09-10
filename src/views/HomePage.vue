@@ -28,32 +28,33 @@
               <img :src="slide.image" :alt="slide.title">
               <div class="image-overlay"></div>
             </div>
-            <div class="slide-content">
-              <transition name="fade-up" appear>
-                <div class="slide-text" v-if="currentIndex === index">
-                  <span class="slide-tag">{{ slide.tag || '探索发现' }}</span>
-                  <h2>{{ slide.title }}</h2>
-                  <p>{{ slide.description }}</p>
-                  <div class="slide-actions">
-                    <button class="carousel-button primary" @click="handleSlideAction(slide)">
-                      {{ slide.buttonText }}
-                    </button>
-                    <button class="carousel-button secondary" @click="goToAbout">
-                      了解详情
-                    </button>
-                  </div>
-                </div>
-              </transition>
-            </div>
           </div>
+        </div>
+        <!-- 文字内容独立层：基于 realIndex 渲染，避免无缝跳转时重复触发动画 -->
+        <div class="slide-content-overlay">
+          <transition name="fade-up" mode="out-in">
+            <div class="slide-text" :key="realIndex">
+              <span class="slide-tag">{{ currentSlide.tag || $t('home.carousel.exploreTag') }}</span>
+              <h2>{{ currentSlide.title }}</h2>
+              <p>{{ currentSlide.description }}</p>
+              <div class="slide-actions">
+                <button class="carousel-button primary" @click="handleSlideAction(currentSlide)">
+                  {{ currentSlide.buttonText }}
+                </button>
+                <button class="carousel-button secondary" @click="goToAbout">
+                  {{ $t('home.carousel.learnMore') }}
+                </button>
+              </div>
+            </div>
+          </transition>
         </div>
         <!-- 轮播图导航点 -->
         <div class="carousel-indicators">
           <span
             v-for="(slide, index) in carouselSlides"
             :key="index"
-            :class="{ active: (currentIndex === 0 ? carouselSlides.length - 1 : (currentIndex === displaySlides.length - 1 ? 0 : currentIndex - 1)) === index }"
-            @click="goToSlide(index + 1)"
+            :class="{ active: realIndex === index }"
+            @click="goToSlide(index)"
           ></span>
         </div>
         <!-- 轮播图左右箭头 -->
@@ -66,36 +67,73 @@
         
         <!-- 向下滚动指示器 -->
         <div class="scroll-down-indicator" @click="scrollToNextSection">
-          <span class="scroll-text">Scroll Down</span>
+          <span class="scroll-text">{{ $t('home.carousel.scrollDown') }}</span>
           <el-icon class="scroll-icon"><ArrowDown /></el-icon>
         </div>
       </div>
     </section>
+
+    <!-- 跑马灯 · 滚动信息条 -->
+    <div class="marquee-band" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="marquee-item">{{ $t('home.marquee.users') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.experts') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.satisfaction') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.aiPsych') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.support') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.slogan') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.users') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.experts') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.satisfaction') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.aiPsych') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.support') }}</span>
+        <span class="marquee-dot">●</span>
+        <span class="marquee-item">{{ $t('home.marquee.slogan') }}</span>
+        <span class="marquee-dot">●</span>
+      </div>
+    </div>
 
     <!-- 最新动态 -->
     <section id="news" class="news-section">
       <div class="tech-bg-pattern"></div>
       <div class="container relative z-10">
         <div class="section-header scroll-reveal">
-          <span class="section-badge">NEWS & UPDATES</span>
-          <h2>最新动态</h2>
-          <p class="section-subtitle">洞察行业前沿，把握成长机遇</p>
+          <span class="section-badge">{{ $t('home.news.badge') }}</span>
+          <h2>{{ $t('home.news.title') }}</h2>
+          <p class="section-subtitle">{{ $t('home.news.subtitle') }}</p>
         </div>
-        <div class="news-grid">
-          <div class="news-item scroll-reveal" v-for="(news, index) in allNews" :key="news.id" :style="{ transitionDelay: `${index * 100}ms` }">
-            <div class="news-image">
-              <img :src="news.image" :alt="news.title">
-              <div class="news-overlay">
-                <el-button circle class="view-btn"><el-icon><ArrowRight /></el-icon></el-button>
-              </div>
+        <div class="news-rows">
+          <div
+            class="news-row scroll-reveal"
+            v-for="(news, index) in allNews"
+            :key="news.id"
+            :style="{ transitionDelay: `${index * 80}ms` }"
+            @click="readNews(news.id)"
+          >
+            <div class="news-row-num">
+              <span class="num">{{ String(index + 1).padStart(2, '0') }}</span>
             </div>
-            <div class="news-content">
-              <div class="news-category">{{ news.category }}</div>
-              <h3>{{ news.title }}</h3>
-              <p class="news-summary">{{ news.summary }}</p>
-              <div class="news-meta">
-                <span class="news-date">{{ news.date }}</span>
-              </div>
+            <div class="news-row-body">
+              <div class="news-row-cat">{{ news.category }}</div>
+              <h3 class="news-row-title">{{ news.title }}</h3>
+              <p class="news-row-summary">{{ news.summary }}</p>
+            </div>
+            <div class="news-row-thumb">
+              <img :src="news.image" :alt="news.title" loading="lazy">
+            </div>
+            <div class="news-row-meta">
+              <span class="news-row-date">{{ news.date }}</span>
+              <el-icon class="news-row-arrow"><ArrowRight /></el-icon>
             </div>
           </div>
         </div>
@@ -107,29 +145,29 @@
       <div class="container">
         <div class="about-content">
           <div class="about-text scroll-reveal">
-            <div class="section-tag">ABOUT US</div>
-            <h2>科技赋能<br>用心呵护每一份成长</h2>
-            <p>生涯心旅致力于为用户提供专业的心理健康服务。我们结合人工智能大数据与专业心理学知识，构建精准的心理支持模型。</p>
-            <p>我们的使命是通过科技的力量，打破时间和空间的限制，让每个人都能享受高质量、个性化的心理健康服务。</p>
+            <div class="section-tag">{{ $t('home.about.badge') }}</div>
+            <h2>{{ $t('home.about.title1') }}<br>{{ $t('home.about.title2') }}</h2>
+            <p>{{ $t('home.about.p1') }}</p>
+            <p>{{ $t('home.about.p2') }}</p>
             <div class="about-stats">
               <div class="stat-item">
-                <div class="stat-number">10k+</div>
-                <div class="stat-label">服务用户</div>
+                <div class="stat-number"><AnimatedCounter :target="10" suffix="k+" /></div>
+                <div class="stat-label">{{ $t('home.about.statUsers') }}</div>
               </div>
               <div class="stat-item">
-                <div class="stat-number">50+</div>
-                <div class="stat-label">专家团队</div>
+                <div class="stat-number"><AnimatedCounter :target="50" suffix="+" /></div>
+                <div class="stat-label">{{ $t('home.about.statExperts') }}</div>
               </div>
               <div class="stat-item">
-                <div class="stat-number">98%</div>
-                <div class="stat-label">满意度</div>
+                <div class="stat-number"><AnimatedCounter :target="98" suffix="%" /></div>
+                <div class="stat-label">{{ $t('home.about.statSatisfaction') }}</div>
               </div>
             </div>
           </div>
           <div class="about-image-wrapper scroll-reveal">
             <div class="about-image-bg"></div>
             <div class="about-image">
-              <img :src="imgNist" alt="关于我们" class="about-img-full">
+              <img :src="imgNist" :alt="$t('home.about.alt')" class="about-img-full" loading="lazy">
             </div>
           </div>
         </div>
@@ -140,21 +178,20 @@
     <section id="services" class="services-section">
       <div class="container">
         <div class="section-header center scroll-reveal">
-          <span class="section-badge">OUR SERVICES</span>
-          <h2>我们的服务</h2>
-          <p class="section-subtitle">全方位的心理健康与生涯发展支持体系</p>
+          <span class="section-badge">{{ $t('home.services.badge') }}</span>
+          <h2>{{ $t('home.services.title') }}</h2>
+          <p class="section-subtitle">{{ $t('home.services.subtitle') }}</p>
         </div>
         <div class="services-grid">
-          <div class="service-card scroll-reveal" v-for="(service, index) in services" :key="index" :style="{ transitionDelay: `${index * 100}ms` }">
+          <div class="service-card scroll-reveal" v-for="(service, index) in services" :key="index" :style="{ transitionDelay: `${index * 100}ms` }" @click="handleServiceClick(service)">
             <div class="service-icon-wrapper">
-               <!-- 这里简单用图片代替图标，实际可以用 icon -->
-               <img :src="service.image" class="service-icon-img" />
+               <el-icon class="service-icon-el"><component :is="service.iconComp" /></el-icon>
             </div>
             <div class="service-info">
               <h3>{{ service.title }}</h3>
-              <p>{{ service.description }}</p>
+              <p>{{ service.desc }}</p>
               <div class="service-link">
-                <span>了解详情</span>
+                <span>{{ $t('home.services.learnMore') }}</span>
                 <el-icon><ArrowRight /></el-icon>
               </div>
             </div>
@@ -169,18 +206,18 @@
       <div class="tech-grid-bg"></div>
       <div class="container relative z-10">
         <div class="section-header center scroll-reveal">
-          <span class="section-badge">FEATURES</span>
-          <h2>平台特色功能</h2>
-          <p class="section-subtitle">前沿科技驱动，助您更好成长</p>
+          <span class="section-badge">{{ $t('home.features.badge') }}</span>
+          <h2>{{ $t('home.features.title') }}</h2>
+          <p class="section-subtitle">{{ $t('home.features.subtitle') }}</p>
         </div>
         <div class="features-grid">
           <div class="feature-item scroll-reveal" v-for="(feature, index) in features" :key="index" :style="{ transitionDelay: `${index * 50}ms` }">
             <div class="feature-card-inner">
               <div class="feature-icon-box">
-                <el-icon class="feature-icon"><component :is="feature.icon" /></el-icon>
+                <el-icon class="feature-icon"><component :is="feature.iconComp" /></el-icon>
               </div>
               <h3>{{ feature.title }}</h3>
-              <p>{{ feature.description }}</p>
+              <p>{{ feature.desc }}</p>
             </div>
           </div>
         </div>
@@ -194,52 +231,52 @@
           <div class="contact-info">
             <div class="contact-bg-shape"></div>
             <div class="contact-header">
-              <h2>联系我们</h2>
-              <p>无论是建议、反馈还是咨询，我们都乐意倾听。</p>
+              <h2>{{ $t('home.contact.title') }}</h2>
+              <p>{{ $t('home.contact.desc') }}</p>
             </div>
             <div class="contact-methods">
               <div class="method-item">
                 <div class="method-icon"><el-icon><Phone /></el-icon></div>
                 <div class="method-text">
-                  <label>电话</label>
+                  <label>{{ $t('home.contact.phone') }}</label>
                   <span>400-123-4567</span>
                 </div>
               </div>
               <div class="method-item">
                 <div class="method-icon"><el-icon><Message /></el-icon></div>
                 <div class="method-text">
-                  <label>邮箱</label>
-                  <span>info@careerpulse.com</span>
+                  <label>{{ $t('home.contact.email') }}</label>
+                  <span>contact@shengyaxinlv.com</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="contact-form-wrapper">
-            <h3>留言咨询</h3>
+            <h3>{{ $t('home.contact.formTitle') }}</h3>
             <el-form :model="contactForm" :rules="contactRules" ref="contactFormRef" label-position="top" class="tech-form">
               <el-row :gutter="20">
                 <el-col :span="12" :xs="24">
-                  <el-form-item prop="name" label="姓名">
-                    <el-input v-model="contactForm.name" placeholder="您的姓名"></el-input>
+                  <el-form-item prop="name" :label="$t('home.contact.name')">
+                    <el-input v-model="contactForm.name" :placeholder="$t('home.contact.namePlaceholder')"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="24">
-                  <el-form-item prop="email" label="邮箱">
-                    <el-input v-model="contactForm.email" placeholder="您的邮箱"></el-input>
+                  <el-form-item prop="email" :label="$t('home.contact.emailLabel')">
+                    <el-input v-model="contactForm.email" :placeholder="$t('home.contact.emailPlaceholder')"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item prop="message" label="留言内容">
+              <el-form-item prop="message" :label="$t('home.contact.message')">
                 <el-input
                   v-model="contactForm.message"
                   type="textarea"
                   :rows="4"
-                  placeholder="请留下您的问题或建议">
+                  :placeholder="$t('home.contact.messagePlaceholder')">
                 </el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" class="submit-btn" @click="submitContactForm">
-                  发送留言 <el-icon class="el-icon--right"><ArrowRight /></el-icon>
+                  {{ $t('home.contact.submit') }} <el-icon class="el-icon--right"><ArrowRight /></el-icon>
                 </el-button>
               </el-form-item>
             </el-form>
@@ -256,13 +293,14 @@
       
       <transition name="fade-slide">
         <div class="nav-menu" v-show="showNavMenu">
-          <div 
-            v-for="item in navSections" 
-            :key="item.id" 
+          <div class="nav-menu-title">{{ $t('home.nav.quick') }}</div>
+          <div
+            v-for="item in navSections"
+            :key="item.id"
             class="menu-item"
             @click.stop="scrollToSection(item.id)"
           >
-            <span>{{ item.name }}</span>
+            <span>{{ $t(item.nameKey) }}</span>
             <div class="item-dot"></div>
           </div>
         </div>
@@ -286,56 +324,61 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import {
-  User,
   Lock,
-  Calendar,
   TrendCharts,
   ChatLineRound,
-  Collection,
   ArrowLeft,
   ArrowRight,
   Phone,
   Message,
-  Location,
   ArrowDown,
-  ArrowUp
+  ArrowUp,
+  DataAnalysis,
+  Connection,
+  Clock,
+  Reading,
+  ChatDotRound
 } from '@element-plus/icons-vue'
 
 // 导入图片资源
 import imgNist from '@/assets/images/nist-bg.jpg'
 import imgTsinghua from '@/assets/images/tsinghua-bg.jpg'
+import AnimatedCounter from '@/components/AnimatedCounter.vue'
 
 const router = useRouter()
+const { t, tm } = useI18n()
 
 // 轮播图相关状态
 const currentIndex = ref(1) // 从1开始，因为0是克隆的末尾项
 const carouselInterval = ref(null)
 const isPaused = ref(false)
 const disableTransition = ref(false)
+const isAnimating = ref(false) // 过渡动画进行中锁，防止重复操作导致越界
 
-// 轮播图数据
-const carouselSlides = ref([
+// 轮播图数据（使用 computed 以支持语言切换时实时更新文案）
+const carouselSlides = computed(() => [
   {
-    title: "专业心理健康服务",
-    tag: "心灵呵护",
-    description: "我们提供专业的心理健康服务，帮助您解决情绪困扰、人际关系、压力管理等问题",
-    buttonText: "了解更多",
+    title: t('home.carousel.slide1.title'),
+    tag: t('home.carousel.slide1.tag'),
+    description: t('home.carousel.slide1.desc'),
+    buttonText: t('home.carousel.slide1.btn'),
     image: imgNist
   },
   {
-    title: "个性化生涯规划",
-    tag: "未来指引",
-    description: "通过科学测评和专业指导，帮助您明确职业发展方向，制定个性化生涯规划方案",
-    buttonText: "开始规划",
+    title: t('home.carousel.slide2.title'),
+    tag: t('home.carousel.slide2.tag'),
+    description: t('home.carousel.slide2.desc'),
+    buttonText: t('home.carousel.slide2.btn'),
     image: imgTsinghua
   },
   {
-    title: "智能匹配咨询师",
-    tag: "智慧匹配",
-    description: "根据您的需求和偏好，智能匹配最适合的咨询师，提供个性化服务",
-    buttonText: "立即匹配",
+    title: t('home.carousel.slide3.title'),
+    tag: t('home.carousel.slide3.tag'),
+    description: t('home.carousel.slide3.desc'),
+    buttonText: t('home.carousel.slide3.btn'),
     image: imgNist
   }
 ]);
@@ -350,6 +393,18 @@ const displaySlides = computed(() => {
   ]
 })
 
+// 当前真实索引（0-based），用于导航点 active 状态
+const realIndex = computed(() => {
+  const total = displaySlides.value.length
+  if (total === 0) return 0
+  if (currentIndex.value <= 0) return carouselSlides.value.length - 1
+  if (currentIndex.value >= total - 1) return 0
+  return currentIndex.value - 1
+})
+
+// 当前显示的幻灯片数据（基于真实索引，无缝跳转时保持稳定）
+const currentSlide = computed(() => carouselSlides.value[realIndex.value] || {})
+
 // 拖拽切换相关状态
 const isDragging = ref(false)
 const startX = ref(0)
@@ -360,7 +415,9 @@ const velocity = ref(0)
 const rafId = ref(null)
 
 const handleDragStart = (e) => {
-  if (disableTransition.value) return
+  if (disableTransition.value || isAnimating.value) return
+  // 文本选中与拖拽由 .carousel-container 的 user-select:none / -webkit-user-drag:none 控制
+  // 不再调用 preventDefault，避免触发 passive listener 警告
   isDragging.value = true
   const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
   startX.value = clientX
@@ -398,16 +455,29 @@ const handleDragEnd = () => {
 
   const threshold = 100
   const velocityThreshold = 0.5 // 惯性触发阈值
-  
+  let shouldSwitch = false
+  let direction = 0 // -1 上一张, 1 下一张
+
   // 结合位移和速度判断切换
   if (Math.abs(dragOffset.value) > threshold || Math.abs(velocity.value) > velocityThreshold) {
     if (dragOffset.value > 0 || velocity.value > velocityThreshold) {
-      prevSlide()
+      direction = -1
+      shouldSwitch = true
     } else {
-      nextSlide()
+      direction = 1
+      shouldSwitch = true
     }
   }
 
+  if (shouldSwitch) {
+    // 直接修改 currentIndex，不调用 nextSlide/prevSlide（避免被 isAnimating 锁拦截）
+    isAnimating.value = true
+    currentIndex.value += direction
+  } else if (dragOffset.value !== 0) {
+    // 未触发切换但存在位移：清零后会产生回弹过渡，同样加锁
+    isAnimating.value = true
+  }
+  // dragOffset 清零：切换时过渡到新位置，未切换时回弹到原位
   dragOffset.value = 0
   velocity.value = 0
   resumeCarousel()
@@ -421,10 +491,17 @@ const handleMouseLeave = () => {
 }
 
 const handleSlideAction = (slide) => {
-  if (slide.buttonText === '开始规划' || slide.buttonText === '了解更多') {
-    router.push({ name: 'assessment' })
+  // slide1 → 测评中心, slide2 → 时光胶囊, slide3 → 心理咨询
+  const routeMap = {
+    [t('home.carousel.slide1.btn')]: 'assessment',
+    [t('home.carousel.slide2.btn')]: 'time-capsule',
+    [t('home.carousel.slide3.btn')]: 'counseling'
+  }
+  const routeName = routeMap[slide.buttonText]
+  if (routeName) {
+    router.push({ name: routeName })
   } else {
-    ElMessage.success(`准备：${slide.buttonText}`)
+    ElMessage.success(t('home.carousel.preparing', { text: slide.buttonText }))
   }
 }
 
@@ -453,36 +530,52 @@ const resumeCarousel = () => {
 
 // 轮播图控制函数
 const nextSlide = () => {
-  if (disableTransition.value) return
+  if (isAnimating.value || isDragging.value || disableTransition.value) return
+  isAnimating.value = true
   currentIndex.value++
 }
 
 const prevSlide = () => {
-  if (disableTransition.value) return
+  if (isAnimating.value || isDragging.value || disableTransition.value) return
+  isAnimating.value = true
   currentIndex.value--
 }
 
 const goToSlide = (index) => {
-  if (disableTransition.value) return
-  currentIndex.value = index
+  if (isAnimating.value || isDragging.value || disableTransition.value) return
+  // index 为真实索引(0-based)，+1 跳过首部克隆项
+  const target = index + 1
+  if (target === currentIndex.value) return
+  isAnimating.value = true
+  currentIndex.value = target
 }
 
+// 无缝跳转：到达克隆项边界时，禁用过渡瞬间归位
 const handleTransitionEnd = () => {
-  // 无缝跳转逻辑
-  if (currentIndex.value >= displaySlides.value.length - 1) {
+  const total = displaySlides.value.length
+  if (currentIndex.value >= total - 1) {
+    // 到达尾部克隆项，跳回首部真实项
     disableTransition.value = true
     currentIndex.value = 1
-    // 强制重绘
-    setTimeout(() => {
-      disableTransition.value = false
-    }, 20)
+    // 双 rAF 确保浏览器完成重绘后再恢复过渡，避免闪烁
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        disableTransition.value = false
+        isAnimating.value = false
+      })
+    })
   } else if (currentIndex.value <= 0) {
+    // 到达首部克隆项，跳回尾部真实项
     disableTransition.value = true
-    currentIndex.value = displaySlides.value.length - 2
-    // 强制重绘
-    setTimeout(() => {
-      disableTransition.value = false
-    }, 20)
+    currentIndex.value = total - 2
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        disableTransition.value = false
+        isAnimating.value = false
+      })
+    })
+  } else {
+    isAnimating.value = false
   }
 }
 
@@ -501,18 +594,19 @@ const contactForm = ref({
   message: ''
 })
 
-const contactRules = {
+// 表单校验规则（使用 computed 以支持语言切换时实时更新提示文案）
+const contactRules = computed(() => ({
   name: [
-    { required: true, message: '请输入您的姓名', trigger: 'blur' }
+    { required: true, message: t('home.validation.nameRequired'), trigger: 'blur' }
   ],
   email: [
-    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+    { required: true, message: t('home.validation.emailRequired'), trigger: 'blur' },
+    { type: 'email', message: t('home.validation.emailFormat'), trigger: 'blur' }
   ],
   message: [
-    { required: true, message: '请输入您的留言', trigger: 'blur' }
+    { required: true, message: t('home.validation.messageRequired'), trigger: 'blur' }
   ]
-}
+}))
 
 const contactFormRef = ref(null)
 
@@ -520,12 +614,12 @@ const contactFormRef = ref(null)
 const showNavMenu = ref(false)
 
 const navSections = [
-  { id: 'top', name: '首页' },
-  { id: 'news', name: '最新动态' },
-  { id: 'about', name: '关于我们' },
-  { id: 'services', name: '我们的服务' },
-  { id: 'features', name: '平台特色' },
-  { id: 'contact', name: '联系我们' }
+  { id: 'top', nameKey: 'home.nav.top' },
+  { id: 'news', nameKey: 'home.nav.news' },
+  { id: 'about', nameKey: 'home.nav.about' },
+  { id: 'services', nameKey: 'home.nav.services' },
+  { id: 'features', nameKey: 'home.nav.features' },
+  { id: 'contact', nameKey: 'home.nav.contact' }
 ]
 
 const scrollToSection = (id) => {
@@ -539,103 +633,57 @@ const scrollToSection = (id) => {
   }
 }
 
-// 统一的新闻数据（合并特色和常规新闻，简化展示）
-const allNews = ref([
-  {
-    id: 1,
-    title: "生涯心旅推出全新AI心理评估系统",
-    summary: "引入基于人工智能技术的心理评估系统，能够更精准地了解您的心理状态和需求。",
-    category: "平台更新",
-    date: "2026-01-04",
-    image: imgNist
-  },
-  {
-    id: 2,
-    title: "冬季心理健康指南：如何应对季节性情绪波动",
-    summary: "为您介绍一些实用的方法，帮助您在寒冷的季节里保持心理健康。",
-    category: "健康指南",
-    date: "2025-12-28",
-    image: imgTsinghua
-  },
-  {
-    id: 3,
-    title: "线上心理咨询服务满意度调查结果公布",
-    summary: "95%的用户对我们的线上心理咨询服务表示满意。我们将继续努力提供优质服务。",
-    category: "服务报告",
-    date: "2025-12-20",
-    image: imgNist
-  },
-  {
-    id: 4,
-    title: "心理健康专家团队扩大：欢迎新成员加入",
-    summary: "三位资深心理健康专家加入了生涯心旅团队，提供更专业、多元化的心理支持。",
-    category: "团队动态",
-    date: "2025-12-15",
-    image: imgTsinghua
-  }
-])
+// 图标映射：i18n 中的 icon 字符串 → Element Plus 图标组件
+const iconMap = {
+  DataAnalysis,
+  Connection,
+  Clock,
+  Reading,
+  ChatDotRound,
+  ChatLineRound,
+  TrendCharts,
+  Lock
+}
 
-// 服务数据
-const services = ref([
-  {
-    title: "心理咨询",
-    description: "专业心理咨询师提供一对一心理咨询服务，解决情绪困扰、人际关系等问题。",
-    image: imgTsinghua
-  },
-  {
-    title: "生涯规划",
-    description: "通过科学测评和专业指导，帮助您明确职业发展方向，制定个性化方案。",
-    image: imgNist
-  },
-  {
-    title: "教育培训",
-    description: "提供心理健康、个人成长、职业技能等方面的线上与线下培训课程。",
-    image: imgNist
-  },
-  {
-    title: "团体辅导",
-    description: "组织主题性团体辅导活动，通过互动交流促进个人成长和问题解决。",
-    image: imgTsinghua
-  }
-])
+// 服务路由映射（按 i18n items 顺序）
+const serviceRoutes = ['assessment', 'counseling', 'time-capsule', 'articles']
 
-// 特色功能数据
-const features = ref([
-  {
-    title: "智能匹配",
-    description: "根据需求智能匹配最适合的咨询师",
-    icon: User
-  },
-  {
-    title: "隐私保护",
-    description: "严格保护用户隐私，确保信息安全",
-    icon: Lock
-  },
-  {
-    title: "在线预约",
-    description: "便捷的在线预约系统，随时随地",
-    icon: Calendar
-  },
-  {
-    title: "成长记录",
-    description: "记录您的成长轨迹，追踪咨询效果",
-    icon: TrendCharts
-  },
-  {
-    title: "社区交流",
-    description: "与同路人交流心得，共同成长",
-    icon: ChatLineRound
-  },
-  {
-    title: "资源库",
-    description: "丰富的心理健康资源，助您提升",
-    icon: Collection
-  }
-])
+// 新闻数据（i18n 驱动，图片循环复用）
+const allNews = computed(() => {
+  const items = tm('home.news.items')
+  if (!Array.isArray(items)) return []
+  return items.map((item, i) => ({
+    ...item,
+    id: i + 1,
+    image: i % 2 === 0 ? imgNist : imgTsinghua
+  }))
+})
 
-// 页面跳转函数
-const goToService = () => {
-  document.getElementById('services').scrollIntoView({ behavior: 'smooth' })
+// 服务数据（i18n 驱动）
+const services = computed(() => {
+  const items = tm('home.services.items')
+  if (!Array.isArray(items)) return []
+  return items.map((item, i) => ({
+    ...item,
+    iconComp: iconMap[item.icon] || DataAnalysis,
+    route: serviceRoutes[i] || null
+  }))
+})
+
+// 特色功能数据（i18n 驱动）
+const features = computed(() => {
+  const items = tm('home.features.items')
+  if (!Array.isArray(items)) return []
+  return items.map((item) => ({
+    ...item,
+    iconComp: iconMap[item.icon] || DataAnalysis
+  }))
+})
+
+function handleServiceClick(service) {
+  if (service.route) {
+    router.push({ name: service.route })
+  }
 }
 
 const goToAbout = () => {
@@ -643,25 +691,36 @@ const goToAbout = () => {
 }
 
 const readNews = (id) => {
-  ElMessage.info('正在跳转到新闻页面')
-  console.log('阅读新闻:', id)
+  router.push({ name: 'articles' })
 }
 
 const submitContactForm = async () => {
   try {
     await contactFormRef.value.validate()
-    ElMessage.success('留言提交成功！我们会尽快与您联系。')
+    ElMessage.success(t('home.contact.submitSuccess'))
     contactForm.value = { name: '', email: '', message: '' }
-  } catch (error) {
-    console.log('表单验证失败', error)
+  } catch {
+    // 表单验证失败，Element Plus 会自动在表单项下方显示错误信息
+  }
+}
+
+// 节流函数优化性能
+const throttle = (fn, delay) => {
+  let last = 0
+  return (...args) => {
+    const now = Date.now()
+    if (now - last >= delay) {
+      fn(...args)
+      last = now
+    }
   }
 }
 
 // 滚动事件处理
 const scrollY = ref(0)
-const handleScroll = () => {
+const handleScroll = throttle(() => {
   scrollY.value = window.scrollY
-}
+}, 100)
 
 const scrollToNextSection = () => {
   const nextSection = document.getElementById('news')
@@ -671,21 +730,27 @@ const scrollToNextSection = () => {
 }
 
 // 监听滚轮事件实现首屏自动滚动
+// 不调用 preventDefault（wheel 在某些浏览器中被视为 passive），
+// 改用锁标志避免重复触发 smooth 滚动
+const wheelLock = ref(false)
 const handleWheel = (e) => {
+  if (wheelLock.value) return
   // 只有在顶部区域且向下滚动时触发
-  if (window.scrollY < 50 && e.deltaY > 0) {
-    e.preventDefault()
+  if (window.scrollY < 10 && e.deltaY > 0) {
+    wheelLock.value = true
     scrollToNextSection()
+    setTimeout(() => { wheelLock.value = false }, 800)
   }
 }
 
 // 组件挂载和卸载时的处理
+let scrollObserver = null
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   window.addEventListener('wheel', handleWheel, { passive: false })
   preloadImages()
   startCarousel()
-  
+
   // 初始化滚动显现观察器
   const observerCallback = (entries) => {
     entries.forEach(entry => {
@@ -695,12 +760,12 @@ onMounted(() => {
     })
   }
 
-  const observer = new IntersectionObserver(observerCallback, {
+  scrollObserver = new IntersectionObserver(observerCallback, {
     threshold: 0.1
   })
 
   document.querySelectorAll('.scroll-reveal').forEach(el => {
-    observer.observe(el)
+    scrollObserver.observe(el)
   })
 })
 
@@ -709,6 +774,11 @@ onUnmounted(() => {
   window.removeEventListener('wheel', handleWheel)
   if (carouselInterval.value) {
     clearInterval(carouselInterval.value)
+  }
+  // 断开 IntersectionObserver，避免内存泄漏
+  if (scrollObserver) {
+    scrollObserver.disconnect()
+    scrollObserver = null
   }
 })
 </script>
@@ -818,8 +888,7 @@ onUnmounted(() => {
   transform-origin: bottom right;
 }
 
-.nav-menu::before {
-  content: '快速导航';
+.nav-menu-title {
   display: block;
   font-size: 11px;
   color: #9ca3af;
@@ -966,9 +1035,6 @@ onUnmounted(() => {
   min-width: 100%;
   height: 100%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .slide-image {
@@ -995,19 +1061,27 @@ onUnmounted(() => {
   background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
 }
 
-.slide-content {
-  position: relative;
+/* 文字内容独立层：覆盖在轮播图上方，不受 track 滑动影响 */
+.slide-content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
-  width: 100%;
+  padding: 0 2rem 0 7rem;
   text-align: left;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100%;
+  pointer-events: none;
+}
+
+.slide-content-overlay .slide-text {
+  pointer-events: auto;
 }
 
 .slide-text {
@@ -1111,19 +1185,22 @@ onUnmounted(() => {
   width: 60px;
 }
 
-.fade-up-enter-active,
+.fade-up-enter-active {
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 .fade-up-leave-active {
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.2s ease-out;
 }
 
 .fade-up-enter-from {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(20px);
 }
 
 .fade-up-leave-to {
   opacity: 0;
-  transform: translateY(-30px);
+  transform: translateY(-15px);
 }
 
 .carousel-btn {
@@ -1190,26 +1267,31 @@ onUnmounted(() => {
 
 .section-header {
   margin-bottom: 4rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eef2f6;
 }
 
 .section-header.center {
   text-align: center;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .section-header h2 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: #111827; /* 深灰近黑 */
-  margin-bottom: 1rem;
-  letter-spacing: -0.5px;
+  font-size: clamp(32px, 4.5vw, 60px);
+  font-weight: 800;
+  color: #0a0f1a;
+  margin: 0.5rem 0 1rem;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
 }
 
 .section-subtitle {
   color: #6b7280;
-  font-size: 1.1rem;
+  font-size: 1rem;
   max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
+  margin: 0;
+  line-height: 1.7;
 }
 
 .section-header.center .section-subtitle {
@@ -1232,19 +1314,19 @@ onUnmounted(() => {
   transform: translateY(0);
 }
 
-/* 装饰性小标题 */
+/* 装饰性小标题 · 编辑式 eyebrow */
 .section-badge {
   display: inline-block;
-  padding: 6px 16px;
-  background: rgba(0, 82, 217, 0.08);
-  color: #0052d9;
+  padding: 0;
+  background: none;
+  color: #9ca3af;
   font-size: 0.75rem;
-  font-weight: 700;
-  border-radius: 20px;
-  margin-bottom: 1rem;
-  letter-spacing: 1.5px;
+  font-weight: 600;
+  border-radius: 0;
+  margin-bottom: 0.5rem;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  border: 1px solid rgba(0, 82, 217, 0.1);
+  border: none;
 }
 
 /* 最新动态 - 科技感优化 */
@@ -1258,120 +1340,177 @@ onUnmounted(() => {
   z-index: 0;
 }
 
+/* 跑马灯滚动信息条 */
+.marquee-band {
+  overflow: hidden;
+  border-top: 1px solid #eef2f6;
+  border-bottom: 1px solid #eef2f6;
+  background: #f8fbff;
+  padding: 14px 0;
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  white-space: nowrap;
+  animation: marquee-scroll 36s linear infinite;
+}
+
+.marquee-band:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #111827;
+  text-transform: uppercase;
+}
+
+.marquee-dot {
+  font-size: 6px;
+  color: #0052d9;
+  line-height: 1;
+}
+
 .news-section {
   position: relative;
   overflow: hidden;
   padding: 8rem 0;
 }
 
-.news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.news-item {
-  border: none;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+.news-rows {
   display: flex;
   flex-direction: column;
+}
+
+.news-row {
+  display: grid;
+  grid-template-columns: 64px 1fr 220px 150px;
+  gap: 32px;
+  align-items: center;
+  padding: 32px 0;
+  border-bottom: 1px solid #eef2f6;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.news-row:first-child {
+  border-top: 1px solid #0a0f1a;
+}
+
+.news-row:hover {
+  transform: translateX(10px);
+}
+
+.news-row-num .num {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0a0f1a;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  transition: color 0.25s;
+}
+
+.news-row:hover .news-row-num .num {
+  color: #0052d9;
+}
+
+.news-row-body {
+  min-width: 0;
+}
+
+.news-row-cat {
+  font-size: 11px;
+  color: #0052d9;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+
+.news-row-title {
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 700;
+  color: #0a0f1a;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  transition: color 0.25s;
+}
+
+.news-row:hover .news-row-title {
+  color: #0052d9;
+}
+
+.news-row-summary {
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.news-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 82, 217, 0.12);
-}
-
-.news-image {
-  position: relative;
-  height: 220px;
+.news-row-thumb {
+  width: 100%;
+  height: 120px;
   overflow: hidden;
+  border-radius: 4px;
 }
 
-.news-image img {
+.news-row-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
 
-.news-item:hover .news-image img {
-  transform: scale(1.05);
+.news-row:hover .news-row-thumb img {
+  transform: scale(1.06);
 }
 
-.news-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 82, 217, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-.news-item:hover .news-overlay {
-  opacity: 1;
-}
-
-.view-btn {
-  transform: scale(0.8);
-  transition: transform 0.3s cubic-bezier(0.2, 1.5, 0.5, 1);
-  background: white;
-  border: none;
-  color: #0052d9;
-}
-
-.news-item:hover .view-btn {
-  transform: scale(1.1);
-}
-
-.news-content {
-  padding: 1.5rem;
+.news-row-meta {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  align-items: flex-end;
+  gap: 14px;
 }
 
-.news-category {
-  display: inline-block;
-  color: #0052d9;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 0.8rem;
-  letter-spacing: 1px;
-}
-
-.news-item h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.8rem;
-  color: #1f2937;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
-.news-summary {
-  color: #6b7280;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  flex: 1;
-}
-
-.news-meta {
-  font-size: 0.85rem;
+.news-row-date {
+  font-size: 12px;
   color: #9ca3af;
-  margin-bottom: 1rem;
-  border-top: 1px solid #f3f4f6;
-  padding-top: 1rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+.news-row-arrow {
+  font-size: 20px;
+  color: #0a0f1a;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.news-row:hover .news-row-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+  .news-row {
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+  }
+  .news-row-thumb,
+  .news-row-meta {
+    display: none;
+  }
 }
 
 /* 关于我们 - 视差与创新布局 */
@@ -1391,26 +1530,27 @@ onUnmounted(() => {
 }
 
 .section-tag {
-  color: #0052d9;
-  font-weight: 700;
+  color: #9ca3af;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   margin-bottom: 1rem;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
 }
 
 .about-text h2 {
-  font-size: 2.5rem;
-  color: #111827;
+  font-size: clamp(32px, 4vw, 54px);
+  color: #0a0f1a;
   margin-bottom: 1.5rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.08;
+  letter-spacing: -1.5px;
 }
 
 .about-text p {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   line-height: 1.8;
-  color: #4b5563;
+  color: #6b7280;
   margin-bottom: 1.5rem;
 }
 
@@ -1420,21 +1560,25 @@ onUnmounted(() => {
   gap: 2rem;
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid #eef2f6;
 }
 
 .stat-number {
-  font-size: 2.25rem;
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: 800;
-  color: #0052d9;
+  color: #0a0f1a;
   margin-bottom: 0.25rem;
   line-height: 1;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
-  color: #6b7280;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .about-image-wrapper {
@@ -1470,7 +1614,7 @@ onUnmounted(() => {
 }
 
 .services-section .section-header h2 {
-  color: #111827;
+  color: #0a0f1a;
 }
 
 .services-section .section-subtitle {
@@ -1506,6 +1650,7 @@ onUnmounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
 }
 
@@ -1520,15 +1665,26 @@ onUnmounted(() => {
   height: 60px;
   margin-bottom: 2rem;
   border-radius: 16px;
-  overflow: hidden;
   background: #f0f7ff;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 }
 
-.service-icon-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.service-icon-el {
+  font-size: 28px;
+  color: #0052d9;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon-wrapper {
+  background: #0052d9;
+}
+
+.service-card:hover .service-icon-el {
+  color: white;
+  transform: rotate(8deg);
 }
 
 .service-info h3 {
@@ -1681,16 +1837,18 @@ onUnmounted(() => {
 }
 
 .contact-header h2 {
-  color: #111827;
+  color: #0a0f1a;
   margin-bottom: 1rem;
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.1;
 }
 
 .contact-header p {
   color: #6b7280;
   margin-bottom: 3rem;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .method-item {
@@ -1810,9 +1968,10 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
   .section-header h2 {
-    font-size: 1.75rem;
+    font-size: 1.9rem;
+    letter-spacing: -0.5px;
   }
-  
+
   .carousel-indicators {
     display: none;
   }
@@ -1821,8 +1980,12 @@ onUnmounted(() => {
     width: 50px;
     height: 60px;
   }
-  
+
   .carousel-btn .el-icon {
     font-size: 24px;
+  }
+
+  .slide-content-overlay {
+    padding: 0 1rem 0 4rem;
   }
 }</style>

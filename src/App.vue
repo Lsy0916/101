@@ -1,9 +1,28 @@
 <script setup>
+import { computed } from 'vue'
+import { ElConfigProvider } from 'element-plus'
+import { useLocale } from './composables/settings'
 import MainLayout from './layouts/MainLayout.vue'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import zhTw from 'element-plus/es/locale/lang/zh-tw'
+import en from 'element-plus/es/locale/lang/en'
+
+const { locale } = useLocale()
+
+const elementLocale = computed(() => {
+  const map = {
+    'zh-CN': zhCn,
+    'zh-TW': zhTw,
+    'en-US': en
+  }
+  return map[locale.value] || zhCn
+})
 </script>
 
 <template>
-  <MainLayout />
+  <el-config-provider :locale="elementLocale">
+    <MainLayout />
+  </el-config-provider>
 </template>
 
 <style>

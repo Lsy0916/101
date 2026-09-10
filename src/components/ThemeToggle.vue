@@ -1,54 +1,110 @@
 <template>
   <div class="theme-toggle">
-    <el-switch
-        v-model="isDark"
-        inline-prompt
-        :active-icon="Moon"
-        :inactive-icon="Sunny"
-        @change="debouncedToggleDark"
-    />
+    <el-dropdown trigger="click" @command="handleCommand">
+      <button class="theme-btn">
+        <el-icon class="theme-icon">
+          <Monitor v-if="themeMode === 'auto'" />
+          <Sunny v-else-if="themeMode === 'light'" />
+          <Moon v-else />
+        </el-icon>
+        <span class="theme-label">{{ currentLabel }}</span>
+      </button>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="light" :class="{ active: themeMode === 'light' }">
+            <el-icon><Sunny /></el-icon>
+            <span>{{ $t('nav.theme.light') }}</span>
+            <el-icon v-if="themeMode === 'light'" class="check"><Check /></el-icon>
+          </el-dropdown-item>
+          <el-dropdown-item command="auto" :class="{ active: themeMode === 'auto' }">
+            <el-icon><Monitor /></el-icon>
+            <span>{{ $t('nav.theme.auto') }}</span>
+            <el-icon v-if="themeMode === 'auto'" class="check"><Check /></el-icon>
+          </el-dropdown-item>
+          <el-dropdown-item command="dark" :class="{ active: themeMode === 'dark' }">
+            <el-icon><Moon /></el-icon>
+            <span>{{ $t('nav.theme.dark') }}</span>
+            <el-icon v-if="themeMode === 'dark'" class="check"><Check /></el-icon>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
 <script setup>
-import {Moon, Sunny} from "@element-plus/icons-vue";
-import {onMounted, ref} from "vue";
-import {debounce} from "@/utils/debounce.js";
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Moon, Sunny, Monitor, Check } from '@element-plus/icons-vue'
+import { useTheme } from '@/composables/settings'
 
-const isDark = ref(false);
+const { t } = useI18n()
+const { themeMode, setThemeMode } = useTheme()
 
-// 深色模式切换函数
-const toggleDark = (val) => {
-  isDark.value = val
-  if (val) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-  localStorage.setItem('darkMode', val)
+const currentLabel = computed(() => {
+  if (themeMode.value === 'auto') return t('nav.theme.auto')
+  if (themeMode.value === 'light') return t('nav.theme.light')
+  return t('nav.theme.dark')
+})
+
+function handleCommand(mode) {
+  setThemeMode(mode)
 }
-
-// 使用防抖优化深色模式切换性能
-const debouncedToggleDark = debounce((val) => {
-  toggleDark(val);
-}, 100, true);
-
-// 生命周期
-onMounted(() => {
-  // 恢复深色模式设置
-  const darkMode = localStorage.getItem('darkMode') === 'true'
-  isDark.value = darkMode
-  if (darkMode) {
-    document.documentElement.classList.add('dark')
-  }
-});
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .theme-toggle {
   position: absolute;
   top: 20px;
   right: 20px;
   z-index: 10;
+}
+
+.theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  backdrop-filter: blur(8px);
+}
+
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.theme-icon {
+  font-size: 16px;
+}
+
+.theme-label {
+  white-space: nowrap;
+}
+</style>
+
+<style>
+.theme-toggle .el-dropdown-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.theme-toggle .el-dropdown-menu__item.active {
+  color: #0052d9;
+  font-weight: 600;
+}
+
+.theme-toggle .el-dropdown-menu__item .check {
+  margin-left: auto;
+  color: #0052d9;
 }
 </style>

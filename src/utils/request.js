@@ -18,8 +18,6 @@ service.interceptors.request.use(
     return config
   },
   (error) => {
-    // 错误处理
-    console.log(error)
     return Promise.reject(error)
   }
 )
@@ -46,7 +44,6 @@ service.interceptors.response.use(
     }
   },
   (error) => {
-    console.log('err' + error)
     // 提供更详细的错误信息
     if (error.response) {
       // 请求已发出，但服务器响应的状态码不在 2xx 范围内

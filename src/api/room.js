@@ -119,7 +119,6 @@ export const getSeatsStatusByTime = ({ roomId, date, startTime, endTime }) => {
  * @returns {Promise} 预约结果
  */
 export const createBooking = (bookingData) => {
-  console.log('bookingData:', bookingData)
   return request({
     url: '/reservations',
     method: 'post',

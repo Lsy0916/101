@@ -1,46 +1,50 @@
-<script setup>
-import { ref, computed, onMounted } from 'vue'
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup>
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { 
-  Search, 
-  Reading, 
-  Timer, 
-  View, 
+import { useI18n } from 'vue-i18n'
+import {
+  Search,
+  Reading,
+  Timer,
+  View,
   ArrowRight,
-  ArrowLeft,
   Collection,
   HotWater,
   Star,
-  Share,
-  ChatDotRound,
-  Suitcase,
-  Notebook,
-  Sunny,
-  Moon,
-  EditPen,
-  ChatLineRound,
   Right
 } from '@element-plus/icons-vue'
+import ReadProgress from '@/components/ReadProgress.vue'
+import InitialAvatar from '@/components/InitialAvatar.vue'
 
 const route = useRoute()
 const router = useRouter()
+const { t, tm } = useI18n()
 const searchQuery = ref('')
-const activeCategory = ref('all')
+const activeCategory = ref(route.query.category || 'all')
 const showAllArticles = ref(false)
+
+watch(() => route.query.category, (newCat) => {
+  const next = newCat || 'all'
+  if (next !== activeCategory.value) {
+    activeCategory.value = next
+    searchQuery.value = ''
+    showAllArticles.value = false
+  }
+})
 
 function goToAllArticles() {
   router.push('/articles/list')
 }
 
 // 文章分类数据
-const categories = [
-  { label: '精选推荐', key: 'all', icon: Collection },
-  { label: '每日精选', key: 'daily', icon: Star },
-  { label: '专题报道', key: 'featured', icon: HotWater },
-  { label: '心理科普', key: 'psychology', icon: Reading },
-  { label: '生涯导航', key: 'career', icon: Timer },
-  { label: '成长故事', key: 'stories', icon: View }
-]
+const categories = computed(() => [
+  { label: t('article.categories.all'), key: 'all', icon: Collection },
+  { label: t('article.categories.daily'), key: 'daily', icon: Star },
+  { label: t('article.categories.featured'), key: 'featured', icon: HotWater },
+  { label: t('article.categories.psychology'), key: 'psychology', icon: Reading },
+  { label: t('article.categories.career'), key: 'career', icon: Timer },
+  { label: t('article.categories.stories'), key: 'stories', icon: View }
+])
 
 // 模拟文章数据
 const articles = ref([
@@ -61,11 +65,9 @@ const articles = ref([
     categoryLabel: '心理科普',
     author: '陈默老师',
     authorTitle: '资深心理咨询师',
-    authorAvatar: 'https://i.pravatar.cc/100?u=chenmo',
     date: '2026-01-05',
     views: 4520,
     readTime: '12 min',
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200',
     featured: true
   },
   {
@@ -77,7 +79,6 @@ const articles = ref([
     categoryLabel: '生涯导航',
     author: '王悦',
     authorTitle: '职业规划专家',
-    authorAvatar: 'https://i.pravatar.cc/100?u=wangyue',
     date: '2026-01-04',
     views: 3420,
     readTime: '15 min',
@@ -93,11 +94,9 @@ const articles = ref([
     categoryLabel: '成长故事',
     author: '李华',
     authorTitle: '优秀学长',
-    authorAvatar: 'https://i.pravatar.cc/100?u=lihua',
     date: '2026-01-03',
     views: 890,
     readTime: '10 min',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800',
     featured: false
   },
   {
@@ -109,7 +108,6 @@ const articles = ref([
     categoryLabel: '生涯导航',
     author: '周琳',
     authorTitle: '效率管理专家',
-    authorAvatar: 'https://i.pravatar.cc/100?u=zhoulin',
     date: '2026-01-02',
     views: 2100,
     readTime: '12 min',
@@ -125,7 +123,6 @@ const articles = ref([
     categoryLabel: '每日精选',
     author: '苏小北',
     authorTitle: '专栏作家',
-    authorAvatar: 'https://i.pravatar.cc/100?u=subei',
     date: '2026-01-01',
     views: 1560,
     readTime: '6 min',
@@ -141,7 +138,6 @@ const articles = ref([
      categoryLabel: '心理科普',
      author: '阿何',
      authorTitle: '知名博主',
-     authorAvatar: 'https://i.pravatar.cc/100?u=ahe',
      date: '2025-12-30',
      views: 5600,
      readTime: '18 min',
@@ -157,7 +153,6 @@ const articles = ref([
      categoryLabel: '生涯导航',
      author: '李经理',
      authorTitle: '大厂HRBP',
-     authorAvatar: 'https://i.pravatar.cc/100?u=lihr',
      date: '2025-12-28',
      views: 2800,
      readTime: '9 min',
@@ -173,7 +168,6 @@ const articles = ref([
      categoryLabel: '心理科普',
      author: '哲学家',
      authorTitle: '特约作者',
-     authorAvatar: 'https://i.pravatar.cc/100?u=zhe',
      date: '2025-12-25',
      views: 4200,
      readTime: '14 min',
@@ -189,7 +183,6 @@ const articles = ref([
      categoryLabel: '成长故事',
      author: '小明',
      authorTitle: '连续创业者',
-     authorAvatar: 'https://i.pravatar.cc/100?u=xiaoming',
      date: '2025-12-20',
      views: 1100,
      readTime: '20 min',
@@ -205,7 +198,6 @@ const articles = ref([
      categoryLabel: '每日精选',
      author: '林溪',
      authorTitle: '生活方式博主',
-     authorAvatar: 'https://i.pravatar.cc/100?u=linxi',
      date: '2025-12-15',
      views: 3100,
      readTime: '7 min',
@@ -214,25 +206,40 @@ const articles = ref([
    }
 ])
 
-// 文章详情
-const selectedArticle = ref(null)
-const showDetail = ref(false)
-
+// 文章详情 · 跳转独立详情页
 function openArticle(article) {
-  selectedArticle.value = article
-  showDetail.value = true
-  // 滚动到顶部
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-function closeArticle() {
-  showDetail.value = false
-  selectedArticle.value = null
+  router.push(`/articles/${article.id}`)
 }
 
 // 焦点文章（取最新的一篇 featured）
 const spotlightArticle = computed(() => {
   return articles.value.find(a => a.featured) || articles.value[0]
+})
+
+// 分类专属标题区数据
+const categoryIntros = computed(() => ({
+  all: { title: t('article.intro.all.title'), eyebrow: '— Articles &amp; Stories', sub: t('article.intro.all.sub') },
+  daily: { title: t('article.intro.daily.title'), eyebrow: '— Daily Picks', sub: t('article.intro.daily.sub') },
+  featured: { title: t('article.intro.featured.title'), eyebrow: '— Featured Stories', sub: t('article.intro.featured.sub') },
+  psychology: { title: t('article.intro.psychology.title'), eyebrow: '— Psychology', sub: t('article.intro.psychology.sub') },
+  career: { title: t('article.intro.career.title'), eyebrow: '— Career', sub: t('article.intro.career.sub') },
+  stories: { title: t('article.intro.stories.title'), eyebrow: '— Growth Stories', sub: t('article.intro.stories.sub') }
+}))
+
+const introData = computed(() => {
+  const data = categoryIntros.value[activeCategory.value] || categoryIntros.value.all
+  const stats = activeCategory.value === 'all'
+    ? [
+        { num: '120', sup: '+', label: t('article.stats.articles') },
+        { num: '06', sup: '', label: t('article.stats.categories') },
+        { num: '24h', sup: '', label: t('article.stats.update') }
+      ]
+    : [
+        { num: String(filteredArticles.value.length).padStart(2, '0'), sup: '', label: t('article.stats.count') },
+        { num: '06', sup: '', label: t('article.stats.categories') },
+        { num: '24h', sup: '', label: t('article.stats.update') }
+      ]
+  return { ...data, stats }
 })
 
 // 过滤文章
@@ -265,86 +272,113 @@ const hasMoreArticles = computed(() => {
   return filteredArticles.value.length > ARTICLE_LIMIT && !showAllArticles.value && activeCategory.value === 'all' && !searchQuery.value
 })
 
-onMounted(() => {
-  if (route.query.category) {
-    activeCategory.value = route.query.category
-  }
+// 专题合集数据（标题与描述走 i18n，count 与 icon 为本地配置）
+const collectionItems = computed(() => {
+  const items = tm('article.collections.items')
+  const meta = [
+    { count: 12, icon: 'Sunny' },
+    { count: 15, icon: 'Moon' },
+    { count: 10, icon: 'EditPen' },
+    { count: 8, icon: 'ChatLineRound' }
+  ]
+  return items.map((item, i) => ({
+    title: item.title,
+    desc: item.desc,
+    ...meta[i]
+  }))
 })
 
 function setCategory(key) {
   activeCategory.value = key
-  showDetail.value = false
   searchQuery.value = ''
   showAllArticles.value = false
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 
 <template>
   <div class="article-center">
-    <!-- Section 1: Enhanced Content Discovery -->
+    <ReadProgress />
+    <!-- 编辑式标题区 · 纯排版无卡片 · 随分类切换 -->
+    <div class="page-intro">
+      <div class="intro-container">
+        <div class="intro-left">
+          <span class="intro-eyebrow">{{ introData.eyebrow }}</span>
+          <h1 class="intro-title" v-html="introData.title"></h1>
+          <p class="intro-sub">{{ introData.sub }}</p>
+        </div>
+        <div class="intro-right">
+          <div class="intro-stat" v-for="stat in introData.stats" :key="stat.label">
+            <span class="stat-num">{{ stat.num }}<sup v-if="stat.sup">{{ stat.sup }}</sup></span>
+            <span class="stat-label">{{ stat.label }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 导读栏 · sticky 紧贴 navbar -->
     <section class="discovery-ribbon">
       <div class="ribbon-container">
         <div class="ribbon-scroll">
-          <div 
-            v-for="cat in categories" 
-            :key="cat.key" 
+          <div
+            v-for="(cat, i) in categories"
+            :key="cat.key"
             class="ribbon-item"
             :class="{ active: activeCategory === cat.key }"
             @click="setCategory(cat.key)"
           >
-            <el-icon class="item-icon"><component :is="cat.icon" /></el-icon>
+            <span class="item-num">{{ String(i + 1).padStart(2, '0') }}</span>
             <span class="item-label">{{ cat.label }}</span>
-            <div class="item-indicator"></div>
           </div>
         </div>
       </div>
     </section>
 
     <div class="main-content">
-      <!-- Section 2: Search Bar (Minimalist) -->
+      <!-- 极简搜索 -->
       <div class="search-wrapper">
         <div class="search-box">
           <el-icon class="search-icon"><Search /></el-icon>
-          <input 
-            type="text" 
-            v-model="searchQuery" 
-            placeholder="搜索你感兴趣的话题..."
+          <input
+            type="text"
+            v-model="searchQuery"
+            :placeholder="$t('article.search')"
             class="search-input"
           />
         </div>
       </div>
 
-      <!-- Section 3: Article Modules -->
-      <div class="article-modules" v-if="!showDetail">
-        <!-- Spotlight Module -->
+      <div class="article-modules">
+        <!-- 今日焦点 -->
         <div v-if="activeCategory === 'all' && !searchQuery" class="module-spotlight">
           <div class="module-header">
-            <div class="header-left">
-              <h3 class="module-title">今日焦点</h3>
-              <span class="article-count">为您甄选的最佳深度内容</span>
-            </div>
+            <h3 class="module-title">{{ $t('article.spotlight.title') }}</h3>
+            <span class="article-count">{{ $t('article.spotlight.sub') }}</span>
           </div>
-          <div class="spotlight-card" @click="openArticle(spotlightArticle)">
-            <div class="spotlight-image">
-              <img :src="spotlightArticle.image" :alt="spotlightArticle.title">
+          <div class="spotlight-card" :class="{ 'no-cover': !spotlightArticle.image }" @click="openArticle(spotlightArticle)">
+            <div v-if="spotlightArticle.image" class="spotlight-image">
+              <img :src="spotlightArticle.image" :alt="spotlightArticle.title" loading="lazy">
+              <span class="spotlight-stamp">FEATURED · 01</span>
             </div>
+            <span v-else class="spotlight-quote-deco" aria-hidden="true">"</span>
             <div class="spotlight-content">
-              <div class="spotlight-badge">
+              <div class="spotlight-meta">
                 <span class="category-tag">{{ spotlightArticle.categoryLabel }}</span>
+                <span class="dot"></span>
                 <span class="read-badge">{{ spotlightArticle.readTime }} read</span>
               </div>
               <h2 class="spotlight-title">{{ spotlightArticle.title }}</h2>
               <p class="spotlight-desc">{{ spotlightArticle.summary }}</p>
               <div class="spotlight-footer">
                 <div class="spotlight-author">
-                  <img :src="spotlightArticle.authorAvatar" :alt="spotlightArticle.author" class="author-avatar">
+                  <InitialAvatar :name="spotlightArticle.author" :size="48" class="author-avatar" />
                   <div class="author-info">
                     <span class="author-name">{{ spotlightArticle.author }}</span>
                     <span class="author-title">{{ spotlightArticle.authorTitle }}</span>
                   </div>
                 </div>
                 <button class="read-more">
-                  <span>立即阅读</span>
+                  <span>{{ $t('article.spotlight.read') }}</span>
                   <el-icon><ArrowRight /></el-icon>
                 </button>
               </div>
@@ -352,30 +386,32 @@ function setCategory(key) {
           </div>
         </div>
 
-        <!-- Grid Module -->
+        <!-- 文章网格 -->
         <div class="module-grid">
           <div class="module-header">
             <div class="header-left">
-              <h3 class="module-title">{{ categories.find(c => c.key === activeCategory)?.label || '全部文章' }}</h3>
-              <span class="article-count">{{ filteredArticles.length }} 篇内容</span>
+              <h3 class="module-title">{{ categories.find(c => c.key === activeCategory)?.label || $t('article.grid.all') }}</h3>
+              <span class="article-count">{{ filteredArticles.length }} {{ $t('article.stats.count') }}</span>
             </div>
             <button v-if="hasMoreArticles" class="view-all-link" @click="goToAllArticles">
-              查看全部 <el-icon><ArrowRight /></el-icon>
+              {{ $t('article.grid.viewAll') }} <el-icon><ArrowRight /></el-icon>
             </button>
           </div>
-          
+
           <div class="article-grid">
-            <div 
-              v-for="article in displayedArticles" 
-              :key="article.id" 
+            <div
+              v-for="article in displayedArticles"
+              :key="article.id"
               class="article-card"
+              :class="{ 'no-cover': !article.image }"
               @click="openArticle(article)"
             >
-              <div class="card-image">
-                <img :src="article.image" :alt="article.title">
-                <div class="card-overlay">
-                  <span class="card-tag">{{ article.categoryLabel }}</span>
-                </div>
+              <div v-if="article.image" class="card-image">
+                <img :src="article.image" :alt="article.title" loading="lazy">
+                <span class="card-tag">{{ article.categoryLabel }}</span>
+              </div>
+              <div v-else class="card-no-cover-top">
+                <span class="no-cover-eyebrow">{{ article.categoryLabel }}</span>
               </div>
               <div class="card-info">
                 <div class="card-meta-top">
@@ -387,37 +423,32 @@ function setCategory(key) {
                 <p class="card-summary">{{ article.summary }}</p>
                 <div class="card-meta">
                   <span class="meta-item"><el-icon><Timer /></el-icon> {{ article.readTime }}</span>
-                  <span class="meta-item"><el-icon><View /></el-icon> {{ article.views }} 阅读</span>
+                  <span class="meta-item"><el-icon><View /></el-icon> {{ article.views }}</span>
                 </div>
               </div>
             </div>
           </div>
 
           <div v-if="filteredArticles.length === 0" class="no-results">
-            <el-empty description="暂无相关内容，换个词试试？" />
+            <el-empty :description="$t('article.empty')" />
           </div>
         </div>
 
-        <!-- Collections Module -->
+        <!-- 专题合集 -->
         <div v-if="activeCategory === 'all' && !searchQuery" class="module-collections">
           <div class="module-header">
             <div class="header-left">
-              <h3 class="module-title">专题合集</h3>
-              <span class="article-count">沉浸式学习，深度掌握知识体系</span>
+              <h3 class="module-title">{{ $t('article.collections.title') }}</h3>
+              <span class="article-count">{{ $t('article.collections.sub') }}</span>
             </div>
             <button class="view-all-link" @click="goToAllArticles">
-              查看全部 <el-icon><ArrowRight /></el-icon>
+              {{ $t('article.collections.viewAll') }} <el-icon><ArrowRight /></el-icon>
             </button>
           </div>
           <div class="collection-grid">
-            <div 
-              v-for="collection in [
-                { title: '新生适应指南', count: 12, icon: 'Sunny', desc: '从校园到职场的无缝衔接，助你快速融入新环境。' },
-                { title: '情绪调节手册', count: 15, icon: 'Moon', desc: '掌握心理学工具，在压力之下保持内心的平静与从容。' },
-                { title: '高效学习方法', count: 10, icon: 'EditPen', desc: '科学的学习策略，让你的认知效率实现质的飞跃。' },
-                { title: '职场沟通艺术', count: 8, icon: 'ChatLineRound', desc: '在复杂的职场环境中，用沟通搭建信任与合作的桥梁。' }
-              ]" 
-              :key="collection.title" 
+            <div
+              v-for="collection in collectionItems"
+              :key="collection.title"
               class="collection-card"
               @click="searchQuery = collection.title"
             >
@@ -426,59 +457,17 @@ function setCategory(key) {
                   <div class="collection-icon-wrapper">
                     <el-icon><component :is="collection.icon" /></el-icon>
                   </div>
-                  <span class="collection-count">{{ collection.count }} 篇精选</span>
+                  <span class="collection-count">{{ collection.count }} {{ $t('article.collections.countUnit') }}</span>
                 </div>
                 <h4 class="collection-title">{{ collection.title }}</h4>
                 <p class="collection-desc">{{ collection.desc }}</p>
               </div>
               <div class="collection-footer">
-                <span class="explore-text">进入专题</span>
+                <span class="explore-text">{{ $t('article.collections.enter') }}</span>
                 <el-icon class="arrow-icon"><Right /></el-icon>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Section 4: Article Detail View -->
-      <div v-else class="article-detail-view">
-        <button class="back-button" @click="closeArticle">
-          <el-icon><ArrowLeft /></el-icon> 返回中心
-        </button>
-        
-        <div class="detail-container">
-          <header class="detail-header">
-            <div class="detail-meta">
-              <span class="detail-category">{{ selectedArticle.categoryLabel }}</span>
-              <span class="detail-date">{{ selectedArticle.date }}</span>
-            </div>
-            <h1 class="detail-title">{{ selectedArticle.title }}</h1>
-            <div class="detail-author-box">
-              <img :src="selectedArticle.authorAvatar" :alt="selectedArticle.author" class="detail-avatar">
-              <div class="detail-author-info">
-                <span class="detail-author-name">{{ selectedArticle.author }}</span>
-                <span class="detail-author-title">{{ selectedArticle.authorTitle }}</span>
-              </div>
-            </div>
-          </header>
-
-          <div class="detail-hero">
-            <img :src="selectedArticle.image" :alt="selectedArticle.title">
-          </div>
-
-          <div class="detail-content" v-html="selectedArticle.content"></div>
-
-          <footer class="detail-footer">
-            <div class="detail-stats">
-              <span>阅读量 {{ selectedArticle.views }}</span>
-              <span>·</span>
-              <span>预计阅读 {{ selectedArticle.readTime }}</span>
-            </div>
-            <div class="detail-actions">
-              <el-button circle><el-icon><Star /></el-icon></el-button>
-              <el-button circle><el-icon><Share /></el-icon></el-button>
-            </div>
-          </footer>
         </div>
       </div>
     </div>
@@ -489,31 +478,130 @@ function setCategory(key) {
 .article-center {
   min-height: 100vh;
   background-color: #f8fafc;
-  padding-top: 64px;
+  padding-top: 28px;
+  position: relative;
 }
 
-/* Discovery Ribbon */
+/* ===== 编辑式标题区 · 纯排版无卡片 ===== */
+.page-intro {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 56px 40px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.intro-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #e8ecf0;
+}
+
+.intro-left {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.intro-eyebrow {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #0052d9;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.intro-title {
+  font-size: clamp(48px, 7vw, 104px);
+  font-weight: 900;
+  color: #0a0f1a;
+  margin: 0;
+  letter-spacing: -3px;
+  line-height: 0.92;
+}
+
+.intro-title :deep(em) {
+  font-style: italic;
+  font-weight: 300;
+  color: #0052d9;
+}
+
+.intro-sub {
+  font-size: 0.95rem;
+  color: #6b7280;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 480px;
+}
+
+.intro-right {
+  display: flex;
+  gap: 40px;
+  flex-shrink: 0;
+  padding-bottom: 10px;
+}
+
+.intro-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.stat-num {
+  font-size: 32px;
+  font-weight: 900;
+  color: #0a0f1a;
+  line-height: 1;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-num sup {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0052d9;
+  vertical-align: super;
+  margin-left: 2px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ===== 导读栏 · sticky 紧贴 navbar（滚动后 navbar 64px）===== */
 .discovery-ribbon {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 12px 0;
+  background: #ffffff;
+  border-bottom: 1px solid #eef2f6;
+  padding: 14px 0;
   position: sticky;
   top: 64px;
   z-index: 100;
 }
 
 .ribbon-container {
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px;
 }
 
 .ribbon-scroll {
   display: flex;
-  gap: 32px;
-  overflow-x: auto;
+  gap: 36px;
+  overflow-x: clip;
   scrollbar-width: none;
+}
+
+@media (max-width: 768px) {
+  .ribbon-scroll { overflow-x: auto; }
 }
 
 .ribbon-scroll::-webkit-scrollbar {
@@ -523,35 +611,40 @@ function setCategory(key) {
 .ribbon-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  padding: 8px 0;
-  opacity: 0.5;
+  padding: 6px 0;
+  opacity: 0.45;
 }
 
-.item-icon {
-  font-size: 1.1rem;
-  color: #1e293b;
+.item-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
 }
 
 .item-label {
-  font-size: 1rem;
-  color: #1e293b;
+  font-size: 0.95rem;
+  color: #111827;
   font-weight: 500;
   white-space: nowrap;
 }
 
-.item-indicator {
+.ribbon-item::after {
+  content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -15px;
   left: 0;
   width: 100%;
   height: 2px;
-  background: #0f172a;
+  background: #0a0f1a;
   transform: scaleX(0);
-  transition: transform 0.3s ease;
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ribbon-item:hover {
@@ -566,45 +659,49 @@ function setCategory(key) {
   font-weight: 700;
 }
 
-.ribbon-item.active .item-indicator {
+.ribbon-item.active .item-num {
+  color: #0052d9;
+}
+
+.ribbon-item.active::after {
   transform: scaleX(1);
 }
 
-/* Main Content */
+/* ===== 主内容 ===== */
 .main-content {
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 60px 40px 100px;
+  padding: 56px 40px 100px;
 }
 
-/* Search Box */
+/* 搜索 */
 .search-wrapper {
-  margin-bottom: 60px;
+  margin-bottom: 64px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .search-box {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e8ecf0;
+  border-radius: 0;
+  padding: 8px 0 12px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
-  max-width: 500px;
-  transition: all 0.3s ease;
+  max-width: 460px;
+  transition: border-color 0.3s ease;
 }
 
 .search-box:focus-within {
-  border-color: #0f172a;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  border-color: #0a0f1a;
 }
 
 .search-icon {
-  color: #94a3b8;
-  font-size: 1.2rem;
+  color: #9ca3af;
+  font-size: 1.15rem;
 }
 
 .search-input {
@@ -612,228 +709,331 @@ function setCategory(key) {
   outline: none;
   width: 100%;
   font-size: 1rem;
-  color: #1e293b;
+  color: #111827;
   font-weight: 500;
+  background: transparent;
 }
 
 .search-input::placeholder {
-  color: #94a3b8;
+  color: #9ca3af;
 }
 
-/* Modules */
-/* Spotlight */
-.module-spotlight {
-  margin-bottom: 100px;
-}
-
-.spotlight-card {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  background: white;
-  border-radius: 40px;
-  overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.spotlight-card:hover {
-  transform: translateY(-10px) scale(1.01);
-  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.12);
-}
-
-.spotlight-image {
-  position: relative;
-  overflow: hidden;
-}
-
-.spotlight-image img {
-  width: 100%;
-  height: 500px;
-  object-fit: cover;
-  transition: transform 0.8s ease;
-}
-
-.spotlight-card:hover .spotlight-image img {
-  transform: scale(1.05);
-}
-
-.spotlight-content {
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: linear-gradient(to right, white, #fafafa);
-}
-
-.spotlight-badge {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.read-badge {
-  background: #f1f5f9;
-  color: #64748b;
-  padding: 4px 12px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.category-tag {
-  display: inline-block;
-  color: #0f172a;
-  font-weight: 800;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.spotlight-title {
-  font-size: 2.75rem;
-  font-weight: 900;
-  line-height: 1.1;
-  color: #0f172a;
-  margin-bottom: 24px;
-  letter-spacing: -0.04em;
-}
-
-.spotlight-desc {
-  color: #475569;
-  line-height: 1.7;
-  margin-bottom: 48px;
-  font-size: 1.15rem;
-  font-weight: 400;
-}
-
-.spotlight-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 40px;
-  border-top: 1px solid #f1f5f9;
-}
-
-.spotlight-author {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.author-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.author-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.author-name {
-  font-weight: 700;
-  color: #0f172a;
-  font-size: 0.95rem;
-}
-
-.author-title {
-  font-size: 0.75rem;
-  color: #64748b;
-  font-weight: 500;
-}
-
-.read-more {
-  background: #0f172a;
-  color: white;
-  border: none;
-  padding: 14px 32px;
-  border-radius: 16px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.read-more:hover {
-  background: #334155;
-  transform: translateX(6px);
-}
-
-/* Grid Module & General Module Headers */
+/* ===== 模块标题 ===== */
 .module-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 40px; /* 增加间距防止遮挡 */
-  position: relative;
-  z-index: 2; /* 确保标题在卡片之上 */
+  margin-bottom: 36px;
+  gap: 24px;
 }
 
 .header-left {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .module-title {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #1e293b;
-  margin-bottom: 0;
-  letter-spacing: -0.025em;
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 900;
+  color: #0a0f1a;
+  margin: 0;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .article-count {
-  font-size: 0.9rem;
-  color: #64748b;
+  font-size: 0.85rem;
+  color: #6b7280;
   font-weight: 500;
 }
 
 .view-all-link {
   background: none;
   border: none;
-  color: #0f172a;
-  font-weight: 700;
-  font-size: 0.95rem;
+  color: #0052d9;
+  font-weight: 600;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 12px;
+  padding: 8px 0;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .view-all-link:hover {
-  background: #f1f5f9;
+  transform: translateX(4px);
+  gap: 10px;
+}
+
+/* ===== 今日焦点 · 图片完全覆盖 ===== */
+.module-spotlight {
+  margin-bottom: 88px;
+}
+
+.spotlight-card {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #eef2f6;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spotlight-card:hover {
+  box-shadow: 0 24px 56px -20px rgba(0, 82, 217, 0.18);
+  border-color: #d0e7ff;
+}
+
+.spotlight-image {
+  position: relative;
+  overflow: hidden;
+  min-height: 440px;
+}
+
+.spotlight-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spotlight-card:hover .spotlight-image img {
+  transform: scale(1.06);
+}
+
+/* 无封面焦点卡 · 编辑式纯文字排版 */
+.spotlight-card.no-cover {
+  grid-template-columns: 1fr;
+  position: relative;
+  padding: 0;
+  background: #fafafa;
+}
+
+.spotlight-quote-deco {
+  position: absolute;
+  top: -20px;
+  left: 32px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 200px;
+  font-weight: 900;
+  color: rgba(17, 24, 39, 0.05);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.spotlight-card.no-cover .spotlight-content {
+  padding: 72px 64px;
+  position: relative;
+  z-index: 1;
+  background: #fafafa;
+}
+
+.spotlight-card.no-cover .spotlight-content::before {
+  display: none;
+}
+
+.spotlight-card.no-cover .spotlight-title {
+  font-size: clamp(32px, 4vw, 52px);
+  background: linear-gradient(135deg, #111827, #4b5563);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.spotlight-card.no-cover .spotlight-desc {
+  font-size: 17px;
+  line-height: 1.8;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+}
+
+.spotlight-stamp {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0a0f1a;
+  padding: 6px 12px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  border-radius: 4px;
+}
+
+.spotlight-content {
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+  position: relative;
+}
+
+.spotlight-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, #0052d9, #1890ff);
+}
+
+.spotlight-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.category-tag {
+  color: #0052d9;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.read-badge {
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+}
+
+.spotlight-title {
+  font-size: clamp(26px, 2.6vw, 38px);
+  font-weight: 900;
+  line-height: 1.12;
+  color: #0a0f1a;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.03em;
+}
+
+.spotlight-desc {
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 0 0 36px 0;
+  font-size: 1rem;
+  font-weight: 400;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.spotlight-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  border-top: 1px solid #f1f5f9;
+  gap: 16px;
+}
+
+.spotlight-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.author-avatar {
+  flex-shrink: 0;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.author-name {
+  font-weight: 700;
+  color: #111827;
+  font-size: 0.9rem;
+}
+
+.author-title {
+  font-size: 0.72rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.read-more {
+  background: #0a0f1a;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.read-more:hover {
+  background: #0052d9;
   transform: translateX(4px);
 }
 
+/* ===== 文章网格 · 等宽 3 列 ===== */
 .article-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
 .article-card {
-  background: white;
-  border-radius: 32px;
+  grid-column: span 1;
+}
+
+@media (max-width: 1024px) {
+  .article-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.article-card {
+  background: #ffffff;
+  border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  border: 1px solid #eef2f6;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .article-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -12px rgba(0, 82, 217, 0.15);
+  border-color: #d0e7ff;
 }
 
 .card-image {
@@ -846,32 +1046,66 @@ function setCategory(key) {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .article-card:hover .card-image img {
-  transform: scale(1.1);
-}
-
-.card-overlay {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  transform: scale(1.08);
 }
 
 .card-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(4px);
-  padding: 6px 14px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: #0f172a;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #0052d9;
+  letter-spacing: 0.5px;
+}
+
+/* 无封面网格卡 · 杂志式文字排版 */
+.article-card.no-cover {
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  position: relative;
+}
+
+.card-no-cover-top {
+  padding: 32px 24px 0;
+  display: flex;
+  align-items: center;
+}
+
+.no-cover-eyebrow {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #6b7280;
+  letter-spacing: 1.5px;
+  font-style: italic;
+}
+
+.article-card.no-cover .card-info {
+  padding-top: 16px;
+}
+
+.article-card.no-cover .card-title {
+  font-size: 20px;
+  line-height: 1.35;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.article-card.no-cover .card-summary {
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
 }
 
 .card-info {
-  padding: 32px;
+  padding: 22px 24px 20px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -881,33 +1115,30 @@ function setCategory(key) {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
-  font-size: 0.8rem;
+  margin-bottom: 10px;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: #64748b;
-}
-
-.dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background-color: #cbd5e1;
+  color: #6b7280;
 }
 
 .card-title {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 16px;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  color: #0a0f1a;
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card-summary {
-  color: #475569;
-  font-size: 1rem;
+  color: #4b5563;
+  font-size: 0.88rem;
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin: 0 0 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -917,111 +1148,118 @@ function setCategory(key) {
 .card-meta {
   margin-top: auto;
   display: flex;
-  gap: 20px;
-  color: #94a3b8;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding-top: 20px;
-  border-top: 1px solid #f8fafc;
+  gap: 16px;
+  color: #9ca3af;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-/* Collections Module */
+.publish-date {
+  color: #9ca3af;
+}
+
+/* ===== 专题合集 ===== */
 .module-collections {
-  margin-top: 100px;
-  padding: 80px 0;
-  border-top: 1px solid #f1f5f9;
+  margin-top: 88px;
+  padding-top: 64px;
+  border-top: 1px solid #eef2f6;
 }
 
 .collection-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 .collection-card {
-  background: white;
-  padding: 32px;
-  border-radius: 20px;
+  background: #ffffff;
+  padding: 28px 24px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid #f1f5f9;
+  border: 1px solid #eef2f6;
   position: relative;
   overflow: hidden;
 }
 
 .collection-card:hover {
-  transform: translateY(-5px);
-  border-color: #0f172a;
-  box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  border-color: #d0e7ff;
+  box-shadow: 0 16px 32px -12px rgba(0, 82, 217, 0.12);
 }
 
 .collection-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .collection-icon-wrapper {
-  width: 48px;
-  height: 48px;
-  background: #f8fafc;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  background: #f0f7ff;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  color: #0f172a;
+  font-size: 1.3rem;
+  color: #0052d9;
   transition: all 0.3s ease;
 }
 
 .collection-card:hover .collection-icon-wrapper {
-  background: #0f172a;
+  background: #0052d9;
   color: white;
 }
 
 .collection-count {
-  font-size: 0.8rem;
-  color: #94a3b8;
-  font-weight: 700;
+  font-size: 0.72rem;
+  color: #9ca3af;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .collection-title {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 12px;
+  color: #0a0f1a;
+  margin: 0 0 8px 0;
   line-height: 1.3;
 }
 
 .collection-desc {
-  font-size: 0.95rem;
-  color: #64748b;
+  font-size: 0.88rem;
+  color: #6b7280;
   line-height: 1.6;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .collection-footer {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding-top: 20px;
-  border-top: 1px solid #f8fafc;
-  color: #0f172a;
-  font-weight: 700;
-  font-size: 0.9rem;
+  gap: 6px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  color: #0052d9;
+  font-weight: 600;
+  font-size: 0.85rem;
   transition: all 0.3s ease;
 }
 
@@ -1033,158 +1271,13 @@ function setCategory(key) {
   transform: translateX(4px);
 }
 
-.collection-card:hover .collection-footer {
-  color: #2563eb;
-}
-
 .no-results {
-  padding: 100px 0;
+  padding: 80px 0;
 }
 
-/* Article Detail View */
-.article-detail-view {
-  animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.back-button {
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #64748b;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 12px 0;
-  margin-bottom: 40px;
-  transition: color 0.3s ease;
-}
-
-.back-button:hover {
-  color: #0f172a;
-}
-
-.detail-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.detail-meta {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.detail-category {
-  background: #f1f5f9;
-  color: #0f172a;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.detail-date {
-  color: #94a3b8;
-  font-size: 0.9rem;
-}
-
-.detail-title {
-  font-size: 3rem;
-  font-weight: 900;
-  color: #0f172a;
-  line-height: 1.1;
-  margin-bottom: 40px;
-  letter-spacing: -0.04em;
-}
-
-.detail-author-box {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 60px;
-}
-
-.detail-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-}
-
-.detail-author-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.detail-author-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.detail-author-title {
-  font-size: 0.9rem;
-  color: #64748b;
-}
-
-.detail-hero {
-  margin: 0 -40px 60px;
-  border-radius: 40px;
-  overflow: hidden;
-  height: 500px;
-}
-
-.detail-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.detail-content {
-  font-size: 1.25rem;
-  line-height: 1.8;
-  color: #334155;
-}
-
-.detail-content :deep(p) {
-  margin-bottom: 32px;
-}
-
-.detail-content :deep(h3) {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 48px 0 24px;
-}
-
-.detail-footer {
-  margin-top: 80px;
-  padding-top: 40px;
-  border-top: 1px solid #f1f5f9;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.detail-stats {
-  display: flex;
-  gap: 12px;
-  color: #94a3b8;
-  font-size: 0.9rem;
-}
-
-.detail-actions {
-  display: flex;
-  gap: 16px;
-}
-
+/* ===== 响应式 ===== */
 @media (max-width: 1200px) {
-  .ribbon-container, .main-content {
+  .ribbon-container, .main-content, .page-intro {
     padding-left: 24px;
     padding-right: 24px;
   }
@@ -1194,35 +1287,35 @@ function setCategory(key) {
   .spotlight-card {
     grid-template-columns: 1fr;
   }
-  .spotlight-image img {
-    height: 350px;
+  .spotlight-image {
+    min-height: 320px;
   }
   .spotlight-content {
-    padding: 40px;
-  }
-  .spotlight-title {
-    font-size: 2.2rem;
+    padding: 36px 32px;
   }
 }
 
 @media (max-width: 768px) {
-  .ribbon-scroll {
+  .page-intro {
+    padding: 40px 24px 32px;
+  }
+  .intro-container {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 32px;
   }
-  .discovery-ribbon {
-    padding-top: 24px;
+  .intro-mark::before { display: none; }
+  .ribbon-scroll {
+    gap: 28px;
   }
   .search-wrapper {
-    margin-bottom: 50px;
-  }
-  .article-grid {
-    grid-template-columns: 1fr;
+    margin-bottom: 48px;
   }
   .spotlight-title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
   .module-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 }
 </style>

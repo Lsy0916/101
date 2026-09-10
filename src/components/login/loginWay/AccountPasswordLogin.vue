@@ -31,7 +31,7 @@
     <el-form-item prop="userId">
       <el-input
           v-model="loginForm.userId"
-          placeholder="请输入学号"
+          :placeholder="t('login.form.userIdPlaceholder')"
           prefix-icon="User"
           size="large"
           clearable
@@ -53,7 +53,7 @@
       <div class="captcha-input-container">
         <el-input
             v-model="loginForm.captcha"
-            placeholder="请输入验证码"
+            :placeholder="t('login.form.captchaPlaceholder')"
             size="large"
             maxlength="4"
         />
@@ -85,19 +85,24 @@
           round
       >
         <el-icon><User/></el-icon>
-        学生登录
+        {{ t('login.form.accountBtn') }}
       </el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, nextTick } from 'vue';
+import { ref, reactive, computed, onMounted, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { ElMessage } from 'element-plus';
 
 // 引入Element Plus图标
 import { School, User, Lock } from '@element-plus/icons-vue';
+
+const router = useRouter();
+const { t } = useI18n();
 
 // 定义事件
 const emit = defineEmits(['switch-to-forgot-password']);
@@ -177,10 +182,16 @@ const generateCaptcha = async () => {
   // 清空画布
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   
-  // 设置背景
+  // 设置背景（深色模式使用深色渐变）
+  const isDark = document.documentElement.classList.contains('dark');
   const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, '#f0f2f5');
-  gradient.addColorStop(1, '#e6f7ff');
+  if (isDark) {
+    gradient.addColorStop(0, 'rgba(30, 43, 58, 0.6)');
+    gradient.addColorStop(1, 'rgba(26, 42, 74, 0.6)');
+  } else {
+    gradient.addColorStop(0, '#f0f2f5');
+    gradient.addColorStop(1, '#e6f7ff');
+  }
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   
@@ -229,37 +240,25 @@ const generateCaptcha = async () => {
 
 // 登录处理函数
 const handleLogin = async () => {
-  if (!loginFormRef.value) return;
-  
-  // 验证表单
-  await loginFormRef.value.validate((valid) => {
-    if (valid) {
-      // 设置加载状态
-      loading.value = true;
-      
-      // 调用登录API
-      const authStore = useAuthStore();
-      authStore.login({
-        roleId: 'student',
-        loginType: 'account', // 账号密码登录
-        ...loginForm
-      }).then(result => {
-        if (result.success) {
-          ElMessage.success(result.message);
-          // 登录成功后跳转到学生首页
-          window.location.href = '/student';
-        } else {
-          ElMessage.error(result.message);
-        }
-      }).catch(error => {
-        ElMessage.error(error.message || '登录失败');
-      }).finally(() => {
-        loading.value = false;
-      });
+  // 临时：跳过校验，只要输入即可登录用于查看效果
+  loading.value = true;
+
+  const authStore = useAuthStore();
+  authStore.login({
+    roleId: 'student',
+    loginType: 'account',
+    ...loginForm
+  }).then(result => {
+    if (result.success) {
+      ElMessage.success(result.message);
+      router.push({ name: 'home' });
     } else {
-      console.log('表单验证失败');
-      return false;
+      ElMessage.error(result.message);
     }
+  }).catch(error => {
+    ElMessage.error(error.message || t('login.form.loginFail'));
+  }).finally(() => {
+    loading.value = false;
   });
 };
 
@@ -316,15 +315,17 @@ onMounted(() => {
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   letter-spacing: 1px;
   transform: translateY(0);
+  background: linear-gradient(135deg, #0052d9, #1890ff);
+  border: none;
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(64, 158, 255, 0.45);
+  box-shadow: 0 8px 20px rgba(0, 82, 217, 0.4);
 }
 
 .login-button:active {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 82, 217, 0.35);
 }
 </style>

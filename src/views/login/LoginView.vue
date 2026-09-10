@@ -1,97 +1,106 @@
-<!-- 学生登录页面 -->
+<!-- 生涯心旅 - 登录页面（品牌蓝渐变背景） -->
 <template>
   <div class="login-container">
-    <!-- 主题切换 -->
-    <ThemeToggle />
+    <!-- 品牌蓝渐变背景层 + 光晕装饰 -->
+    <div class="bg-layer" aria-hidden="true"></div>
+    <div class="bg-mask" aria-hidden="true"></div>
 
+    <!-- 左右分屏内容 -->
     <div class="content-wrapper">
-      <!-- 宣传组件 -->
+      <!-- 左侧：品牌宣传区（≥1200px 显示） -->
       <Propaganda />
-      <!-- 登录表单 -->
-      <LoginForm/>
+      <!-- 右侧：登录表单区 -->
+      <LoginForm />
     </div>
   </div>
 </template>
 
 <script setup>
-import ThemeToggle from '@/components/ThemeToggle.vue';
 import Propaganda from '@/components/login/Propaganda.vue';
 import LoginForm from '@/components/login/LoginForm.vue';
-
-import { ref, onMounted } from 'vue';
-
-// 背景图片响应式数据
-const bgImage = ref('');
-
-// 预加载背景图片以优化LCP
-onMounted(() => {
-  // 创建一个Image对象来预加载背景图片
-  const img = new Image();
-  img.src = new URL('@/assets/images/nist-bg.jpg', import.meta.url).href;
-
-  // 可以考虑使用WebP格式或更小尺寸的图片来优化性能
-  // 或者使用CSS背景图片的渐进式加载
-});
 </script>
 
 <style scoped>
 .login-container {
-  background: url(@/assets/images/nist-bg.jpg) no-repeat center center;
-  background-size: cover;
   position: relative;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+  width: 100%;
   min-height: 100vh;
+  margin: 0;
+  /* 避开顶部 80px 高的透明导航栏，防止内容被覆盖 */
+  padding-top: 80px;
+  padding-bottom: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  contain: layout style paint; /* 优化容器性能 */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  box-sizing: border-box;
 }
 
+/* 背景图层：nist-bg.jpg 实景图 + 品牌蓝渐变兜底（图片加载失败时显示蓝底） */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  background-image: url('../../assets/images/nist-bg.jpg'), linear-gradient(135deg, #0a2a6b 0%, #0052d9 50%, #1890ff 100%);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  z-index: 0;
+}
+
+/* 光晕装饰层：营造空间感与品牌氛围 */
+.bg-mask {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(24, 144, 255, 0.18) 0%, transparent 55%),
+    radial-gradient(circle at 50% 100%, rgba(0, 82, 217, 0.12) 0%, transparent 60%);
+  z-index: 1;
+}
+
+/* 左右分屏内容容器 */
 .content-wrapper {
-  background: linear-gradient(to right, rgba(37, 37, 37, 0.6), rgba(255, 255, 255, 0)); /* 渐变背景,暗夜模式 */
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
   display: flex;
-  width: 100vw;
-  height: 100vh;
   align-items: center;
-  justify-content: space-between; /* 按规范设置为靠右对齐 */
-  z-index: 3;
-  opacity: 0;
-  transform: translateX(-50px);
-  will-change: transform, opacity; /* 提示浏览器优化动画 */
-  contain: layout style paint; /* 限制浏览器计算范围 */
-  animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s both;
-  overflow: visible; /* 确保内容不会被裁剪 */
-  animation-fill-mode: forwards; /* 确保动画结束后保持最终状态 */
+  justify-content: space-between;
+  gap: 80px;
+  padding: 32px 48px 32px 32px;
+  box-sizing: border-box;
+  animation: contentRise 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-@keyframes slideInFromLeft {
-  0% {
+@keyframes contentRise {
+  from {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateY(20px);
   }
-  100% {
+  to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
+/* 响应式：< 1200px 隐藏品牌区，表单居中 */
 @media (max-width: 1199px) {
   .content-wrapper {
     justify-content: center;
-    padding: 1.5rem;
+    gap: 0;
+    padding: 32px 24px;
   }
 }
 
-@media (max-width: 480px) {
+/* 响应式：< 768px 调整内边距 */
+@media (max-width: 768px) {
+  .login-container {
+    padding-top: 64px;
+  }
   .content-wrapper {
-    flex-direction: column;
-    justify-content: center !important; /* 根据规范，在小屏幕上居中布局 */
-    padding: 0.8rem;
-    gap: 0.8rem;
-    min-height: 100vh;
-    align-items: center;
+    padding: 24px 16px;
   }
 }
 </style>

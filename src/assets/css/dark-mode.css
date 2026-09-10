@@ -1,0 +1,5426 @@
+/* ============================================================
+   生涯心旅 · 自主深色模式
+   通过 html.dark class + CSS 变量实现，替代 DarkReader
+   ============================================================ */
+
+/* ---------- 语义化 CSS 变量 ---------- */
+:root {
+  --bg-page: #ffffff;
+  --bg-soft: #f8fafc;
+  --bg-mute: #f1f5f9;
+  --bg-blue-tint: #f0f7ff;
+  --bg-card: #ffffff;
+  --bg-overlay: rgba(255, 255, 255, 0.95);
+
+  --text-heading: #0a0f1a;
+  --text-primary: #111827;
+  --text-regular: #1f2937;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --text-faint: #9ca3af;
+
+  --border-light: #eef2f6;
+  --border-regular: #f1f5f9;
+  --border-strong: #e2e8f0;
+  --border-blue: #d0e7ff;
+
+  --shadow-soft: 0 2px 8px rgba(0, 82, 217, 0.06);
+  --shadow-medium: 0 4px 16px rgba(0, 82, 217, 0.08);
+  --shadow-hover: 0 20px 40px rgba(0, 82, 217, 0.1);
+
+  --navbar-bg: rgba(255, 255, 255, 0.98);
+  --navbar-bg-blur: rgba(255, 255, 255, 0.8);
+}
+
+:root.dark {
+  --bg-page: #0f172a;
+  --bg-soft: #1e2b3a;
+  --bg-mute: #1e293b;
+  --bg-blue-tint: #1a2a4a;
+  --bg-card: #1e2b3a;
+  --bg-overlay: rgba(30, 43, 58, 0.95);
+
+  --text-heading: #f1f5f9;
+  --text-primary: #f1f5f9;
+  --text-regular: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #94a3b8;
+  --text-faint: #64748b;
+
+  --border-light: #1e293b;
+  --border-regular: #334155;
+  --border-strong: #475569;
+  --border-blue: #1a3a6b;
+
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+  --navbar-bg: rgba(15, 23, 42, 0.98);
+  --navbar-bg-blur: rgba(15, 23, 42, 0.8);
+}
+
+/* ---------- 基础元素 ---------- */
+html.dark body {
+  background-color: var(--bg-page) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark #app {
+  background-color: var(--bg-page);
+}
+
+/* ---------- 导航栏 ---------- */
+html.dark .nav-header {
+  background-color: var(--navbar-bg) !important;
+  border-bottom-color: var(--border-light) !important;
+}
+
+html.dark .nav-header.is-transparent {
+  background-color: transparent !important;
+}
+
+html.dark .nav-logo .logo-text,
+html.dark .menu-item,
+html.dark .mega-title,
+html.dark .mega-item {
+  color: var(--text-primary) !important;
+}
+
+html.dark .mega-menu {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-regular) !important;
+}
+
+html.dark .mega-column {
+  border-color: var(--border-light) !important;
+}
+
+html.dark .cmd-trigger {
+  background-color: var(--bg-mute) !important;
+  color: var(--text-secondary) !important;
+}
+
+html.dark .icon-btn,
+html.dark .lang-btn {
+  background-color: var(--bg-mute) !important;
+  color: var(--text-regular) !important;
+}
+
+html.dark .icon-btn:hover,
+html.dark .lang-btn:hover {
+  background-color: var(--bg-blue-tint) !important;
+  color: #4d9aff !important;
+}
+
+html.dark .login-btn-desktop {
+  background-color: var(--bg-blue-tint) !important;
+  color: #4d9aff !important;
+  border-color: var(--border-blue) !important;
+}
+
+html.dark .user-profile {
+  background-color: var(--bg-mute) !important;
+}
+
+html.dark .mobile-menu-btn {
+  background-color: var(--bg-mute) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ---------- 通用排版 ---------- */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+  color: var(--text-heading) !important;
+}
+
+html.dark .section-header h2,
+html.dark .section-title,
+html.dark .nf-section-title {
+  color: var(--text-heading) !important;
+}
+
+html.dark .section-subtitle,
+html.dark .section-deck,
+html.dark p {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .section-badge,
+html.dark .section-tag,
+html.dark .section-label {
+  color: var(--text-faint) !important;
+}
+
+/* ---------- 卡片 / 面板 ---------- */
+html.dark .el-card,
+html.dark .service-card,
+html.dark .feature-item {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-regular) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark .service-card:hover,
+html.dark .feature-item:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .service-icon-wrapper,
+html.dark .feature-icon-box {
+  background-color: var(--bg-blue-tint) !important;
+}
+
+html.dark .service-icon-el,
+html.dark .feature-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .service-card:hover .service-icon-wrapper,
+html.dark .feature-item:hover .feature-icon-box {
+  background-color: #0052d9 !important;
+}
+
+html.dark .service-info h3,
+html.dark .feature-item h3 {
+  color: var(--text-heading) !important;
+}
+
+html.dark .service-info p,
+html.dark .feature-item p {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .service-link {
+  color: #4d9aff !important;
+}
+
+/* ---------- 新闻行 ---------- */
+html.dark .news-row {
+  border-bottom-color: var(--border-light) !important;
+}
+
+html.dark .news-row:first-child {
+  border-top-color: var(--border-regular) !important;
+}
+
+html.dark .news-row-num .num {
+  color: var(--text-heading) !important;
+}
+
+html.dark .news-row-cat {
+  color: #4d9aff !important;
+}
+
+html.dark .news-row-title {
+  color: var(--text-heading) !important;
+}
+
+html.dark .news-row-summary {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .news-row-date {
+  color: var(--text-faint) !important;
+}
+
+html.dark .news-row-thumb {
+  background-color: var(--bg-mute);
+}
+
+/* ---------- 关于我们 ---------- */
+html.dark .about-text h2 {
+  color: var(--text-heading) !important;
+}
+
+html.dark .about-text p {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .stat-number {
+  color: var(--text-heading) !important;
+}
+
+html.dark .stat-label {
+  color: var(--text-faint) !important;
+}
+
+html.dark .about-stats {
+  border-top-color: var(--border-light) !important;
+}
+
+html.dark .about-image {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ---------- 跑马灯 ---------- */
+html.dark .marquee-band {
+  background-color: var(--bg-soft) !important;
+  border-color: var(--border-light) !important;
+}
+
+html.dark .marquee-item {
+  color: var(--text-primary) !important;
+}
+
+/* ---------- 联系我们 ---------- */
+html.dark .contact-wrapper {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-regular) !important;
+}
+
+html.dark .contact-info {
+  background-color: var(--bg-soft) !important;
+  border-right-color: var(--border-regular) !important;
+}
+
+html.dark .contact-header h2 {
+  color: var(--text-heading) !important;
+}
+
+html.dark .contact-header p {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .method-icon {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-strong) !important;
+  color: #4d9aff !important;
+}
+
+html.dark .method-text label {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .method-text span {
+  color: var(--text-primary) !important;
+}
+
+html.dark .contact-form-wrapper {
+  background-color: var(--bg-card) !important;
+}
+
+html.dark .contact-form-wrapper h3 {
+  color: var(--text-heading) !important;
+}
+
+/* ---------- 返回顶部 / 快速导航 ---------- */
+html.dark .back-to-top-btn {
+  background-color: #0052d9;
+}
+
+html.dark .nav-menu {
+  background-color: rgba(30, 43, 58, 0.9) !important;
+  border-color: var(--border-regular) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .menu-item {
+  color: var(--text-regular) !important;
+}
+
+html.dark .menu-item:hover {
+  background-color: var(--bg-mute) !important;
+  color: #4d9aff !important;
+}
+
+/* ---------- Element Plus 组件 ---------- */
+html.dark .el-input__wrapper,
+html.dark .el-textarea__inner {
+  background-color: var(--bg-mute) !important;
+  box-shadow: 0 0 0 1px var(--border-strong) inset !important;
+}
+
+html.dark .el-input__wrapper.is-focus,
+html.dark .el-textarea__inner:focus {
+  background-color: var(--bg-card) !important;
+  box-shadow: 0 0 0 1px #0052d9 inset !important;
+}
+
+html.dark .el-input__inner,
+html.dark .el-textarea__inner {
+  color: var(--text-primary) !important;
+}
+
+html.dark .el-input__inner::placeholder,
+html.dark .el-textarea__inner::placeholder {
+  color: var(--text-faint) !important;
+}
+
+html.dark .el-form-item__label {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .el-dropdown-menu {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-regular) !important;
+}
+
+html.dark .el-dropdown-menu__item {
+  color: var(--text-regular) !important;
+}
+
+html.dark .el-dropdown-menu__item:hover {
+  background-color: var(--bg-blue-tint) !important;
+  color: #4d9aff !important;
+}
+
+html.dark .el-button--default {
+  background-color: var(--bg-mute) !important;
+  border-color: var(--border-strong) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark .el-button--default:hover {
+  background-color: var(--bg-blue-tint) !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .el-dialog,
+html.dark .el-drawer {
+  background-color: var(--bg-card) !important;
+}
+
+html.dark .el-dialog__title,
+html.dark .el-drawer__title {
+  color: var(--text-heading) !important;
+}
+
+html.dark .el-tabs__item {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .el-tabs__item.is-active {
+  color: #4d9aff !important;
+}
+
+html.dark .el-tabs__nav-wrap::after {
+  background-color: var(--border-light) !important;
+}
+
+html.dark .el-table {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark .el-table tr,
+html.dark .el-table th.el-table__cell {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark .el-table--border::after,
+html.dark .el-table--group::after,
+html.dark .el-table::before {
+  background-color: var(--border-regular) !important;
+}
+
+html.dark .el-table td.el-table__cell,
+html.dark .el-table th.el-table__cell.is-leaf {
+  border-bottom-color: var(--border-light) !important;
+}
+
+html.dark .el-table__row:hover > td.el-table__cell {
+  background-color: var(--bg-mute) !important;
+}
+
+html.dark .el-tag {
+  background-color: var(--bg-blue-tint) !important;
+  border-color: var(--border-blue) !important;
+  color: #4d9aff !important;
+}
+
+html.dark .el-divider {
+  border-color: var(--border-light) !important;
+}
+
+html.dark .el-loading-mask {
+  background-color: rgba(15, 23, 42, 0.7) !important;
+}
+
+html.dark .el-message-box {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-regular) !important;
+}
+
+html.dark .el-message-box__title,
+html.dark .el-message-box__content {
+  color: var(--text-primary) !important;
+}
+
+html.dark .el-scrollbar__bar {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ---------- 滚动条 ---------- */
+html.dark ::-webkit-scrollbar-track {
+  background: var(--bg-soft);
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- 文本选中 ---------- */
+html.dark ::selection {
+  background: rgba(51, 117, 224, 0.4);
+  color: #fff;
+}
+
+/* ---------- 杂项 ---------- */
+html.dark .drop-cap::first-letter {
+  color: #4d9aff !important;
+}
+
+html.dark .read-progress {
+  background: #4d9aff;
+}
+
+html.dark .grain-overlay {
+  opacity: 0.03;
+}
+
+/* ============================================================
+   二期覆盖：MainLayout Footer / Navbar 补全 / 各业务页面
+   ============================================================ */
+
+/* ---------- MainLayout Footer ---------- */
+html.dark .main-footer {
+  background: #0f172a !important;
+  border-top-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .footer-logo {
+  color: #4d9aff !important;
+}
+
+html.dark .brand-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .social-icon {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .social-icon:hover {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .footer-column h4 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .footer-menu a {
+  color: #94a3b8 !important;
+}
+
+html.dark .footer-menu a:hover {
+  color: #4d9aff !important;
+}
+
+html.dark .contact-list li {
+  color: #94a3b8 !important;
+}
+
+html.dark .contact-list .el-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .footer-bottom {
+  border-top-color: #1e293b !important;
+  background: #0a0f1a !important;
+}
+
+html.dark .footer-inner p,
+html.dark .footer-links,
+html.dark .footer-links span {
+  color: #64748b !important;
+}
+
+html.dark .footer-links span:hover {
+  color: #4d9aff !important;
+}
+
+/* ---------- Navbar 补全 ---------- */
+html.dark .nav-header {
+  background-color: rgba(15, 23, 42, 0.98) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .nav-header.is-scrolled {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark .nav-header.is-transparent {
+  background-color: transparent !important;
+}
+
+html.dark .menu-item {
+  color: #e2e8f0 !important;
+}
+
+html.dark .menu-item:hover {
+  color: #4d9aff !important;
+  background: rgba(77, 154, 255, 0.12) !important;
+}
+
+html.dark .mega-menu {
+  background: #1e2b3a !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .mega-title {
+  color: #64748b !important;
+}
+
+html.dark .mega-item {
+  color: #cbd5e1 !important;
+}
+
+html.dark .mega-item:hover {
+  background: rgba(77, 154, 255, 0.12) !important;
+  color: #4d9aff !important;
+}
+
+html.dark .cmd-trigger {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .cmd-trigger:hover {
+  border-color: #1a3a6b !important;
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .cmd-kbd {
+  color: #64748b !important;
+  border-color: #334155 !important;
+  background: #0f172a !important;
+}
+
+html.dark .cmd-trigger:hover .cmd-kbd {
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .lang-btn {
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .lang-btn:hover {
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .user-profile:hover {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .username {
+  color: #f1f5f9 !important;
+}
+
+html.dark .user-profile .caret {
+  color: #94a3b8 !important;
+}
+
+html.dark .login-btn-desktop {
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+  background: rgba(77, 154, 255, 0.1) !important;
+}
+
+html.dark .login-btn-desktop:hover {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .mobile-menu-btn {
+  color: #e2e8f0 !important;
+}
+
+html.dark .mobile-collapse-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .mobile-center-link {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .mobile-group {
+  background: #1e293b !important;
+}
+
+html.dark .mobile-group-title {
+  color: #64748b !important;
+}
+
+html.dark .mobile-item {
+  color: #cbd5e1 !important;
+}
+
+html.dark .mobile-item-dot {
+  background: #475569 !important;
+}
+
+html.dark .mobile-footer-actions {
+  border-top-color: #1e293b !important;
+}
+
+html.dark .mobile-section-title {
+  color: #64748b !important;
+}
+
+html.dark .mobile-grid-item {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .mobile-grid-item.active {
+  background: rgba(77, 154, 255, 0.12) !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+/* 用户下拉菜单（teleported popper，全局样式） */
+html.dark .user-dropdown-popper.el-popper {
+  border-color: #1e293b !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+  background: #1e2b3a !important;
+}
+
+html.dark .user-dropdown-popper .dropdown-header {
+  background: linear-gradient(135deg, #1a2a4a, #0f172a) !important;
+  border-bottom-color: #1a3a6b !important;
+}
+
+html.dark .user-dropdown-popper .dropdown-header-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .user-dropdown-popper .dropdown-header-id {
+  color: #94a3b8 !important;
+}
+
+html.dark .user-dropdown-popper .el-dropdown-menu__item {
+  color: #cbd5e1 !important;
+}
+
+html.dark .user-dropdown-popper .el-dropdown-menu__item .el-icon {
+  color: #94a3b8 !important;
+}
+
+html.dark .user-dropdown-popper .el-dropdown-menu__item:hover {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .user-dropdown-popper .el-dropdown-menu__item:hover .el-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .user-dropdown-popper .el-dropdown-menu__item.is-divided::before {
+  background: #1e293b !important;
+}
+
+html.dark .user-dropdown-popper .el-dropdown-menu__item.is-divided:hover {
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+}
+
+/* ---------- HomePage 补全 ---------- */
+html.dark .animated-homepage {
+  background: linear-gradient(to bottom, #0f172a, #1a2a4a) fixed !important;
+}
+
+html.dark .nav-menu {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .nav-menu-title {
+  color: #64748b !important;
+}
+
+html.dark .nav-menu .menu-item {
+  color: #cbd5e1 !important;
+}
+
+html.dark .nav-menu .menu-item:hover {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .dot {
+  background: #1e2b3a !important;
+}
+
+html.dark .marquee-band {
+  background: #1a2a4a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .marquee-item {
+  color: #f1f5f9 !important;
+}
+
+html.dark .marquee-dot {
+  color: #4d9aff !important;
+}
+
+html.dark .section-header h2,
+html.dark .services-section,
+html.dark .services-section h2,
+html.dark .features-section h2 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .section-subtitle,
+html.dark .services-section p,
+html.dark .features-section p {
+  color: #94a3b8 !important;
+}
+
+html.dark .section-badge,
+html.dark .section-tag {
+  color: #64748b !important;
+}
+
+html.dark .about-section {
+  background: transparent !important;
+}
+
+html.dark .about-content h2 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .about-content p {
+  color: #94a3b8 !important;
+}
+
+html.dark .about-stats {
+  border-top-color: #1e293b !important;
+}
+
+html.dark .stat-number {
+  color: #f1f5f9 !important;
+}
+
+html.dark .stat-label {
+  color: #64748b !important;
+}
+
+html.dark .about-image {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .service-card,
+html.dark .feature-item {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .service-card:hover,
+html.dark .feature-item:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .service-icon-wrapper,
+html.dark .feature-icon-box {
+  background: #1a2a4a !important;
+}
+
+html.dark .service-icon-el,
+html.dark .feature-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .service-card:hover .service-icon-wrapper,
+html.dark .feature-item:hover .feature-icon-box {
+  background: #0052d9 !important;
+}
+
+html.dark .service-info h3,
+html.dark .feature-item h3 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .service-info p,
+html.dark .feature-item p {
+  color: #94a3b8 !important;
+}
+
+html.dark .service-link {
+  color: #4d9aff !important;
+}
+
+html.dark .service-link:hover {
+  color: #80b3ff !important;
+}
+
+html.dark .card-glow {
+  background: radial-gradient(circle, rgba(77, 154, 255, 0.08) 0%, transparent 70%) !important;
+}
+
+html.dark .contact-section {
+  background: transparent !important;
+}
+
+html.dark .contact-wrapper {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .contact-info {
+  background: #0f172a !important;
+  border-right-color: #1e293b !important;
+}
+
+html.dark .contact-info h2 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .contact-info p {
+  color: #94a3b8 !important;
+}
+
+html.dark .method-icon {
+  background: #1e2b3a !important;
+  border-color: #334155 !important;
+  color: #4d9aff !important;
+}
+
+html.dark .method-text label {
+  color: #64748b !important;
+}
+
+html.dark .method-text span {
+  color: #f1f5f9 !important;
+}
+
+html.dark .contact-form-wrapper {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .contact-form-wrapper h3 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .submit-btn {
+  background-color: #0052d9 !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .submit-btn:hover {
+  background-color: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .back-to-top-btn {
+  background: #0052d9 !important;
+}
+
+/* ---------- CounselingCenter（补充：CounselingCenter.vue 自带 scoped dark，此处补全未覆盖类） ---------- */
+html.dark .counseling-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .counseling-page .page-intro,
+html.dark .counseling-page .intro-eyebrow,
+html.dark .counseling-page .intro-mark {
+  color: #4d9aff !important;
+}
+
+html.dark .counseling-page .intro-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .counseling-page .intro-sub {
+  color: #94a3b8 !important;
+}
+
+html.dark .counseling-page .step-block {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .counseling-page .step-block:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .counseling-page .step-num {
+  background: #0f172a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .counseling-page .step-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .counseling-page .type-opt,
+html.dark .counseling-page .date-opt,
+html.dark .counseling-page .slot-opt,
+html.dark .counseling-page .mode-opt,
+html.dark .counseling-page .filter-chip {
+  background: #1e2b3a !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .counseling-page .type-opt:hover,
+html.dark .counseling-page .type-opt.active,
+html.dark .counseling-page .date-opt:hover,
+html.dark .counseling-page .date-opt.active,
+html.dark .counseling-page .slot-opt:hover,
+html.dark .counseling-page .slot-opt.active,
+html.dark .counseling-page .mode-opt:hover,
+html.dark .counseling-page .mode-opt.active,
+html.dark .counseling-page .filter-chip:hover,
+html.dark .counseling-page .filter-chip.active {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .counseling-page .slot-opt.is-disabled,
+html.dark .counseling-page .slot-opt.disabled {
+  opacity: 0.4 !important;
+  background: #0f172a !important;
+  color: #64748b !important;
+}
+
+html.dark .counseling-page .to-name,
+html.dark .counseling-page .cp-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .counseling-page .to-dur,
+html.dark .counseling-page .cp-meta {
+  color: #94a3b8 !important;
+}
+
+html.dark .counseling-page .cp-rating,
+html.dark .counseling-page .meta-rating {
+  color: #fbbf24 !important;
+}
+
+html.dark .counseling-page .form-inline,
+html.dark .counseling-page .form-hint {
+  color: #94a3b8 !important;
+}
+
+html.dark .counseling-page .summary-row,
+html.dark .counseling-page .summary-divider {
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .counseling-page .mb-item {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .counseling-page .mb-counselor {
+  color: #f1f5f9 !important;
+}
+
+html.dark .counseling-page .mb-info {
+  color: #94a3b8 !important;
+}
+
+html.dark .counseling-page .mb-empty {
+  color: #64748b !important;
+}
+
+html.dark .counseling-page .cons-ribbon,
+html.dark .counseling-page .ribbon-search,
+html.dark .counseling-page .rows-heading {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .counseling-page .ribbon-search input {
+  color: #f1f5f9 !important;
+}
+
+html.dark .counseling-page .counselor-row:hover {
+  background: #1a2a4a !important;
+}
+
+html.dark .counseling-page .counselor-row:hover .row-title {
+  color: #4d9aff !important;
+}
+
+html.dark .counseling-page .row-number {
+  color: #4d9aff !important;
+}
+
+html.dark .counseling-page .row-free {
+  color: #10b981 !important;
+}
+
+html.dark .counseling-page .row-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .counseling-page .row-meta,
+html.dark .counseling-page .row-arrow {
+  color: #64748b !important;
+}
+
+html.dark .counseling-page .row-book:hover {
+  background: #0042ad !important;
+}
+
+html.dark .counseling-page .process-step {
+  background: transparent !important;
+}
+
+html.dark .counseling-page .ps-arrow {
+  color: #475569 !important;
+}
+
+html.dark .counseling-page .ps-content:hover {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .counseling-page .notice-section:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35) !important;
+}
+
+html.dark .counseling-page .faq-cat {
+  color: #cbd5e1 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .counseling-page .faq-cat:hover,
+html.dark .counseling-page .faq-cat.active {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .counseling-page .faq-q {
+  color: #f1f5f9 !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .counseling-page .q-mark {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .counseling-page .faq-a {
+  color: #94a3b8 !important;
+}
+
+html.dark .counseling-page .faq-contact {
+  background: #1a2a4a !important;
+  border-color: #1a3a6b !important;
+  color: #4d9aff !important;
+}
+
+html.dark .counseling-page .cd-header,
+html.dark .counseling-page .cd-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .counseling-page .cd-title {
+  color: #64748b !important;
+}
+
+html.dark .counseling-page .cd-stats,
+html.dark .counseling-page .cd-section,
+html.dark .counseling-page .cd-spec,
+html.dark .counseling-page .cd-edu {
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .counseling-page .cd-review {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+/* 咨询师弹层（全局样式，深色覆盖） */
+html.dark .counselor-popover.el-popover.el-popper {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .counselor-popover .pop-head {
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .counselor-popover .pop-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .counselor-popover .pop-title {
+  color: #64748b !important;
+}
+
+html.dark .counselor-popover .pop-stats {
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .counselor-popover .pop-stats span {
+  color: #94a3b8 !important;
+}
+
+html.dark .counselor-popover .pop-stats .el-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .counselor-popover .pop-intro {
+  color: #cbd5e1 !important;
+}
+
+/* ---------- AssessmentCenter（测评中心，使用真实类名） ---------- */
+html.dark .assessment-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .assessment-page .page-intro,
+html.dark .assessment-page .intro-eyebrow,
+html.dark .assessment-page .intro-mark {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .intro-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .assessment-page .intro-sub {
+  color: #94a3b8 !important;
+}
+
+html.dark .assessment-page .module-cover,
+html.dark .assessment-page .profile-editorial {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .cover-eyebrow,
+html.dark .assessment-page .cover-no {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .cover-title,
+html.dark .assessment-page .cover-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .assessment-page .scale-ribbon {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .ribbon-cat {
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .cat-name {
+  color: #cbd5e1 !important;
+}
+
+html.dark .assessment-page .cat-count {
+  color: #64748b !important;
+}
+
+html.dark .assessment-page .ribbon-search {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .assessment-page .search-ico {
+  color: #64748b !important;
+}
+
+html.dark .assessment-page .ribbon-search input {
+  color: #f1f5f9 !important;
+}
+
+html.dark .assessment-page .ribbon-search input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .assessment-page .rows-heading,
+html.dark .assessment-page .section-header {
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .assessment-page .heading-name,
+html.dark .assessment-page .heading-count {
+  color: #f1f5f9 !important;
+}
+
+html.dark .assessment-page .heading-line {
+  background: #4d9aff !important;
+}
+
+html.dark .assessment-page .scale-row {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .scale-row:hover {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-4px);
+}
+
+html.dark .assessment-page .scale-row.is-completed {
+  background: #0f172a !important;
+  opacity: 0.7;
+}
+
+html.dark .assessment-page .scale-row.is-unavailable:hover {
+  border-color: #1e293b !important;
+  background: #1e2b3a !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .assessment-page .row-number {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .row-icon {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .row-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .assessment-page .row-status.done {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+}
+
+html.dark .assessment-page .row-status.soon {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #fbbf24 !important;
+}
+
+html.dark .assessment-page .row-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .assessment-page .row-tag,
+html.dark .assessment-page .scale-type-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .assessment-page .row-meta,
+html.dark .assessment-page .meta-items,
+html.dark .assessment-page .meta-difficulty {
+  color: #64748b !important;
+}
+
+html.dark .assessment-page .row-arrow {
+  color: #475569 !important;
+}
+
+html.dark .assessment-page .scale-row:hover .row-arrow {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .footer-tip,
+html.dark .assessment-page .intro-tips {
+  color: #94a3b8 !important;
+}
+
+html.dark .assessment-page .panel,
+html.dark .assessment-page .intro-header {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .scale-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .assessment-page .detail-item {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .assessment-page .detail-item:hover {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .assessment-page .start-btn,
+html.dark .assessment-page .editorial-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .assessment-page .start-btn:hover,
+html.dark .assessment-page .editorial-btn:hover {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .assessment-page .editorial-btn-ghost {
+  background: transparent !important;
+  color: #4d9aff !important;
+  border-color: #334155 !important;
+}
+
+html.dark .assessment-page .editorial-btn-ghost:hover {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .assessment-page .editorial-btn-danger {
+  background: transparent !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+html.dark .assessment-page .editorial-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: #ef4444 !important;
+}
+
+/* 测评结果卡片 */
+html.dark .assessment-page .result-summary-card,
+html.dark .assessment-page .insight-card,
+html.dark .assessment-page .ai-summary-card,
+html.dark .assessment-page .kpi-card,
+html.dark .assessment-page .goal-banner,
+html.dark .assessment-page .dashboard-card,
+html.dark .assessment-page .timeline-card,
+html.dark .assessment-page .badge-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .insight-card.highlight {
+  background: #1a2a4a !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .assessment-page .dashboard-card:hover,
+html.dark .assessment-page .kpi-card:hover,
+html.dark .assessment-page .timeline-card:hover,
+html.dark .assessment-page .recommend-item:hover,
+html.dark .assessment-page .comparison-item:hover,
+html.dark .assessment-page .quick-entry-item:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-4px);
+}
+
+html.dark .assessment-page .res-date,
+html.dark .assessment-page .score-unit,
+html.dark .assessment-page .kpi-label,
+html.dark .assessment-page .goal-desc,
+html.dark .assessment-page .card-meta,
+html.dark .assessment-page .timeline-date {
+  color: #64748b !important;
+}
+
+html.dark .assessment-page .score-val,
+html.dark .assessment-page .kpi-value,
+html.dark .assessment-page .donut-center-val,
+html.dark .assessment-page .timeline-score {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .kpi-icon {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .kpi-label,
+html.dark .assessment-page .donut-center-label,
+html.dark .assessment-page .timeline-title,
+html.dark .assessment-page .timeline-result-title,
+html.dark .assessment-page .card-header,
+html.dark .assessment-page .i-title,
+html.dark .assessment-page .cmp-name,
+html.dark .assessment-page .rec-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .assessment-page .bar-track,
+html.dark .assessment-page .goal-progress-bar,
+html.dark .assessment-page .level-bar-track {
+  background: #1e293b !important;
+}
+
+html.dark .assessment-page .bar-fill,
+html.dark .assessment-page .goal-progress-fill,
+html.dark .assessment-page .level-bar-fill {
+  background: #4d9aff !important;
+}
+
+html.dark .assessment-page .level-bar-pct {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .chart-area,
+html.dark .assessment-page .chart-empty,
+html.dark .assessment-page .history-empty,
+html.dark .assessment-page .ai-empty,
+html.dark .assessment-page .empty-state {
+  background: #0f172a !important;
+  color: #64748b !important;
+}
+
+html.dark .assessment-page .y-axis,
+html.dark .assessment-page .bar-date,
+html.dark .assessment-page .avg-label,
+html.dark .assessment-page .cmp-date,
+html.dark .assessment-page .cmp-prev,
+html.dark .assessment-page .cmp-curr,
+html.dark .assessment-page .rec-reason,
+html.dark .assessment-page .rec-arrow,
+html.dark .assessment-page .quick-entry-icon,
+html.dark .assessment-page .badge-desc,
+html.dark .assessment-page .timeline-result-title,
+html.dark .assessment-page .ps-label,
+html.dark .assessment-page .badges-count,
+html.dark .assessment-page .legend-dot,
+html.dark .assessment-page .legend-item,
+html.dark .assessment-page .chart-legend {
+  color: #94a3b8 !important;
+}
+
+html.dark .assessment-page .range-tabs span {
+  background: #1e2b3a !important;
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .range-tabs span.active {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .assessment-page .avg-line {
+  background: #fbbf24 !important;
+}
+
+html.dark .assessment-page .cmp-diff.good,
+html.dark .assessment-page .cmp-tag.good {
+  color: #10b981 !important;
+}
+
+html.dark .assessment-page .cmp-diff.bad,
+html.dark .assessment-page .cmp-tag.bad {
+  color: #f87171 !important;
+}
+
+html.dark .assessment-page .cmp-tag.stable {
+  color: #94a3b8 !important;
+}
+
+html.dark .assessment-page .cmp-arrow.up {
+  color: #10b981 !important;
+}
+
+html.dark .assessment-page .cmp-arrow.down {
+  color: #f87171 !important;
+}
+
+html.dark .assessment-page .nav-item {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .nav-item:hover,
+html.dark .assessment-page .nav-item.active {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .assessment-page .quick-entry-item {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .profile-stat,
+html.dark .assessment-page .profile-divider,
+html.dark .assessment-page .profile-meta-row {
+  border-color: #1e293b !important;
+}
+
+html.dark .assessment-page .ps-num {
+  background: #0f172a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .timeline-dot {
+  background: #4d9aff !important;
+  border-color: #1e2b3a !important;
+}
+
+html.dark .assessment-page .badge-card.locked {
+  opacity: 0.5;
+  background: #0f172a !important;
+}
+
+html.dark .assessment-page .badge-card.unlocked {
+  border-color: #1a3a6b !important;
+}
+
+html.dark .assessment-page .badge-icon {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .badge-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .assessment-page .res-badge {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+/* ---------- Settings（设置页，使用真实类名） ---------- */
+html.dark .settings-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .settings-page .masthead {
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .settings-page .vol-mark,
+html.dark .settings-page .masthead-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .settings-page .vol-text,
+html.dark .settings-page .masthead-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .settings-page .vol-sub,
+html.dark .settings-page .masthead-deck {
+  color: #94a3b8 !important;
+}
+
+html.dark .settings-page .toc-label {
+  color: #64748b !important;
+}
+
+html.dark .settings-page .toc-link {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .settings-page .toc-link:hover,
+html.dark .settings-page .toc-link.active {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .settings-page .toc-num {
+  color: #64748b !important;
+}
+
+html.dark .settings-page .editorial-section {
+  border-color: #1e293b !important;
+}
+
+html.dark .settings-page .marker-num {
+  background: #0f172a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .settings-page .marker-rule {
+  background: #1e293b !important;
+}
+
+html.dark .settings-page .marker-icon {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .settings-page .marker-label,
+html.dark .settings-page .section-headline {
+  color: #f1f5f9 !important;
+}
+
+html.dark .settings-page .section-deck,
+html.dark .settings-page .col-deck {
+  color: #94a3b8 !important;
+}
+
+html.dark .settings-page .editorial-col,
+html.dark .settings-page .col-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .settings-page .col-title-danger {
+  color: #f87171 !important;
+}
+
+html.dark .settings-page .pwd-form,
+html.dark .settings-page .field-label,
+html.dark .settings-page .field-status {
+  color: #cbd5e1 !important;
+}
+
+html.dark .settings-page .editorial-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .settings-page .editorial-btn:hover {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .settings-page .editorial-btn-ghost {
+  background: transparent !important;
+  color: #4d9aff !important;
+  border-color: #334155 !important;
+}
+
+html.dark .settings-page .editorial-btn-ghost:hover {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .settings-page .editorial-btn-danger {
+  background: transparent !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+html.dark .settings-page .editorial-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: #ef4444 !important;
+}
+
+html.dark .settings-page .entry-row {
+  border-color: #1e293b !important;
+}
+
+html.dark .settings-page .entry-mark {
+  color: #4d9aff !important;
+}
+
+html.dark .settings-page .entry-key {
+  color: #f1f5f9 !important;
+}
+
+html.dark .settings-page .entry-value {
+  color: #94a3b8 !important;
+}
+
+html.dark .settings-page .link-btn {
+  background: transparent !important;
+  color: #4d9aff !important;
+  border-color: #334155 !important;
+}
+
+html.dark .settings-page .link-btn:hover {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .settings-page .link-btn-danger {
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+html.dark .settings-page .link-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: #ef4444 !important;
+}
+
+html.dark .settings-page .device-row {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .settings-page .device-row.current {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .settings-page .device-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .settings-page .device-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .settings-page .meta-item {
+  color: #94a3b8 !important;
+}
+
+html.dark .settings-page .switch-row {
+  border-color: #1e293b !important;
+}
+
+html.dark .settings-page .switch-label {
+  color: #f1f5f9 !important;
+}
+
+html.dark .settings-page .switch-hint {
+  color: #64748b !important;
+}
+
+html.dark .settings-page .visibility-grid,
+html.dark .settings-page .home-options {
+  gap: 12px;
+}
+
+html.dark .settings-page .vis-option,
+html.dark .settings-page .home-option {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .settings-page .vis-option:hover,
+html.dark .settings-page .home-option.checked {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .settings-page .vis-option.checked {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .settings-page .vis-num,
+html.dark .settings-page .vis-label,
+html.dark .settings-page .home-label {
+  color: #cbd5e1 !important;
+}
+
+html.dark .settings-page .vis-check {
+  color: #4d9aff !important;
+}
+
+/* 联系客服对话框 */
+html.dark .contact-dialog {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .contact-dialog .ds-item {
+  border-color: #1e293b !important;
+}
+
+html.dark .contact-dialog .ds-num {
+  background: #0f172a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .contact-dialog .ds-label {
+  color: #f1f5f9 !important;
+}
+
+html.dark .contact-dialog .summary-row {
+  border-color: #1e293b !important;
+}
+
+html.dark .contact-dialog .summary-label {
+  color: #94a3b8 !important;
+}
+
+html.dark .contact-dialog .summary-value {
+  color: #f1f5f9 !important;
+}
+
+/* ---------- Profile（个人主页，使用真实类名） ---------- */
+html.dark .profile-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+/* hero 区域是品牌蓝渐变，深色下保持但稍暗 */
+html.dark .profile-page .hero {
+  background: linear-gradient(135deg, #07193f 0%, #003a99 50%, #0066cc 100%) !important;
+}
+
+html.dark .profile-page .hero-topline,
+html.dark .profile-page .hero-title,
+html.dark .profile-page .hero-role {
+  color: #f1f5f9 !important;
+}
+
+html.dark .profile-page .hero-sub,
+html.dark .profile-page .hero-bio {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+html.dark .profile-page .hero-divider {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+html.dark .profile-page .meta-item,
+html.dark .profile-page .meta-dot {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+html.dark .profile-page .cta-btn {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px);
+}
+
+html.dark .profile-page .cta-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+html.dark .profile-page .cta-btn.ghost {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+html.dark .profile-page .cta-btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark .profile-page .mag-section {
+  border-color: #1e293b !important;
+}
+
+html.dark .profile-page .sec-num {
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .sec-num.danger {
+  color: #f87171 !important;
+}
+
+html.dark .profile-page .sec-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .profile-page .sec-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .profile-page .sec-toggle {
+  color: #4d9aff !important;
+  background: transparent !important;
+  border-color: #334155 !important;
+}
+
+html.dark .profile-page .sec-toggle:hover {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .profile-page .field-row {
+  border-color: #1e293b !important;
+}
+
+html.dark .profile-page .field-label {
+  color: #64748b !important;
+}
+
+html.dark .profile-page .field-value {
+  color: #f1f5f9 !important;
+}
+
+html.dark .profile-page .field-value.strong {
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .field-value.prose {
+  color: #cbd5e1 !important;
+}
+
+html.dark .profile-page .tag-chip {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .profile-page .form-actions,
+html.dark .profile-page .solid-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .profile-page .solid-btn:hover {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .profile-page .tag-add {
+  background: transparent !important;
+  color: #4d9aff !important;
+  border-color: #334155 !important;
+}
+
+html.dark .profile-page .tag-add:hover {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .profile-page .stat-block {
+  border-color: #1e293b !important;
+}
+
+html.dark .profile-page .stat-index {
+  color: #64748b !important;
+}
+
+html.dark .profile-page .stat-num {
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .stat-label {
+  color: #94a3b8 !important;
+}
+
+html.dark .profile-page .gs-label,
+html.dark .profile-page .gs-key {
+  color: #94a3b8 !important;
+}
+
+html.dark .profile-page .gs-line {
+  background: #1e293b !important;
+}
+
+html.dark .profile-page .gs-stat {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .profile-page .gs-num {
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .badge-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .profile-page .badge-card.earned {
+  border-color: #1a3a6b !important;
+}
+
+html.dark .profile-page .badge-card.earned:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-4px);
+}
+
+html.dark .profile-page .badge-icon {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .badge-name {
+  color: #f1f5f9 !important;
+}
+
+html.dark .profile-page .badge-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .profile-page .tg-year {
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .tg-rule {
+  background: #1e293b !important;
+}
+
+html.dark .profile-page .timeline-end {
+  color: #64748b !important;
+}
+
+html.dark .profile-page .timeline-row {
+  border-color: #1e293b !important;
+}
+
+html.dark .profile-page .timeline-row:hover {
+  background: #1a2a4a !important;
+}
+
+html.dark .profile-page .timeline-no {
+  color: #64748b !important;
+}
+
+html.dark .profile-page .timeline-text {
+  color: #e2e8f0 !important;
+}
+
+html.dark .profile-page .timeline-date {
+  color: #64748b !important;
+}
+
+html.dark .profile-page .timeline-kind {
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .timeline-kind.counseling {
+  color: #a78bfa !important;
+}
+
+html.dark .profile-page .timeline-kind.capsule {
+  color: #4d9aff !important;
+}
+
+html.dark .profile-page .timeline-kind.article {
+  color: #fbbf24 !important;
+}
+
+html.dark .profile-page .timeline-kind.milestone {
+  color: #10b981 !important;
+}
+
+html.dark .profile-page .timeline-kind.square {
+  color: #f472b6 !important;
+}
+
+html.dark .profile-page .timeline-kind.comment {
+  color: #94a3b8 !important;
+}
+
+html.dark .profile-page .timeline-kind.like {
+  color: #f87171 !important;
+}
+
+html.dark .profile-page .timeline-kind.login {
+  color: #64748b !important;
+}
+
+html.dark .profile-page .danger-section {
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  background: rgba(239, 68, 68, 0.05) !important;
+}
+
+/* ---------- ArticleCenter（文章中心，使用真实类名） ---------- */
+html.dark .article-center {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .article-center .intro-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .article-center .intro-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-center .intro-sub {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-center .stat-num {
+  color: #4d9aff !important;
+}
+
+html.dark .article-center .stat-label {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-center .discovery-ribbon {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-center .ribbon-item {
+  border-color: #1e293b !important;
+}
+
+html.dark .article-center .ribbon-item.active {
+  background: #1a2a4a !important;
+}
+
+html.dark .article-center .item-num {
+  color: #64748b !important;
+}
+
+html.dark .article-center .item-label {
+  color: #cbd5e1 !important;
+}
+
+html.dark .article-center .ribbon-item.active .item-label {
+  color: #4d9aff !important;
+}
+
+html.dark .article-center .search-box {
+  background: #1e2b3a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .article-center .search-icon {
+  color: #64748b !important;
+}
+
+html.dark .article-center .search-input {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-center .search-input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .article-center .module-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-center .article-count {
+  color: #64748b !important;
+}
+
+html.dark .article-center .view-all-link {
+  color: #4d9aff !important;
+}
+
+html.dark .article-center .view-all-link:hover {
+  color: #80b3ff !important;
+}
+
+html.dark .article-center .spotlight-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-center .spotlight-card:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  transform: translateY(-6px);
+}
+
+html.dark .article-center .spotlight-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-center .spotlight-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-center .author-name {
+  color: #e2e8f0 !important;
+}
+
+html.dark .article-center .author-title {
+  color: #64748b !important;
+}
+
+html.dark .article-center .read-more {
+  color: #4d9aff !important;
+}
+
+html.dark .article-center .read-more:hover {
+  color: #80b3ff !important;
+}
+
+html.dark .article-center .article-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-center .article-card:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  transform: translateY(-6px);
+}
+
+html.dark .article-center .card-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .article-center .card-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-center .card-summary {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-center .card-meta,
+html.dark .article-center .publish-date,
+html.dark .article-center .dot {
+  color: #64748b !important;
+}
+
+html.dark .article-center .collection-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-center .collection-card:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  transform: translateY(-6px);
+}
+
+html.dark .article-center .collection-icon-wrapper {
+  background: #1a2a4a !important;
+}
+
+html.dark .article-center .collection-count {
+  color: #4d9aff !important;
+}
+
+html.dark .article-center .collection-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-center .collection-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-center .collection-footer,
+html.dark .article-center .category-tag,
+html.dark .article-center .read-badge {
+  color: #64748b !important;
+}
+
+/* ---------- ArticleList（文章列表，使用真实类名） ---------- */
+html.dark .article-list-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .article-list-page .intro-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .article-list-page .intro-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-list-page .intro-count {
+  color: #4d9aff !important;
+}
+
+html.dark .article-list-page .intro-count-label {
+  color: #64748b !important;
+}
+
+html.dark .article-list-page .discovery-ribbon {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-list-page .back-link {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-list-page .back-link:hover {
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .article-list-page .item-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .article-list-page .item-label {
+  color: #cbd5e1 !important;
+}
+
+html.dark .article-list-page .item-indicator {
+  background: #1e293b !important;
+}
+
+html.dark .article-list-page .search-box {
+  background: #1e2b3a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .article-list-page .search-icon {
+  color: #64748b !important;
+}
+
+html.dark .article-list-page .search-input {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-list-page .search-input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .article-list-page .article-row {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-list-page .article-row:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-4px);
+}
+
+html.dark .article-list-page .row-index {
+  color: #64748b !important;
+}
+
+html.dark .article-list-page .article-row:hover .row-index {
+  color: #4d9aff !important;
+}
+
+html.dark .article-list-page .row-cat {
+  color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .article-list-page .row-date {
+  color: #64748b !important;
+}
+
+html.dark .article-list-page .row-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-list-page .article-row:hover .row-title {
+  color: #4d9aff !important;
+}
+
+html.dark .article-list-page .row-summary {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-list-page .row-meta {
+  color: #64748b !important;
+}
+
+html.dark .article-list-page .row-image {
+  background: #0f172a !important;
+}
+
+html.dark .article-list-page .row-arrow {
+  color: #475569 !important;
+}
+
+html.dark .article-list-page .article-row:hover .row-arrow {
+  color: #4d9aff !important;
+}
+
+/* ---------- ArticleDetail（文章详情，使用真实类名） ---------- */
+html.dark .article-detail-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .article-detail-page .top-bar {
+  background: transparent !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .article-detail-page .back-btn {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-detail-page .back-btn:hover {
+  color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .article-detail-page .top-mark {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .header-eyebrow,
+html.dark .article-detail-page .eyebrow-sep,
+html.dark .article-detail-page .eyebrow-date {
+  color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .detail-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-detail-page .detail-summary {
+  color: #94a3b8 !important;
+}
+
+html.dark .article-detail-page .author-name {
+  color: #e2e8f0 !important;
+}
+
+html.dark .article-detail-page .author-title,
+html.dark .article-detail-page .meta-divider,
+html.dark .article-detail-page .meta-item {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .rich-content {
+  color: #cbd5e1 !important;
+}
+
+html.dark .article-detail-page .rich-content :deep(p),
+html.dark .article-detail-page .rich-content p {
+  color: #cbd5e1 !important;
+}
+
+html.dark .article-detail-page .rich-content :deep(h1),
+html.dark .article-detail-page .rich-content :deep(h2),
+html.dark .article-detail-page .rich-content :deep(h3),
+html.dark .article-detail-page .rich-content :deep(h4),
+html.dark .article-detail-page .rich-content h1,
+html.dark .article-detail-page .rich-content h2,
+html.dark .article-detail-page .rich-content h3,
+html.dark .article-detail-page .rich-content h4 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-detail-page .rich-content :deep(blockquote),
+html.dark .article-detail-page .rich-content blockquote {
+  background: #1a2a4a !important;
+  border-left-color: #4d9aff !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .article-detail-page .rich-content :deep(a),
+html.dark .article-detail-page .rich-content a {
+  color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .footer-line,
+html.dark .article-detail-page .footer-mark {
+  color: #64748b !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-detail-page .action-btn {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .article-detail-page .action-btn:hover,
+html.dark .article-detail-page .action-btn.active {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .related-sidebar,
+html.dark .article-detail-page .sidebar-header {
+  border-color: #1e293b !important;
+}
+
+html.dark .article-detail-page .sidebar-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .sidebar-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-detail-page .sidebar-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-detail-page .sidebar-card:hover {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+  transform: translateY(-3px);
+}
+
+html.dark .article-detail-page .card-num {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .card-cat {
+  color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .card-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-detail-page .card-meta {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .card-arrow {
+  color: #475569 !important;
+}
+
+html.dark .article-detail-page .sidebar-card:hover .card-arrow {
+  color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .comments-header {
+  border-color: #1e293b !important;
+}
+
+html.dark .article-detail-page .comments-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .comments-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-detail-page .comments-count {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .comment-input-wrap {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-detail-page .comment-textarea {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-detail-page .comment-textarea:focus {
+  border-color: #4d9aff !important;
+}
+
+html.dark .article-detail-page .comment-textarea::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .comment-submit-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .article-detail-page .comment-submit-btn:hover:not(:disabled) {
+  background: #0042ad !important;
+}
+
+html.dark .article-detail-page .comment-submit-btn:disabled {
+  background: #1e293b !important;
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .comment-item {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .article-detail-page .comment-item:hover {
+  background: #1a2a4a !important;
+}
+
+html.dark .article-detail-page .comment-author {
+  color: #f1f5f9 !important;
+}
+
+html.dark .article-detail-page .comment-time {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .comment-content {
+  color: #cbd5e1 !important;
+}
+
+html.dark .article-detail-page .comment-like-btn {
+  color: #64748b !important;
+}
+
+html.dark .article-detail-page .comment-like-btn:hover,
+html.dark .article-detail-page .comment-like-btn.liked {
+  color: #f87171 !important;
+}
+
+html.dark .article-detail-page .comments-empty {
+  color: #64748b !important;
+}
+
+/* ---------- AssessmentTake（沉浸式答题，使用真实类名） ---------- */
+html.dark .immersive-assessment {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .immersive-assessment .take-header {
+  background: #0f172a !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .immersive-assessment .exit-btn {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .immersive-assessment .exit-btn:hover {
+  background: #1a2a4a !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+html.dark .immersive-assessment .divider {
+  background: #1e293b !important;
+}
+
+html.dark .immersive-assessment .scale-meta,
+html.dark .immersive-assessment .scale-name {
+  color: #cbd5e1 !important;
+}
+
+html.dark .immersive-assessment .scale-progress-text {
+  color: #64748b !important;
+}
+
+html.dark .immersive-assessment .top-progress-track {
+  background: #1e293b !important;
+}
+
+html.dark .immersive-assessment .top-progress-fill {
+  background: #4d9aff !important;
+}
+
+html.dark .immersive-assessment .top-progress-pct {
+  color: #4d9aff !important;
+}
+
+html.dark .immersive-assessment .timer {
+  color: #fbbf24 !important;
+  background: rgba(251, 191, 36, 0.1) !important;
+}
+
+html.dark .immersive-assessment .q-card-immersive {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .immersive-assessment .q-badge-row {
+  color: #64748b !important;
+}
+
+html.dark .immersive-assessment .q-badge {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .immersive-assessment .q-category-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .immersive-assessment .q-progress-mark {
+  color: #64748b !important;
+}
+
+html.dark .immersive-assessment .q-text {
+  color: #f1f5f9 !important;
+}
+
+html.dark .immersive-assessment .opt-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .immersive-assessment .opt-card:hover {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .immersive-assessment .opt-card.selected {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+  box-shadow: 0 0 0 2px rgba(77, 154, 255, 0.3) !important;
+}
+
+html.dark .immersive-assessment .opt-index {
+  color: #64748b !important;
+  background: #0f172a !important;
+}
+
+html.dark .immersive-assessment .opt-card:hover .opt-index,
+html.dark .immersive-assessment .opt-card.selected .opt-index {
+  color: #4d9aff !important;
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .immersive-assessment .opt-label {
+  color: #e2e8f0 !important;
+}
+
+html.dark .immersive-assessment .opt-card.selected .opt-label {
+  color: #4d9aff !important;
+}
+
+html.dark .immersive-assessment .opt-check {
+  color: #4d9aff !important;
+}
+
+html.dark .immersive-assessment .take-footer {
+  background: #0f172a !important;
+  border-top-color: #1e293b !important;
+}
+
+html.dark .immersive-assessment .nav-btn {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .immersive-assessment .nav-btn:hover:not(:disabled) {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .immersive-assessment .nav-btn:disabled {
+  opacity: 0.4;
+  background: #0f172a !important;
+  color: #64748b !important;
+}
+
+html.dark .immersive-assessment .nav-btn-primary {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .immersive-assessment .nav-btn-primary:hover:not(:disabled) {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .immersive-assessment .nav-btn-primary:disabled {
+  background: #1e293b !important;
+  color: #64748b !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .immersive-assessment .step-dots .dot {
+  background: #334155 !important;
+}
+
+html.dark .immersive-assessment .step-dots .dot.active {
+  background: #4d9aff !important;
+}
+
+html.dark .immersive-assessment .step-dots .dot.completed {
+  background: #10b981 !important;
+}
+
+html.dark .immersive-assessment .submitting-overlay {
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(8px);
+}
+
+html.dark .immersive-assessment .loading-box {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .immersive-assessment .loading-text,
+html.dark .immersive-assessment .loading-sub {
+  color: #94a3b8 !important;
+}
+
+html.dark .immersive-assessment .bg-question-num {
+  color: rgba(77, 154, 255, 0.05) !important;
+}
+
+/* ---------- CommandPalette（搜索面板，使用 cmd-* 真实类名） ---------- */
+html.dark .cmd-backdrop {
+  background: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(6px) !important;
+}
+
+html.dark .cmd-panel {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+}
+
+html.dark .cmd-prompt {
+  color: #4d9aff !important;
+}
+
+html.dark .cmd-input {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .cmd-input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .cmd-esc {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .cmd-group-label {
+  color: #64748b !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .cmd-item {
+  border-bottom-color: rgba(30, 41, 59, 0.6) !important;
+}
+
+html.dark .cmd-item-num {
+  color: #64748b !important;
+}
+
+html.dark .cmd-item-title {
+  color: #e2e8f0 !important;
+}
+
+html.dark .cmd-item-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .cmd-item-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .cmd-item-arrow {
+  color: #475569 !important;
+}
+
+html.dark .cmd-item:hover,
+html.dark .cmd-item.active {
+  background: #1a2a4a !important;
+}
+
+html.dark .cmd-item:hover .cmd-item-title,
+html.dark .cmd-item.active .cmd-item-title {
+  color: #4d9aff !important;
+}
+
+html.dark .cmd-item:hover .cmd-item-arrow,
+html.dark .cmd-item.active .cmd-item-arrow {
+  color: #4d9aff !important;
+}
+
+html.dark .cmd-empty-eyebrow {
+  color: #64748b !important;
+}
+
+html.dark .cmd-empty-text {
+  color: #94a3b8 !important;
+}
+
+html.dark .cmd-footer {
+  background: #0f172a !important;
+  border-top-color: #1e293b !important;
+}
+
+html.dark .cmd-footer-hint {
+  color: #64748b !important;
+}
+
+html.dark .cmd-footer-hint kbd {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+/* ---------- LoginForm（登录表单，使用真实类名） ---------- */
+html.dark .login-box {
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(20px) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .login-box.register-form,
+html.dark .login-box.forgot-password-form {
+  background: rgba(15, 23, 42, 0.75) !important;
+}
+
+html.dark .login-header h2,
+html.dark .login-header .title,
+html.dark .login-box h2 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .login-header p,
+html.dark .login-box p {
+  color: #94a3b8 !important;
+}
+
+html.dark .header-badge {
+  background: rgba(77, 154, 255, 0.15) !important;
+  color: #4d9aff !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+}
+
+html.dark .login-type-tabs {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .login-box .tab-item {
+  color: #94a3b8 !important;
+}
+
+html.dark .login-box .tab-item:hover {
+  color: #cbd5e1 !important;
+}
+
+html.dark .login-box .tab-item.active {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .login-box .el-input__wrapper {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark .login-box .el-input__wrapper.is-focus {
+  border-color: #4d9aff !important;
+  box-shadow: 0 0 0 3px rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .login-box .el-input__inner {
+  color: #f1f5f9 !important;
+}
+
+html.dark .login-box .el-input__inner::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .login-box .el-form-item__label {
+  color: #cbd5e1 !important;
+}
+
+html.dark .login-social,
+html.dark .social-login {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .login-box .social-login-separator,
+html.dark .login-box .social-login-text {
+  color: #64748b !important;
+}
+
+html.dark .login-box .social-login-separator::before,
+html.dark .login-box .social-login-separator::after {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark .login-box .social-btn,
+html.dark .login-box .wechat-btn,
+html.dark .login-box .qq-btn {
+  background: rgba(30, 43, 58, 0.8) !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .login-box .social-btn:hover,
+html.dark .login-box .wechat-btn:hover,
+html.dark .login-box .qq-btn:hover {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .login-box .register-link,
+html.dark .login-box .register-btn {
+  color: #4d9aff !important;
+}
+
+html.dark .login-box .register-btn:hover {
+  color: #80b3ff !important;
+}
+
+html.dark .login-tabs .el-tabs__item {
+  color: #94a3b8 !important;
+}
+
+html.dark .login-tabs .el-tabs__item.is-active {
+  color: #4d9aff !important;
+}
+
+/* Propaganda.vue 已使用白色文字配深色背景，深色模式无需修改 */
+
+/* ---------- 404 页面局部变量重定义 ---------- */
+html.dark .nf-page {
+  --bg-primary: #0f172a !important;
+  --bg-secondary: #1e2b3a !important;
+  --text-primary: #f1f5f9 !important;
+  --text-secondary: #94a3b8 !important;
+  --text-muted: #64748b !important;
+  --border: #1e293b !important;
+  --border-light: #334155 !important;
+  background: #0f172a !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .nf-page h1,
+html.dark .nf-page h2,
+html.dark .nf-page h3 {
+  color: #f1f5f9 !important;
+}
+
+html.dark .nf-page p {
+  color: #94a3b8 !important;
+}
+
+html.dark .nf-page .nf-card,
+html.dark .nf-page .nf-section,
+html.dark .nf-page .destination-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .nf-page .nf-link,
+html.dark .nf-page .destination-link {
+  color: #4d9aff !important;
+}
+
+html.dark .nf-page .nf-link:hover,
+html.dark .nf-page .destination-link:hover {
+  color: #80b3ff !important;
+}
+
+/* ---------- Time Capsule 模块（CapsuleList/CapsuleCreate/CapsuleDetail，使用真实类名） ---------- */
+
+/* CapsuleList.vue */
+html.dark .capsule-list-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .capsule-list-page .watermark {
+  color: rgba(77, 154, 255, 0.04) !important;
+}
+
+html.dark .capsule-list-page .header-eyebrow,
+html.dark .capsule-list-page .eyebrow-text {
+  color: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .eyebrow-line {
+  background: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .header-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .capsule-list-page .header-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .capsule-list-page .postmark {
+  background: #1e2b3a !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .capsule-list-page .postmark:hover {
+  border-color: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .pm-date,
+html.dark .capsule-list-page .pm-text {
+  color: #94a3b8 !important;
+}
+
+html.dark .capsule-list-page .pm-bar {
+  background: #1e293b !important;
+}
+
+html.dark .capsule-list-page .stats-bar {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .stat-block {
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .stat-value {
+  color: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .stat-pending {
+  color: #fbbf24 !important;
+}
+
+html.dark .capsule-list-page .stat-opened {
+  color: #10b981 !important;
+}
+
+html.dark .capsule-list-page .stat-auditing {
+  color: #a78bfa !important;
+}
+
+html.dark .capsule-list-page .stat-label {
+  color: #94a3b8 !important;
+}
+
+html.dark .capsule-list-page .stat-divider {
+  background: #1e293b !important;
+}
+
+html.dark .capsule-list-page .filter-nav {
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .nav-item {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .nav-item:hover {
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .nav-item.active {
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .capsule-list-page .nav-item.active::after {
+  background: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .nav-count {
+  color: #64748b !important;
+}
+
+html.dark .capsule-list-page .nav-item.active .nav-count {
+  color: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .archive-entry {
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .entry-bg-num {
+  color: rgba(77, 154, 255, 0.08) !important;
+}
+
+html.dark .capsule-list-page .archive-entry:hover .entry-bg-num {
+  color: rgba(77, 154, 255, 0.18) !important;
+}
+
+html.dark .capsule-list-page .envelope {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .envelope:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  transform: translateY(-6px);
+}
+
+html.dark .capsule-list-page .env-flap {
+  background: #0f172a !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .env-serial {
+  color: #64748b !important;
+}
+
+html.dark .capsule-list-page .envelope:hover .env-serial {
+  color: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .env-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .capsule-list-page .envelope:hover .env-title {
+  color: #4d9aff !important;
+}
+
+html.dark .capsule-list-page .env-meta,
+html.dark .capsule-list-page .meta-date,
+html.dark .capsule-list-page .meta-method,
+html.dark .capsule-list-page .meta-countdown {
+  color: #94a3b8 !important;
+}
+
+html.dark .capsule-list-page .meta-dot {
+  color: #475569 !important;
+}
+
+html.dark .capsule-list-page .status-tag {
+  background: #1a2a4a !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .capsule-list-page .tag-pending {
+  color: #fbbf24 !important;
+}
+
+html.dark .capsule-list-page .tag-opened {
+  color: #10b981 !important;
+}
+
+html.dark .capsule-list-page .tag-auditing {
+  color: #a78bfa !important;
+}
+
+html.dark .capsule-list-page .tag-rejected,
+html.dark .capsule-list-page .tag-failed {
+  color: #f87171 !important;
+}
+
+/* 删除面板（红色危险信号） */
+html.dark .capsule-list-page .delete-panel {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-left-color: #ef4444 !important;
+}
+
+html.dark .capsule-list-page .delete-panel:hover {
+  background: rgba(239, 68, 68, 0.25) !important;
+}
+
+html.dark .capsule-list-page .delete-icon,
+html.dark .capsule-list-page .delete-text {
+  color: #f87171 !important;
+}
+
+html.dark .capsule-list-page .archive-end,
+html.dark .capsule-list-page .end-line {
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .end-text {
+  color: #64748b !important;
+}
+
+html.dark .capsule-list-page .empty-archive,
+html.dark .capsule-list-page .empty-stamp {
+  border-color: #1e293b !important;
+}
+
+html.dark .capsule-list-page .stamp-text {
+  color: #64748b !important;
+}
+
+html.dark .capsule-list-page .empty-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .capsule-list-page .empty-hint {
+  color: #94a3b8 !important;
+}
+
+html.dark .capsule-list-page .empty-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .capsule-list-page .empty-btn:hover {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .capsule-list-page .fab-button {
+  background: #0052d9 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(0, 82, 217, 0.4) !important;
+}
+
+html.dark .capsule-list-page .fab-button:hover {
+  background: #0042ad !important;
+  box-shadow: 0 12px 32px rgba(0, 82, 217, 0.5) !important;
+  transform: translateY(-2px);
+}
+
+/* CapsuleCreate.vue */
+html.dark .time-capsule-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .time-capsule-page .header-back {
+  color: #94a3b8 !important;
+}
+
+html.dark .time-capsule-page .header-back:hover {
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .header-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .header-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .time-capsule-page .header-subtitle {
+  color: #94a3b8 !important;
+}
+
+html.dark .time-capsule-page .form-section {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .time-capsule-page .form-section:hover {
+  border-color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .section-num {
+  background: #0f172a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .section-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .time-capsule-page .required-mark {
+  color: #f87171 !important;
+}
+
+html.dark .time-capsule-page .optional-hint,
+html.dark .time-capsule-page .tip-text,
+html.dark .time-capsule-page .hint {
+  color: #64748b !important;
+}
+
+html.dark .time-capsule-page .title-input,
+html.dark .time-capsule-page .info-input,
+html.dark .time-capsule-page .address-input {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .time-capsule-page .title-input:focus,
+html.dark .time-capsule-page .info-input:focus {
+  border-color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .title-input::placeholder,
+html.dark .time-capsule-page .info-input::placeholder,
+html.dark .time-capsule-page .address-input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .time-capsule-page .title-count,
+html.dark .time-capsule-page .content-count {
+  color: #64748b !important;
+}
+
+html.dark .time-capsule-page .date-picker-row {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .time-capsule-page .date-picker-row:hover {
+  border-color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .date-text {
+  color: #f1f5f9 !important;
+}
+
+html.dark .time-capsule-page .arrow {
+  color: #64748b !important;
+}
+
+html.dark .time-capsule-page .method-option {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .time-capsule-page .method-option:hover,
+html.dark .time-capsule-page .method-option.active {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .time-capsule-page .method-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .method-text {
+  color: #cbd5e1 !important;
+}
+
+html.dark .time-capsule-page .method-option.active .method-text {
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .image-uploader {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .time-capsule-page .image-uploader:hover {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .time-capsule-page .upload-icon,
+html.dark .time-capsule-page .add-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .upload-text,
+html.dark .time-capsule-page .add-text {
+  color: #94a3b8 !important;
+}
+
+html.dark .time-capsule-page .image-item {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .time-capsule-page .delete-btn {
+  background: rgba(239, 68, 68, 0.85) !important;
+  color: #fff !important;
+}
+
+html.dark .time-capsule-page .add-image-btn {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .time-capsule-page .add-image-btn:hover {
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .emotion-tag {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .time-capsule-page .emotion-tag:hover,
+html.dark .time-capsule-page .emotion-tag.active {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page .submit-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .time-capsule-page .submit-btn:hover:not(:disabled) {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .time-capsule-page .submit-btn:disabled {
+  background: #1e293b !important;
+  color: #64748b !important;
+  border-color: #1e293b !important;
+}
+
+/* wangEditor 深色适配 */
+html.dark .time-capsule-page .wang-editor-wrap,
+html.dark .time-capsule-page .wang-toolbar,
+html.dark .time-capsule-page .wang-editor {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .time-capsule-page .wang-editor .w-e-text-container,
+html.dark .time-capsule-page :deep(.w-e-text-container) {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .time-capsule-page :deep(.w-e-toolbar) {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .time-capsule-page :deep(.w-e-toolbar .w-e-menu) {
+  color: #94a3b8 !important;
+}
+
+html.dark .time-capsule-page :deep(.w-e-toolbar .w-e-menu:hover),
+html.dark .time-capsule-page :deep(.w-e-toolbar .w-e-menu.w-e-active) {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .time-capsule-page :deep(.w-e-text-placeholder) {
+  color: #64748b !important;
+}
+
+/* CapsuleDetail.vue */
+html.dark .detail-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .detail-page .header-back {
+  color: #94a3b8 !important;
+}
+
+html.dark .detail-page .header-back:hover {
+  color: #4d9aff !important;
+}
+
+html.dark .detail-page .header-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .detail-page .header-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .detail-page .detail-emoji {
+  background: #1a2a4a !important;
+}
+
+html.dark .detail-page .detail-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .detail-page .meta-text,
+html.dark .detail-page .meta-sep {
+  color: #64748b !important;
+}
+
+html.dark .detail-page .meta-status {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .detail-page .meta-status.pending {
+  color: #fbbf24 !important;
+}
+
+html.dark .detail-page .meta-status.opened {
+  color: #10b981 !important;
+}
+
+html.dark .detail-page .rich-content,
+html.dark .detail-page .detail-content {
+  color: #cbd5e1 !important;
+}
+
+html.dark .detail-page .rich-content :deep(p),
+html.dark .detail-page .rich-content p {
+  color: #cbd5e1 !important;
+}
+
+html.dark .detail-page .drop-cap {
+  color: #4d9aff !important;
+}
+
+html.dark .detail-page .detail-image {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .detail-page .detail-image:hover {
+  border-color: #4d9aff !important;
+}
+
+html.dark .detail-page .detail-info {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .detail-page .info-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .detail-page .info-row {
+  border-color: #1e293b !important;
+}
+
+html.dark .detail-page .info-label {
+  color: #64748b !important;
+}
+
+html.dark .detail-page .info-value {
+  color: #f1f5f9 !important;
+}
+
+html.dark .detail-page .detail-date {
+  background: #1a2a4a !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .detail-page .date-display {
+  color: #4d9aff !important;
+}
+
+html.dark .detail-page .date-count {
+  color: #94a3b8 !important;
+}
+
+html.dark .detail-page .opened-text {
+  color: #10b981 !important;
+}
+
+html.dark .detail-page .action-btn {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .detail-page .action-btn.primary {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .detail-page .action-btn.primary:hover {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .detail-page .action-btn.ghost {
+  background: transparent !important;
+  color: #4d9aff !important;
+  border-color: #334155 !important;
+}
+
+html.dark .detail-page .action-btn.ghost:hover {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .detail-page .loading-text {
+  color: #94a3b8 !important;
+}
+
+/* ---------- Square 模块（SquareList/SquareCreate/SquareDetail，使用真实类名） ---------- */
+
+/* SquareList.vue */
+html.dark .square-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .square-page .page-header {
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .square-page .header-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .square-page .header-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-page .header-desc {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-page .stat-block {
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .stat-num {
+  color: #4d9aff !important;
+}
+
+html.dark .square-page .stat-label {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-page .stat-divider {
+  background: #1e293b !important;
+}
+
+html.dark .square-page .daily-prompt-card {
+  background: linear-gradient(135deg, #1a2a4a 0%, #182234 100%) !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .square-page .prompt-label {
+  color: #4d9aff !important;
+}
+
+html.dark .square-page .prompt-question {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-page .prompt-join {
+  color: #4d9aff !important;
+  background: rgba(77, 154, 255, 0.12) !important;
+}
+
+html.dark .square-page .prompt-join:hover {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .square-page .filter-bar {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .filter-tab {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .filter-tab:hover {
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-page .filter-tab.active {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-page .tab-label {
+  color: inherit !important;
+}
+
+html.dark .square-page .tab-count {
+  color: #64748b !important;
+}
+
+html.dark .square-page .filter-tab.active .tab-count {
+  color: #4d9aff !important;
+}
+
+html.dark .square-page .feed-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .feed-card:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  transform: translateY(-4px);
+}
+
+html.dark .square-page .feed-card.is-capsule {
+  border-left-color: #4d9aff !important;
+}
+
+html.dark .square-page .feed-card.is-pinned {
+  border-left-color: #fbbf24 !important;
+}
+
+html.dark .square-page .mark-badge.pinned {
+  background: rgba(251, 191, 36, 0.15) !important;
+  color: #fbbf24 !important;
+}
+
+html.dark .square-page .mark-badge.hot {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+}
+
+html.dark .square-page .head-author {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-page .head-time {
+  color: #64748b !important;
+}
+
+html.dark .square-page .type-badge.moment {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .square-page .type-badge.capsule {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+}
+
+html.dark .square-page .mood-line,
+html.dark .square-page .mood-emoji {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-page .card-content {
+  color: #cbd5e1 !important;
+}
+
+html.dark .square-page .card-photo {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .card-photo:hover {
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-page .photo-more {
+  background: rgba(15, 23, 42, 0.85) !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .square-page .topic-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .square-page .topic-tag:hover {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .square-page .interact-btn {
+  color: #64748b !important;
+  background: transparent !important;
+}
+
+html.dark .square-page .interact-btn:hover {
+  color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .square-page .interact-btn.liked {
+  color: #f87171 !important;
+}
+
+html.dark .square-page .empty-state,
+html.dark .square-page .empty-title {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-page .empty-hint {
+  color: #64748b !important;
+}
+
+html.dark .square-page .empty-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .square-page .empty-btn:hover {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .square-page .sidebar-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .sidebar-card:hover {
+  border-color: #4d9aff !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .square-page .sidebar-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-page .online-dot {
+  background: #10b981 !important;
+}
+
+html.dark .square-page .member-avatar {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1e2b3a !important;
+}
+
+html.dark .square-page .members-more {
+  background: #0f172a !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .square-page .cloud-tag {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .cloud-tag:hover {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-page .cloud-hash {
+  color: #4d9aff !important;
+}
+
+html.dark .square-page .cloud-count {
+  color: #64748b !important;
+}
+
+html.dark .square-page .guidelines-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .guideline-item {
+  border-color: #1e293b !important;
+}
+
+html.dark .square-page .rule-num {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+html.dark .square-page .rule-text {
+  color: #cbd5e1 !important;
+}
+
+html.dark .square-page .fab-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(0, 82, 217, 0.4) !important;
+}
+
+html.dark .square-page .fab-btn:hover {
+  background: #0042ad !important;
+  box-shadow: 0 12px 32px rgba(0, 82, 217, 0.5) !important;
+  transform: translateY(-2px);
+}
+
+/* SquareCreate.vue */
+html.dark .square-create-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .square-create-page .header-back {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-create-page .header-back:hover {
+  color: #4d9aff !important;
+}
+
+html.dark .square-create-page .header-eyebrow {
+  color: #4d9aff !important;
+}
+
+html.dark .square-create-page .header-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-create-page .header-subtitle {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-create-page .form-card {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-create-page .form-card:hover {
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-create-page .section-num {
+  background: #0f172a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .square-create-page .section-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-create-page .optional-hint {
+  color: #64748b !important;
+}
+
+html.dark .square-create-page .emotion-tag {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .square-create-page .emotion-tag:hover,
+html.dark .square-create-page .emotion-tag.active {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .square-create-page .content-textarea {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-create-page .content-textarea:focus {
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-create-page .content-textarea::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .square-create-page .content-count {
+  color: #64748b !important;
+}
+
+html.dark .square-create-page .topic-input-wrap {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .square-create-page .topic-input-wrap:focus-within {
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-create-page .topic-tag {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .square-create-page .topic-remove {
+  color: #64748b !important;
+}
+
+html.dark .square-create-page .topic-remove:hover {
+  color: #f87171 !important;
+}
+
+html.dark .square-create-page .topic-input {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-create-page .topic-input::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .square-create-page .image-uploader {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark .square-create-page .image-uploader:hover {
+  border-color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .square-create-page .upload-icon,
+html.dark .square-create-page .add-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .square-create-page .upload-text,
+html.dark .square-create-page .add-text {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-create-page .image-item {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-create-page .delete-btn {
+  background: rgba(239, 68, 68, 0.85) !important;
+  color: #fff !important;
+}
+
+html.dark .square-create-page .add-image-btn {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .square-create-page .add-image-btn:hover {
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .square-create-page .submit-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+  border-color: #0052d9 !important;
+}
+
+html.dark .square-create-page .submit-btn:hover:not(:disabled) {
+  background: #0042ad !important;
+  border-color: #0042ad !important;
+}
+
+html.dark .square-create-page .submit-btn:disabled {
+  background: #1e293b !important;
+  color: #64748b !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-create-page .success-big-icon {
+  color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.15) !important;
+}
+
+/* SquareDetail.vue */
+html.dark .square-detail-page {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .square-detail-page .top-bar {
+  background: transparent !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .square-detail-page .back-btn {
+  color: #94a3b8 !important;
+}
+
+html.dark .square-detail-page .back-btn:hover {
+  color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .square-detail-page .top-mark,
+html.dark .square-detail-page .id-mark {
+  color: #64748b !important;
+}
+
+html.dark .square-detail-page .type-mark.moment {
+  color: #4d9aff !important;
+  background: #1a2a4a !important;
+}
+
+html.dark .square-detail-page .type-mark.capsule {
+  color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.15) !important;
+}
+
+html.dark .square-detail-page .header-eyebrow,
+html.dark .square-detail-page .eyebrow-mood,
+html.dark .square-detail-page .eyebrow-date {
+  color: #4d9aff !important;
+}
+
+html.dark .square-detail-page .detail-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-detail-page .author-name {
+  color: #e2e8f0 !important;
+}
+
+html.dark .square-detail-page .author-title {
+  color: #64748b !important;
+}
+
+html.dark .square-detail-page .rich-content,
+html.dark .square-detail-page .content-text {
+  color: #cbd5e1 !important;
+}
+
+html.dark .square-detail-page .photo-grid {
+  gap: 12px;
+}
+
+html.dark .square-detail-page .content-photo {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-detail-page .footer-line,
+html.dark .square-detail-page .footer-mark {
+  color: #64748b !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-detail-page .action-btn {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .square-detail-page .action-btn:hover,
+html.dark .square-detail-page .action-btn.active {
+  background: #1a2a4a !important;
+  border-color: #4d9aff !important;
+  color: #4d9aff !important;
+}
+
+html.dark .square-detail-page .comments-header {
+  border-color: #1e293b !important;
+}
+
+html.dark .square-detail-page .comments-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-detail-page .comments-count {
+  color: #64748b !important;
+}
+
+html.dark .square-detail-page .comment-input-wrap {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-detail-page .comment-textarea {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-detail-page .comment-textarea:focus {
+  border-color: #4d9aff !important;
+}
+
+html.dark .square-detail-page .comment-textarea::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .square-detail-page .comment-submit-btn {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .square-detail-page .comment-submit-btn:hover:not(:disabled) {
+  background: #0042ad !important;
+}
+
+html.dark .square-detail-page .comment-submit-btn:disabled {
+  background: #1e293b !important;
+  color: #64748b !important;
+}
+
+html.dark .square-detail-page .comment-item {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+html.dark .square-detail-page .comment-author {
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-detail-page .comment-time {
+  color: #64748b !important;
+}
+
+html.dark .square-detail-page .comment-content {
+  color: #cbd5e1 !important;
+}
+
+html.dark .square-detail-page .comment-like-btn {
+  color: #64748b !important;
+}
+
+html.dark .square-detail-page .comment-like-btn:hover,
+html.dark .square-detail-page .comment-like-btn.liked {
+  color: #f87171 !important;
+}
+
+html.dark .square-detail-page .comments-empty {
+  color: #64748b !important;
+}
+
+/* ---------- 通用：所有页面的 el-input/el-textarea 深色补全 ---------- */
+html.dark .el-input__wrapper,
+html.dark .el-textarea__inner {
+  background-color: #0f172a !important;
+  box-shadow: 0 0 0 1px #334155 inset !important;
+}
+
+html.dark .el-input__wrapper.is-focus,
+html.dark .el-textarea__inner:focus {
+  box-shadow: 0 0 0 1px #4d9aff inset !important;
+}
+
+html.dark .el-input__inner,
+html.dark .el-textarea__inner {
+  color: #f1f5f9 !important;
+}
+
+html.dark .el-input__inner::placeholder,
+html.dark .el-textarea__inner::placeholder {
+  color: #64748b !important;
+}
+
+html.dark .el-form-item__label {
+  color: #cbd5e1 !important;
+}
+
+html.dark .el-select__placeholder,
+html.dark .el-select__selected-item {
+  color: #f1f5f9 !important;
+}
+
+html.dark .el-select__wrapper {
+  background-color: #0f172a !important;
+  box-shadow: 0 0 0 1px #334155 inset !important;
+}
+
+/* ---------- 通用：el-pagination ---------- */
+html.dark .el-pagination {
+  color: #cbd5e1 !important;
+}
+
+html.dark .el-pagination .btn-prev,
+html.dark .el-pagination .btn-next,
+html.dark .el-pagination .el-pager li {
+  background: #1e2b3a !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .el-pagination .el-pager li.is-active {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+/* ---------- 通用：el-radio / el-checkbox ---------- */
+html.dark .el-radio__label,
+html.dark .el-checkbox__label {
+  color: #cbd5e1 !important;
+}
+
+html.dark .el-radio__inner,
+html.dark .el-checkbox__inner {
+  background: #1e2b3a !important;
+  border-color: #475569 !important;
+}
+
+html.dark .el-radio.is-checked .el-radio__inner,
+html.dark .el-checkbox.is-checked .el-checkbox__inner {
+  background: #0052d9 !important;
+  border-color: #0052d9 !important;
+}
+
+/* ---------- 通用：el-collapse ---------- */
+html.dark .el-collapse-item__header {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .el-collapse-item__wrap {
+  background: transparent !important;
+  border-bottom-color: #1e293b !important;
+}
+
+html.dark .el-collapse-item__content {
+  color: #cbd5e1 !important;
+}
+
+/* ---------- 通用：el-drawer ---------- */
+html.dark .el-drawer {
+  background: #1e2b3a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .el-drawer__header {
+  color: #f1f5f9 !important;
+}
+
+html.dark .el-drawer__body {
+  background: #1e2b3a !important;
+}
+
+/* ---------- 通用：el-empty ---------- */
+html.dark .el-empty__description p {
+  color: #94a3b8 !important;
+}
+
+/* ---------- 通用：el-breadcrumb ---------- */
+html.dark .el-breadcrumb__item .el-breadcrumb__inner {
+  color: #94a3b8 !important;
+}
+
+html.dark .el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #f1f5f9 !important;
+}
+
+/* ---------- 通用：el-switch ---------- */
+html.dark .el-switch.is-checked .el-switch__core {
+  background-color: #0052d9 !important;
+  border-color: #0052d9 !important;
+}
+
+/* ---------- 通用：el-slider ---------- */
+html.dark .el-slider__runway {
+  background-color: #1e293b !important;
+}
+
+html.dark .el-slider__bar {
+  background-color: #0052d9 !important;
+}
+
+/* ---------- 通用：el-tooltip / el-popover ---------- */
+html.dark .el-popper,
+html.dark .el-popover.el-popper {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .el-popper .el-popover__title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .el-popper[data-popper-placement^="top"] .el-popper__arrow::before {
+  background: #1e2b3a !important;
+  border-color: #1e293b !important;
+}
+
+/* ---------- 通用：el-avatar ---------- */
+html.dark .el-avatar {
+  background: #1a2a4a !important;
+  color: #4d9aff !important;
+}
+
+/* ---------- 通用：el-alert ---------- */
+html.dark .el-alert {
+  background: #1a2a4a !important;
+  border-color: #1a3a6b !important;
+}
+
+html.dark .el-alert .el-alert__title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .el-alert .el-alert__description {
+  color: #cbd5e1 !important;
+}
+
+/* ---------- 通用：el-image-viewer ---------- */
+html.dark .el-image-viewer__wrapper {
+  background: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* ---------- 通用：el-backtop ---------- */
+html.dark .el-backtop {
+  background: #0052d9 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ---------- 通用：文本查看器/代码块 ---------- */
+html.dark pre,
+html.dark code {
+  background: #0a0f1a !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark blockquote {
+  border-left-color: #4d9aff !important;
+  background: #1a2a4a !important;
+  color: #cbd5e1 !important;
+}
+
+/* ============================================================
+   三期覆盖：杂志时尚风 — 深色模式下卡片融入背景，不卡片化
+   原则：浅色模式下卡片(#fff)与页面背景(#f8fafc)亮度接近而自然融合；
+   深色模式下复刻此效果——卡片背景透明或与页面背景(#0f172a)一致，
+   移除多余边框/阴影/位移，保持杂志时尚风视觉观感。
+   ============================================================ */
+
+/* ---------- Navbar 透明态悬停修复 ---------- */
+/* 修复：透明导航栏悬停时显示白色背景 → 改为极淡白色叠加 */
+html.dark .nav-header.is-transparent .menu-item:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+
+html.dark .nav-header.is-transparent .cmd-trigger:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .nav-header.is-transparent .icon-btn:hover,
+html.dark .nav-header.is-transparent .lang-btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 透明态导航栏在 nav-center 悬停后变为不透明态的悬停色 */
+html.dark .nav-header.is-transparent:has(.nav-center:hover) .menu-item:hover {
+  background: rgba(0, 82, 217, 0.15) !important;
+  color: #4d9aff !important;
+}
+
+/* mega-menu 面板硬编码白色 → 深色 */
+html.dark .mega-menu {
+  background: #1a2332 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .mega-menu-inner {
+  background: transparent !important;
+}
+
+html.dark .mega-column {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .mega-title {
+  color: #94a3b8 !important;
+}
+
+html.dark .mega-item {
+  color: #cbd5e1 !important;
+}
+
+html.dark .mega-item:hover {
+  background: rgba(77, 154, 255, 0.1) !important;
+  color: #4d9aff !important;
+}
+
+/* ---------- AssessmentCenter 卡片融入背景 ---------- */
+html.dark .assessment-page .scale-rows {
+  border-color: transparent !important;
+}
+
+html.dark .assessment-page .scale-row {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+html.dark .assessment-page .scale-row:hover {
+  background: rgba(77, 154, 255, 0.06) !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .assessment-page .scale-row.is-completed {
+  background: transparent !important;
+}
+
+html.dark .assessment-page .module-cover,
+html.dark .assessment-page .profile-editorial {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .assessment-page .scale-ribbon {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .assessment-page .ribbon-cat {
+  border-color: transparent !important;
+}
+
+html.dark .assessment-page .ribbon-search {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .assessment-page .panel,
+html.dark .assessment-page .intro-header,
+html.dark .assessment-page .dashboard-sidebar,
+html.dark .assessment-page .dashboard-card {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
+}
+
+html.dark .assessment-page .dashboard-card:hover,
+html.dark .assessment-page .kpi-card:hover,
+html.dark .assessment-page .timeline-card:hover,
+html.dark .assessment-page .recommend-item:hover,
+html.dark .assessment-page .comparison-item:hover,
+html.dark .assessment-page .quick-entry-item:hover {
+  background: rgba(77, 154, 255, 0.06) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .assessment-page .kpi-card,
+html.dark .assessment-page .timeline-card,
+html.dark .assessment-page .badge-card,
+html.dark .assessment-page .insight-card,
+html.dark .assessment-page .result-summary-card,
+html.dark .assessment-page .ai-summary-card,
+html.dark .assessment-page .empty-state,
+html.dark .assessment-page .quick-entry-item,
+html.dark .assessment-page .detail-item,
+html.dark .assessment-page .recommend-item,
+html.dark .assessment-page .comparison-item,
+html.dark .assessment-page .ai-insight-grid .insight-item,
+html.dark .assessment-page .mbti-bars,
+html.dark .assessment-page .riasec-bars {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
+}
+
+html.dark .assessment-page .detail-item:hover {
+  background: rgba(77, 154, 255, 0.06) !important;
+  border-color: transparent !important;
+  transform: none !important;
+}
+
+html.dark .assessment-page .goal-banner {
+  background: linear-gradient(135deg, #07193f 0%, #003a99 100%) !important;
+}
+
+html.dark .assessment-page .ai-summary-card,
+html.dark .assessment-page .intro-tips,
+html.dark .assessment-page .result-summary-card {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .assessment-page .range-tabs span {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .assessment-page .row-icon {
+  background: rgba(77, 154, 255, 0.1) !important;
+}
+
+html.dark .assessment-page .badge-icon {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: transparent !important;
+}
+
+html.dark .assessment-page .kpi-icon {
+  background: rgba(77, 154, 255, 0.1) !important;
+}
+
+html.dark .assessment-page .badge-card.locked {
+  background: transparent !important;
+}
+
+html.dark .assessment-page .chart-area,
+html.dark .assessment-page .chart-empty,
+html.dark .assessment-page .history-empty,
+html.dark .assessment-page .ai-empty {
+  background: transparent !important;
+}
+
+html.dark .assessment-page .res-score-circle {
+  background: transparent !important;
+  border-color: #4d9aff !important;
+}
+
+html.dark .assessment-page .rec-icon {
+  background: rgba(77, 154, 255, 0.1) !important;
+}
+
+html.dark .assessment-page :deep(.history-filter .el-input__wrapper),
+html.dark .assessment-page .history-filter .el-input__wrapper {
+  background: rgba(255, 255, 255, 0.04) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+}
+
+html.dark .assessment-page .row-icon.cat-mental,
+html.dark .assessment-page .row-icon.cat-career,
+html.dark .assessment-page .row-icon.cat-personality {
+  background: rgba(77, 154, 255, 0.1) !important;
+}
+
+/* ---------- AssessmentTake 卡片融入背景 ---------- */
+html.dark .immersive-assessment .q-card-immersive {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html.dark .immersive-assessment .opt-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .immersive-assessment .opt-card:hover {
+  background: rgba(77, 154, 255, 0.06) !important;
+  border-color: rgba(77, 154, 255, 0.2) !important;
+}
+
+html.dark .immersive-assessment .opt-card.selected {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: #4d9aff !important;
+  box-shadow: none !important;
+}
+
+html.dark .immersive-assessment .exit-btn {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .immersive-assessment .nav-btn {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .immersive-assessment .nav-btn:hover:not(:disabled) {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+}
+
+html.dark .immersive-assessment .loading-box {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+html.dark .immersive-assessment .opt-index {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+html.dark .immersive-assessment .opt-card:hover .opt-index,
+html.dark .immersive-assessment .opt-card.selected .opt-index {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+/* ---------- Profile / 成长看板 卡片融入背景 ---------- */
+html.dark .profile-page .gs-stat {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .profile-page .badge-card {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .profile-page .badge-card.earned {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .profile-page .badge-card.earned:hover {
+  background: rgba(77, 154, 255, 0.08) !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .profile-page .badge-icon {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: transparent !important;
+}
+
+html.dark .profile-page .badge-card.earned .badge-icon {
+  background: linear-gradient(135deg, #0052d9, #1890ff) !important;
+}
+
+html.dark .profile-page .tag-chip {
+  background: rgba(77, 154, 255, 0.08) !important;
+  border-color: rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .profile-page .sec-toggle {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .profile-page .timeline-row:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+html.dark .profile-page .field-row,
+html.dark .profile-page .stat-block,
+html.dark .profile-page .gs-stats {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---------- ArticleCenter / ArticleList / ArticleDetail 卡片融入背景 ---------- */
+html.dark .article-center .discovery-ribbon,
+html.dark .article-list-page .discovery-ribbon {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .article-center .search-box,
+html.dark .article-list-page .search-box {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .article-center .spotlight-card,
+html.dark .article-center .article-card,
+html.dark .article-center .collection-card {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .article-center .spotlight-card:hover,
+html.dark .article-center .article-card:hover,
+html.dark .article-center .collection-card:hover {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .article-center .spotlight-card.no-cover,
+html.dark .article-center .spotlight-card.no-cover .spotlight-content {
+  background: transparent !important;
+}
+
+html.dark .article-center .collection-icon-wrapper {
+  background: rgba(77, 154, 255, 0.08) !important;
+}
+
+html.dark .article-center .card-tag {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: transparent !important;
+}
+
+/* ArticleList 行式列表 — 保持编辑风分割线 */
+html.dark .article-list-page .article-row {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .article-list-page .article-row:first-child {
+  border-top-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .article-list-page .article-row:hover {
+  background: rgba(77, 154, 255, 0.04) !important;
+}
+
+html.dark .article-list-page .back-link {
+  background: rgba(77, 154, 255, 0.06) !important;
+  border-color: rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .article-list-page .row-arrow {
+  background: transparent !important;
+}
+
+/* ArticleDetail 侧栏卡片与评论融入背景 */
+html.dark .article-detail-page .sidebar-card {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .article-detail-page .sidebar-card:hover {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  transform: none !important;
+}
+
+html.dark .article-detail-page .comment-item {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .article-detail-page .comment-item:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .article-detail-page .comment-input-wrap {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .article-detail-page .comment-input-wrap:focus-within {
+  background: rgba(77, 154, 255, 0.04) !important;
+  box-shadow: none !important;
+}
+
+html.dark .article-detail-page .comment-textarea {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+html.dark .article-detail-page .rich-content :deep(blockquote),
+html.dark .article-detail-page blockquote {
+  background: rgba(77, 154, 255, 0.04) !important;
+}
+
+/* ---------- CapsuleList / SquareList 卡片融入背景 ---------- */
+html.dark .capsule-list-page .swipe-track {
+  background: transparent !important;
+}
+
+html.dark .square-page .feed-card {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .square-page .feed-card:hover {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .square-page .feed-card.is-capsule {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .square-page .sidebar-card {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .square-page .sidebar-card:hover {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html.dark .square-page .sidebar-card.guidelines-card {
+  background: rgba(77, 154, 255, 0.03) !important;
+  border-color: rgba(77, 154, 255, 0.12) !important;
+}
+
+html.dark .square-page .cloud-tag {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .square-page .cloud-tag:hover {
+  background: rgba(77, 154, 255, 0.08) !important;
+  border-color: rgba(77, 154, 255, 0.2) !important;
+  transform: none !important;
+}
+
+html.dark .square-page .filter-tab {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .square-page .filter-tab:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+html.dark .square-page .topic-tag,
+html.dark .square-page .type-badge.moment {
+  background: rgba(77, 154, 255, 0.08) !important;
+  border-color: transparent !important;
+}
+
+/* ---------- CapsuleCreate / CapsuleDetail 卡片融入背景 ---------- */
+html.dark .time-capsule-page .form-container,
+html.dark .time-capsule-page .form-section,
+html.dark .time-capsule-page .method-option,
+html.dark .time-capsule-page .image-uploader,
+html.dark .time-capsule-page .add-image-btn,
+html.dark .time-capsule-page .image-item,
+html.dark .time-capsule-page .wang-editor-wrap,
+html.dark .time-capsule-page .wang-toolbar,
+html.dark .time-capsule-page .wang-editor {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .time-capsule-page .method-option:hover,
+html.dark .time-capsule-page .method-option.active {
+  background: rgba(77, 154, 255, 0.08) !important;
+  border-color: rgba(77, 154, 255, 0.2) !important;
+}
+
+html.dark .time-capsule-page .emotion-tag {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .time-capsule-page .emotion-tag:hover,
+html.dark .time-capsule-page .emotion-tag.active {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+}
+
+html.dark .time-capsule-page .title-input,
+html.dark .time-capsule-page .info-input,
+html.dark .time-capsule-page .address-input {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .time-capsule-page .date-picker-row {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* CapsuleDetail */
+html.dark .detail-page .detail-info,
+html.dark .detail-page .info-rows,
+html.dark .detail-page .info-row {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .detail-page .comment-item,
+html.dark .detail-page .comment-input-wrap,
+html.dark .detail-page .comment-textarea {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---------- SquareCreate / SquareDetail 卡片融入背景 ---------- */
+html.dark .square-create-page .form-container,
+html.dark .square-create-page .form-card,
+html.dark .square-create-page .form-card-row,
+html.dark .square-create-page .image-uploader,
+html.dark .square-create-page .add-image-btn,
+html.dark .square-create-page .image-item {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .square-create-page .content-textarea {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .square-create-page .emotion-tag {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .square-create-page .emotion-tag:hover,
+html.dark .square-create-page .emotion-tag.active {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+}
+
+html.dark .square-create-page .topic-tag {
+  background: rgba(77, 154, 255, 0.08) !important;
+  border-color: transparent !important;
+}
+
+html.dark .square-create-page .topic-input {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+}
+
+/* SquareDetail */
+html.dark .square-detail-page .comment-item,
+html.dark .square-detail-page .comment-input-wrap,
+html.dark .square-detail-page .comment-textarea {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .square-detail-page .comment-input-area {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* wangEditor 富文本编辑器深色模式 */
+html.dark .w-e-toolbar,
+html.dark .w-e-bar {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .w-e-toolbar-button {
+  color: #94a3b8 !important;
+}
+
+html.dark .w-e-toolbar-button:hover {
+  background: rgba(77, 154, 255, 0.08) !important;
+  color: #4d9aff !important;
+}
+
+html.dark .w-e-text-container,
+html.dark .w-e-textarea-wrap {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .w-e-text-placeholder {
+  color: #64748b !important;
+}
+
+html.dark .w-e-panel-content-color {
+  background: #1a2332 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ---------- CounselingCenter 卡片融入背景 ---------- */
+html.dark .counseling-page .step-block {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .counseling-page .step-block:hover {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html.dark .counseling-page .cons-ribbon,
+html.dark .counseling-page .ribbon-search,
+html.dark .counseling-page .rows-heading {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .counseling-page .ribbon-search input {
+  background: transparent !important;
+}
+
+html.dark .counseling-page .type-opt,
+html.dark .counseling-page .date-opt,
+html.dark .counseling-page .slot-opt,
+html.dark .counseling-page .mode-opt,
+html.dark .counseling-page .filter-chip {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .counseling-page .type-opt:hover,
+html.dark .counseling-page .type-opt.active,
+html.dark .counseling-page .date-opt:hover,
+html.dark .counseling-page .date-opt.active,
+html.dark .counseling-page .slot-opt:hover,
+html.dark .counseling-page .slot-opt.active,
+html.dark .counseling-page .mode-opt:hover,
+html.dark .counseling-page .mode-opt.active,
+html.dark .counseling-page .filter-chip:hover,
+html.dark .counseling-page .filter-chip.active {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+}
+
+html.dark .counseling-page .mb-item {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .counseling-page .row-tag {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: transparent !important;
+}
+
+html.dark .counseling-page .faq-cat {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .counseling-page .faq-cat:hover,
+html.dark .counseling-page .faq-cat.active {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+}
+
+html.dark .counseling-page .q-mark {
+  background: rgba(77, 154, 255, 0.1) !important;
+  border-color: transparent !important;
+}
+
+html.dark .counseling-page .faq-contact {
+  background: rgba(77, 154, 255, 0.06) !important;
+  border-color: rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .counseling-page .cd-review {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .counseling-page .ps-content:hover {
+  background: rgba(77, 154, 255, 0.04) !important;
+  border-color: rgba(77, 154, 255, 0.15) !important;
+}
+
+html.dark .counseling-page .notice-section:hover {
+  border-color: rgba(77, 154, 255, 0.15) !important;
+  box-shadow: none !important;
+}
+
+/* ---------- Settings 卡片融入背景 ---------- */
+html.dark .settings-page .setting-item,
+html.dark .settings-page .info-section {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---------- LoginForm 修复 ---------- */
+/* 登录卡片不要过度透明 → 提高不透明度 */
+html.dark .login-box {
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(24px) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+}
+
+html.dark .login-box.register-form,
+html.dark .login-box.forgot-password-form {
+  background: rgba(15, 23, 42, 0.92) !important;
+}
+
+/* 登录页文字不加黑色背景 — 修复子组件文字背景 */
+html.dark .login-box .el-input__wrapper {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+}
+
+html.dark .login-box .el-input__wrapper.is-focus {
+  border-color: #4d9aff !important;
+  box-shadow: 0 0 0 1px #4d9aff inset !important;
+}
+
+html.dark .login-box .el-input__inner {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .login-box .header-badge {
+  background: rgba(77, 154, 255, 0.12) !important;
+  border-color: rgba(77, 154, 255, 0.2) !important;
+}
+
+html.dark .login-box .login-type-tabs {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .login-box .tab-item.active {
+  background: #0052d9 !important;
+  color: #fff !important;
+}
+
+html.dark .login-box .social-btn,
+html.dark .login-box .wechat-btn,
+html.dark .login-box .qq-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 验证码图片容器 — 深色模式下融入背景 */
+html.dark .captcha-image {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.dark .captcha-image:hover {
+  background: rgba(77, 154, 255, 0.08) !important;
+  border-color: rgba(77, 154, 255, 0.3) !important;
+  box-shadow: none !important;
+}
+
+/* ---------- 通用：el-card 融入背景（非弹层场景） ---------- */
+html.dark .el-card {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
+}
+
+html.dark .el-card:hover {
+  box-shadow: none !important;
+}
+
+/* 弹层/下拉/对话框保持可见（功能性元素需要区分于页面） */
+html.dark .el-dropdown-menu,
+html.dark .el-dialog,
+html.dark .el-drawer,
+html.dark .el-message-box,
+html.dark .el-popper,
+html.dark .el-popover.el-popper,
+html.dark .el-select-dropdown,
+html.dark .el-cascader__dropdown {
+  background: #1a2332 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ---------- 通用：移除卡片化 hover 位移（杂志风） ---------- */
+html.dark .article-card:hover,
+html.dark .spotlight-card:hover,
+html.dark .collection-card:hover,
+html.dark .feed-card:hover,
+html.dark .sidebar-card:hover,
+html.dark .scale-row:hover,
+html.dark .kpi-card:hover,
+html.dark .timeline-card:hover,
+html.dark .badge-card:hover,
+html.dark .insight-card:hover,
+html.dark .detail-item:hover,
+html.dark .quick-entry-item:hover,
+html.dark .recommend-item:hover,
+html.dark .comparison-item:hover {
+  transform: none !important;
+}

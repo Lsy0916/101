@@ -1,10 +1,21 @@
 <script setup>
 import Navbar from './Navbar.vue'
+import CommandPalette from '@/components/CommandPalette.vue'
+import { useRouter } from 'vue-router'
 import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
+
+const router = useRouter()
+function goCounseling() { router.push({ name: 'counseling' }) }
+function goAssessment() { router.push({ name: 'assessment' }) }
+function goArticles() { router.push({ name: 'articles' }) }
+function goCapsule() { router.push({ name: 'time-capsule' }) }
+
 </script>
 
 <template>
   <div class="main-layout">
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <CommandPalette />
     <Navbar v-if="!$route.meta.hideNavbar" />
     <main class="main-content" :class="{ 'no-padding': $route.meta.transparentNavbar || $route.meta.hideNavbar }">
       <router-view v-slot="{ Component }">
@@ -19,7 +30,7 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
           <!-- 品牌介绍 -->
           <div class="footer-brand">
             <h3 class="footer-logo">生涯心旅</h3>
-            <p class="brand-desc">致力于为大学生提供专业的心理健康服务与职业生涯规划指导，结合AI技术与专业咨询，用心呵护每一份成长。</p>
+            <p class="brand-desc">致力于为大学生提供专业的心理健康服务与活动中心指导，结合AI技术与专业咨询，用心呵护每一份成长。</p>
             <div class="social-links">
               <a href="#" class="social-icon"><el-icon><Share /></el-icon></a>
               <a href="#" class="social-icon"><el-icon><Message /></el-icon></a>
@@ -41,10 +52,10 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
           <div class="footer-column">
             <h4>服务项目</h4>
             <ul class="footer-menu">
-              <li><a href="#">心理咨询</a></li>
-              <li><a href="#">生涯规划</a></li>
-              <li><a href="#">心理测评</a></li>
-              <li><a href="#">职业辅导</a></li>
+              <li><a href="javascript:void(0)" @click="goCounseling">心理咨询</a></li>
+              <li><a href="javascript:void(0)" @click="goCapsule">活动中心</a></li>
+              <li><a href="javascript:void(0)" @click="goAssessment">心理测评</a></li>
+              <li><a href="javascript:void(0)" @click="goArticles">文章资讯</a></li>
             </ul>
           </div>
 
@@ -62,7 +73,7 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
               </li>
               <li>
                 <el-icon><Message /></el-icon>
-                <span>info@careerpulse.com</span>
+                <span>contact@shengyaxinlv.com</span>
               </li>
             </ul>
           </div>
@@ -93,8 +104,9 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
 .main-content {
   flex: 1;
   width: 100%;
-  padding-top: 80px;
+  padding-top: var(--navbar-h, 80px);
   min-height: 100vh;
+  transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-content.no-padding {
@@ -103,6 +115,8 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
 }
 
 .main-footer {
+  position: relative;
+  z-index: 2;
   background: white;
   border-top: 1px solid #eef2f6;
   color: #4b5563;
@@ -270,16 +284,14 @@ import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
 /* Page Transitions */
 .page-fade-enter-active,
 .page-fade-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .page-fade-enter-from {
   opacity: 0;
-  transform: translateY(10px);
 }
 
 .page-fade-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
 }
 </style>

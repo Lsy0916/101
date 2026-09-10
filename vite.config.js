@@ -3,11 +3,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    // 添加 vueDevTools 插件
     // vueDevTools(),
   ],
   resolve: {
@@ -16,7 +14,11 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['springboot.free.idcfengye.com'],
+    allowedHosts: [
+      'probable-skimmer-daughter.ngrok-free.dev',
+      '.ngrok-free.dev',
+      'springboot.free.idcfengye.com'
+    ],
     host: '0.0.0.0',
     port: 3000,
     proxy: {

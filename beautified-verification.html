@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>生涯心旅 · 邮箱验证码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, 'Segoe UI', 'Roboto', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+            padding: 48px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: backgroundMove 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* 主容器 - 渐变背景，更现代的阴影效果 */
+        .email-card {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 
+                        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                        0 0 120px rgba(102, 126, 234, 0.1);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .email-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            z-index: 2;
+        }
+
+        /* 内容区域：所有文本默认居中对齐 */
+        .content {
+            padding: 56px 48px 56px 48px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* 头部：生涯心旅 Logo 图片 + 超链接 */
+        .brand-link {
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+        }
+        .brand-link:hover {
+            opacity: 0.85;
+            transform: scale(1.02);
+            filter: drop-shadow(0 4px 12px rgba(102, 126, 234, 0.3));
+        }
+        .brand-logo {
+            max-width: 220px;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+            transition: filter 0.3s ease;
+        }
+        .art-brand {
+            font-family: 'Playfair Display', 'Georgia', 'Times New Roman', '华文楷书', 'Microsoft YaHei', serif;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #d93838 0%, #b12323 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: #d93838;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+            display: inline-block;
+            border-bottom: 2px solid rgba(217, 56, 56, 0.2);
+            padding-bottom: 4px;
+        }
+        .art-brand {
+            color: #d43f3f;
+            background: none;
+        }
+        /* 优雅辅助小字 - 渐变色 */
+        .brand-sub {
+            font-size: 14px;
+            color: #667eea;
+            margin-top: 8px;
+            letter-spacing: 1px;
+            font-weight: 500;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 主要提示区域：全部居中 */
+        .verification-title {
+            font-family: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a2634 0%, #4a5b6e 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 40px 0 16px 0;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .verification-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* 描述文本 */
+        .verification-desc {
+            font-size: 15px;
+            color: #5a6c7d;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            font-weight: 400;
+        }
+
+        /* 验证码区域 — 干净整洁的独立数字块，居中展示 */
+        .code-section {
+            margin: 16px 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .code-digits {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 12px 0 8px;
+        }
+        .code-number {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-color: #f8fafd;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 84px;
+            height: 92px;
+            padding: 0 8px;
+            border-radius: 18px;
+            border: 2px solid #e0e6ed;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.8);
+            letter-spacing: 3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-number::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .code-number:hover::before {
+            left: 100%;
+        }
+
+        /* 有效期和忽略消息居中 */
+        .expiry-note {
+            font-size: 13px;
+            color: #667eea;
+            margin-top: 24px;
+            padding-top: 12px;
+            border-top: 1px dashed #e0e6ed;
+            font-weight: 500;
+        }
+        .ignore-message {
+            font-size: 13px;
+            color: #7a8c9e;
+            margin-top: 14px;
+            line-height: 1.6;
+        }
+
+        /* 底部链接区 (居中，干净) */
+        .footer-links {
+            margin-top: 48px;
+            padding-top: 28px;
+            border-top: 1px solid #e8ecf1;
+            text-align: center;
+        }
+        .support-link {
+            font-size: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .support-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .support-link:hover::after {
+            width: 100%;
+        }
+
+        .support-link:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        .help-link {
+            font-size: 13px;
+            color: #6c7c91;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 8px;
+            word-break: break-all;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .help-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .help-link:hover::after {
+            width: 100%;
+        }
+
+        .help-link:hover {
+            color: #667eea;
+        }
+
+        .footer-divider {
+            width: 48px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 16px auto 16px;
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+
+        /* 响应式：手机端适当缩小 */
+        @media (max-width: 540px) {
+            .content {
+                padding: 40px 28px;
+            }
+            .art-brand {
+                font-size: 30px;
+            }
+            .verification-title {
+                font-size: 24px;
+                margin: 32px 0 12px;
+            }
+            .code-number {
+                font-size: 36px;
+                min-width: 66px;
+                height: 74px;
+            }
+            .code-digits {
+                gap: 10px;
+            }
+        }
+
+        /* 禁用按钮保持只读样式，无交互反馈 */
+        .code-number:disabled {
+            opacity: 1;
+            background-color: #f8fafd;
+            border-color: #e0e6ed;
+            cursor: default;
+            color: #1e2a3a;
+        }
+        button.code-number {
+            background: linear-gradient(135deg, #f8fafd 0%, #ffffff 100%);
+            border: 2px solid #e0e6ed;
+            cursor: default;
+            user-select: none;
+        }
+    </style>
+    <!-- 引入艺术字体 Playfair Display 增强品牌感，同时不影响加载速度 -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="email-card">
+    <div class="content">
+        <!-- 生涯心旅超链接 + Logo 图片 居中 -->
+        <a href="#" class="brand-link" target="_blank" rel="noopener noreferrer">
+            <img src="logo.png" alt="生涯心旅" class="brand-logo">
+        </a>
+        <div class="brand-sub">心之所向 · 步履皆往</div>
+
+        <!-- 验证码区域全部居中：验证码标题换用其他字体，加粗 -->
+        <div class="verification-title">验 证 码</div>
+        <div class="verification-desc">
+            为验证您的账户，请在操作页面中输入以下验证码。
+        </div>
+
+        <!-- 验证码数字展示，动态渲染 -->
+        <div class="code-section">
+            <div class="code-digits">
+                <!-- thymeleaf 遍历 verifyCode 列表生成验证码数字块 -->
+                <button class="code-number" th:each="digit:${verifyCode}" th:text="${digit}" disabled="disabled"></button>
+            </div>
+            <div class="expiry-note">验证码 48 小时内有效</div>
+            <div class="ignore-message">
+                如果您没有请求此验证码，请忽略本邮件。
+            </div>
+        </div>
+
+        <!-- 底部支持团队及帮助中心，保持简洁居中 -->
+        <div class="footer-links">
+            <a href="#" class="support-link">生涯心旅 支持团队</a>
+            <div class="footer-divider"></div>
+            <a href="#" class="help-link">帮助中心：https://careerjourney.ai/help</a>
+        </div>
+    </div>
+</div>
+
+<!-- 辅助脚本：当页面未经过 thymeleaf 渲染时（静态预览），展示示例验证码：3 8 7 2 7 2 ，确保设计效果和参考风格一致 -->
+<script>
+    (function() {
+        const codeButtons = document.querySelectorAll('.code-number');
+        if (!codeButtons.length) return;
+
+        // 判断是否需要模拟数据（未渲染状态，按钮内容为空或包含模板占位符）
+        const firstBtn = codeButtons[0];
+        let needMock = false;
+        if (firstBtn) {
+            const rawText = firstBtn.innerText.trim();
+            if (rawText === '' || rawText.includes('[[') || rawText.includes('${verifyCode}') || rawText.includes('digit')) {
+                needMock = true;
+            }
+        }
+
+        if (needMock) {
+            // 参考给出的风格：3 8 7 2 7 2 (共 6 位)
+            const demoCode = ['3', '8', '7', '2', '7', '2'];
+            for (let i = 0; i < codeButtons.length && i < demoCode.length; i++) {
+                codeButtons[i].innerText = demoCode[i];
+            }
+            // 如果按钮数量超过演示数据（不会超过，但以防万一）
+            if (codeButtons.length > demoCode.length) {
+                for (let i = demoCode.length; i < codeButtons.length; i++) {
+                    codeButtons[i].innerText = '•';
+                }
+            }
+        }
+
+        // 额外保证生涯心旅超链接的 href 属性可以替换成实际链接（此处占位#，开发者可配置真实链接）
+        const brandLink = document.querySelector('.brand-link');
+        if (brandLink && brandLink.getAttribute('href') === '#') {
+            // 保持可配置，如后期需要实际网址可替换，目前不做强制跳转但保留超链接样式
+            brandLink.setAttribute('href', 'https://careerjourney.ai');
+        }
+    })();
+</script>
+</body>
+</html>

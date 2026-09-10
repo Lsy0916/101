@@ -227,35 +227,33 @@ const generateCaptcha = () => {
 // 忘记密码处理函数
 const handleForgotPassword = async () => {
   if (!forgotPasswordFormRef.value) return;
-  
-  // 验证表单
-  await forgotPasswordFormRef.value.validate((valid) => {
-    if (valid) {
-      // 设置加载状态
-      forgotPasswordLoading.value = true;
-      
-      // 调用忘记密码API
-      const authStore = useAuthStore();
-      authStore.forgotPassword({
-        ...forgotPasswordForm
-      }).then(result => {
-        if (result.success) {
-          ElMessage.success(result.message);
-          // 密码重置成功后返回登录页面
-          emit('switch-to-login');
-        } else {
-          ElMessage.error(result.message);
-        }
-      }).catch(error => {
-        ElMessage.error(error.message || '密码重置失败');
-      }).finally(() => {
-        forgotPasswordLoading.value = false;
-      });
-    } else {
-      console.log('表单验证失败');
-      return false;
-    }
-  });
+
+  // 验证表单（使用 try/catch 捕获校验失败的 Promise 拒绝，避免未处理拒绝告警）
+  try {
+    await forgotPasswordFormRef.value.validate();
+    // 设置加载状态
+    forgotPasswordLoading.value = true;
+
+    // 调用忘记密码API
+    const authStore = useAuthStore();
+    authStore.forgotPassword({
+      ...forgotPasswordForm
+    }).then(result => {
+      if (result.success) {
+        ElMessage.success(result.message);
+        // 密码重置成功后返回登录页面
+        emit('switch-to-login');
+      } else {
+        ElMessage.error(result.message);
+      }
+    }).catch(error => {
+      ElMessage.error(error.message || '密码重置失败');
+    }).finally(() => {
+      forgotPasswordLoading.value = false;
+    });
+  } catch {
+    // 表单验证失败，Element Plus 会自动在表单项下方显示错误信息
+  }
 };
 
 // 组件挂载时生成验证码

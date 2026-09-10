@@ -52,7 +52,7 @@
             size="large"
             class="code-btn"
         >
-          {{ phoneCountdown > 0 ? `${phoneCountdown}s后重发` : '获取验证码' }}
+          {{ phoneCountdown > 0 ? t('login.form.codeResend', { n: phoneCountdown }) : t('login.form.getCode') }}
         </el-button>
       </div>
     </el-form-item>
@@ -75,10 +75,15 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { ElMessage } from 'element-plus';
 import { School, Iphone } from '@element-plus/icons-vue';
+
+const router = useRouter();
+const { t } = useI18n();
 
 // 登录表单数据
 const phoneLoginForm = reactive({
@@ -136,12 +141,9 @@ const sendPhoneCode = async () => {
   // 验证手机号
   const phoneValid = await phoneLoginFormRef.value.validateField('phone').catch(() => false);
   if (!phoneValid) return;
-  
-  // 这里应该调用发送验证码的API
-  console.log('发送手机验证码到:', phoneLoginForm.phone);
-  
+
   // 模拟发送验证码成功
-  ElMessage.success('验证码已发送');
+  ElMessage.success(t('login.form.codeSent'));
   
   // 开始倒计时
   phoneCountdown.value = 60;
@@ -155,40 +157,36 @@ const sendPhoneCode = async () => {
 
 // 手机登录处理函数
 const handlePhoneLogin = async () => {
-  if (!phoneLoginFormRef.value) return;
-  
-  // 验证表单
-  await phoneLoginFormRef.value.validate((valid) => {
-    if (valid) {
-      // 设置加载状态
-      loading.value = true;
-      
-      // 调用登录API
-      const authStore = useAuthStore();
-      authStore.login({
-        roleId: 'student',
-        loginType: 'phone', // 手机登录
-        phone: phoneLoginForm.phone,
-        code: phoneLoginForm.code
-      }).then(result => {
-        if (result.success) {
-          ElMessage.success(result.message);
-          // 登录成功后跳转到学生首页
-          window.location.href = '/student';
-        } else {
-          ElMessage.error(result.message);
-        }
-      }).catch(error => {
-        ElMessage.error(error.message || '登录失败');
-      }).finally(() => {
-        loading.value = false;
-      });
+  // 临时：跳过校验，只要输入即可登录用于查看效果
+  loading.value = true;
+
+  const authStore = useAuthStore();
+  authStore.login({
+    roleId: 'student',
+    loginType: 'phone',
+    phone: phoneLoginForm.phone,
+    code: phoneLoginForm.code
+  }).then(result => {
+    if (result.success) {
+      ElMessage.success(result.message);
+      router.push({ name: 'home' });
     } else {
-      console.log('表单验证失败');
-      return false;
+      ElMessage.error(result.message);
     }
+  }).catch(error => {
+    ElMessage.error(error.message || t('login.form.loginFail'));
+  }).finally(() => {
+    loading.value = false;
   });
 };
+
+// 组件卸载前清理倒计时定时器，避免内存泄漏
+onBeforeUnmount(() => {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -213,15 +211,17 @@ const handlePhoneLogin = async () => {
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   letter-spacing: 1px;
   transform: translateY(0);
+  background: linear-gradient(135deg, #0052d9, #1890ff);
+  border: none;
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(64, 158, 255, 0.45);
+  box-shadow: 0 8px 20px rgba(0, 82, 217, 0.4);
 }
 
 .login-button:active {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 82, 217, 0.35);
 }
 </style>

@@ -233,35 +233,33 @@ const generateCaptcha = () => {
 // 注册处理函数
 const handleRegister = async () => {
   if (!registerFormRef.value) return;
-  
-  // 验证表单
-  await registerFormRef.value.validate((valid) => {
-    if (valid) {
-      // 设置加载状态
-      registerLoading.value = true;
-      
-      // 调用注册API
-      const authStore = useAuthStore();
-      authStore.register({
-        ...registerForm
-      }).then(result => {
-        if (result.success) {
-          ElMessage.success(result.message);
-          // 注册成功后返回登录页面
-          emit('switch-to-login');
-        } else {
-          ElMessage.error(result.message);
-        }
-      }).catch(error => {
-        ElMessage.error(error.message || '注册失败');
-      }).finally(() => {
-        registerLoading.value = false;
-      });
-    } else {
-      console.log('表单验证失败');
-      return false;
-    }
-  });
+
+  // 验证表单（使用 try/catch 捕获校验失败的 Promise 拒绝，避免未处理拒绝告警）
+  try {
+    await registerFormRef.value.validate();
+    // 设置加载状态
+    registerLoading.value = true;
+
+    // 调用注册API
+    const authStore = useAuthStore();
+    authStore.register({
+      ...registerForm
+    }).then(result => {
+      if (result.success) {
+        ElMessage.success(result.message);
+        // 注册成功后返回登录页面
+        emit('switch-to-login');
+      } else {
+        ElMessage.error(result.message);
+      }
+    }).catch(error => {
+      ElMessage.error(error.message || '注册失败');
+    }).finally(() => {
+      registerLoading.value = false;
+    });
+  } catch {
+    // 表单验证失败，Element Plus 会自动在表单项下方显示错误信息
+  }
 };
 
 // 组件挂载时生成验证码
