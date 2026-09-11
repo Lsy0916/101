@@ -70,7 +70,7 @@
     <el-form-item class="login-options">
       <div class="login-options-container">
         <el-checkbox v-model="loginForm.remember" label="保存登录信息" />
-        <el-link type="primary" @click="onForgotPassword" underline="never">忘记密码？</el-link>
+        <el-link type="primary" underline="never" @click="onForgotPassword">忘记密码？</el-link>
       </div>
     </el-form-item>
 
@@ -80,9 +80,9 @@
           size="large"
           class="login-button"
           :loading="loading"
-          @click="handleLogin"
           block
           round
+          @click="handleLogin"
       >
         <el-icon><User/></el-icon>
         {{ t('login.form.accountBtn') }}
@@ -100,7 +100,7 @@ import { ElMessage } from 'element-plus'
 import { useAuthLogin } from '@/composables/useAuth'
 import { useUserStore } from '@/store/modules/user'
 import pinia from '@/store'
-import { School, User, Lock } from '@element-plus/icons-vue'
+import { School, User } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()

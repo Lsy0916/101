@@ -19,7 +19,7 @@
         </div>
 
         <!-- 结果分组 -->
-        <div v-if="flatResults.length" class="cmd-results" ref="resultsRef">
+        <div v-if="flatResults.length" ref="resultsRef" class="cmd-results">
           <template v-for="group in groupedResults" :key="group.label">
             <div v-if="group.items.length" class="cmd-group">
               <div class="cmd-group-label">{{ group.label }}</div>
@@ -59,7 +59,7 @@
   </Transition>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCommandPalette } from '@/composables/useCommandPalette'
@@ -68,11 +68,21 @@ const router = useRouter()
 const { open, close } = useCommandPalette()
 const query = ref('')
 const selIndex = ref(0)
-const inputRef = ref(null)
-const resultsRef = ref(null)
+const inputRef = ref<HTMLInputElement | null>(null)
+const resultsRef = ref<HTMLElement | null>(null)
+
+interface CmdItem {
+  id: string
+  title: string
+  desc: string
+  group: 'navigation' | 'articles' | 'assessment'
+  to: string
+  num?: string
+  tag?: string // 原模板渲染保留位（当前数据未使用）
+}
 
 // 导航条目
-const navItems = [
+const navItems: CmdItem[] = [
   { id: 'nav-home', title: '首页', desc: '生涯心旅主页', group: 'navigation', to: '/' },
   { id: 'nav-articles', title: '文章中心', desc: '阅读 · 看见更广阔的自己', group: 'navigation', to: '/articles' },
   { id: 'nav-article-list', title: '文章列表', desc: '全部文章', group: 'navigation', to: '/articles/list' },
@@ -82,7 +92,7 @@ const navItems = [
 ]
 
 // 文章条目（模拟）
-const articleItems = [
+const articleItems: CmdItem[] = [
   { id: 'art-1', title: '如何在焦虑中找到内心的锚点', desc: '精选推荐', group: 'articles', to: '/articles' },
   { id: 'art-2', title: '大学生职业规划的五步法', desc: '职业发展', group: 'articles', to: '/articles' },
   { id: 'art-3', title: '正念冥想：从呼吸开始', desc: '心理健康', group: 'articles', to: '/articles' },
@@ -90,13 +100,13 @@ const articleItems = [
 ]
 
 // 测评条目（模拟）
-const assessItems = [
+const assessItems: CmdItem[] = [
   { id: 'asm-1', title: 'SDS 抑郁自评量表', desc: '20题 · 约10分钟', group: 'assessment', to: '/assessment' },
   { id: 'asm-2', title: 'SAS 焦虑自评量表', desc: '20题 · 约10分钟', group: 'assessment', to: '/assessment' },
   { id: 'asm-3', title: 'MBTI 人格类型测试', desc: '93题 · 约15分钟', group: 'assessment', to: '/assessment' },
 ]
 
-const allItems = [...navItems, ...articleItems, ...assessItems]
+const allItems: CmdItem[] = [...navItems, ...articleItems, ...assessItems]
 
 // 编号
 allItems.forEach((it, i) => {
@@ -104,7 +114,7 @@ allItems.forEach((it, i) => {
 })
 
 // 模糊匹配
-const fuzzyMatch = (text, q) => {
+const fuzzyMatch = (text: string, q: string): boolean => {
   if (!q) return true
   const lower = text.toLowerCase()
   const ql = q.toLowerCase()
@@ -124,7 +134,7 @@ const filtered = computed(() => {
 })
 
 const groupedResults = computed(() => {
-  const groups = [
+  const groups: Array<{ label: string; items: CmdItem[] }> = [
     { label: '— Navigate', items: [] },
     { label: '— Articles', items: [] },
     { label: '— Assessment', items: [] },
@@ -141,14 +151,14 @@ const flatResults = computed(() =>
   groupedResults.value.flatMap((g) => g.items)
 )
 
-const highlight = (text) => {
+const highlight = (text: string): string => {
   const q = query.value.trim()
   if (!q) return text
   const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
   return text.replace(re, '<mark>$1</mark>')
 }
 
-const moveSel = (dir) => {
+const moveSel = (dir: number) => {
   const len = flatResults.value.length
   if (!len) return
   selIndex.value = (selIndex.value + dir + len) % len
@@ -160,7 +170,7 @@ const execSel = () => {
   if (item) run(item)
 }
 
-const run = (item) => {
+const run = (item: CmdItem) => {
   close()
   if (item.to) router.push(item.to)
 }
@@ -182,7 +192,7 @@ watch(open, (v) => {
   }
 })
 
-const onKeydown = (e) => {
+const onKeydown = (e: KeyboardEvent) => {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
     e.preventDefault()
     open.value = !open.value
@@ -194,9 +204,10 @@ const onKeydown = (e) => {
   }
 }
 
-const isTyping = (e) => {
-  const tag = e.target?.tagName
-  return tag === 'INPUT' || tag === 'TEXTAREA' || e.target?.isContentEditable
+const isTyping = (e: KeyboardEvent): boolean => {
+  const target = e.target as HTMLElement | null
+  const tag = target?.tagName
+  return tag === 'INPUT' || tag === 'TEXTAREA' || target?.isContentEditable === true
 }
 
 onMounted(() => window.addEventListener('keydown', onKeydown))

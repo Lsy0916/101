@@ -6,16 +6,16 @@
     <!-- 顶部编辑式标题区 · 非对称 -->
     <header class="page-header">
       <div class="header-left">
-        <div class="header-eyebrow" v-reveal>
+        <div v-reveal class="header-eyebrow">
           <span class="eyebrow-line"></span>
           <span class="eyebrow-text">{{ $t('capsule.list.eyebrow') }}</span>
         </div>
-        <h1 class="header-title" v-reveal="60" v-html="$t('capsule.list.title')"></h1>
-        <p class="header-desc" v-reveal="120">
+        <h1 v-reveal="60" class="header-title" v-html="$t('capsule.list.title')"></h1>
+        <p v-reveal="120" class="header-desc">
           {{ $t('capsule.list.desc') }}
         </p>
       </div>
-      <div class="header-right" v-reveal="80">
+      <div v-reveal="80" class="header-right">
         <!-- 邮戳印章 -->
         <div class="postmark">
           <div class="pm-date">{{ postmarkDate }}</div>
@@ -26,7 +26,7 @@
     </header>
 
     <!-- 统计数据栏 · 横向编辑式 -->
-    <div class="stats-bar" v-reveal="140">
+    <div v-reveal="140" class="stats-bar">
       <div class="stat-block">
         <span class="stat-value">{{ String(totalCount).padStart(2, '0') }}</span>
         <span class="stat-label">{{ $t('capsule.list.stats.total') }}</span>
@@ -49,7 +49,7 @@
     </div>
 
     <!-- 筛选导航 · 下划线式 -->
-    <nav class="filter-nav" v-reveal="160">
+    <nav v-reveal="160" class="filter-nav">
       <div
         v-for="tab in filterTabs"
         :key="tab.type"
@@ -67,8 +67,8 @@
       <div
         v-for="(item, idx) in filteredCapsules"
         :key="item.id"
-        class="archive-entry"
         v-reveal="idx * 50"
+        class="archive-entry"
       >
         <!-- 大号背景编号 -->
         <span class="entry-bg-num" aria-hidden="true">{{ String(idx + 1).padStart(2, '0') }}</span>
@@ -299,7 +299,6 @@ const methodLabel = (m: string) => (m === 'letter' ? t('capsule.list.method.lett
 
 // --- 左滑删除手势 ---
 const getOffset = (id: number) => offsets[id] || 0
-const isRevealed = (id: number) => (offsets[id] || 0) <= -DELETE_WIDTH + 1
 
 const closeAll = () => {
   Object.keys(offsets).forEach((k) => {
@@ -332,7 +331,7 @@ const onPointerDown = (e: PointerEvent, item: CapsuleItem) => {
   drag.moved = false
   try {
     ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
-  } catch (_) {}
+  } catch {}
 }
 
 const onPointerMove = (e: PointerEvent) => {

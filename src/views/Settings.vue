@@ -205,7 +205,7 @@
             class="vis-option"
             :class="{ checked: privacy.visibility === opt.value }"
           >
-            <input type="radio" v-model="privacy.visibility" :value="opt.value" />
+            <input v-model="privacy.visibility" type="radio" :value="opt.value" />
             <span class="vis-num">{{ String(i + 1).padStart(2, '0') }}</span>
             <span class="vis-label">{{ opt.label }}</span>
             <span class="vis-check"><el-icon><Check /></el-icon></span>
@@ -247,7 +247,7 @@
         <div class="editorial-grid three-col">
           <div class="editorial-col">
             <h3 class="col-title">{{ t('settings.card.preferences.language') }}</h3>
-            <el-select v-model="langModel" @change="onLangChange" style="width: 100%">
+            <el-select v-model="langModel" style="width: 100%" @change="onLangChange">
               <el-option :label="t('settings.card.preferences.zhCN')" value="zh-CN" />
               <el-option :label="t('settings.card.preferences.zhTW')" value="zh-TW" />
               <el-option :label="t('settings.card.preferences.enUS')" value="en-US" />
@@ -255,7 +255,7 @@
           </div>
           <div class="editorial-col">
             <h3 class="col-title">{{ t('settings.card.preferences.theme') }}</h3>
-            <el-select v-model="themeModel" @change="onThemeChange" style="width: 100%">
+            <el-select v-model="themeModel" style="width: 100%" @change="onThemeChange">
               <el-option :label="t('nav.theme.light')" value="light" />
               <el-option :label="t('nav.theme.dark')" value="dark" />
               <el-option :label="t('nav.theme.auto')" value="auto" />
@@ -274,7 +274,7 @@
                 class="home-option"
                 :class="{ checked: pref.defaultHome === opt.value }"
               >
-                <input type="radio" v-model="pref.defaultHome" :value="opt.value" />
+                <input v-model="pref.defaultHome" type="radio" :value="opt.value" />
                 <span class="home-label">{{ opt.label }}</span>
               </label>
             </div>
@@ -507,7 +507,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Lock, Iphone, Message, Bell, Hide, Setting, FolderOpened, Check
 } from '@element-plus/icons-vue'
-import { useTheme, useLocale } from '@/composables/settings'
+import { useTheme } from '@/composables/useTheme'
+import { useLocale } from '@/composables/useLocale'
 
 const { t } = useI18n()
 const { themeMode, setThemeMode, isDark } = useTheme()

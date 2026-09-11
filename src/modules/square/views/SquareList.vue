@@ -224,13 +224,13 @@ const filterByTopic = (tag: string) => {
           <article
             v-for="(item, i) in filteredItems"
             :key="item.id"
+            v-reveal="i * 60"
             class="feed-card"
             :class="{ 'is-capsule': item.type === 'capsule', 'is-pinned': item.isPinned }"
-            v-reveal="i * 60"
             @click="openDetail(item.id)"
           >
             <!-- 置顶/热议标记 -->
-            <div class="card-mark" v-if="item.isPinned || item.isHot">
+            <div v-if="item.isPinned || item.isHot" class="card-mark">
               <span class="mark-badge" :class="{ pinned: item.isPinned, hot: item.isHot }">
                 {{ item.isPinned ? $t('square.list.pinned') : $t('square.list.hot') }}
               </span>
@@ -250,7 +250,7 @@ const filterByTopic = (tag: string) => {
 
             <!-- 心情 + 内容 -->
             <div class="card-body">
-              <div class="mood-line" v-if="item.mood">
+              <div v-if="item.mood" class="mood-line">
                 <span class="mood-emoji">{{ moodMap[item.mood] }}</span>
               </div>
               <p class="card-content">{{ item.content }}</p>
@@ -263,7 +263,7 @@ const filterByTopic = (tag: string) => {
             </div>
 
             <!-- 话题标签 -->
-            <div class="card-topics" v-if="item.topics && item.topics.length">
+            <div v-if="item.topics && item.topics.length" class="card-topics">
               <span
                 v-for="topic in item.topics"
                 :key="topic"
@@ -357,7 +357,7 @@ const filterByTopic = (tag: string) => {
     </div>
 
     <!-- FAB 发布按钮 -->
-    <button class="fab-btn" @click="goCreate" :aria-label="$t('square.list.fab')">
+    <button class="fab-btn" :aria-label="$t('square.list.fab')" @click="goCreate">
       <el-icon><Plus /></el-icon>
       <span class="fab-text">{{ $t('square.list.fab') }}</span>
     </button>

@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup lang="ts">
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -309,7 +309,7 @@ function setCategory(key: string) {
           <p class="intro-sub">{{ introData.sub }}</p>
         </div>
         <div class="intro-right">
-          <div class="intro-stat" v-for="stat in introData.stats" :key="stat.label">
+          <div v-for="stat in introData.stats" :key="stat.label" class="intro-stat">
             <span class="stat-num">{{ stat.num }}<sup v-if="stat.sup">{{ stat.sup }}</sup></span>
             <span class="stat-label">{{ stat.label }}</span>
           </div>
@@ -341,8 +341,8 @@ function setCategory(key: string) {
         <div class="search-box">
           <el-icon class="search-icon"><Search /></el-icon>
           <input
-            type="text"
             v-model="searchQuery"
+            type="text"
             :placeholder="$t('article.search')"
             class="search-input"
           />

@@ -48,9 +48,9 @@
         />
         <el-button
             :disabled="phoneCountdown > 0"
-            @click="sendPhoneCode"
             size="large"
             class="code-btn"
+            @click="sendPhoneCode"
         >
           {{ phoneCountdown > 0 ? t('login.form.codeResend', { n: phoneCountdown }) : t('login.form.getCode') }}
         </el-button>
@@ -63,9 +63,9 @@
           size="large"
           class="login-button"
           :loading="loading"
-          @click="handlePhoneLogin"
           block
           round
+          @click="handlePhoneLogin"
       >
         <el-icon><Iphone /></el-icon>
         手机登录

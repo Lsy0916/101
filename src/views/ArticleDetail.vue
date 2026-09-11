@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
+import { getArticleById, getRelatedArticles, type ArticleItem } from '@/data/articles'
 import { ArrowLeft, ArrowRight, Star, Share, Timer, View } from '@element-plus/icons-vue'
 import ReadProgress from '@/components/ReadProgress.vue'
 import InitialAvatar from '@/components/InitialAvatar.vue'
-import { getArticleById, getRelatedArticles, type ArticleItem } from '@/data/articles'
 
 const route = useRoute()
 const router = useRouter()
-const { t } = useI18n()
 
 interface CommentItem {
   id: number
@@ -92,7 +90,7 @@ const toggleCommentLike = (comment: CommentItem) => {
 </script>
 
 <template>
-  <div class="article-detail-page" v-if="article">
+  <div v-if="article" class="article-detail-page">
     <ReadProgress />
 
     <!-- 顶部返回栏 · 紧贴 navbar -->
@@ -111,11 +109,11 @@ const toggleCommentLike = (comment: CommentItem) => {
         <span class="eyebrow-sep">/</span>
         <span class="eyebrow-date">{{ article.date }}</span>
       </div>
-      <h1 class="detail-title" v-reveal>{{ article.title }}</h1>
-      <p class="detail-summary" v-reveal="120">{{ article.summary }}</p>
+      <h1 v-reveal class="detail-title">{{ article.title }}</h1>
+      <p v-reveal="120" class="detail-summary">{{ article.summary }}</p>
 
       <!-- 作者 + meta · 编辑式定义行 -->
-      <div class="author-row" v-reveal="200">
+      <div v-reveal="200" class="author-row">
         <div class="author-block">
           <InitialAvatar :name="article.author" :size="44" class="author-avatar" />
           <div class="author-info">
@@ -135,7 +133,7 @@ const toggleCommentLike = (comment: CommentItem) => {
     <div class="article-grid">
       <!-- 主栏: 正文（含封面首图）+ 操作栏 -->
       <div class="article-main">
-        <article class="rich-content drop-cap" v-html="articleBody" v-reveal="80"></article>
+        <article v-reveal="80" class="rich-content drop-cap" v-html="articleBody"></article>
 
         <!-- 底部操作栏 -->
         <footer class="detail-footer">
@@ -157,7 +155,7 @@ const toggleCommentLike = (comment: CommentItem) => {
       </div>
 
       <!-- 右侧推荐栏 · sticky -->
-      <aside class="related-sidebar" v-if="related.length > 0">
+      <aside v-if="related.length > 0" class="related-sidebar">
         <div class="sidebar-header">
           <span class="sidebar-eyebrow">— Continue Reading</span>
           <h3 class="sidebar-title">相关<em>推荐</em></h3>
@@ -166,8 +164,8 @@ const toggleCommentLike = (comment: CommentItem) => {
           <article
             v-for="(item, i) in related"
             :key="item.id"
-            class="sidebar-card"
             v-reveal="i * 80"
+            class="sidebar-card"
             @click="openRelated(item.id)"
           >
             <span class="card-num">{{ String(i + 1).padStart(2, '0') }}</span>
@@ -211,7 +209,7 @@ const toggleCommentLike = (comment: CommentItem) => {
       </div>
 
       <!-- 评论列表 -->
-      <div class="comments-list" v-if="comments.length > 0">
+      <div v-if="comments.length > 0" class="comments-list">
         <div
           v-for="comment in comments"
           :key="comment.id"

@@ -344,7 +344,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Histogram, Warning, School, Edit, View, Plus, Close
 } from '@element-plus/icons-vue'
-import { useAuthStore } from '@/stores/auth'
+import { useUserStore } from '@/store/modules/user'
+import { logout } from '@/composables/useAuth'
 import InitialAvatar from '@/components/InitialAvatar.vue'
 
 interface UserExtra {
@@ -372,9 +373,9 @@ interface GrowthItem {
 
 const router = useRouter()
 const { t } = useI18n()
-const authStore = useAuthStore()
+const userStore = useUserStore()
 
-const info = (authStore.userInfo || {}) as UserExtra
+const info = (userStore.profile || {}) as UserExtra
 
 const profileForm = reactive({
   name: info.name || '',
@@ -405,7 +406,7 @@ const profileEditing = ref(false)
 const psychEditing = ref(false)
 
 const roleLabel = computed(() => {
-  const r = authStore.roleId || info.roleId || 'student'
+  const r = userStore.role || info.roleId || 'student'
   if (r === 'teacher') return t('profile.card.profile.roleTeacher')
   if (r === 'admin') return t('profile.card.profile.roleAdmin')
   return t('profile.card.profile.roleStudent')
@@ -571,7 +572,7 @@ function handleDelete() {
       type: 'warning'
     }
   ).then(() => {
-    authStore.logout()
+    logout()
     ElMessage.success(t('profile.card.danger.deleted'))
     router.push('/')
   }).catch(() => {})

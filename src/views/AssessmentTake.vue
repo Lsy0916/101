@@ -71,8 +71,8 @@
       <div class="footer-inner">
         <button
           :disabled="currentIndex === 0"
-          @click="prevQuestion"
           class="nav-btn"
+          @click="prevQuestion"
         >
           <el-icon><ArrowLeft /></el-icon>
           <span>上一题</span>
@@ -90,8 +90,8 @@
         <button
           v-if="!isLastQuestion"
           :disabled="currentAnswer === undefined"
-          @click="nextQuestion"
           class="nav-btn-primary"
+          @click="nextQuestion"
         >
           <span>下一题</span>
           <el-icon><ArrowRight /></el-icon>
@@ -100,8 +100,8 @@
           v-else
           :loading="submitting"
           :disabled="!allAnswered"
-          @click="handleSubmit"
           class="nav-btn-primary"
+          @click="handleSubmit"
         >
           <span>提交报告</span>
           <el-icon><Finished /></el-icon>
@@ -133,8 +133,7 @@ import {
   Check,
   ArrowLeft,
   ArrowRight,
-  Finished,
-  Loading
+  Finished
 } from '@element-plus/icons-vue'
 
 // --- 类型定义 ---

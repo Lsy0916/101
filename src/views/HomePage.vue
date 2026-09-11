@@ -17,13 +17,13 @@
         <div
           class="carousel-track"
           :class="{ 'is-dragging': isDragging, 'no-transition': disableTransition }"
-          @transitionend="handleTransitionEnd"
           :style="{
             transform: `translateX(calc(-${currentIndex * 100}% + ${dragOffset}px))`,
             transition: (isDragging || disableTransition) ? 'none' : 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
           }"
+          @transitionend="handleTransitionEnd"
         >
-          <div class="carousel-slide" v-for="(slide, index) in displaySlides" :key="index">
+          <div v-for="(slide, index) in displaySlides" :key="index" class="carousel-slide">
             <div class="slide-image">
               <img :src="slide.image" :alt="slide.title">
               <div class="image-overlay"></div>
@@ -33,7 +33,7 @@
         <!-- 文字内容独立层：基于 realIndex 渲染，避免无缝跳转时重复触发动画 -->
         <div class="slide-content-overlay">
           <transition name="fade-up" mode="out-in">
-            <div class="slide-text" :key="realIndex">
+            <div :key="realIndex" class="slide-text">
               <span class="slide-tag">{{ currentSlide.tag || $t('home.carousel.exploreTag') }}</span>
               <h2>{{ currentSlide.title }}</h2>
               <p>{{ currentSlide.description }}</p>
@@ -58,10 +58,10 @@
           ></span>
         </div>
         <!-- 轮播图左右箭头 -->
-        <button class="carousel-btn prev" @click="prevSlide" aria-label="Previous slide">
+        <button class="carousel-btn prev" aria-label="Previous slide" @click="prevSlide">
           <el-icon><ArrowLeft /></el-icon>
         </button>
-        <button class="carousel-btn next" @click="nextSlide" aria-label="Next slide">
+        <button class="carousel-btn next" aria-label="Next slide" @click="nextSlide">
           <el-icon><ArrowRight /></el-icon>
         </button>
         
@@ -114,9 +114,9 @@
         </div>
         <div class="news-rows">
           <div
-            class="news-row scroll-reveal"
             v-for="(news, index) in allNews"
             :key="news.id"
+            class="news-row scroll-reveal"
             :style="{ transitionDelay: `${index * 80}ms` }"
             @click="readNews(news.id)"
           >
@@ -203,7 +203,7 @@
           </div>
           <div class="contact-form-wrapper">
             <h3>{{ $t('home.contact.formTitle') }}</h3>
-            <el-form :model="contactForm" :rules="contactRules" ref="contactFormRef" label-position="top" class="tech-form">
+            <el-form ref="contactFormRef" :model="contactForm" :rules="contactRules" label-position="top" class="tech-form">
               <el-row :gutter="20">
                 <el-col :span="12" :xs="24">
                   <el-form-item prop="name" :label="$t('home.contact.name')">
@@ -236,13 +236,14 @@
     </section>
 
     <!-- 回到顶部与快速导航 -->
-    <div class="back-to-top-container" 
+    <div
+class="back-to-top-container" 
          :class="{ 'visible': scrollY > 100 }"
          @mouseenter="showNavMenu = true" 
          @mouseleave="showNavMenu = false">
       
       <transition name="fade-slide">
-        <div class="nav-menu" v-show="showNavMenu">
+        <div v-show="showNavMenu" class="nav-menu">
           <div class="nav-menu-title">{{ $t('home.nav.quick') }}</div>
           <div
             v-for="item in navSections"
@@ -273,26 +274,17 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import type { Component } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import type { FormInstance } from 'element-plus'
 import {
-  Lock,
-  TrendCharts,
-  ChatLineRound,
   ArrowLeft,
   ArrowRight,
   Phone,
   Message,
   ArrowDown,
-  ArrowUp,
-  DataAnalysis,
-  Connection,
-  Clock,
-  Reading,
-  ChatDotRound
+  ArrowUp
 } from '@element-plus/icons-vue'
 
 // 导入图片资源
@@ -475,9 +467,6 @@ const handleSlideAction = (slide: { buttonText: string }) => {
   }
 }
 
-// 导航栏相关状态
-const isScrolled = ref(false)
-
 const startCarousel = () => {
   if (carouselInterval.value) clearInterval(carouselInterval.value)
   carouselInterval.value = setInterval(() => {
@@ -603,21 +592,6 @@ const scrollToSection = (id: string) => {
   }
 }
 
-// 图标映射：i18n 中的 icon 字符串 → Element Plus 图标组件
-const iconMap: Record<string, Component> = {
-  DataAnalysis,
-  Connection,
-  Clock,
-  Reading,
-  ChatDotRound,
-  ChatLineRound,
-  TrendCharts,
-  Lock
-}
-
-// 服务路由映射（按 i18n items 顺序）
-const serviceRoutes = ['assessment', 'counseling', 'time-capsule', 'articles']
-
 // 新闻数据（i18n 驱动，图片循环复用）
 const allNews = computed(() => {
   const items = tmItems('home.news.items') as NewsItem[]
@@ -629,38 +603,11 @@ const allNews = computed(() => {
   }))
 })
 
-// 服务数据（i18n 驱动）
-const services = computed(() => {
-  const items = tmItems('home.services.items') as Array<{ icon?: string }>
-  if (!Array.isArray(items)) return []
-  return items.map((item, i) => ({
-    ...item,
-    iconComp: iconMap[item.icon || ''] || DataAnalysis,
-    route: serviceRoutes[i] || null
-  }))
-})
-
-// 特色功能数据（i18n 驱动）
-const features = computed(() => {
-  const items = tmItems('home.features.items') as Array<{ icon?: string }>
-  if (!Array.isArray(items)) return []
-  return items.map((item) => ({
-    ...item,
-    iconComp: iconMap[item.icon || ''] || DataAnalysis
-  }))
-})
-
-function handleServiceClick(service: { route?: string | null }) {
-  if (service.route) {
-    router.push({ name: service.route })
-  }
-}
-
 const goToAbout = () => {
   document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 }
 
-const readNews = (id: number) => {
+const readNews = (_id: number) => {
   router.push({ name: 'articles' })
 }
 

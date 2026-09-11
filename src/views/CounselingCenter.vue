@@ -4,7 +4,7 @@
     <el-tabs v-model="activeTab" class="main-tabs" @tab-change="handleTabChange">
       <!-- ============ 预约咨询 ============ -->
       <el-tab-pane :label="$t('counseling.tabs.booking')" name="booking">
-        <div class="module-cover" v-reveal>
+        <div v-reveal class="module-cover">
           <div class="cover-top">
             <span class="cover-eyebrow">{{ $t('counseling.cover.booking.eyebrow') }}</span>
             <span class="cover-no">No.01</span>
@@ -13,7 +13,7 @@
           <p class="cover-desc">{{ $t('counseling.cover.booking.desc') }}</p>
           <div class="cover-line"></div>
         </div>
-        <div class="booking-layout" v-reveal="{ delay: 100 }">
+        <div v-reveal="{ delay: 100 }" class="booking-layout">
           <div class="booking-main">
             <el-form ref="bookingFormRef" :model="booking" label-position="top" class="booking-form">
               <!-- 01 咨询类型 -->
@@ -25,15 +25,15 @@
                   <h3 class="step-title">{{ $t('counseling.step.type') }}<em v-if="true">*</em></h3>
                   <div class="type-options">
                     <button
-                      v-for="t in consultationTypes"
-                      :key="t.key"
+                      v-for="ct in consultationTypes"
+                      :key="ct.key"
                       type="button"
                       class="type-opt"
-                      :class="{ active: booking.type === t.key }"
-                      @click="booking.type = t.key; errors.type = false"
+                      :class="{ active: booking.type === ct.key }"
+                      @click="booking.type = ct.key; errors.type = false"
                     >
-                      <span class="to-name">{{ t.name }}</span>
-                      <span class="to-dur">{{ t.duration }}min</span>
+                      <span class="to-name">{{ ct.name }}</span>
+                      <span class="to-dur">{{ ct.duration }}min</span>
                     </button>
                   </div>
                 </div>
@@ -186,7 +186,7 @@
 
               <div class="form-footer">
                 <span class="form-hint">{{ $t('counseling.form.required').split('*')[0] }}<em>*</em>{{ $t('counseling.form.required').split('*')[1] }}</span>
-                <el-button type="primary" @click="submitBooking" size="large">{{ $t('counseling.btn.confirmBooking') }}<el-icon class="el-icon--right"><ArrowRight /></el-icon></el-button>
+                <el-button type="primary" size="large" @click="submitBooking">{{ $t('counseling.btn.confirmBooking') }}<el-icon class="el-icon--right"><ArrowRight /></el-icon></el-button>
               </div>
             </el-form>
           </div>
@@ -216,7 +216,7 @@
                     <span class="mb-status" :class="'s-' + b.status">{{ statusMap[b.status] }}</span>
                   </div>
                   <div class="mb-info">{{ b.date }} {{ b.slot }} · {{ b.typeName }}</div>
-                  <div class="mb-actions" v-if="b.status === 'pending'">
+                  <div v-if="b.status === 'pending'" class="mb-actions">
                     <el-button size="small" plain @click="cancelBooking(i)">{{ $t('counseling.booking.cancelBtn') }}</el-button>
                   </div>
                 </div>
@@ -229,7 +229,7 @@
 
       <!-- ============ 心理老师 ============ -->
       <el-tab-pane :label="$t('counseling.tabs.counselors')" name="consultants">
-        <div class="module-cover" v-reveal>
+        <div v-reveal class="module-cover">
           <div class="cover-top">
             <span class="cover-eyebrow">{{ $t('counseling.cover.counselors.eyebrow') }}</span>
             <span class="cover-no">No.02</span>
@@ -239,7 +239,7 @@
           <div class="cover-line"></div>
         </div>
         <!-- 极简搜索 + 筛选 -->
-        <div class="cons-ribbon" v-reveal="{ delay: 80 }">
+        <div v-reveal="{ delay: 80 }" class="cons-ribbon">
           <div class="ribbon-search">
             <el-icon class="search-ico"><Search /></el-icon>
             <input v-model="consultantSearch" :placeholder="$t('counseling.counselors.searchPlaceholderAlt')" />
@@ -265,7 +265,7 @@
         </div>
 
         <!-- 心理老师列表：横向编辑式行 -->
-        <div class="counselor-rows" v-reveal="{ delay: 160 }">
+        <div v-reveal="{ delay: 160 }" class="counselor-rows">
           <div
             v-for="(c, i) in filteredConsultants"
             :key="c.id"
@@ -304,7 +304,7 @@
 
       <!-- ============ 咨询须知 ============ -->
       <el-tab-pane :label="$t('counseling.tabs.notice')" name="notice">
-        <div class="module-cover" v-reveal>
+        <div v-reveal class="module-cover">
           <div class="cover-top">
             <span class="cover-eyebrow">{{ $t('counseling.cover.notice.eyebrow') }}</span>
             <span class="cover-no">No.03</span>
@@ -313,7 +313,7 @@
           <p class="cover-desc">{{ $t('counseling.cover.notice.desc') }}</p>
           <div class="cover-line"></div>
         </div>
-        <div class="notice-layout" v-reveal="{ delay: 100 }">
+        <div v-reveal="{ delay: 100 }" class="notice-layout">
           <!-- 流程图 · 全宽编辑式横幅 -->
           <section class="notice-hero">
             <div class="hero-eyebrow">
@@ -411,7 +411,7 @@
 
       <!-- ============ 常见问题 ============ -->
       <el-tab-pane :label="$t('counseling.tabs.faq')" name="faq">
-        <div class="module-cover" v-reveal>
+        <div v-reveal class="module-cover">
           <div class="cover-top">
             <span class="cover-eyebrow">{{ $t('counseling.cover.faq.eyebrow') }}</span>
             <span class="cover-no">No.04</span>
@@ -420,7 +420,7 @@
           <p class="cover-desc">{{ $t('counseling.cover.faq.desc') }}</p>
           <div class="cover-line"></div>
         </div>
-        <div class="faq-layout" v-reveal="{ delay: 100 }">
+        <div v-reveal="{ delay: 100 }" class="faq-layout">
           <aside class="faq-sidebar">
             <div
               v-for="cat in faqCategories"
@@ -502,12 +502,12 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  Service, ChatLineRound, Aim, User, Star, Calendar, Clock, Monitor, OfficeBuilding,
-  EditPen, Tickets, List, CircleCheckFilled, Warning, ArrowRight, Guide, Lock, Reading,
+  ChatLineRound, User, Star, Calendar,
+  Tickets, List, CircleCheckFilled, Warning, ArrowRight, Lock, Reading,
   RefreshLeft, InfoFilled, School, Search, ChatDotRound, House, Connection
 } from '@element-plus/icons-vue'
 
@@ -545,7 +545,6 @@ interface BookingItem {
 }
 
 const route = useRoute()
-const router = useRouter()
 const { t, tm } = useI18n()
 
 const tabQueryMap: Record<string, string> = { booking: 'booking', consultants: 'consultants', notice: 'notice', faq: 'faq' }
@@ -565,8 +564,6 @@ const consultationTypes = [
   { key: 'family', name: '家庭咨询', desc: '处理家庭关系与冲突', duration: 60, icon: House },
   { key: 'group', name: '团体辅导', desc: '在团体中获得支持与成长', duration: 90, icon: ChatDotRound }
 ]
-
-const allTopics = ['情绪困扰', '焦虑抑郁', '人际关系', '学业压力', '职业发展', '亲密关系', '家庭冲突', '自我认同', '创伤经历', '睡眠问题', '成瘾行为', '丧亲哀伤', '适应困难', '进食障碍']
 
 const specialties = ['情绪管理', '焦虑抑郁', '人际关系', '亲密关系', '家庭治疗', '创伤治疗', '青少年', '职业规划', '认知行为', '正念取向', '精神分析', '团体咨询']
 
@@ -723,11 +720,6 @@ function getTypeName(key: string) {
 }
 function getCounselor(id: number | null) {
   return counselors.find(c => c.id === id) || { name: '' }
-}
-function toggleTopic(t: string) {
-  const idx = booking.topics.indexOf(t)
-  if (idx >= 0) booking.topics.splice(idx, 1)
-  else booking.topics.push(t)
 }
 
 // 我的预约
@@ -900,7 +892,7 @@ const filteredFaqs = computed(() => {
 })
 
 // ============ tab 切换 ============
-function handleTabChange(name: string | number) {
+function handleTabChange(_name: string | number) {
   // 占位：可在此埋点
 }
 

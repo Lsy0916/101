@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
@@ -99,7 +99,7 @@ const toggleCommentLike = (comment: CommentItem) => {
 </script>
 
 <template>
-  <div class="square-detail-page" v-if="post">
+  <div v-if="post" class="square-detail-page">
     <!-- 顶部返回栏 -->
     <div class="top-bar">
       <button class="back-btn" @click="router.push('/square')">
@@ -115,7 +115,7 @@ const toggleCommentLike = (comment: CommentItem) => {
     <!-- 标题区 -->
     <header class="detail-header">
       <div class="header-eyebrow">
-        <span class="eyebrow-mood" v-if="post.mood">{{ moodMap[post.mood] }}</span>
+        <span v-if="post.mood" class="eyebrow-mood">{{ moodMap[post.mood] }}</span>
         <span class="eyebrow-date">{{ $t('square.detail.createdAt', { date: post.createdAt }) }}</span>
       </div>
       <h1 class="detail-title" v-html="$t('square.detail.title')"></h1>
@@ -186,7 +186,7 @@ const toggleCommentLike = (comment: CommentItem) => {
       </div>
 
       <!-- 评论列表 -->
-      <div class="comments-list" v-if="comments.length > 0">
+      <div v-if="comments.length > 0" class="comments-list">
         <div
           v-for="comment in comments"
           :key="comment.id"

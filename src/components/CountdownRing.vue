@@ -32,18 +32,29 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
 
-const props = defineProps({
-  days: { type: Number, default: 0 },
-  total: { type: Number, default: 365 },
-  size: { type: Number, default: 140 },
-  strokeWidth: { type: Number, default: 4 },
-  progressColor: { type: String, default: '#000' },
-  trackColor: { type: String, default: '#e5e7eb' },
-  unit: { type: String, default: '天后开启' },
-})
+const props = withDefaults(
+  defineProps<{
+    days?: number
+    total?: number
+    size?: number
+    strokeWidth?: number
+    progressColor?: string
+    trackColor?: string
+    unit?: string
+  }>(),
+  {
+    days: 0,
+    total: 365,
+    size: 140,
+    strokeWidth: 4,
+    progressColor: '#000',
+    trackColor: '#e5e7eb',
+    unit: '天后开启',
+  },
+)
 
 const radius = computed(() => (props.size - props.strokeWidth) / 2 - 2)
 const circumference = computed(() => 2 * Math.PI * radius.value)

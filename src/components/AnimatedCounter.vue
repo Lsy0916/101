@@ -6,24 +6,33 @@
   </span>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const props = defineProps({
-  target: { type: Number, default: 0 },
-  duration: { type: Number, default: 1800 },
-  prefix: { type: String, default: '' },
-  suffix: { type: String, default: '' },
-  decimals: { type: Number, default: 0 },
-})
+const props = withDefaults(
+  defineProps<{
+    target?: number
+    duration?: number
+    prefix?: string
+    suffix?: string
+    decimals?: number
+  }>(),
+  {
+    target: 0,
+    duration: 1800,
+    prefix: '',
+    suffix: '',
+    decimals: 0,
+  },
+)
 
-const el = ref(null)
+const el = ref<HTMLElement | null>(null)
 const current = ref(0)
 const started = ref(false)
 
 const display = ref(formatNum(0))
 
-function formatNum(n) {
+function formatNum(n: number): string {
   return n.toLocaleString('zh-CN', {
     minimumFractionDigits: props.decimals,
     maximumFractionDigits: props.decimals,
@@ -34,9 +43,9 @@ function animate() {
   const start = performance.now()
   const from = 0
   const to = props.target
-  const ease = (t) => 1 - Math.pow(1 - t, 3)
+  const ease = (t: number) => 1 - Math.pow(1 - t, 3)
 
-  const step = (now) => {
+  const step = (now: number) => {
     const elapsed = now - start
     const t = Math.min(elapsed / props.duration, 1)
     const val = from + (to - from) * ease(t)
@@ -51,7 +60,7 @@ function animate() {
   requestAnimationFrame(step)
 }
 
-let observer
+let observer: IntersectionObserver | null = null
 onMounted(() => {
   observer = new IntersectionObserver(
     (entries) => {
@@ -59,7 +68,7 @@ onMounted(() => {
         if (entry.isIntersecting && !started.value) {
           started.value = true
           animate()
-          observer.unobserve(entry.target)
+          observer?.unobserve(entry.target)
         }
       })
     },

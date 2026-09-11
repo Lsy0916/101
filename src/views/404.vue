@@ -97,7 +97,7 @@
                       <span class="nf-game-stat-label">STEPS</span>
                       <span class="nf-game-stat-value">{{ gameSteps }}</span>
                     </div>
-                    <div class="nf-game-stat" v-if="gameBestSteps > 0">
+                    <div v-if="gameBestSteps > 0" class="nf-game-stat">
                       <span class="nf-game-stat-label">BEST</span>
                       <span class="nf-game-stat-value">{{ gameBestSteps }}</span>
                     </div>
@@ -157,7 +157,7 @@
                       <span class="nf-game-stat-label">STREAK</span>
                       <span class="nf-game-stat-value">{{ breathStreak }}</span>
                     </div>
-                    <div class="nf-game-stat" v-if="breathBestStreak > 0">
+                    <div v-if="breathBestStreak > 0" class="nf-game-stat">
                       <span class="nf-game-stat-label">BEST</span>
                       <span class="nf-game-stat-value">{{ breathBestStreak }}</span>
                     </div>

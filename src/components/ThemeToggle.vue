@@ -32,11 +32,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Moon, Sunny, Monitor, Check } from '@element-plus/icons-vue'
-import { useTheme } from '@/composables/settings'
+import { useTheme } from '@/composables/useTheme'
+import type { ThemeMode } from '@/composables/useTheme'
 
 const { t } = useI18n()
 const { themeMode, setThemeMode } = useTheme()
@@ -47,7 +48,7 @@ const currentLabel = computed(() => {
   return t('nav.theme.dark')
 })
 
-function handleCommand(mode) {
+function handleCommand(mode: ThemeMode) {
   setThemeMode(mode)
 }
 </script>

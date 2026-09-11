@@ -30,7 +30,7 @@ function goCapsule() { router.push({ name: 'time-capsule' }) }
         </transition>
       </router-view>
     </main>
-    <footer class="main-footer" v-if="!route.meta.hideFooter">
+    <footer v-if="!route.meta.hideFooter" class="main-footer">
       <div class="footer-content">
         <div class="footer-grid">
           <!-- 品牌介绍 -->

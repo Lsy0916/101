@@ -4,7 +4,7 @@
     <el-tabs v-model="mainTab" class="main-tabs" @tab-change="handleTabChange">
       <!-- 测评广场 -->
       <el-tab-pane :label="$t('assessment.tabs.scales')" name="scales">
-        <div class="module-cover" v-reveal>
+        <div v-reveal class="module-cover">
           <div class="cover-top">
             <span class="cover-eyebrow">— Assessment</span>
             <span class="cover-no">No.{{ String(scaleList.length).padStart(2, '0') }}</span>
@@ -14,7 +14,7 @@
           <div class="cover-line"></div>
         </div>
         <!-- 编号式分类导航 + 极简搜索 -->
-        <div class="scale-ribbon" v-reveal="{ delay: 80 }">
+        <div v-reveal="{ delay: 80 }" class="scale-ribbon">
           <div class="ribbon-cats">
             <button
               v-for="cat in categories"
@@ -91,7 +91,7 @@
       <el-tab-pane :label="$t('assessment.tabs.mine')" name="mine">
         <div class="mine-wrapper">
           <!-- 模块封面 · 编辑式 -->
-          <div class="module-cover" v-reveal>
+          <div v-reveal class="module-cover">
             <div class="cover-top">
               <span class="cover-eyebrow">— My Profile</span>
               <span class="cover-no">No.{{ String(userLevel).padStart(2, '0') }}</span>
@@ -102,7 +102,7 @@
           </div>
 
           <!-- 个人信息 · 编辑式定义列表 -->
-          <div class="profile-editorial" v-reveal="{ delay: 80 }">
+          <div v-reveal="{ delay: 80 }" class="profile-editorial">
             <div class="profile-stats">
               <div class="profile-stat">
                 <span class="ps-num">{{ totalCompleted }}</span>
@@ -145,7 +145,7 @@
           </div>
 
           <!-- 历史测评时间轴 -->
-          <div class="history-section" v-reveal>
+          <div v-reveal class="history-section">
             <div class="section-header">
               <h3><el-icon><Clock /></el-icon> {{ $t('assessment.profile.historyTitle') }}</h3>
               <el-button v-if="allHistory.length > 0" link type="primary" @click="clearAllHistory">{{ $t('assessment.profile.clearHistory') }}</el-button>
@@ -178,7 +178,7 @@
           </div>
 
           <!-- 我的勋章 -->
-          <div class="badges-section" v-reveal="{ delay: 100 }">
+          <div v-reveal="{ delay: 100 }" class="badges-section">
             <div class="section-header">
               <h3><el-icon><Medal /></el-icon> {{ $t('assessment.profile.badgesTitle') }}</h3>
               <span class="badges-count">{{ unlockedBadges }}/{{ badges.length }} {{ $t('assessment.profile.unlocked') }}</span>
@@ -204,7 +204,7 @@
       <!-- 成长看板 -->
       <el-tab-pane :label="$t('assessment.tabs.dashboard')" name="dashboard">
         <div class="dashboard-wrapper">
-          <div class="module-cover" v-reveal>
+          <div v-reveal class="module-cover">
             <div class="cover-top">
               <span class="cover-eyebrow">— Growth Dashboard</span>
               <span class="cover-no">No.{{ String(totalCompleted).padStart(2, '0') }}</span>
@@ -213,7 +213,7 @@
             <p class="cover-desc">{{ $t('assessment.cover.dashboard.desc') }}</p>
             <div class="cover-line"></div>
           </div>
-          <div class="dashboard-layout" v-reveal="{ delay: 80 }">
+          <div v-reveal="{ delay: 80 }" class="dashboard-layout">
             <!-- 左侧导航 -->
             <aside class="dashboard-sidebar">
               <div
@@ -301,12 +301,14 @@
                   <div class="radar-container radar-large">
                     <svg viewBox="0 0 200 200" class="radar-svg">
                       <polygon v-for="n in 5" :key="n" :points="getRadarPoints(n * 20)" class="radar-bg-poly" />
-                      <line v-for="i in 6" :key="i" x1="100" y1="100"
+                      <line
+v-for="i in 6" :key="i" x1="100" y1="100"
                         :x2="100 + 80 * Math.cos((i * 60 - 90) * Math.PI / 180)"
                         :y2="100 + 80 * Math.sin((i * 60 - 90) * Math.PI / 180)" class="radar-axis" />
                       <polygon :points="radarAvgPoints" class="radar-avg-poly" />
                       <polygon :points="radarDataPoints" class="radar-data-poly" />
-                      <text v-for="(label, i) in radarLabels" :key="i"
+                      <text
+v-for="(label, i) in radarLabels" :key="i"
                         :x="100 + 95 * Math.cos((i * 60 - 90) * Math.PI / 180)"
                         :y="100 + 95 * Math.sin((i * 60 - 90) * Math.PI / 180)"
                         class="radar-label">{{ label }}</text>
@@ -345,8 +347,8 @@
                         <span class="avg-label">{{ $t('assessment.dashboard.avgLabel') }} {{ trendAvgLine }}%</span>
                       </div>
                       <div v-for="(point, idx) in trendData" :key="idx" class="trend-bar-group">
-                        <div class="bar phq" :style="{ height: point.phq + '%' }" v-if="point.phq > 0"></div>
-                        <div class="bar gad" :style="{ height: point.gad + '%' }" v-if="point.gad > 0"></div>
+                        <div v-if="point.phq > 0" class="bar phq" :style="{ height: point.phq + '%' }"></div>
+                        <div v-if="point.gad > 0" class="bar gad" :style="{ height: point.gad + '%' }"></div>
                         <div class="bar-date">{{ point.date }}</div>
                       </div>
                       <div v-if="trendData.length === 0" class="chart-empty">{{ $t('assessment.dashboard.noTrendData') }}</div>
@@ -647,30 +649,19 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
 import {
   Check,
-  DataLine,
   MagicStick,
   InfoFilled,
   Compass,
   Promotion,
   TrendCharts,
-  Odometer,
-  User,
   Collection,
   Star,
   QuestionFilled,
-  Refresh,
   Download,
-  Share,
   Search,
   Timer,
   ArrowRight,
-  Lightning,
   Aim,
-  Reading,
-  Cpu,
-  Opportunity,
-  Connection,
-  ChatDotRound,
   TrophyBase,
   Medal,
   Clock,
@@ -680,10 +671,7 @@ import {
   ArrowUpBold,
   ArrowDownBold,
   PieChart,
-  Filter,
-  List,
-  Plus,
-  GoldMedal
+  List
 } from '@element-plus/icons-vue'
 
 // --- 类型定义 ---
@@ -737,11 +725,6 @@ interface ScaleDefinition {
   optionType: 'frequency' | 'agreement' | 'mbti'
   questions: ScaleQuestion[]
   calc: (score: number, details: Record<string, number>) => ScaleResult
-}
-
-interface OptionItem {
-  label: string
-  value: number | string
 }
 
 const route = useRoute()
@@ -808,29 +791,6 @@ const filteredScales = computed(() => {
     return matchesSearch && matchesCategory
   })
 })
-
-// --- 量表题目与计算逻辑 ---
-const scaleOptions: Record<'frequency' | 'agreement' | 'mbti', OptionItem[]> = {
-  frequency: [
-    { label: '完全没有', value: 0 },
-    { label: '有几天', value: 1 },
-    { label: '一半以上的天数', value: 2 },
-    { label: '几乎每天', value: 3 }
-  ],
-  agreement: [
-    { label: '非常不同意', value: 1 },
-    { label: '不同意', value: 2 },
-    { label: '一般', value: 3 },
-    { label: '同意', value: 4 },
-    { label: '非常同意', value: 5 }
-  ],
-  mbti: [
-    { label: '非常符合 A', value: 'A2' },
-    { label: '比较符合 A', value: 'A1' },
-    { label: '比较符合 B', value: 'B1' },
-    { label: '非常符合 B', value: 'B2' }
-  ]
-}
 
 const scales: Record<string, ScaleDefinition> = {
   phq9: {

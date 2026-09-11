@@ -1,5 +1,26 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿// 文章共享数据 · 供 ArticleCenter / ArticleList / ArticleDetail 使用
-export const categories = [
+// 文章共享数据（TS 版，供 ArticleCenter / ArticleList / ArticleDetail 使用）
+export interface ArticleItem {
+  id: number
+  title: string
+  summary: string
+  content: string
+  category: string
+  categoryLabel: string
+  author: string
+  authorTitle: string
+  date: string
+  views: number
+  readTime: string
+  image?: string
+  featured: boolean
+}
+
+export interface ArticleCategory {
+  label: string
+  key: string
+}
+
+export const categories: ArticleCategory[] = [
   { label: '精选推荐', key: 'all' },
   { label: '每日精选', key: 'daily' },
   { label: '专题报道', key: 'featured' },
@@ -8,12 +29,12 @@ export const categories = [
   { label: '成长故事', key: 'stories' }
 ]
 
-export const categoryLabel = (key) => {
+export const categoryLabel = (key: string): string => {
   const c = categories.find(c => c.key === key)
   return c ? c.label : key
 }
 
-export const articles = [
+export const articles: ArticleItem[] = [
   {
     id: 1,
     title: '在不确定的时代，如何建立内心的秩序？',
@@ -254,12 +275,12 @@ export const articles = [
   }
 ]
 
-export const getArticleById = (id) => {
+export const getArticleById = (id: string | number | string[]): ArticleItem | null => {
   const numId = Number(id)
   return articles.find(a => a.id === numId) || null
 }
 
-export const getRelatedArticles = (article, limit = 3) => {
+export const getRelatedArticles = (article: ArticleItem | null, limit = 3): ArticleItem[] => {
   if (!article) return []
   return articles
     .filter(a => a.id !== article.id && a.category === article.category)

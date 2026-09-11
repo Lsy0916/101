@@ -64,7 +64,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // 品牌展示组件 - 重构版：错落随意排版，背景透出 nist-bg.jpg
 </script>
 

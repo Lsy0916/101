@@ -9,14 +9,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps({
-  name: { type: String, default: '' },
-  size: { type: Number, default: 44 },
-  isAnonymous: { type: Boolean, default: false }
-})
+const props = withDefaults(
+  defineProps<{
+    name?: string
+    size?: number
+    isAnonymous?: boolean
+  }>(),
+  {
+    name: '',
+    size: 44,
+    isAnonymous: false,
+  },
+)
 
 const colors = [
   '#0052d9', '#1890ff', '#10b981', '#f59e0b',

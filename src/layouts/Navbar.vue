@@ -278,13 +278,13 @@ function handleCommand(command: string) {
       <div class="nav-right">
         <div class="action-items">
           <!-- Command Palette Trigger -->
-          <button class="cmd-trigger desktop-only" @click="togglePalette" :aria-label="$t('nav.search')">
+          <button class="cmd-trigger desktop-only" :aria-label="$t('nav.search')" @click="togglePalette">
             <svg class="cmd-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             <span class="cmd-trigger-text">{{ $t('nav.search') }}</span>
           </button>
 
           <!-- Theme Toggle Dropdown -->
-          <el-dropdown @command="handleThemeCommand" trigger="click">
+          <el-dropdown trigger="click" @command="handleThemeCommand">
             <button class="icon-btn">
               <el-icon v-if="themeMode === 'light'"><Sunny /></el-icon>
               <el-icon v-else-if="themeMode === 'dark'"><Moon /></el-icon>
@@ -309,7 +309,7 @@ function handleCommand(command: string) {
           </el-dropdown>
 
           <!-- Locale Toggle Dropdown -->
-          <el-dropdown @command="handleLocaleCommand" trigger="click">
+          <el-dropdown trigger="click" @command="handleLocaleCommand">
             <button class="lang-btn">
               {{ locale === 'en-US' ? 'EN' : (locale === 'zh-TW' ? '繁' : '简') }}
             </button>
@@ -331,7 +331,7 @@ function handleCommand(command: string) {
             </template>
           </el-dropdown>
 
-          <el-dropdown v-if="userStore.isLoggedIn" @command="handleCommand" trigger="click" popper-class="user-dropdown-popper">
+          <el-dropdown v-if="userStore.isLoggedIn" trigger="click" popper-class="user-dropdown-popper" @command="handleCommand">
             <div class="user-profile">
               <InitialAvatar :name="userStore.profile?.name || 'U'" :size="32" />
               <span class="username desktop-only">{{ userStore.profile?.name || $t('nav.user.guest') }}</span>

@@ -98,15 +98,10 @@ export function sendEmailCode(params: SendEmailCodeParams): Promise<void> {
 }
 
 /**
- * 登出：清新 store + 清旧 localStorage key（阶段 5 迁移完成后旧 key 清理移除）+
- * 停实时连接 + 广播（main.ts 订阅后跳登录页）。
+ * 登出：清 userStore + 停实时连接 + 广播（main.ts 订阅后跳登录页）。
  */
 export function logout(): void {
   useUserStore(pinia).reset()
-  // 旧 store 的 localStorage key，未迁移视图仍在读，登出时一并清掉保证状态一致
-  localStorage.removeItem('token')
-  localStorage.removeItem('userInfo')
-  localStorage.removeItem('authStatus')
   void stop()
   emitter.emit('user:logout')
 }

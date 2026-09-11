@@ -48,9 +48,9 @@
         />
         <el-button
             :disabled="emailCountdown > 0"
-            @click="handleSendEmailCode"
             size="large"
             class="code-btn"
+            @click="handleSendEmailCode"
         >
           {{ emailCountdown > 0 ? t('login.form.codeResend', { n: emailCountdown }) : t('login.form.getCode') }}
         </el-button>
@@ -63,9 +63,9 @@
           size="large"
           class="login-button"
           :loading="loading"
-          @click="handleEmailLogin"
           block
           round
+          @click="handleEmailLogin"
       >
         <el-icon><Message /></el-icon>
         {{ t('login.form.emailBtn') }}

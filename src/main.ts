@@ -4,9 +4,8 @@ import i18n from '@/locales'
 import { createAppRouter } from '@/router'
 import { isMobileUA } from '@/utils/device'
 import { useTenantStore } from '@/store/modules/tenant'
+import { useUserStore } from '@/store/modules/user'
 import { emitter } from '@/utils/emitter'
-// TODO 阶段5：登录模块迁移后移除旧 authStore 引用
-import { useAuthStore } from '@/stores/auth'
 import { revealDirective } from '@/directives/reveal'
 import 'default-passive-events' // 解决 passive event listener 警告
 
@@ -43,19 +42,15 @@ async function bootstrap(): Promise<void> {
   // （拦器器据此注入 X-Tenant-Id；bootstrap 内部全链路静默降级，绝不阻塞白屏）
   await useTenantStore(pinia).bootstrap()
 
-  // 初始化旧认证状态（TODO 阶段5：由新 userStore 接管）
-  useAuthStore().refreshAuthStatus()
-
-  // 401 统一登出：SPA 内跳登录页（补齐旧 request.js 缺失的 401 处理）
+  // 401 统一登出：SPA 内跳登录页
   emitter.on('user:logout', () => {
     void router.push({ name: 'login' })
   })
 
-  // 页面关闭时按需清除敏感信息（沿用旧行为）
+  // 页面关闭时：未勾选"记住我"则清除登录态持久化（下次进入需重新登录）
   window.addEventListener('beforeunload', () => {
-    const authStore = useAuthStore()
-    if (authStore && !authStore.rememberMe) {
-      sessionStorage.clear()
+    if (!useUserStore().rememberMe) {
+      localStorage.removeItem('user')
     }
   })
 

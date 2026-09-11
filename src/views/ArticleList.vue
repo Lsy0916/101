@@ -281,8 +281,8 @@ function goBack() {
         <div class="search-box">
           <el-icon class="search-icon"><Search /></el-icon>
           <input
-            type="text"
             v-model="searchQuery"
+            type="text"
             placeholder="搜索文章标题或摘要..."
             class="search-input"
           />

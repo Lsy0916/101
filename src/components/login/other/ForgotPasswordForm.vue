@@ -83,9 +83,9 @@
           size="large"
           class="forgot-password-button"
           :loading="forgotPasswordLoading"
-          @click="handleForgotPassword"
           block
           round
+          @click="handleForgotPassword"
       >
         <el-icon><Key /></el-icon>
         重置密码
@@ -93,7 +93,7 @@
     </el-form-item>
 
     <el-form-item class="back-to-login">
-      <el-link type="primary" @click="emit('switch-to-login')" underline="never">
+      <el-link type="primary" underline="never" @click="emit('switch-to-login')">
         <el-icon><Back /></el-icon>
         返回登录
       </el-link>
@@ -105,7 +105,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { School, User, Message, Lock, Key, Back } from '@element-plus/icons-vue'
+import { School, Key, Back } from '@element-plus/icons-vue'
 import { useForgotPassword } from '@/composables/useAuth'
 
 // 定义事件

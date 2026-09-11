@@ -13,7 +13,7 @@
     <!-- 胶囊详情 · 编辑式 -->
     <main v-if="capsule" class="capsule-detail">
       <!-- 标题区 -->
-      <div class="detail-title-area" v-reveal>
+      <div v-reveal class="detail-title-area">
         <span class="detail-emoji">{{ emotionEmoji }}</span>
         <h2 class="detail-title">{{ capsule.title }}</h2>
         <div class="detail-meta">
@@ -27,7 +27,7 @@
       </div>
 
       <!-- 内容区域 -->
-      <div class="detail-content" v-reveal="{ delay: 100 }">
+      <div v-reveal="{ delay: 100 }" class="detail-content">
         <div v-if="capsule.content" class="rich-content drop-cap" v-html="capsule.content"></div>
 
         <div v-if="capsule.images && capsule.images.length > 0" class="detail-images">
@@ -42,7 +42,7 @@
       </div>
 
       <!-- 收件信息 · 编辑式定义列表 -->
-      <div class="detail-info" v-reveal>
+      <div v-reveal class="detail-info">
         <div class="info-eyebrow">— Recipient</div>
         <div class="info-rows">
           <div class="info-row">
@@ -73,7 +73,7 @@
       </div>
 
       <!-- 开启时间 · 编辑式大字 + 倒计时环 -->
-      <div class="detail-date" v-reveal="{ delay: 100 }">
+      <div v-reveal="{ delay: 100 }" class="detail-date">
         <div class="info-eyebrow">— Open Date</div>
         <div class="date-flex">
           <div class="date-text-col">
@@ -120,10 +120,9 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Delete } from '@element-plus/icons-vue'
+import { ArrowLeft } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import CountdownRing from '@/components/CountdownRing.vue'
-import ReadProgress from '@/components/ReadProgress.vue'
 
 interface CapsuleDetailItem {
   id: number

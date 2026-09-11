@@ -122,8 +122,8 @@
               :defaultConfig="editorConfig"
               mode="simple"
               class="wang-editor"
-              @onCreated="handleCreated"
-              @onChange="handleEditorChange"
+              @on-created="handleCreated"
+              @on-change="handleEditorChange"
             />
           </div>
 
