@@ -12,7 +12,11 @@
     "isolatedModules": true,
     "skipLibCheck": true,
     "allowJs": false,
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "vite.config.ts"]
 }

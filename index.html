@@ -2,6 +2,16 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8">
+    <!-- 多租户防首帧闪烁：主 JS 执行前用 localStorage 缓存的品牌色覆盖初始变量。
+         key 由 tenant store applyConfig 写入；无缓存 / 读取异常则静默跳过（走 brand.css 默认值）。 -->
+    <script>
+      ;(function () {
+        try {
+          var c = localStorage.getItem('tenant:brand-primary')
+          if (c) document.documentElement.style.setProperty('--brand-primary', c)
+        } catch (e) {}
+      })()
+    </script>
     <link rel="icon" href="/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="生涯心旅 - 为大学生提供专业的心理健康服务、生涯规划指导与活动中心，结合 AI 技术与专业咨询，用心呵护每一份成长。">
