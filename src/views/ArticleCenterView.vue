@@ -1,4 +1,5 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup lang="ts">
+﻿<!-- 文章中心页（/articles）· 页面层负责过滤/焦点/标题区状态，内容区拆至 Spotlight/CardGrid/CollectionGrid -->
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -7,19 +8,19 @@ import {
   Reading,
   Timer,
   View,
-  ArrowRight,
   Collection,
   HotWater,
-  Star,
-  Right
+  Star
 } from '@element-plus/icons-vue'
 import BaseReadProgress from '@/components/base/BaseReadProgress.vue'
-import BaseInitialAvatar from '@/components/base/BaseInitialAvatar.vue'
+import ArticleSpotlightCard from '@/components/business/article/ArticleSpotlightCard.vue'
+import ArticleCardGrid from '@/components/business/article/ArticleCardGrid.vue'
+import ArticleCollectionGrid from '@/components/business/article/ArticleCollectionGrid.vue'
 import type { ArticleItem } from '@/api/mock/articles'
 
 const route = useRoute()
 const router = useRouter()
-const { t, tm } = useI18n()
+const { t } = useI18n()
 const searchQuery = ref('')
 const activeCategory = ref(String(route.query.category || 'all'))
 const showAllArticles = ref(false)
@@ -47,7 +48,8 @@ const categories = computed(() => [
   { label: t('article.categories.stories'), key: 'stories', icon: View }
 ])
 
-// 模拟文章数据
+// 模拟文章数据（与 @/api/mock/articles 基本一致，但刻意保留 id 1 无 image：
+// 今日焦点与网格首卡依赖该字段走"无封面"纯文字排版分支，直接替换共享数据会改变视觉）
 const articles = ref<ArticleItem[]>([
   {
     id: 1,
@@ -273,27 +275,16 @@ const hasMoreArticles = computed(() => {
   return filteredArticles.value.length > ARTICLE_LIMIT && !showAllArticles.value && activeCategory.value === 'all' && !searchQuery.value
 })
 
-// 专题合集数据（标题与描述走 i18n，count 与 icon 为本地配置）
-const collectionItems = computed(() => {
-  const items = tm('article.collections.items') as Array<{ title: string; desc: string }>
-  const meta = [
-    { count: 12, icon: 'Sunny' },
-    { count: 15, icon: 'Moon' },
-    { count: 10, icon: 'EditPen' },
-    { count: 8, icon: 'ChatLineRound' }
-  ]
-  return items.map((item, i) => ({
-    title: item.title,
-    desc: item.desc,
-    ...meta[i]
-  }))
-})
-
 function setCategory(key: string) {
   activeCategory.value = key
   searchQuery.value = ''
   showAllArticles.value = false
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 专题合集点击 → 以合集标题作为搜索词
+function onCollectionSelect(title: string) {
+  searchQuery.value = title
 }
 </script>
 
@@ -351,125 +342,28 @@ function setCategory(key: string) {
 
       <div class="article-modules">
         <!-- 今日焦点 -->
-        <div v-if="activeCategory === 'all' && !searchQuery" class="module-spotlight">
-          <div class="module-header">
-            <h3 class="module-title">{{ $t('article.spotlight.title') }}</h3>
-            <span class="article-count">{{ $t('article.spotlight.sub') }}</span>
-          </div>
-          <div class="spotlight-card" :class="{ 'no-cover': !spotlightArticle.image }" @click="openArticle(spotlightArticle)">
-            <div v-if="spotlightArticle.image" class="spotlight-image">
-              <img :src="spotlightArticle.image" :alt="spotlightArticle.title" loading="lazy">
-              <span class="spotlight-stamp">FEATURED · 01</span>
-            </div>
-            <span v-else class="spotlight-quote-deco" aria-hidden="true">"</span>
-            <div class="spotlight-content">
-              <div class="spotlight-meta">
-                <span class="category-tag">{{ spotlightArticle.categoryLabel }}</span>
-                <span class="dot"></span>
-                <span class="read-badge">{{ spotlightArticle.readTime }} read</span>
-              </div>
-              <h2 class="spotlight-title">{{ spotlightArticle.title }}</h2>
-              <p class="spotlight-desc">{{ spotlightArticle.summary }}</p>
-              <div class="spotlight-footer">
-                <div class="spotlight-author">
-                  <BaseInitialAvatar :name="spotlightArticle.author" :size="48" class="author-avatar" />
-                  <div class="author-info">
-                    <span class="author-name">{{ spotlightArticle.author }}</span>
-                    <span class="author-title">{{ spotlightArticle.authorTitle }}</span>
-                  </div>
-                </div>
-                <button class="read-more">
-                  <span>{{ $t('article.spotlight.read') }}</span>
-                  <el-icon><ArrowRight /></el-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ArticleSpotlightCard
+          v-if="activeCategory === 'all' && !searchQuery"
+          :article="spotlightArticle"
+          @open="openArticle"
+        />
 
         <!-- 文章网格 -->
-        <div class="module-grid">
-          <div class="module-header">
-            <div class="header-left">
-              <h3 class="module-title">{{ categories.find(c => c.key === activeCategory)?.label || $t('article.grid.all') }}</h3>
-              <span class="article-count">{{ filteredArticles.length }} {{ $t('article.stats.count') }}</span>
-            </div>
-            <button v-if="hasMoreArticles" class="view-all-link" @click="goToAllArticles">
-              {{ $t('article.grid.viewAll') }} <el-icon><ArrowRight /></el-icon>
-            </button>
-          </div>
-
-          <div class="article-grid">
-            <div
-              v-for="article in displayedArticles"
-              :key="article.id"
-              class="article-card"
-              :class="{ 'no-cover': !article.image }"
-              @click="openArticle(article)"
-            >
-              <div v-if="article.image" class="card-image">
-                <img :src="article.image" :alt="article.title" loading="lazy">
-                <span class="card-tag">{{ article.categoryLabel }}</span>
-              </div>
-              <div v-else class="card-no-cover-top">
-                <span class="no-cover-eyebrow">{{ article.categoryLabel }}</span>
-              </div>
-              <div class="card-info">
-                <div class="card-meta-top">
-                  <span class="author-name">{{ article.author }}</span>
-                  <span class="dot"></span>
-                  <span class="publish-date">{{ article.date }}</span>
-                </div>
-                <h4 class="card-title">{{ article.title }}</h4>
-                <p class="card-summary">{{ article.summary }}</p>
-                <div class="card-meta">
-                  <span class="meta-item"><el-icon><Timer /></el-icon> {{ article.readTime }}</span>
-                  <span class="meta-item"><el-icon><View /></el-icon> {{ article.views }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-if="filteredArticles.length === 0" class="no-results">
-            <el-empty :description="$t('article.empty')" />
-          </div>
-        </div>
+        <ArticleCardGrid
+          :articles="displayedArticles"
+          :title="categories.find(c => c.key === activeCategory)?.label || $t('article.grid.all')"
+          :count="filteredArticles.length"
+          :show-view-all="hasMoreArticles"
+          @open="openArticle"
+          @view-all="goToAllArticles"
+        />
 
         <!-- 专题合集 -->
-        <div v-if="activeCategory === 'all' && !searchQuery" class="module-collections">
-          <div class="module-header">
-            <div class="header-left">
-              <h3 class="module-title">{{ $t('article.collections.title') }}</h3>
-              <span class="article-count">{{ $t('article.collections.sub') }}</span>
-            </div>
-            <button class="view-all-link" @click="goToAllArticles">
-              {{ $t('article.collections.viewAll') }} <el-icon><ArrowRight /></el-icon>
-            </button>
-          </div>
-          <div class="collection-grid">
-            <div
-              v-for="collection in collectionItems"
-              :key="collection.title"
-              class="collection-card"
-              @click="searchQuery = collection.title"
-            >
-              <div class="collection-content">
-                <div class="collection-top">
-                  <div class="collection-icon-wrapper">
-                    <el-icon><component :is="collection.icon" /></el-icon>
-                  </div>
-                  <span class="collection-count">{{ collection.count }} {{ $t('article.collections.countUnit') }}</span>
-                </div>
-                <h4 class="collection-title">{{ collection.title }}</h4>
-                <p class="collection-desc">{{ collection.desc }}</p>
-              </div>
-              <div class="collection-footer">
-                <span class="explore-text">{{ $t('article.collections.enter') }}</span>
-                <el-icon class="arrow-icon"><Right /></el-icon>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ArticleCollectionGrid
+          v-if="activeCategory === 'all' && !searchQuery"
+          @select="onCollectionSelect"
+          @view-all="goToAllArticles"
+        />
       </div>
     </div>
   </div>
@@ -510,7 +404,7 @@ function setCategory(key: string) {
 .intro-eyebrow {
   font-size: 12px;
   letter-spacing: 3px;
-  color: #0052d9;
+  color: var(--brand-primary);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -527,7 +421,7 @@ function setCategory(key: string) {
 .intro-title :deep(em) {
   font-style: italic;
   font-weight: 300;
-  color: #0052d9;
+  color: var(--brand-primary);
 }
 
 .intro-sub {
@@ -565,7 +459,7 @@ function setCategory(key: string) {
 .stat-num sup {
   font-size: 16px;
   font-weight: 700;
-  color: #0052d9;
+  color: var(--brand-primary);
   vertical-align: super;
   margin-left: 2px;
 }
@@ -661,7 +555,7 @@ function setCategory(key: string) {
 }
 
 .ribbon-item.active .item-num {
-  color: #0052d9;
+  color: var(--brand-primary);
 }
 
 .ribbon-item.active::after {
@@ -719,580 +613,11 @@ function setCategory(key: string) {
   color: #9ca3af;
 }
 
-/* ===== 模块标题 ===== */
-.module-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 36px;
-  gap: 24px;
-}
-
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.module-title {
-  font-size: clamp(22px, 2.2vw, 30px);
-  font-weight: 900;
-  color: #0a0f1a;
-  margin: 0;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.article-count {
-  font-size: 0.85rem;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.view-all-link {
-  background: none;
-  border: none;
-  color: #0052d9;
-  font-weight: 600;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  padding: 8px 0;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.view-all-link:hover {
-  transform: translateX(4px);
-  gap: 10px;
-}
-
-/* ===== 今日焦点 · 图片完全覆盖 ===== */
-.module-spotlight {
-  margin-bottom: 88px;
-}
-
-.spotlight-card {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #eef2f6;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.spotlight-card:hover {
-  box-shadow: 0 24px 56px -20px rgba(0, 82, 217, 0.18);
-  border-color: #d0e7ff;
-}
-
-.spotlight-image {
-  position: relative;
-  overflow: hidden;
-  min-height: 440px;
-}
-
-.spotlight-image img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.spotlight-card:hover .spotlight-image img {
-  transform: scale(1.06);
-}
-
-/* 无封面焦点卡 · 编辑式纯文字排版 */
-.spotlight-card.no-cover {
-  grid-template-columns: 1fr;
-  position: relative;
-  padding: 0;
-  background: #fafafa;
-}
-
-.spotlight-quote-deco {
-  position: absolute;
-  top: -20px;
-  left: 32px;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 200px;
-  font-weight: 900;
-  color: rgba(17, 24, 39, 0.05);
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
-}
-
-.spotlight-card.no-cover .spotlight-content {
-  padding: 72px 64px;
-  position: relative;
-  z-index: 1;
-  background: #fafafa;
-}
-
-.spotlight-card.no-cover .spotlight-content::before {
-  display: none;
-}
-
-.spotlight-card.no-cover .spotlight-title {
-  font-size: clamp(32px, 4vw, 52px);
-  background: linear-gradient(135deg, #111827, #4b5563);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.spotlight-card.no-cover .spotlight-desc {
-  font-size: 17px;
-  line-height: 1.8;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-}
-
-.spotlight-stamp {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  z-index: 2;
-  background: rgba(255, 255, 255, 0.95);
-  color: #0a0f1a;
-  padding: 6px 12px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  border-radius: 4px;
-}
-
-.spotlight-content {
-  padding: 48px 44px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #ffffff;
-  position: relative;
-}
-
-.spotlight-content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background: linear-gradient(180deg, #0052d9, #1890ff);
-}
-
-.spotlight-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.category-tag {
-  color: #0052d9;
-  font-weight: 700;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.read-badge {
-  color: #6b7280;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background-color: #d1d5db;
-}
-
-.spotlight-title {
-  font-size: clamp(26px, 2.6vw, 38px);
-  font-weight: 900;
-  line-height: 1.12;
-  color: #0a0f1a;
-  margin: 0 0 20px 0;
-  letter-spacing: -0.03em;
-}
-
-.spotlight-desc {
-  color: #4b5563;
-  line-height: 1.7;
-  margin: 0 0 36px 0;
-  font-size: 1rem;
-  font-weight: 400;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.spotlight-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 28px;
-  border-top: 1px solid #f1f5f9;
-  gap: 16px;
-}
-
-.spotlight-author {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.author-avatar {
-  flex-shrink: 0;
-}
-
-.author-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.author-name {
-  font-weight: 700;
-  color: #111827;
-  font-size: 0.9rem;
-}
-
-.author-title {
-  font-size: 0.72rem;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.read-more {
-  background: #0a0f1a;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.read-more:hover {
-  background: #0052d9;
-  transform: translateX(4px);
-}
-
-/* ===== 文章网格 · 等宽 3 列 ===== */
-.article-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.article-card {
-  grid-column: span 1;
-}
-
-@media (max-width: 1024px) {
-  .article-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 768px) {
-  .article-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.article-card {
-  background: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid #eef2f6;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-.article-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px -12px rgba(0, 82, 217, 0.15);
-  border-color: #d0e7ff;
-}
-
-.card-image {
-  position: relative;
-  height: 240px;
-  overflow: hidden;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.article-card:hover .card-image img {
-  transform: scale(1.08);
-}
-
-.card-tag {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #0052d9;
-  letter-spacing: 0.5px;
-}
-
-/* 无封面网格卡 · 杂志式文字排版 */
-.article-card.no-cover {
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-  position: relative;
-}
-
-.card-no-cover-top {
-  padding: 32px 24px 0;
-  display: flex;
-  align-items: center;
-}
-
-.no-cover-eyebrow {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #6b7280;
-  letter-spacing: 1.5px;
-  font-style: italic;
-}
-
-.article-card.no-cover .card-info {
-  padding-top: 16px;
-}
-
-.article-card.no-cover .card-title {
-  font-size: 20px;
-  line-height: 1.35;
-  font-family: Georgia, 'Times New Roman', serif;
-}
-
-.article-card.no-cover .card-summary {
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  overflow: hidden;
-}
-
-.card-info {
-  padding: 22px 24px 20px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-meta-top {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #6b7280;
-}
-
-.card-title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: #0a0f1a;
-  margin: 0 0 10px 0;
-  line-height: 1.35;
-  letter-spacing: -0.015em;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card-summary {
-  color: #4b5563;
-  font-size: 0.88rem;
-  line-height: 1.6;
-  margin: 0 0 16px 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card-meta {
-  margin-top: auto;
-  display: flex;
-  gap: 16px;
-  color: #9ca3af;
-  font-size: 0.78rem;
-  font-weight: 500;
-  padding-top: 14px;
-  border-top: 1px solid #f1f5f9;
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.publish-date {
-  color: #9ca3af;
-}
-
-/* ===== 专题合集 ===== */
-.module-collections {
-  margin-top: 88px;
-  padding-top: 64px;
-  border-top: 1px solid #eef2f6;
-}
-
-.collection-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.collection-card {
-  background: #ffffff;
-  padding: 28px 24px;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid #eef2f6;
-  position: relative;
-  overflow: hidden;
-}
-
-.collection-card:hover {
-  transform: translateY(-4px);
-  border-color: #d0e7ff;
-  box-shadow: 0 16px 32px -12px rgba(0, 82, 217, 0.12);
-}
-
-.collection-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.collection-icon-wrapper {
-  width: 44px;
-  height: 44px;
-  background: #f0f7ff;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  color: #0052d9;
-  transition: all 0.3s ease;
-}
-
-.collection-card:hover .collection-icon-wrapper {
-  background: #0052d9;
-  color: white;
-}
-
-.collection-count {
-  font-size: 0.72rem;
-  color: #9ca3af;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.collection-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #0a0f1a;
-  margin: 0 0 8px 0;
-  line-height: 1.3;
-}
-
-.collection-desc {
-  font-size: 0.88rem;
-  color: #6b7280;
-  line-height: 1.6;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.collection-footer {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding-top: 16px;
-  border-top: 1px solid #f1f5f9;
-  color: #0052d9;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-}
-
-.arrow-icon {
-  transition: transform 0.3s ease;
-}
-
-.collection-card:hover .arrow-icon {
-  transform: translateX(4px);
-}
-
-.no-results {
-  padding: 80px 0;
-}
-
 /* ===== 响应式 ===== */
 @media (max-width: 1200px) {
   .ribbon-container, .main-content, .page-intro {
     padding-left: 24px;
     padding-right: 24px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .spotlight-card {
-    grid-template-columns: 1fr;
-  }
-  .spotlight-image {
-    min-height: 320px;
-  }
-  .spotlight-content {
-    padding: 36px 32px;
   }
 }
 
@@ -1305,18 +630,11 @@ function setCategory(key: string) {
     align-items: flex-start;
     gap: 32px;
   }
-  .intro-mark::before { display: none; }
   .ribbon-scroll {
     gap: 28px;
   }
   .search-wrapper {
     margin-bottom: 48px;
-  }
-  .spotlight-title {
-    font-size: 1.6rem;
-  }
-  .module-title {
-    font-size: 1.4rem;
   }
 }
 </style>
