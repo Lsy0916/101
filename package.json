@@ -18,7 +18,8 @@
     "lint:style": "stylelint \"src/**/*.{vue,scss,css}\" --fix",
     "lint:style:check": "stylelint \"src/**/*.{vue,scss,css}\"",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepare": "husky"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",

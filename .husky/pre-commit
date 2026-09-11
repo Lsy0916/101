@@ -1,0 +1,2 @@
+# 提交前：ESLint 检查 + 类型检查
+npm run lint:check && npm run typecheck
