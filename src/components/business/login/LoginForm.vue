@@ -24,11 +24,11 @@
       <transition name="tab-fade" mode="out-in">
         <div :key="activeLoginType">
           <!--账号密码登录-->
-          <AccountPasswordLogin v-if="activeLoginType === 'account'" @switch-to-forgot-password="showForgotPasswordForm = true" />
+          <AccountPasswordLogin v-if="activeLoginType === 'account'" @switch-to-forgot-password="showForgotPasswordForm = true" @login-success="onLoginSuccess" />
           <!--手机登录-->
-          <PhoneLogin v-else-if="activeLoginType === 'phone'" />
+          <PhoneLogin v-else-if="activeLoginType === 'phone'" @login-success="onLoginSuccess" />
           <!--邮箱登录-->
-          <EmailLogin v-else-if="activeLoginType === 'email'" />
+          <EmailLogin v-else-if="activeLoginType === 'email'" @login-success="onLoginSuccess" />
         </div>
       </transition>
     </div>
@@ -90,19 +90,27 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * 【business】LoginForm —— 登录方式装配（账号/手机/邮箱 tab + 第三方登录 + 注册/忘记密码入口）
+ * - 子表单的 login-success 事件透传给页面层，跳转与 store 写入由页面处理
+ */
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessage } from 'element-plus';
 import { debounce } from '@/utils/debounce';
-import AccountPasswordLogin from './loginWay/AccountPasswordLogin.vue';
-import PhoneLogin from './loginWay/PhoneLogin.vue';
-import EmailLogin from './loginWay/EmailLogin.vue';
+import AccountPasswordLogin from './login-way/AccountPasswordLogin.vue';
+import PhoneLogin from './login-way/PhoneLogin.vue';
+import EmailLogin from './login-way/EmailLogin.vue';
 import RegisterForm from './other/RegisterForm.vue';
 import ForgotPasswordForm from './other/ForgotPasswordForm.vue';
 
 const { t } = useI18n();
 
 type LoginType = 'account' | 'phone' | 'email';
+
+// 透传子表单登录成功事件给页面层
+const emit = defineEmits<{ (e: 'login-success', payload?: { remember?: boolean }): void }>();
+const onLoginSuccess = (payload?: { remember?: boolean }) => emit('login-success', payload);
 
 // 登录表单状态管理
 const showRegisterForm = ref(false);

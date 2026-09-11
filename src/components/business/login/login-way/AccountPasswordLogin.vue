@@ -93,20 +93,19 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useAuthLogin } from '@/composables/useAuth'
-import { useUserStore } from '@/stores/useUserStore'
-import pinia from '@/stores'
 import { School, User } from '@element-plus/icons-vue'
 
-const router = useRouter()
 const { t } = useI18n()
 
-// 定义事件
-const emit = defineEmits<{ (e: 'switch-to-forgot-password'): void }>()
+// 定义事件：跳转与 remember 写入由页面层处理（business 不碰 router/stores）
+const emit = defineEmits<{
+  (e: 'switch-to-forgot-password'): void
+  (e: 'login-success', payload: { remember: boolean }): void
+}>()
 
 // 登录表单数据
 interface LoginFormState {
@@ -251,9 +250,8 @@ const generateCaptcha = async () => {
 // 登录：loading / 成功写 store / 实时通道建立均由 useAuthLogin 统一管理
 const { run: runLogin, loading } = useAuthLogin({
   onSuccess: (result) => {
-    useUserStore(pinia).setRememberMe(loginForm.remember)
     ElMessage.success(result.message ?? '登录成功')
-    router.push({ name: 'home' })
+    emit('login-success', { remember: loginForm.remember })
   },
   onError: (error) => {
     ElMessage.error(error.message || t('login.form.loginFail'))

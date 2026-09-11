@@ -10,14 +10,30 @@
       <!-- 左侧：品牌宣传区（≥1200px 显示） -->
       <Propaganda />
       <!-- 右侧：登录表单区 -->
-      <LoginForm />
+      <LoginForm @login-success="onLoginSuccess" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Propaganda from '@/components/login/Propaganda.vue';
-import LoginForm from '@/components/login/LoginForm.vue';
+/**
+ * 登录页面（页面层）：装配品牌宣传区与登录表单，
+ * 统一处理登录成功后的 remember 写入与跳转。
+ */
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/useUserStore'
+import Propaganda from '@/components/business/login/Propaganda.vue';
+import LoginForm from '@/components/business/login/LoginForm.vue';
+
+const router = useRouter()
+
+// 子表单已自行 ElMessage 提示：这里只负责记忆选项写入与跳转
+const onLoginSuccess = (payload?: { remember?: boolean }) => {
+  if (payload?.remember !== undefined) {
+    useUserStore().setRememberMe(payload.remember)
+  }
+  router.push({ name: 'home' })
+}
 </script>
 
 <style scoped>
@@ -41,7 +57,7 @@ import LoginForm from '@/components/login/LoginForm.vue';
 .bg-layer {
   position: fixed;
   inset: 0;
-  background-image: url('../../assets/images/nist-bg.jpg'), linear-gradient(135deg, #0a2a6b 0%, #0052d9 50%, #1890ff 100%);
+  background-image: url('../assets/images/nist-bg.jpg'), linear-gradient(135deg, #0a2a6b 0%, #0052d9 50%, #1890ff 100%);
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;

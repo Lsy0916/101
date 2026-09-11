@@ -93,7 +93,7 @@ export const mobileRoutes: RouteRecordRaw[] = [
       {
         path: 'login',
         name: 'login',
-        component: () => import('@/views/login/LoginView.vue'),
+        component: () => import('@/views/LoginView.vue'),
         meta: { noPadding: true, transparentNavbar: true },
       },
       {
