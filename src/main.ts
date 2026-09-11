@@ -1,11 +1,11 @@
 import { createApp } from 'vue'
-import pinia from '@/store'
+import pinia from '@/stores'
 import i18n from '@/locales'
 import { createAppRouter } from '@/router'
 import { isMobileUA } from '@/utils/device'
-import { useTenantStore } from '@/store/modules/tenant'
-import { useUserStore } from '@/store/modules/user'
-import { emitter } from '@/utils/emitter'
+import { useTenantStore } from '@/stores/useTenantStore'
+import { useUserStore } from '@/stores/useUserStore'
+import { emitter } from '@/events'
 import { revealDirective } from '@/directives/reveal'
 import 'default-passive-events' // 解决 passive event listener 警告
 
@@ -14,7 +14,7 @@ import 'default-passive-events' // 解决 passive event listener 警告
 // 4. 品牌变量映射（最后引入，--brand-primary 派生必须赢过 element.css 的硬编码色）
 import 'element-plus/dist/index.css'
 import './styles/element.css'
-import './assets/css/main.css'
+import './styles/main.css'
 import './styles/brand.css'
 
 async function bootstrap(): Promise<void> {

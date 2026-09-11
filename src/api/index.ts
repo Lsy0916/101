@@ -1,5 +1,5 @@
 /**
- * server 层统一出口：业务代码只从 '@/server' 导入。
+ * api 层统一出口：业务代码只从 '@/api' 导入。
  */
 export { default as http } from './http'
 
@@ -11,14 +11,3 @@ export * as scheduleApi from './modules/schedule'
 export * as labApi from './modules/lab'
 export * as reservationApi from './modules/reservation'
 export * from './modules/types'
-
-// ---- SignalR ----
-export { useSignalR } from './signalr'
-export type {
-  NotificationPayload,
-  ForceLogoutPayload,
-  RealtimeEnvelope,
-  ServerEventMap,
-  ServerEventName,
-  ClientInvokeMap,
-} from './signalr/events'

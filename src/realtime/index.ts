@@ -1,9 +1,9 @@
 import { onScopeDispose } from 'vue'
 import { storeToRefs } from 'pinia'
-import pinia from '@/store'
-import { useRealtimeStore } from '@/store/modules/realtime'
-import { emitter } from '@/utils/emitter'
-import type { Events } from '@/utils/emitter'
+import pinia from '@/stores'
+import { useRealtimeStore } from '@/stores/useRealtimeStore'
+import { emitter } from '@/events'
+import type { Events } from '@/events'
 import * as conn from './connection'
 import type { ServerEventMap, ServerEventName } from './events'
 

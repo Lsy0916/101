@@ -98,8 +98,8 @@ import { useI18n } from 'vue-i18n'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useAuthLogin } from '@/composables/useAuth'
-import { useUserStore } from '@/store/modules/user'
-import pinia from '@/store'
+import { useUserStore } from '@/stores/useUserStore'
+import pinia from '@/stores'
 import { School, User } from '@element-plus/icons-vue'
 
 const router = useRouter()

@@ -48,5 +48,41 @@ export default [
     rules: {
       'no-undef': 'off'
     }
+  },
+  // ---- 分层边界（架构规范：依赖方向单向）----
+  // base 组件只依赖 vue 与自身样式；文案/颜色经 props、slot 与 CSS 变量注入
+  {
+    files: ['src/components/base/**/*.{vue,ts}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['@/api', '@/api/*'], message: 'base 组件禁止请求接口' },
+            { group: ['@/stores', '@/stores/*'], message: 'base 组件禁止访问 store' },
+            { group: ['@/realtime', '@/realtime/*'], message: 'base 组件禁止接触 SignalR' },
+            { group: ['@/events', '@/events/*'], message: 'base 组件禁止使用事件总线' },
+            { group: ['vue-router'], message: 'base 组件禁止路由跳转' }
+          ]
+        }
+      ]
+    }
+  },
+  // business 组件：数据经 props 传入、行为经 emits 抛出，页面负责取数与跳转
+  {
+    files: ['src/components/business/**/*.{vue,ts}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['@/api', '@/api/*'], message: 'business 组件禁止请求接口，数据由页面传入' },
+            { group: ['@/stores', '@/stores/*'], message: 'business 组件禁止访问 store' },
+            { group: ['@/realtime', '@/realtime/*'], message: 'business 组件禁止接触 SignalR' },
+            { group: ['vue-router'], message: 'business 组件禁止路由跳转，通过 emits 通知页面' }
+          ]
+        }
+      ]
+    }
   }
 ]

@@ -1,13 +1,16 @@
-import mitt from 'mitt'
+/**
+ * 全局事件类型契约（events 层唯一类型源）。
+ * 新增事件必须先在此登记类型，禁止 any；事件名统一 domain:action 格式。
+ */
 
-/** SignalR 推送消息信封（阶段 4 signalr/events.ts 会按 type 收窄） */
+/** SignalR 推送消息信封（realtime/events.ts 按 type 收窄 data） */
 export interface SignalRMessagePayload {
   type: string
   data: unknown
   receivedAt: number
 }
 
-/** 全局事件契约：新增事件必须先在此登记类型，禁止 any */
+/** 全局事件表 */
 export type Events = {
   'user:login': { userId: string }
   'user:logout': void
@@ -16,7 +19,5 @@ export type Events = {
   'signalr:disconnected': { reason?: string }
   'signalr:message': SignalRMessagePayload
 }
-
-export const emitter = mitt<Events>()
 
 export type EventKey = keyof Events

@@ -17,7 +17,7 @@ import type { ThemeMode } from '@/composables/useTheme'
 import { useLocale } from '@/composables/useLocale'
 import type { AppLocale } from '@/locales'
 import { useCommandPalette } from '@/composables/useCommandPalette'
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '@/stores/useUserStore'
 import { logout } from '@/composables/useAuth'
 import InitialAvatar from '@/components/InitialAvatar.vue'
 

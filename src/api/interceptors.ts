@@ -1,8 +1,8 @@
 import type { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios'
-import pinia from '@/store'
-import { useUserStore } from '@/store/modules/user'
-import { useTenantStore } from '@/store/modules/tenant'
-import { emitter } from '@/utils/emitter'
+import pinia from '@/stores'
+import { useUserStore } from '@/stores/useUserStore'
+import { useTenantStore } from '@/stores/useTenantStore'
+import { emitter } from '@/events'
 
 /**
  * 统一拦截器：token 注入、X-Tenant-Id 注入（业务代码无感）、

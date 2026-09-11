@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getArticleById, getRelatedArticles, type ArticleItem } from '@/data/articles'
+import { getArticleById, getRelatedArticles, type ArticleItem } from '@/api/mock/articles'
 import { ArrowLeft, ArrowRight, Star, Share, Timer, View } from '@element-plus/icons-vue'
 import ReadProgress from '@/components/ReadProgress.vue'
 import InitialAvatar from '@/components/InitialAvatar.vue'

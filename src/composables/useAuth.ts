@@ -1,11 +1,11 @@
 import { useRequest } from 'vue-request'
-import pinia from '@/store'
-import { useUserStore } from '@/store/modules/user'
-import { emitter } from '@/utils/emitter'
-import { stop } from '@/server/signalr/connection'
-import * as authApi from '@/server/modules/auth'
-import type { LoginParams, LoginResult, SendEmailCodeParams, UserInfo } from '@/server/modules/types'
-import { mockForgotPassword, mockLogin, mockRegister } from '@/server/mock/auth'
+import pinia from '@/stores'
+import { useUserStore } from '@/stores/useUserStore'
+import { emitter } from '@/events'
+import { stop } from '@/realtime/connection'
+import * as authApi from '@/api/modules/auth'
+import type { LoginParams, LoginResult, SendEmailCodeParams, UserInfo } from '@/api/modules/types'
+import { mockForgotPassword, mockLogin, mockRegister } from '@/api/mock/auth'
 
 /**
  * 认证 composables：server 层与组件之间的 vue-request 桥接。
@@ -35,7 +35,7 @@ function applyLoginSuccess(result: LoginResult): LoginResult {
   })
   emitter.emit('user:login', { userId: result.userInfo.userId ?? '' })
   // 实时通道随登录建立（失败静默，connection.ts 内部已降级）
-  void import('@/server/signalr/connection').then(({ start }) => start())
+  void import('@/realtime/connection').then(({ start }) => start())
   return result
 }
 

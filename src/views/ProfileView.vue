@@ -344,7 +344,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import {
   Histogram, Warning, School, Edit, View, Plus, Close
 } from '@element-plus/icons-vue'
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '@/stores/useUserStore'
 import { logout } from '@/composables/useAuth'
 import InitialAvatar from '@/components/InitialAvatar.vue'
 

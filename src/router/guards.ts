@@ -1,7 +1,7 @@
 import type { Router } from 'vue-router'
-import { useUserStore } from '@/store/modules/user'
-import { useAppStore } from '@/store/modules/app'
-import { useTenantStore } from '@/store/modules/tenant'
+import { useUserStore } from '@/stores/useUserStore'
+import { useAppStore } from '@/stores/useAppStore'
+import { useTenantStore } from '@/stores/useTenantStore'
 
 /**
  * 路由守卫：登录校验（沿用旧语义）+ 页面标题 + 设备登记。

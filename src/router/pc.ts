@@ -2,9 +2,8 @@ import type { RouteRecordRaw } from 'vue-router'
 
 /**
  * PC 路由表。
- * - 路由 name 与旧 router/index.js 完全一致，现有 router.push({ name }) 零改动
- * - 全部懒加载（旧版 9 个视图为静态 import，此处一并优化为主包瘦身）
- * - 视图暂指向现有位置（阶段 5 分批搬迁至 views/pc/），meta 语义原样保留
+ * - 路由 name 保持与旧版一致，现有 router.push({ name }) 零改动
+ * - 全部懒加载；页面文件按「模块名 + View」命名规范
  */
 export const pcRoutes: RouteRecordRaw[] = [
   {
@@ -14,86 +13,86 @@ export const pcRoutes: RouteRecordRaw[] = [
       {
         path: '',
         name: 'home',
-        component: () => import('@/views/HomePage.vue'),
+        component: () => import('@/views/HomePageView.vue'),
         meta: { noPadding: true, transparentNavbar: true },
       },
       // ---- 时光胶囊 ----
       {
         path: 'time-capsule',
         name: 'time-capsule',
-        component: () => import('@/modules/time-capsule/views/CapsuleList.vue'),
+        component: () => import('@/modules/time-capsule/views/CapsuleListView.vue'),
       },
       {
         path: 'time-capsule/create',
         name: 'capsule-create',
-        component: () => import('@/modules/time-capsule/views/CapsuleCreate.vue'),
+        component: () => import('@/modules/time-capsule/views/CapsuleCreateView.vue'),
       },
       {
         path: 'time-capsule/:id',
         name: 'capsule-detail',
-        component: () => import('@/modules/time-capsule/views/CapsuleDetail.vue'),
+        component: () => import('@/modules/time-capsule/views/CapsuleDetailView.vue'),
       },
       // ---- 心事广场 ----
       {
         path: 'square',
         name: 'square',
-        component: () => import('@/modules/square/views/SquareList.vue'),
+        component: () => import('@/modules/square/views/SquareListView.vue'),
       },
       {
         path: 'square/create',
         name: 'square-create',
-        component: () => import('@/modules/square/views/SquareCreate.vue'),
+        component: () => import('@/modules/square/views/SquareCreateView.vue'),
       },
       {
         path: 'square/:id',
         name: 'square-detail',
-        component: () => import('@/modules/square/views/SquareDetail.vue'),
+        component: () => import('@/modules/square/views/SquareDetailView.vue'),
       },
       // ---- 心理测评 ----
       {
         path: 'assessment',
         name: 'assessment',
-        component: () => import('@/views/AssessmentCenter.vue'),
+        component: () => import('@/views/AssessmentCenterView.vue'),
       },
       {
         path: 'assessment/take/:id',
         name: 'assessment-take',
-        component: () => import('@/views/AssessmentTake.vue'),
+        component: () => import('@/views/AssessmentTakeView.vue'),
         meta: { hideNavbar: true, hideFooter: true },
       },
       // ---- 心晴阅读 ----
       {
         path: 'articles',
         name: 'articles',
-        component: () => import('@/views/ArticleCenter.vue'),
+        component: () => import('@/views/ArticleCenterView.vue'),
       },
       {
         path: 'articles/list',
         name: 'article-list',
-        component: () => import('@/views/ArticleList.vue'),
+        component: () => import('@/views/ArticleListView.vue'),
       },
       {
         path: 'articles/:id',
         name: 'article-detail',
-        component: () => import('@/views/ArticleDetail.vue'),
+        component: () => import('@/views/ArticleDetailView.vue'),
       },
       // ---- 咨询中心 ----
       {
         path: 'counseling',
         name: 'counseling',
-        component: () => import('@/views/CounselingCenter.vue'),
+        component: () => import('@/views/CounselingCenterView.vue'),
       },
       // ---- 用户 ----
       {
         path: 'profile',
         name: 'profile',
-        component: () => import('@/views/Profile.vue'),
+        component: () => import('@/views/ProfileView.vue'),
         meta: { requiresAuth: true },
       },
       {
         path: 'settings',
         name: 'settings',
-        component: () => import('@/views/Settings.vue'),
+        component: () => import('@/views/SettingsView.vue'),
         meta: { requiresAuth: true },
       },
       // ---- 登录（旧版在 MainLayout 内以透明导航呈现，保持一致） ----
@@ -107,7 +106,7 @@ export const pcRoutes: RouteRecordRaw[] = [
       {
         path: ':pathMatch(.*)*',
         name: 'not-found',
-        component: () => import('@/views/404.vue'),
+        component: () => import('@/views/NotFoundView.vue'),
         meta: { hideNavbar: true, hideFooter: true },
       },
     ],

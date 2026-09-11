@@ -1,10 +1,10 @@
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import type { HubConnection } from '@microsoft/signalr'
-import pinia from '@/store'
-import { useUserStore } from '@/store/modules/user'
-import { useTenantStore } from '@/store/modules/tenant'
-import { useRealtimeStore } from '@/store/modules/realtime'
-import { emitter } from '@/utils/emitter'
+import pinia from '@/stores'
+import { useUserStore } from '@/stores/useUserStore'
+import { useTenantStore } from '@/stores/useTenantStore'
+import { useRealtimeStore } from '@/stores/useRealtimeStore'
+import { emitter } from '@/events'
 import type { RealtimeEnvelope, ServerEventMap, ServerEventName } from './events'
 
 /**

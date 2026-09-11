@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup lang="ts">
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -15,7 +15,7 @@ import {
 } from '@element-plus/icons-vue'
 import ReadProgress from '@/components/ReadProgress.vue'
 import InitialAvatar from '@/components/InitialAvatar.vue'
-import type { ArticleItem } from '@/data/articles'
+import type { ArticleItem } from '@/api/mock/articles'
 
 const route = useRoute()
 const router = useRouter()

@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { SignalRMessagePayload } from '@/utils/emitter'
+import type { SignalRMessagePayload } from '@/events'
 
 export type ConnectionState = 'connected' | 'connecting' | 'disconnected' | 'reconnecting'
 

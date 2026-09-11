@@ -1,6 +1,6 @@
 import type { TenantConfig } from './types'
 import { getDefaultConfig, mergeTenantConfig } from './default'
-import { fetchTenantConfig } from '@/server/modules/tenant'
+import { fetchTenantConfig } from '@/api/modules/tenant'
 
 /** 缓存 key 按租户隔离，切租户不串色 */
 const CACHE_PREFIX = 'tenant:config:'

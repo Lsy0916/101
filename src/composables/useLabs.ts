@@ -3,8 +3,8 @@ import {
   createBooking,
   getComputerLabs,
   getSeatsStatusByTime,
-} from '@/server/modules/lab'
-import type { ComputerLab, CreateBookingParams, Seat } from '@/server/modules/lab'
+} from '@/api/modules/lab'
+import type { ComputerLab, CreateBookingParams, Seat } from '@/api/modules/lab'
 
 /**
  * 机房预约 composables（vue-request 桥接样板：列表查询类）。
