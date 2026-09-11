@@ -3,7 +3,19 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 export default [
   {
-    ignores: ['dist/**', 'node_modules/**', 'dev-server.js', '*.config.js', 'public/**']
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'dev-server.js',
+      '*.config.js',
+      'public/**',
+      // 阶段3 过渡：lang="ts" 的 .vue 携带 TS 语法，espree 无法解析；
+      // 阶段6 接入 typescript-eslint 后移除本段
+      'src/App.pc.vue',
+      'src/App.mobile.vue',
+      'src/layouts/pc/DefaultLayout.vue',
+      'src/layouts/mobile/DefaultLayout.vue'
+    ]
   },
   ...pluginVue.configs['flat/recommended'],
   skipFormatting,
