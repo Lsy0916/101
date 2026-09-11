@@ -605,7 +605,7 @@
           <div v-if="activeScaleKey === 'mbti'" class="mbti-details">
             <h3>{{ $t('assessment.dialog.mbtiDim') }}</h3>
             <div class="mbti-bars">
-              <div v-for="dim in mbtiScores" :key="dim.label" class="mbti-bar-item">
+              <div v-for="dim in mbtiScores" :key="dim.left" class="mbti-bar-item">
                 <span class="dim-l">{{ dim.left }}</span>
                 <div class="bar-track">
                   <div class="bar-fill" :style="{ width: dim.percent + '%', left: dim.isLeft ? '0' : 'auto', right: dim.isLeft ? 'auto' : '0' }"></div>
@@ -639,7 +639,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -686,6 +686,64 @@ import {
   GoldMedal
 } from '@element-plus/icons-vue'
 
+// --- 类型定义 ---
+/** 测评列表条目（广场卡片） */
+interface ScaleInfo {
+  key: string
+  name: string
+  desc: string
+  duration: string
+  count: number
+  category: string
+  icon: string
+  difficulty: string
+  available: boolean
+  tags: string[]
+}
+
+/** 单条测评记录（localStorage 持久化） */
+interface AssessmentRecord {
+  scaleKey: string
+  scaleName: string
+  date: string
+  score: number
+  level: string
+  levelTag: string
+  title: string
+  insight: string
+  suggestion: string
+  details: Record<string, number>
+  duration: number
+}
+
+interface ScaleResult {
+  level: string
+  levelTag: string
+  title: string
+  insight: string
+  suggestion: string
+}
+
+interface ScaleQuestion {
+  id: number
+  text: string
+  type?: string
+  dim?: string
+}
+
+interface ScaleDefinition {
+  name: string
+  description: string
+  optionType: 'frequency' | 'agreement' | 'mbti'
+  questions: ScaleQuestion[]
+  calc: (score: number, details: Record<string, number>) => ScaleResult
+}
+
+interface OptionItem {
+  label: string
+  value: number | string
+}
+
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
@@ -707,18 +765,18 @@ const categories = [
   { key: 'social', name: '人际关系' }
 ]
 
-function getCategoryName(key) {
+function getCategoryName(key?: string) {
   if (key === 'all') return '全部测评'
   return categories.find(c => c.key === key)?.name || '全部测评'
 }
 
-function getCategoryCount(key) {
+function getCategoryCount(key: string) {
   if (key === 'all') return scaleList.length
   return scaleList.filter(s => s.category === key).length
 }
 
 // --- 测评列表（卡片展示用） ---
-const scaleList = [
+const scaleList: ScaleInfo[] = [
   // 心理健康
   { key: 'phq9', name: '抑郁自评 PHQ-9', desc: '评估近两周情绪低落与兴趣减退程度', duration: '3min', count: 9, category: 'mental', icon: 'TrendCharts', difficulty: '入门', available: true, tags: ['情绪', '自评'] },
   { key: 'gad7', name: '焦虑自评 GAD-7', desc: '识别紧张、担忧与焦虑状态', duration: '3min', count: 7, category: 'mental', icon: 'Odometer', difficulty: '入门', available: true, tags: ['焦虑', '自评'] },
@@ -752,7 +810,7 @@ const filteredScales = computed(() => {
 })
 
 // --- 量表题目与计算逻辑 ---
-const scaleOptions = {
+const scaleOptions: Record<'frequency' | 'agreement' | 'mbti', OptionItem[]> = {
   frequency: [
     { label: '完全没有', value: 0 },
     { label: '有几天', value: 1 },
@@ -774,7 +832,7 @@ const scaleOptions = {
   ]
 }
 
-const scales = {
+const scales: Record<string, ScaleDefinition> = {
   phq9: {
     name: '抑郁自评量表 PHQ-9',
     description: '通过评估过去两周的心情状态，了解您的情绪健康水平。',
@@ -843,7 +901,7 @@ const scales = {
     calc: (score, details) => {
       const sorted = Object.entries(details).sort((a, b) => b[1] - a[1])
       const code = sorted.slice(0, 3).map(i => i[0]).join('')
-      const typeMap = { R: '现实', I: '研究', A: '艺术', S: '社会', E: '企业', C: '常规' }
+      const typeMap: Record<string, string> = { R: '现实', I: '研究', A: '艺术', S: '社会', E: '企业', C: '常规' }
       return {
         level: code,
         levelTag: 'primary',
@@ -874,7 +932,7 @@ const scales = {
                    (details.S >= details.N ? 'S' : 'N') +
                    (details.T >= details.F ? 'T' : 'F') +
                    (details.J >= details.P ? 'J' : 'P')
-      const descriptions = {
+      const descriptions: Record<string, string> = {
         'INTJ': '战略家，具有强大的逻辑与远见。',
         'ENFP': '传播者，热情洋溢且富有创意。',
         'ISTJ': '检查者，务实、可靠且注重秩序。',
@@ -893,11 +951,11 @@ const scales = {
 
 // --- 状态管理 ---
 const activeScaleKey = ref('')
-const result = ref(null)
-const allHistory = ref([])
+const result = ref<AssessmentRecord | null>(null)
+const allHistory = ref<AssessmentRecord[]>([])
 const growthPoints = ref(0)
 const dialogVisible = ref(false)
-const dialogMode = ref('intro') // 'intro' | 'result'
+const dialogMode = ref<'intro' | 'result'>('intro')
 
 const currentScale = computed(() => scales[activeScaleKey.value] || null)
 const currentScaleInfo = computed(() => scaleList.find(s => s.key === activeScaleKey.value))
@@ -906,15 +964,15 @@ const totalCompleted = computed(() => allHistory.value.length)
 
 // --- 逻辑方法 ---
 
-function handleTabChange(name) {
+function handleTabChange(name: string | number) {
   if (name === 'dashboard' || name === 'mine') loadHistory()
 }
 
-function isCompleted(key) {
+function isCompleted(key: string) {
   return allHistory.value.some(h => h.scaleKey === key)
 }
 
-function handleScaleClick(scale) {
+function handleScaleClick(scale: ScaleInfo) {
   if (!scale.available) {
     ElMessage.info(t('assessment.comingSoonTip', { name: scale.name }))
     return
@@ -945,7 +1003,7 @@ function loadHistory() {
   growthPoints.value = allHistory.value.length * 10
 }
 
-function viewHistory(row) {
+function viewHistory(row: AssessmentRecord) {
   activeScaleKey.value = row.scaleKey
   result.value = row
   mainTab.value = 'scales'
@@ -957,13 +1015,13 @@ function viewHistory(row) {
 
 // 历史记录按时间倒序
 const sortedHistory = computed(() => {
-  return [...allHistory.value].sort((a, b) => new Date(b.date) - new Date(a.date))
+  return [...allHistory.value].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 })
 
 // 加入日期（首次测评日期或默认）
 const joinDate = computed(() => {
   if (allHistory.value.length === 0) return '2024-09-01'
-  const earliest = [...allHistory.value].sort((a, b) => new Date(a.date) - new Date(b.date))[0]
+  const earliest = [...allHistory.value].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0]
   return earliest.date
 })
 
@@ -1056,7 +1114,7 @@ function clearAllHistory() {
 }
 
 // 重新测评
-function retakeAssessment(record) {
+function retakeAssessment(record: AssessmentRecord) {
   activeScaleKey.value = record.scaleKey
   dialogMode.value = 'intro'
   dialogVisible.value = true
@@ -1066,7 +1124,7 @@ function retakeAssessment(record) {
 
 const radarLabels = ['情绪调节', '压力耐受', '职业驱动', '思维深度', '社交能量', '自我认知']
 
-function getRadarPoints(radius) {
+function getRadarPoints(radius: number) {
   return Array.from({ length: 6 }).map((_, i) => {
     const angle = (i * 60 - 90) * Math.PI / 180
     return `${100 + radius * Math.cos(angle)},${100 + radius * Math.sin(angle)}`
@@ -1165,7 +1223,7 @@ const dashboardNav = [
 
 // 平均分（归一化到 100）
 const avgScore = computed(() => {
-  const maxScores = { phq9: 27, gad7: 21, pss: 40, riasec: 18, mbti: 40 }
+  const maxScores: Record<string, number> = { phq9: 27, gad7: 21, pss: 40, riasec: 18, mbti: 40 }
   const scored = allHistory.value.filter(h => typeof h.score === 'number' && maxScores[h.scaleKey])
   if (scored.length === 0) return 0
   const sum = scored.reduce((acc, h) => acc + (h.score / maxScores[h.scaleKey]) * 100, 0)
@@ -1174,7 +1232,7 @@ const avgScore = computed(() => {
 
 // 最爱维度
 const favoriteCategory = computed(() => {
-  const catCount = {}
+  const catCount: Record<string, number> = {}
   allHistory.value.forEach(h => {
     const scale = scaleList.find(s => s.key === h.scaleKey)
     if (scale) catCount[scale.category] = (catCount[scale.category] || 0) + 1
@@ -1186,7 +1244,7 @@ const favoriteCategory = computed(() => {
 
 // 分类分布（用于环形图）
 const categoryDistribution = computed(() => {
-  const catCount = {}
+  const catCount: Record<string, number> = {}
   allHistory.value.forEach(h => {
     const scale = scaleList.find(s => s.key === h.scaleKey)
     if (scale) {
@@ -1222,7 +1280,7 @@ const donutSegments = computed(() => {
     const largeArc = (endAngle - startAngle) > Math.PI ? 1 : 0
     // 单段且占满时无法用 arc 绘制，需特殊处理
     if (data.length === 1 || (cumulative === total && d.value === total)) {
-      return { ...d, isFull: true }
+      return { ...d, path: '', isFull: true }
     }
     return {
       ...d,
@@ -1244,15 +1302,24 @@ const radarAvgPoints = computed(() => {
 
 // 进步对比（同量表历次分数变化）
 const progressComparison = computed(() => {
-  const grouped = {}
+  const grouped: Record<string, AssessmentRecord[]> = {}
   allHistory.value.forEach(h => {
     if (!grouped[h.scaleKey]) grouped[h.scaleKey] = []
     grouped[h.scaleKey].push(h)
   })
-  const comparisons = []
+  const comparisons: {
+    scaleName: string
+    scaleKey: string
+    prevScore: number
+    currScore: number
+    diff: number
+    trend: string
+    date: string
+    isLowerBetter: boolean
+  }[] = []
   Object.entries(grouped).forEach(([key, records]) => {
     if (records.length >= 2) {
-      const sorted = [...records].sort((a, b) => new Date(a.date) - new Date(b.date))
+      const sorted = [...records].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       const prev = sorted[sorted.length - 2]
       const curr = sorted[sorted.length - 1]
       const diff = curr.score - prev.score
@@ -1359,7 +1426,7 @@ function exportHistory() {
 }
 
 // 跳转到推荐测评
-function goToRecommendation(rec) {
+function goToRecommendation(rec: { key: string }) {
   activeScaleKey.value = rec.key
   dialogMode.value = 'intro'
   dialogVisible.value = true
@@ -1368,8 +1435,8 @@ function goToRecommendation(rec) {
 const riasecScores = computed(() => {
   if (!result.value || result.value.scaleKey !== 'riasec') return []
   const d = result.value.details
-  const names = { R: '现实', I: '研究', A: '艺术', S: '社会', E: '企业', C: '常规' }
-  const colors = { R: '#ef4444', I: '#3b82f6', A: '#8b5cf6', S: '#10b981', E: '#f59e0b', C: '#6b7280' }
+  const names: Record<string, string> = { R: '现实', I: '研究', A: '艺术', S: '社会', E: '企业', C: '常规' }
+  const colors: Record<string, string> = { R: '#ef4444', I: '#3b82f6', A: '#8b5cf6', S: '#10b981', E: '#f59e0b', C: '#6b7280' }
   return Object.keys(names).map(k => ({ key: k, name: names[k], score: d[k], color: colors[k] }))
 })
 
@@ -1377,7 +1444,7 @@ const mbtiScores = computed(() => {
   if (!result.value || result.value.scaleKey !== 'mbti') return []
   const d = result.value.details
   const pairs = [['E', 'I'], ['S', 'N'], ['T', 'F'], ['J', 'P']]
-  const names = { E: '外向', I: '内向', S: '实感', N: '直觉', T: '思考', F: '情感', J: '判断', P: '感知' }
+  const names: Record<string, string> = { E: '外向', I: '内向', S: '实感', N: '直觉', T: '思考', F: '情感', J: '判断', P: '感知' }
   return pairs.map(p => {
     const leftVal = d[p[0]]
     const rightVal = d[p[1]]
@@ -1393,8 +1460,8 @@ const mbtiScores = computed(() => {
 })
 
 // --- 辅助方法 ---
-function getLevelColor(tag) {
-  const map = { success: '#059669', info: '#0052d9', warning: '#d97706', danger: '#ef4444', primary: '#7c3aed' }
+function getLevelColor(tag: string) {
+  const map: Record<string, string> = { success: '#059669', info: '#0052d9', warning: '#d97706', danger: '#ef4444', primary: '#7c3aed' }
   return map[tag] || '#0052d9'
 }
 
@@ -1405,7 +1472,7 @@ onMounted(() => {
   loadHistory()
   const s = route.query.scale
   const v = route.query.view
-  if (s && scales[s]) {
+  if (typeof s === 'string' && scales[s]) {
     activeScaleKey.value = s
     if (v === 'result') {
       const lastRecord = allHistory.value.find(h => h.scaleKey === s)
@@ -1423,7 +1490,7 @@ onMounted(() => {
 
 // 监听路由参数变化，实现从答题页返回后显示结果
 watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
-  if (newScale && scales[newScale]) {
+  if (typeof newScale === 'string' && scales[newScale]) {
     activeScaleKey.value = newScale
     if (newView === 'result') {
       const lastRecord = allHistory.value.find(h => h.scaleKey === newScale)

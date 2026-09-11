@@ -500,7 +500,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -547,7 +547,7 @@ const contactDialog = reactive({
   countdown: 0
 })
 
-let countdownTimer = null
+let countdownTimer: ReturnType<typeof setInterval> | null = null
 
 const currentTypeLabel = computed(() =>
   contactDialog.type === 'phone'
@@ -561,7 +561,7 @@ const stepLabels = computed(() => [
   t('settings.card.security.dialog.step3', { type: currentTypeLabel.value })
 ])
 
-function openContactDialog(type) {
+function openContactDialog(type: string) {
   contactDialog.visible = true
   contactDialog.type = type
   contactDialog.step = 1
@@ -596,13 +596,13 @@ function stopCountdown() {
   contactDialog.countdown = 0
 }
 
-function sendCode(target) {
+function sendCode(target: string) {
   startCountdown()
   const key = target === 'current' ? 'verifyCodeSent' : 'newCodeSent'
   ElMessage.success(t(`settings.card.security.dialog.${key}`, { type: currentTypeLabel.value }))
 }
 
-function validateContact(value, type) {
+function validateContact(value: string, type: string) {
   if (type === 'phone') {
     return /^1[3-9]\d{9}$/.test(value)
   }
@@ -648,7 +648,16 @@ function submitContactDialog() {
 }
 
 /* ===== Devices ===== */
-const devices = ref([
+interface DeviceItem {
+  id: number
+  name: string
+  current: boolean
+  ip: string
+  browser: string
+  lastLogin: string
+}
+
+const devices = ref<DeviceItem[]>([
   {
     id: 1,
     name: 'Windows · Chrome',
@@ -675,7 +684,7 @@ const devices = ref([
   }
 ])
 
-function revokeDevice(device) {
+function revokeDevice(device: DeviceItem) {
   ElMessageBox.confirm(
     t('settings.card.security.deviceRevokeConfirm'),
     t('settings.card.security.deviceRevokeTitle'),
@@ -701,7 +710,7 @@ const notifications = reactive({
   marketing: false
 })
 
-const notifItems = computed(() => [
+const notifItems = computed<Array<{ key: keyof typeof notifications; label: string; hint: string }>>(() => [
   { key: 'booking', label: t('settings.card.notifications.items.booking'), hint: t('settings.card.notifications.hints.booking') },
   { key: 'assessment', label: t('settings.card.notifications.items.assessment'), hint: t('settings.card.notifications.hints.assessment') },
   { key: 'comment', label: t('settings.card.notifications.items.comment'), hint: t('settings.card.notifications.hints.comment') },
@@ -742,19 +751,19 @@ const homeOpts = computed(() => [
 const langModel = ref(locale.value)
 const themeModel = ref(themeMode.value)
 
-function onLangChange(val) {
+function onLangChange(val: string) {
   setLocale(val)
   ElMessage.success(t('settings.card.preferences.languageChanged'))
 }
 
-function onThemeChange(val) {
+function onThemeChange(val: 'light' | 'dark' | 'auto') {
   setThemeMode(val)
   ElMessage.success(t('settings.card.preferences.themeChanged'))
 }
 
 /* ===== Data ===== */
 const exportForm = reactive({
-  dateRange: [],
+  dateRange: [] as string[],
   types: {
     assessment: true,
     counseling: false,
@@ -793,7 +802,7 @@ function clearCache() {
     type: 'warning'
   })
     .then(() => {
-      Object.keys(cacheForm.types).forEach((k) => (cacheForm.types[k] = false))
+      Object.keys(cacheForm.types).forEach((k) => { cacheForm.types[k as keyof typeof cacheForm.types] = false })
       ElMessage.success(t('settings.card.data.clearSuccess'))
     })
     .catch(() => {})
@@ -809,9 +818,9 @@ const sections = computed(() => [
 ])
 
 const activeSection = ref('sec-security')
-let observer = null
+let observer: IntersectionObserver | null = null
 
-function scrollToSection(id) {
+function scrollToSection(id: string) {
   const el = document.getElementById(id)
   if (el) {
     const top = el.getBoundingClientRect().top + window.scrollY - 80
@@ -820,7 +829,7 @@ function scrollToSection(id) {
 }
 
 onMounted(() => {
-  observer = new IntersectionObserver(
+  const obs = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -832,8 +841,9 @@ onMounted(() => {
   )
   sections.value.forEach((sec) => {
     const el = document.getElementById(sec.id)
-    if (el) observer.observe(el)
+    if (el) obs.observe(el)
   })
+  observer = obs
 })
 
 onBeforeUnmount(() => {

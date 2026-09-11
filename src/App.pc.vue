@@ -4,7 +4,7 @@ import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import en from 'element-plus/es/locale/lang/en'
-import { useLocale } from '@/composables/settings'
+import { useLocale } from '@/composables/useLocale'
 import DefaultLayout from '@/layouts/pc/DefaultLayout.vue'
 
 // 语言切换响应式同步到 Element Plus 组件（沿用旧 App.vue 行为）

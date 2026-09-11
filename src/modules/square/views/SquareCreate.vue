@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -23,7 +23,7 @@ const emotionList = computed(() => [
 const content = ref('')
 const contentCount = computed(() => content.value.length)
 
-const topics = ref([])
+const topics = ref<string[]>([])
 const topicInput = ref('')
 const MAX_TOPICS = 3
 
@@ -42,18 +42,18 @@ const addTopic = () => {
   topicInput.value = ''
 }
 
-const removeTopic = (index) => {
+const removeTopic = (index: number) => {
   topics.value.splice(index, 1)
 }
 
-const imagePaths = ref([])
-const fileInputRef = ref(null)
+const imagePaths = ref<string[]>([])
+const fileInputRef = ref<HTMLInputElement | null>(null)
 
 const isAnonymous = ref(false)
 const allowComment = ref(true)
 const isSubmitting = ref(false)
 const showSuccess = ref(false)
-let submitTimer = null
+let submitTimer: ReturnType<typeof setTimeout> | null = null
 
 const chooseImage = () => {
   if (imagePaths.value.length >= MAX_PHOTOS) {
@@ -63,21 +63,22 @@ const chooseImage = () => {
   fileInputRef.value?.click()
 }
 
-const onFileChange = (e) => {
-  const files = Array.from(e.target.files || [])
+const onFileChange = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  const files = Array.from(target.files || [])
   const remaining = MAX_PHOTOS - imagePaths.value.length
   files.slice(0, remaining).forEach(file => {
     if (!file.type.startsWith('image/')) return
     const reader = new FileReader()
     reader.onload = (ev) => {
-      imagePaths.value.push(ev.target.result)
+      imagePaths.value.push(ev.target?.result as string)
     }
     reader.readAsDataURL(file)
   })
-  e.target.value = ''
+  target.value = ''
 }
 
-const deleteImage = (index) => {
+const deleteImage = (index: number) => {
   imagePaths.value.splice(index, 1)
 }
 

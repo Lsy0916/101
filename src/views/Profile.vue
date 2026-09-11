@@ -336,7 +336,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -347,11 +347,34 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import InitialAvatar from '@/components/InitialAvatar.vue'
 
+interface UserExtra {
+  name?: string
+  studentId?: string
+  userId?: string
+  school?: string
+  enrollYear?: string
+  gender?: string
+  major?: string
+  mbti?: string
+  interests?: string[]
+  bio?: string
+  stressLevel?: string
+  sleepQuality?: string
+  roleId?: string
+}
+
+interface GrowthItem {
+  type: string
+  kind: string
+  text: string
+  date: string
+}
+
 const router = useRouter()
 const { t } = useI18n()
 const authStore = useAuthStore()
 
-const info = authStore.userInfo || {}
+const info = (authStore.userInfo || {}) as UserExtra
 
 const profileForm = reactive({
   name: info.name || '',
@@ -371,7 +394,7 @@ const psychForm = reactive({
 })
 
 // 备份用于取消编辑时还原
-let profileBackup = { ...profileForm, interests: null }
+let profileBackup = { ...profileForm }
 let psychBackup = { ...psychForm, interests: [...psychForm.interests] }
 
 const mbtiTypes = ['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']
@@ -447,7 +470,7 @@ const badges = computed(() => [
 ])
 
 const timelineGroups = computed(() => {
-  const groups = {}
+  const groups: Record<string, GrowthItem[]> = {}
   growthTimeline.value.forEach((item) => {
     const year = item.date.split('-')[0]
     if (!groups[year]) groups[year] = []
@@ -463,7 +486,7 @@ const timelineGroups = computed(() => {
 
 const tagInputVisible = ref(false)
 const tagInputValue = ref('')
-const tagInputRef = ref()
+const tagInputRef = ref<{ focus: () => void } | null>(null)
 
 function showTagInput() {
   tagInputVisible.value = true
@@ -479,11 +502,11 @@ function addTag() {
   tagInputVisible.value = false
 }
 
-function removeTag(i) {
+function removeTag(i: number) {
   psychForm.interests.splice(i, 1)
 }
 
-function scrollToSection(id) {
+function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 

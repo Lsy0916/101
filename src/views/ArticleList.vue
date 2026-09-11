@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -14,12 +14,13 @@ import {
   Star
 } from '@element-plus/icons-vue'
 import ReadProgress from '@/components/ReadProgress.vue'
+import type { ArticleItem } from '@/data/articles'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 const searchQuery = ref('')
-const activeCategory = ref(route.query.category || 'all')
+const activeCategory = ref(String(route.query.category || 'all'))
 
 // 文章分类数据
 const categories = computed(() => [
@@ -33,7 +34,7 @@ const categories = computed(() => [
 
 // 监听 URL query 变化，同步分类切换（Navbar 子菜单跳转）
 watch(() => route.query.category, (newCat) => {
-  const next = newCat || 'all'
+  const next = (typeof newCat === 'string' && newCat) || 'all'
   if (next !== activeCategory.value) {
     activeCategory.value = next
     searchQuery.value = ''
@@ -41,7 +42,7 @@ watch(() => route.query.category, (newCat) => {
 })
 
 // 模拟文章数据 (与 ArticleCenter.vue 保持一致)
-const articles = ref([
+const articles = ref<ArticleItem[]>([
   {
     id: 1,
     title: '在不确定的时代，如何建立内心的秩序？',
@@ -203,7 +204,7 @@ const articles = ref([
 ])
 
 // 文章详情 · 跳转独立详情页
-function openArticle(article) {
+function openArticle(article: ArticleItem) {
   router.push(`/articles/${article.id}`)
 }
 
@@ -224,7 +225,7 @@ const filteredArticles = computed(() => {
   return result
 })
 
-function setCategory(key) {
+function setCategory(key: string) {
   activeCategory.value = key
   searchQuery.value = ''
 }

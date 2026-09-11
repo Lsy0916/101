@@ -89,8 +89,8 @@
 
 </template>
 
-<script setup>
-import { ref, computed, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessage } from 'element-plus';
 import { debounce } from '@/utils/debounce';
@@ -102,13 +102,15 @@ import ForgotPasswordForm from './other/ForgotPasswordForm.vue';
 
 const { t } = useI18n();
 
+type LoginType = 'account' | 'phone' | 'email';
+
 // 登录表单状态管理
 const showRegisterForm = ref(false);
 const showForgotPasswordForm = ref(false);
-const activeLoginType = ref('account');
+const activeLoginType = ref<LoginType>('account');
 
 // 登录方式标签
-const loginTabs = computed(() => [
+const loginTabs = computed<{ name: LoginType; label: string }[]>(() => [
   { name: 'account', label: t('login.tabs.account') },
   { name: 'phone', label: t('login.tabs.phone') },
   { name: 'email', label: t('login.tabs.email') }
@@ -125,8 +127,6 @@ const handleQQLogin = () => {
 
 const debouncedHandleWechatLogin = debounce(handleWechatLogin, 1000);
 const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
-
-onMounted(() => {});
 </script>
 
 <style scoped>

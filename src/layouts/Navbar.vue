@@ -1,9 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import {
   User,
-  UserFilled,
   ArrowDown,
   Moon,
   Sunny,
@@ -13,15 +12,19 @@ import {
   SwitchButton,
   Menu as MenuIcon
 } from '@element-plus/icons-vue'
-import { useTheme, useLocale } from '../composables/settings'
-import { useCommandPalette } from '../composables/useCommandPalette'
-import { useAuthStore } from '@/stores/auth'
+import { useTheme } from '@/composables/useTheme'
+import type { ThemeMode } from '@/composables/useTheme'
+import { useLocale } from '@/composables/useLocale'
+import type { AppLocale } from '@/locales'
+import { useCommandPalette } from '@/composables/useCommandPalette'
+import { useUserStore } from '@/store/modules/user'
+import { logout } from '@/composables/useAuth'
 import InitialAvatar from '@/components/InitialAvatar.vue'
 
 const router = useRouter()
 const route = useRoute()
-const authStore = useAuthStore()
-const { isDark, themeMode, setThemeMode } = useTheme()
+const userStore = useUserStore()
+const { themeMode, setThemeMode } = useTheme()
 const { locale, setLocale } = useLocale()
 const { toggle: togglePalette } = useCommandPalette()
 const isScrolled = ref(false)
@@ -30,21 +33,29 @@ const showMobileMenu = ref(false)
 const isTransparentPage = computed(() => route.meta.transparentNavbar === true)
 const shouldBeTransparent = computed(() => isTransparentPage.value && !isScrolled.value)
 
-const handleThemeCommand = (command) => {
+const handleThemeCommand = (command: ThemeMode) => {
   setThemeMode(command)
 }
 
-const handleLocaleCommand = (command) => {
+const handleLocaleCommand = (command: AppLocale) => {
   setLocale(command)
 }
 
-const getLocaleLabel = (code) => {
-  const map = {
-    'zh-CN': '简体中文',
-    'zh-TW': '繁體中文',
-    'en-US': 'English'
-  }
-  return map[code] || '简体中文'
+// 导航菜单数据结构（key 与路由 name 对应，跳转规则见 handleNav）
+interface NavItem {
+  key: string
+  labelKey: string
+}
+
+interface MenuGroup {
+  titleKey: string
+  items: NavItem[]
+}
+
+interface MenuEntry {
+  labelKey: string
+  key: string
+  children: MenuGroup[]
 }
 
 let scrollTicking = false
@@ -73,7 +84,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
-const menuData = [
+const menuData: MenuEntry[] = [
   {
     labelKey: 'nav.menu.evaluation',
     key: 'evaluation',
@@ -157,7 +168,7 @@ function goHome() {
   router.push('/')
 }
 
-function handleNav(item) {
+function handleNav(item: NavItem) {
   showMobileMenu.value = false
 
   // 处理时光胶囊跳转（活动中心父菜单与子项都进入胶囊广场）
@@ -210,9 +221,10 @@ function handleNav(item) {
   router.push('/')
 }
 
-function handleCommand(command) {
+function handleCommand(command: string) {
   if (command === 'logout') {
-    authStore.logout()
+    // 新认证体系：清新 userStore + 广播 user:logout（main.ts 订阅后跳登录页）
+    logout()
   } else if (command === 'profile') {
     router.push({ name: 'profile' })
   } else if (command === 'settings') {
@@ -319,19 +331,19 @@ function handleCommand(command) {
             </template>
           </el-dropdown>
 
-          <el-dropdown v-if="authStore.isLoggedIn" @command="handleCommand" trigger="click" popper-class="user-dropdown-popper">
+          <el-dropdown v-if="userStore.isLoggedIn" @command="handleCommand" trigger="click" popper-class="user-dropdown-popper">
             <div class="user-profile">
-              <InitialAvatar :name="authStore.userInfo?.name || 'U'" :size="32" />
-              <span class="username desktop-only">{{ authStore.userInfo?.name || $t('nav.user.guest') }}</span>
+              <InitialAvatar :name="userStore.profile?.name || 'U'" :size="32" />
+              <span class="username desktop-only">{{ userStore.profile?.name || $t('nav.user.guest') }}</span>
               <el-icon class="caret"><ArrowDown /></el-icon>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
                 <div class="dropdown-header">
-                  <InitialAvatar :name="authStore.userInfo?.name || 'U'" :size="44" />
+                  <InitialAvatar :name="userStore.profile?.name || 'U'" :size="44" />
                   <div class="dropdown-header-info">
-                    <span class="dropdown-header-name">{{ authStore.userInfo?.name || $t('nav.user.guest') }}</span>
-                    <span class="dropdown-header-id">{{ authStore.userInfo?.userId || '—' }}</span>
+                    <span class="dropdown-header-name">{{ userStore.profile?.name || $t('nav.user.guest') }}</span>
+                    <span class="dropdown-header-id">{{ userStore.profile?.id || '—' }}</span>
                   </div>
                 </div>
                 <el-dropdown-item command="profile">

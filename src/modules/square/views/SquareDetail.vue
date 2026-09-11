@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -6,15 +6,38 @@ import { ElMessage } from 'element-plus'
 import { ArrowLeft, Star, Share } from '@element-plus/icons-vue'
 import InitialAvatar from '@/components/InitialAvatar.vue'
 
+interface PostItem {
+  id: number
+  type: string
+  author: string
+  isAnonymous: boolean
+  mood: string
+  content: string
+  photos: string[]
+  likes: number
+  liked: boolean
+  createdAt: string
+}
+
+interface CommentItem {
+  id: number
+  author: string
+  content: string
+  time: string
+  likes: number
+  liked: boolean
+  isAnonymous?: boolean
+}
+
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-const moodMap = {
+const moodMap: Record<string, string> = {
   happy: '😊', excited: '🤩', calm: '😌', sad: '😢', hopeful: '🌟'
 }
 
-const mockPosts = {
+const mockPosts: Record<number, PostItem> = {
   1: { id: 1, type: 'moment', author: '林晓', isAnonymous: false, mood: 'hopeful', content: '今天第一次去参加了心理咨询，原本很紧张，但老师特别温柔。聊完之后发现，原来一直压在心头的不是事情本身，而是我不敢面对它的那个瞬间。给自己一个拥抱。', photos: [], likes: 48, liked: false, createdAt: '2小时前' },
   2: { id: 2, type: 'capsule', author: '匿名同学', isAnonymous: true, mood: 'calm', content: '写给半年后的自己：希望那时候的你，已经学会了和焦虑共处，而不是拼命想赶走它。记得多晒太阳，多喝水，别再熬夜了。', photos: [], likes: 92, liked: false, createdAt: '5小时前' },
   3: { id: 3, type: 'moment', author: '陈默', isAnonymous: false, mood: 'happy', content: '坚持冥想第 30 天。从一开始坐不住，到现在能安静地观察呼吸二十分钟。最大的改变不是不焦虑了，而是焦虑来的时候，我不再那么害怕它了。', photos: [], likes: 67, liked: false, createdAt: '昨天' },
@@ -22,12 +45,12 @@ const mockPosts = {
   5: { id: 5, type: 'capsule', author: '李华', isAnonymous: false, mood: 'excited', content: '给一年前的自己：那个在车库里熬夜改简历的你，那个被拒了七次还在投的你，谢谢你没有放弃。今天我签下了 dream offer。所有的坚持，都是有意义的。', photos: [], likes: 210, liked: false, createdAt: '2天前' }
 }
 
-const post = ref(null)
+const post = ref<PostItem | null>(null)
 const commentText = ref('')
-const comments = ref([])
+const comments = ref<CommentItem[]>([])
 
-const loadPost = (id) => {
-  const data = mockPosts[id]
+const loadPost = (id: string | string[]) => {
+  const data = mockPosts[Number(id)]
   if (!data) {
     router.replace({ name: 'square' })
     return
@@ -69,7 +92,7 @@ const submitComment = () => {
   commentText.value = ''
 }
 
-const toggleCommentLike = (comment) => {
+const toggleCommentLike = (comment: CommentItem) => {
   comment.liked = !comment.liked
   comment.likes += comment.liked ? 1 : -1
 }

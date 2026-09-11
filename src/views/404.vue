@@ -325,10 +325,42 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+
+interface NoteItem {
+  id: number
+  user: string
+  time: string
+  content: string
+  likes: number
+  liked: boolean
+  featured: boolean
+}
+
+interface MemoryCard {
+  symbol: string
+  flipped: boolean
+  matched: boolean
+}
+
+interface MazeCell {
+  walls: { top: boolean; right: boolean; bottom: boolean; left: boolean }
+  visited: boolean
+}
+
+interface CellPos {
+  x: number
+  y: number
+}
+
+interface StarPoint {
+  x: number
+  y: number
+  no: number
+}
 
 const router = useRouter()
 const { t, tm } = useI18n()
@@ -345,11 +377,11 @@ const navLinks = [
 const slideCount = 4
 const currentSlide = ref(0)
 const isAnimating = ref(false)
-let animTimer = null
+let animTimer: ReturnType<typeof setTimeout> | null = null
 
 function lockAnim() {
   isAnimating.value = true
-  clearTimeout(animTimer)
+  if (animTimer) clearTimeout(animTimer)
   animTimer = setTimeout(() => {
     isAnimating.value = false
   }, 800)
@@ -367,14 +399,14 @@ function prevSlide() {
   currentSlide.value--
 }
 
-function goToSlide(index) {
+function goToSlide(index: number) {
   if (isAnimating.value || index === currentSlide.value) return
   lockAnim()
   currentSlide.value = index
 }
 
 /* ---------- 滚轮 / 触摸 / 键盘 ---------- */
-function handleWheel(e) {
+function handleWheel(e: WheelEvent) {
   if (activeGame.value) {
     // 游戏模式下不翻页
     return
@@ -393,10 +425,10 @@ function handleWheel(e) {
 }
 
 let touchStartY = 0
-function handleTouchStart(e) {
+function handleTouchStart(e: TouchEvent) {
   touchStartY = e.touches[0].clientY
 }
-function handleTouchEnd(e) {
+function handleTouchEnd(e: TouchEvent) {
   if (activeGame.value) return
   const dy = touchStartY - e.changedTouches[0].clientY
   if (Math.abs(dy) > 50) {
@@ -405,7 +437,7 @@ function handleTouchEnd(e) {
   }
 }
 
-function handleKeydown(e) {
+function handleKeydown(e: KeyboardEvent) {
   // 游戏模式下：方向键 / WASD 移动玩家（迷宫），Spacebar 呼吸同步，Esc 退出
   if (activeGame.value) {
     if (activeGame.value === 'maze') {
@@ -471,7 +503,7 @@ const topicImages = [
 const topicRoutes = ['/counseling', '/assessment', '/articles']
 
 const topicItems = computed(() => {
-  const items = tm('notFound.topics.items')
+  const items = tm('notFound.topics.items') as Array<{ no: string; en: string; zh: string; desc: string }>
   if (!Array.isArray(items)) return []
   return items.map((item, i) => ({
     no: item.no,
@@ -485,7 +517,7 @@ const topicItems = computed(() => {
 
 /* ---------- 社区笔记数据 ---------- */
 let noteIdCounter = 100
-const notes = reactive([
+const notes = reactive<NoteItem[]>([
   {
     id: 1,
     user: '林同学',
@@ -517,14 +549,14 @@ const notes = reactive([
 
 const visibleNotes = computed(() => notes.slice(0, 3))
 
-function toggleLike(note) {
+function toggleLike(note: NoteItem) {
   note.liked = !note.liked
   note.likes += note.liked ? 1 : -1
 }
 
 /* ---------- 输入区 ---------- */
 const writeText = ref('')
-function handleWriteKey(e) {
+function handleWriteKey(e: KeyboardEvent) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault()
     submitNote()
@@ -546,7 +578,7 @@ function submitNote() {
 }
 
 /* ---------- 路由跳转 ---------- */
-function goTo(route) {
+function goTo(route: string) {
   router.push(route)
 }
 
@@ -556,9 +588,10 @@ watch(currentSlide, async () => {
   const slideEl = document.querySelectorAll('.nf-slide')[currentSlide.value]
   if (!slideEl) return
   slideEl.querySelectorAll('.reveal-anim').forEach((el) => {
-    el.classList.remove('in-view')
-    void el.offsetWidth
-    el.classList.add('in-view')
+    const node = el as HTMLElement
+    node.classList.remove('in-view')
+    void node.offsetWidth
+    node.classList.add('in-view')
   })
 })
 
@@ -569,13 +602,13 @@ const games = [
   { id: 'breath', name: '心流共振', en: 'BREATHING' },
   { id: 'memory', name: '拾光记忆', en: 'MEMORY' }
 ]
-const activeGame = ref(null)
+const activeGame = ref<string | null>(null)
 const currentGameName = computed(() => {
   const g = games.find((x) => x.id === activeGame.value)
   return g ? `${g.name} · ${g.en}` : ''
 })
 
-function enterGame(id) {
+function enterGame(id: string) {
   exitGame()
   activeGame.value = id
   nextTick(() => {
@@ -600,7 +633,7 @@ function exitGame() {
 }
 
 /* ---------- 迷途寻路 · 迷宫 ---------- */
-const gameCanvasRef = ref(null)
+const gameCanvasRef = ref<HTMLCanvasElement | null>(null)
 const gameLevel = ref(1)
 const gameSteps = ref(0)
 const gameBestSteps = ref(0)
@@ -609,16 +642,16 @@ const gameClear = ref(false)
 // 迷宫运行时状态（非响应式，避免性能问题）
 let mazeCols = 7
 let mazeRows = 7
-let mazeCells = []
-let playerCell = { x: 0, y: 0 }
-let playerRender = { x: 0, y: 0 }
-let exitCell = { x: 0, y: 0 }
-let canvasCtx = null
+let mazeCells: MazeCell[][] = []
+let playerCell: CellPos = { x: 0, y: 0 }
+let playerRender: CellPos = { x: 0, y: 0 }
+let exitCell: CellPos = { x: 0, y: 0 }
+let canvasCtx: CanvasRenderingContext2D | null = null
 let canvasSize = 480
 let cellSize = 0
 let mazeOffset = 0
-let clearTimer = null
-let moveAnimRaf = null
+let clearTimer: ReturnType<typeof setTimeout> | null = null
+let moveAnimRaf: number | null = null
 
 function initMaze() {
   gameLevel.value = 1
@@ -646,6 +679,7 @@ function initMazeCanvas() {
   canvas.style.width = canvasSize + 'px'
   canvas.style.height = canvasSize + 'px'
   canvasCtx = canvas.getContext('2d')
+  if (!canvasCtx) return
   canvasCtx.scale(dpr, dpr)
   const padding = 14
   cellSize = (canvasSize - padding * 2) / Math.max(mazeCols, mazeRows)
@@ -653,7 +687,7 @@ function initMazeCanvas() {
 }
 
 // 递归回溯 DFS 生成迷宫
-function generateMaze(cols, rows) {
+function generateMaze(cols: number, rows: number) {
   mazeCells = []
   for (let y = 0; y < rows; y++) {
     const row = []
@@ -684,7 +718,7 @@ function generateMaze(cols, rows) {
   }
 }
 
-function getUnvisitedNeighbors(x, y, cols, rows) {
+function getUnvisitedNeighbors(x: number, y: number, cols: number, rows: number) {
   const result = []
   if (y > 0 && !mazeCells[y - 1][x].visited) result.push({ x, y: y - 1 })
   if (x < cols - 1 && !mazeCells[y][x + 1].visited) result.push({ x: x + 1, y })
@@ -693,7 +727,7 @@ function getUnvisitedNeighbors(x, y, cols, rows) {
   return result
 }
 
-function removeWall(a, b) {
+function removeWall(a: CellPos, b: CellPos) {
   if (a.x === b.x) {
     if (a.y < b.y) {
       mazeCells[a.y][a.x].walls.bottom = false
@@ -790,7 +824,7 @@ function drawMaze() {
   ctx.fill()
 }
 
-function movePlayer(dx, dy) {
+function movePlayer(dx: number, dy: number) {
   if (gameClear.value || activeGame.value !== 'maze') return
   const cell = mazeCells[playerCell.y][playerCell.x]
   if (dx === 1 && cell.walls.right) return
@@ -820,7 +854,7 @@ function animatePlayerMove() {
   const targetY = playerCell.y
   const duration = 130
   const startTime = performance.now()
-  function step(now) {
+  function step(now: number) {
     const t = Math.min(1, (now - startTime) / duration)
     const ease = 1 - Math.pow(1 - t, 3)
     playerRender.x = startX + (targetX - startX) * ease
@@ -860,15 +894,15 @@ function nextLevel() {
 }
 
 /* ---------- 星轨连珠 · 连星座 ---------- */
-const starCanvasRef = ref(null)
+const starCanvasRef = ref<HTMLCanvasElement | null>(null)
 const starLevel = ref(1)
 const starConnected = ref(0)
 const starTotal = ref(0)
 const starClear = ref(false)
-let starCtx = null
+let starCtx: CanvasRenderingContext2D | null = null
 let starCanvasSize = 480
-let starPoints = [] // {x, y, no} 坐标存为 0-1 比例，resize 安全
-let starClearTimer = null
+let starPoints: StarPoint[] = [] // {x, y, no} 坐标存为 0-1 比例，resize 安全
+let starClearTimer: ReturnType<typeof setTimeout> | null = null
 
 function initStar() {
   starLevel.value = 1
@@ -889,10 +923,11 @@ function initStarCanvas() {
   canvas.style.width = starCanvasSize + 'px'
   canvas.style.height = starCanvasSize + 'px'
   starCtx = canvas.getContext('2d')
+  if (!starCtx) return
   starCtx.scale(dpr, dpr)
 }
 
-function generateStars(count) {
+function generateStars(count: number) {
   starTotal.value = count
   starConnected.value = 0
   starPoints = []
@@ -974,11 +1009,11 @@ function drawStars() {
     ctx.font = '10px "Noto Sans SC", sans-serif'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
-    ctx.fillText(p.no, px, py - r - 10)
+    ctx.fillText(String(p.no), px, py - r - 10)
   }
 }
 
-function handleStarClick(e) {
+function handleStarClick(e: MouseEvent) {
   if (starClear.value) return
   const canvas = starCanvasRef.value
   if (!canvas) return
@@ -1020,10 +1055,10 @@ const breathCycle = ref(0)
 const breathStreak = ref(0)
 const breathBestStreak = ref(0)
 const breathJustSynced = ref(false)
-let breathRaf = null
+let breathRaf: number | null = null
 let breathPhaseStart = 0
 let breathPhaseIdx = 0
-let breathSyncTimer = null
+let breathSyncTimer: ReturnType<typeof setTimeout> | null = null
 
 const breathPhaseLabel = computed(() => {
   const item = BREATH.find((b) => b.phase === breathPhase.value)
@@ -1042,7 +1077,7 @@ function initBreath() {
 
 function startBreathLoop() {
   if (breathRaf) cancelAnimationFrame(breathRaf)
-  const step = (now) => {
+  const step = (now: number) => {
     const elapsed = now - breathPhaseStart
     const current = BREATH[breathPhaseIdx]
     if (elapsed >= current.duration) {
@@ -1089,14 +1124,14 @@ function stopBreathing() {
 /* ---------- 拾光记忆 · 翻牌 ---------- */
 const MEMORY_SYMBOLS = ['◯', '△', '□', '◇', '✦', '⬡']
 
-const memoryCards = ref([])
+const memoryCards = ref<MemoryCard[]>([])
 const memoryMoves = ref(0)
 const memoryMatches = ref(0)
 const memoryClear = ref(false)
 let memoryFlippedIdx = -1
 let memoryLock = false
-let memoryFlipTimer = null
-let memoryAutoTimer = null
+let memoryFlipTimer: ReturnType<typeof setTimeout> | null = null
+let memoryAutoTimer: ReturnType<typeof setTimeout> | null = null
 
 function initMemory() {
   memoryMoves.value = 0
@@ -1116,7 +1151,7 @@ function initMemory() {
   }))
 }
 
-function flipCard(idx) {
+function flipCard(idx: number) {
   if (memoryLock) return
   const card = memoryCards.value[idx]
   if (card.flipped || card.matched) return
@@ -1155,16 +1190,16 @@ function flipCard(idx) {
 }
 
 /* ---------- 自定义光标 cursor-dot ---------- */
-const cursorDotRef = ref(null)
+const cursorDotRef = ref<HTMLDivElement | null>(null)
 const cursorHover = ref(false)
-let cursorRaf = null
+let cursorRaf: number | null = null
 let cursorX = 0
 let cursorY = 0
 let dotX = 0
 let dotY = 0
 let cursorVisible = false
 
-function handleMouseMove(e) {
+function handleMouseMove(e: MouseEvent) {
   cursorX = e.clientX
   cursorY = e.clientY
   if (!cursorVisible) {
@@ -1177,7 +1212,7 @@ function handleMouseMove(e) {
     cursorRaf = requestAnimationFrame(updateCursorDot)
   }
   // 检测是否悬停在可交互元素上 → 光标点放大为圆环（替代系统手指样式）
-  const target = e.target
+  const target = e.target as HTMLElement
   const interactive = target.closest && target.closest(
     'a, button, .nf-topic, .nf-nav-link, .nf-nav-logo, .nf-dot, .nf-flip-hint, .nf-game-entry, .nf-game-back, .nf-memory-card, .nf-breath-wrap, .nf-note-action, .nf-write-submit, .nf-footer-link'
   )
@@ -1235,7 +1270,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseleave', handleMouseLeave)
   window.removeEventListener('resize', handleResize)
-  clearTimeout(animTimer)
+  if (animTimer) clearTimeout(animTimer)
   if (clearTimer) clearTimeout(clearTimer)
   if (moveAnimRaf) cancelAnimationFrame(moveAnimRaf)
   if (cursorRaf) cancelAnimationFrame(cursorRaf)

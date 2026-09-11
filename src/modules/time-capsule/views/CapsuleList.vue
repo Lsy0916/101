@@ -158,12 +158,24 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Delete } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+
+interface CapsuleItem {
+  id: number
+  title: string
+  openDate: string
+  status: string
+  sendStatus: string
+  auditStatus: number
+  remainingDays: number
+  emotionEmoji: string
+  openMethod: string
+}
 
 const router = useRouter()
 const { t } = useI18n()
@@ -177,8 +189,10 @@ const filterType = ref('all')
 // 左滑删除相关状态
 const DELETE_WIDTH = 92
 const REVEAL_THRESHOLD = 40
-const offsets = reactive({})
-const drag = reactive({ id: null, startX: 0, startY: 0, startOffset: 0, dragging: false, moved: false })
+const offsets = reactive<Record<number, number>>({})
+const drag = reactive<{ id: number | null; startX: number; startY: number; startOffset: number; dragging: boolean; moved: boolean }>({
+  id: null, startX: 0, startY: 0, startOffset: 0, dragging: false, moved: false
+})
 const wasDragged = ref(false)
 
 const filterTabs = computed(() => [
@@ -188,7 +202,7 @@ const filterTabs = computed(() => [
 ])
 
 // 模拟数据
-const capsules = ref([
+const capsules = ref<CapsuleItem[]>([
   {
     id: 1,
     title: '写给一年后的自己：保持热爱',
@@ -259,13 +273,13 @@ const filteredCapsules = computed(() => {
   return capsules.value.filter(c => c.status === 'opened')
 })
 
-const getTabCount = (type) => {
+const getTabCount = (type: string) => {
   if (type === 'all') return capsules.value.length
   if (type === 'pending') return capsules.value.filter(c => c.status === 'pending').length
   return capsules.value.filter(c => c.status === 'opened').length
 }
 
-const statusKey = (item) => {
+const statusKey = (item: CapsuleItem): string => {
   if (item.auditStatus === 0) return 'auditing'
   if (item.auditStatus === 2) return 'rejected'
   if (item.status === 'pending') return 'pending'
@@ -273,7 +287,7 @@ const statusKey = (item) => {
   return 'opened'
 }
 
-const statusLabel = (item) => {
+const statusLabel = (item: CapsuleItem): string => {
   if (item.auditStatus === 0) return t('capsule.list.status.auditing')
   if (item.auditStatus === 2) return t('capsule.list.status.rejected')
   if (item.status === 'pending') return t('capsule.list.status.pending')
@@ -281,19 +295,20 @@ const statusLabel = (item) => {
   return t('capsule.list.status.opened')
 }
 
-const methodLabel = (m) => (m === 'letter' ? t('capsule.list.method.letter') : t('capsule.list.method.email'))
+const methodLabel = (m: string) => (m === 'letter' ? t('capsule.list.method.letter') : t('capsule.list.method.email'))
 
 // --- 左滑删除手势 ---
-const getOffset = (id) => offsets[id] || 0
-const isRevealed = (id) => (offsets[id] || 0) <= -DELETE_WIDTH + 1
+const getOffset = (id: number) => offsets[id] || 0
+const isRevealed = (id: number) => (offsets[id] || 0) <= -DELETE_WIDTH + 1
 
 const closeAll = () => {
   Object.keys(offsets).forEach((k) => {
-    if (offsets[k] !== 0) offsets[k] = 0
+    const id = Number(k)
+    if (offsets[id] !== 0) offsets[id] = 0
   })
 }
 
-const onCardClick = (item) => {
+const onCardClick = (item: CapsuleItem) => {
   if (wasDragged.value) {
     wasDragged.value = false
     return
@@ -305,9 +320,9 @@ const onCardClick = (item) => {
   viewCapsule(item.id)
 }
 
-const onPointerDown = (e, item) => {
+const onPointerDown = (e: PointerEvent, item: CapsuleItem) => {
   if (e.pointerType === 'mouse' && e.button !== 0) return
-  if (e.target.closest('.delete-panel')) return
+  if ((e.target as HTMLElement).closest('.delete-panel')) return
   wasDragged.value = false
   drag.id = item.id
   drag.startX = e.clientX
@@ -316,11 +331,11 @@ const onPointerDown = (e, item) => {
   drag.dragging = false
   drag.moved = false
   try {
-    e.currentTarget.setPointerCapture(e.pointerId)
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
   } catch (_) {}
 }
 
-const onPointerMove = (e) => {
+const onPointerMove = (e: PointerEvent) => {
   if (drag.id === null) return
   const dx = e.clientX - drag.startX
   const dy = e.clientY - drag.startY
@@ -345,7 +360,8 @@ const onPointerUp = () => {
   const offset = offsets[id] || 0
   const moved = drag.moved
   Object.keys(offsets).forEach((k) => {
-    if (Number(k) !== id && offsets[k] !== 0) offsets[k] = 0
+    const key = Number(k)
+    if (key !== id && offsets[key] !== 0) offsets[key] = 0
   })
   if (offset < -REVEAL_THRESHOLD) {
     offsets[id] = -DELETE_WIDTH
@@ -357,7 +373,7 @@ const onPointerUp = () => {
   if (moved) wasDragged.value = true
 }
 
-const viewCapsule = (id) => {
+const viewCapsule = (id: number) => {
   router.push(`/time-capsule/${id}`)
 }
 
@@ -365,7 +381,7 @@ const createCapsule = () => {
   router.push('/time-capsule/create')
 }
 
-const deleteCapsule = (id) => {
+const deleteCapsule = (id: number) => {
   ElMessageBox.confirm(t('capsule.list.deleteConfirm'), t('capsule.list.deleteTitle'), {
     confirmButtonText: t('capsule.list.deleteOk'),
     cancelButtonText: t('capsule.list.deleteCancelled'),

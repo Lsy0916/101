@@ -102,170 +102,173 @@
   </el-form>
 </template>
 
-<script setup>
-import { ref, reactive, onMounted } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { ElMessage } from 'element-plus';
-import { School, User, Lock, Back } from '@element-plus/icons-vue';
+<script setup lang="ts">
+import { ref, reactive, onMounted } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { School, User, Lock, Back } from '@element-plus/icons-vue'
+import { useRegister } from '@/composables/useAuth'
 
 // 定义事件
-const emit = defineEmits(['switch-to-login']);
+const emit = defineEmits<{ (e: 'switch-to-login'): void }>()
 
 // 注册表单数据
-const registerForm = reactive({
+interface RegisterFormState {
+  school: string
+  userId: string
+  password: string
+  confirmPassword: string
+  captcha: string
+}
+
+const registerForm = reactive<RegisterFormState>({
   school: '',
   userId: '',
   password: '',
   confirmPassword: '',
-  captcha: ''
-});
+  captcha: '',
+})
 
 // 注册表单引用
-const registerFormRef = ref();
+const registerFormRef = ref<FormInstance>()
 
 // 验证码Canvas引用
-const captchaCanvas = ref();
+const captchaCanvas = ref<HTMLCanvasElement>()
 
 // 验证码
-const captchaText = ref('');
-
-// 注册加载状态
-const registerLoading = ref(false);
+const captchaText = ref('')
 
 // 学校选项
-const schools = ref([
+interface SchoolOption {
+  value: string
+  label: string
+}
+
+const schools = ref<SchoolOption[]>([
   { value: 'tsinghua', label: '清华大学' },
   { value: 'pku', label: '北京大学' },
   { value: 'fudan', label: '复旦大学' },
   { value: 'sjtu', label: '上海交通大学' },
-  { value: 'zju', label: '浙江大学' }
-]);
+  { value: 'zju', label: '浙江大学' },
+])
 
 // 注册表单验证规则
-const registerRules = reactive({
-  school: [
-    { required: true, message: '请选择学校', trigger: 'change' }
-  ],
+const registerRules = reactive<FormRules<RegisterFormState>>({
+  school: [{ required: true, message: '请选择学校', trigger: 'change' }],
   userId: [
     { required: true, message: '请输入学号', trigger: 'blur' },
-    { min: 1, max: 20, message: '学号长度为1-20个字符', trigger: 'blur' }
+    { min: 1, max: 20, message: '学号长度为1-20个字符', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 20, message: '密码长度为6-20个字符', trigger: 'blur' },
-    { 
-      pattern: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$/, 
-      message: '密码至少包含一个字母和一个数字', 
-      trigger: 'blur' 
-    }
+    {
+      pattern: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$/,
+      message: '密码至少包含一个字母和一个数字',
+      trigger: 'blur',
+    },
   ],
   confirmPassword: [
     { required: true, message: '请再次输入密码', trigger: 'blur' },
-    { 
-      validator: (rule, value, callback) => {
+    {
+      validator: (_rule, value: string, callback: (error?: Error) => void) => {
         if (value !== registerForm.password) {
-          callback(new Error('两次输入的密码不一致'));
+          callback(new Error('两次输入的密码不一致'))
         } else {
-          callback();
+          callback()
         }
-      }, 
-      trigger: 'blur' 
-    }
+      },
+      trigger: 'blur',
+    },
   ],
   captcha: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
     { min: 4, max: 4, message: '验证码为4位字符', trigger: 'blur' },
-    { 
-      validator: (rule, value, callback) => {
+    {
+      validator: (_rule, value: string, callback: (error?: Error) => void) => {
         if (value.toLowerCase() !== captchaText.value.toLowerCase()) {
-          callback(new Error('验证码错误'));
+          callback(new Error('验证码错误'))
         } else {
-          callback();
+          callback()
         }
-      }, 
-      trigger: 'blur' 
-    }
-  ]
-});
+      },
+      trigger: 'blur',
+    },
+  ],
+})
 
 // 生成验证码
 const generateCaptcha = () => {
-  if (!captchaCanvas.value) return;
-  
-  const canvas = captchaCanvas.value;
-  const ctx = canvas.getContext('2d');
-  
+  const canvas = captchaCanvas.value
+  if (!canvas) return
+
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
   // 清空画布
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
   // 生成随机验证码文本
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
-  captchaText.value = '';
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'
+  captchaText.value = ''
   for (let i = 0; i < 4; i++) {
-    captchaText.value += chars.charAt(Math.floor(Math.random() * chars.length));
+    captchaText.value += chars.charAt(Math.floor(Math.random() * chars.length))
   }
-  
+
   // 绘制验证码
-  ctx.font = '20px Arial';
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'center';
-  
+  ctx.font = '20px Arial'
+  ctx.textBaseline = 'middle'
+  ctx.textAlign = 'center'
+
   // 绘制字符
   for (let i = 0; i < captchaText.value.length; i++) {
-    ctx.fillStyle = `rgb(${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)})`;
-    ctx.shadowColor = 'rgba(0,0,0,0.3)';
-    ctx.shadowBlur = 5;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
-    ctx.fillText(captchaText.value[i], 20 + i * 20, 20);
+    ctx.fillStyle = `rgb(${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)})`
+    ctx.shadowColor = 'rgba(0,0,0,0.3)'
+    ctx.shadowBlur = 5
+    ctx.shadowOffsetX = 2
+    ctx.shadowOffsetY = 2
+    ctx.fillText(captchaText.value[i], 20 + i * 20, 20)
   }
-  
+
   // 绘制干扰线
   for (let i = 0; i < 4; i++) {
-    ctx.strokeStyle = `rgb(${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)})`;
-    ctx.beginPath();
-    ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-    ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
-    ctx.stroke();
+    ctx.strokeStyle = `rgb(${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)})`
+    ctx.beginPath()
+    ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height)
+    ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height)
+    ctx.stroke()
   }
-};
+}
+
+// 注册提交：loading / 成功提示 / 回登录页均由 useRegister 托管
+const { run: runRegister, loading: registerLoading } = useRegister({
+  onSuccess: (result) => {
+    ElMessage.success(result.message)
+    // 注册成功后返回登录页面
+    emit('switch-to-login')
+  },
+  onError: (error) => {
+    ElMessage.error(error.message || '注册失败')
+  },
+})
 
 // 注册处理函数
 const handleRegister = async () => {
-  if (!registerFormRef.value) return;
+  if (!registerFormRef.value) return
 
   // 验证表单（使用 try/catch 捕获校验失败的 Promise 拒绝，避免未处理拒绝告警）
   try {
-    await registerFormRef.value.validate();
-    // 设置加载状态
-    registerLoading.value = true;
-
-    // 调用注册API
-    const authStore = useAuthStore();
-    authStore.register({
-      ...registerForm
-    }).then(result => {
-      if (result.success) {
-        ElMessage.success(result.message);
-        // 注册成功后返回登录页面
-        emit('switch-to-login');
-      } else {
-        ElMessage.error(result.message);
-      }
-    }).catch(error => {
-      ElMessage.error(error.message || '注册失败');
-    }).finally(() => {
-      registerLoading.value = false;
-    });
+    await registerFormRef.value.validate()
+    runRegister({ ...registerForm })
   } catch {
     // 表单验证失败，Element Plus 会自动在表单项下方显示错误信息
   }
-};
+}
 
 // 组件挂载时生成验证码
 onMounted(() => {
-  generateCaptcha();
-});
+  generateCaptcha()
+})
 </script>
 
 <style scoped lang="scss">

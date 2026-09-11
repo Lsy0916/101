@@ -15,7 +15,9 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      // 该库 exports 未暴露自带的 .d.ts（TS7016），直连真实类型文件
+      "@wangeditor/editor-for-vue": ["node_modules/@wangeditor/editor-for-vue/dist/src/index.d.ts"]
     }
   },
   "include": ["src/**/*.ts", "vite.config.ts"]

@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Propaganda from '@/components/login/Propaganda.vue';
 import LoginForm from '@/components/login/LoginForm.vue';
 </script>

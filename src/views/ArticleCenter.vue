@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -15,16 +15,17 @@ import {
 } from '@element-plus/icons-vue'
 import ReadProgress from '@/components/ReadProgress.vue'
 import InitialAvatar from '@/components/InitialAvatar.vue'
+import type { ArticleItem } from '@/data/articles'
 
 const route = useRoute()
 const router = useRouter()
 const { t, tm } = useI18n()
 const searchQuery = ref('')
-const activeCategory = ref(route.query.category || 'all')
+const activeCategory = ref(String(route.query.category || 'all'))
 const showAllArticles = ref(false)
 
 watch(() => route.query.category, (newCat) => {
-  const next = newCat || 'all'
+  const next = (typeof newCat === 'string' && newCat) || 'all'
   if (next !== activeCategory.value) {
     activeCategory.value = next
     searchQuery.value = ''
@@ -47,7 +48,7 @@ const categories = computed(() => [
 ])
 
 // 模拟文章数据
-const articles = ref([
+const articles = ref<ArticleItem[]>([
   {
     id: 1,
     title: '在不确定的时代，如何建立内心的秩序？',
@@ -207,7 +208,7 @@ const articles = ref([
 ])
 
 // 文章详情 · 跳转独立详情页
-function openArticle(article) {
+function openArticle(article: ArticleItem) {
   router.push(`/articles/${article.id}`)
 }
 
@@ -217,7 +218,7 @@ const spotlightArticle = computed(() => {
 })
 
 // 分类专属标题区数据
-const categoryIntros = computed(() => ({
+const categoryIntros = computed<Record<string, { title: string; eyebrow: string; sub: string }>>(() => ({
   all: { title: t('article.intro.all.title'), eyebrow: '— Articles &amp; Stories', sub: t('article.intro.all.sub') },
   daily: { title: t('article.intro.daily.title'), eyebrow: '— Daily Picks', sub: t('article.intro.daily.sub') },
   featured: { title: t('article.intro.featured.title'), eyebrow: '— Featured Stories', sub: t('article.intro.featured.sub') },
@@ -274,7 +275,7 @@ const hasMoreArticles = computed(() => {
 
 // 专题合集数据（标题与描述走 i18n，count 与 icon 为本地配置）
 const collectionItems = computed(() => {
-  const items = tm('article.collections.items')
+  const items = tm('article.collections.items') as Array<{ title: string; desc: string }>
   const meta = [
     { count: 12, icon: 'Sunny' },
     { count: 15, icon: 'Moon' },
@@ -288,7 +289,7 @@ const collectionItems = computed(() => {
   }))
 })
 
-function setCategory(key) {
+function setCategory(key: string) {
   activeCategory.value = key
   searchQuery.value = ''
   showAllArticles.value = false

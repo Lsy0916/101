@@ -79,7 +79,7 @@ export async function refreshTenantConfig(tenantId: string): Promise<TenantConfi
   return mergeTenantConfig(remote, tenantId)
 }
 
-/** 兜底：任何异常路径下的完整默认配置（防御性导出） */
-export function fallbackTenantConfig(tenantId: string): TenantConfig {
+/** 兜底：任何异常路径下的完整默认配置（防御性导出；参数入签名保持调用方一致） */
+export function fallbackTenantConfig(_tenantId: string): TenantConfig {
   return getDefaultConfig()
 }

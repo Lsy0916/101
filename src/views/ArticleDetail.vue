@@ -1,30 +1,40 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, ArrowRight, Star, Share, Timer, View } from '@element-plus/icons-vue'
 import ReadProgress from '@/components/ReadProgress.vue'
 import InitialAvatar from '@/components/InitialAvatar.vue'
-import { getArticleById, getRelatedArticles } from '@/data/articles'
+import { getArticleById, getRelatedArticles, type ArticleItem } from '@/data/articles'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
 
-const article = ref(null)
-const related = ref([])
+interface CommentItem {
+  id: number
+  author: string
+  content: string
+  time: string
+  likes: number
+  liked: boolean
+  isAnonymous?: boolean
+}
+
+const article = ref<ArticleItem | null>(null)
+const related = ref<ArticleItem[]>([])
 const liked = ref(false)
 const bookmarked = ref(false)
 
 const commentText = ref('')
-const comments = ref([
+const comments = ref<CommentItem[]>([
   { id: 1, author: '林晓', content: '读完之后深有感触，尤其是关于建立微小秩序的部分，让我重新审视了自己的日常。', time: '3小时前', likes: 24, liked: false },
   { id: 2, author: '陈默', content: '正念练习确实有效，我坚持了三个月，焦虑感明显减轻了。推荐大家试试。', time: '5小时前', likes: 18, liked: false },
   { id: 3, author: '匿名同学', content: '感谢分享，正在经历迷茫期，这篇文章像一盏灯。', time: '昨天', likes: 31, liked: false, isAnonymous: true },
   { id: 4, author: '周琳', content: '与其试图掌控一切，不如学会与不确定性共处。这句话我要记下来。', time: '2天前', likes: 12, liked: false }
 ])
 
-const loadArticle = (id) => {
+const loadArticle = (id: string | string[]) => {
   const data = getArticleById(id)
   if (!data) {
     router.replace({ name: 'articles' })
@@ -46,7 +56,7 @@ watch(() => route.params.id, (id) => {
 })
 
 const goToList = () => router.push('/articles/list')
-const openRelated = (id) => router.push(`/articles/${id}`)
+const openRelated = (id: number) => router.push(`/articles/${id}`)
 
 const articleBody = computed(() => {
   if (!article.value) return ''
@@ -56,7 +66,7 @@ const articleBody = computed(() => {
   return hero + (article.value.content || '')
 })
 
-const formatViews = (n) => {
+const formatViews = (n: number) => {
   if (n >= 1000) return (n / 1000).toFixed(1) + 'k'
   return String(n)
 }
@@ -75,7 +85,7 @@ const submitComment = () => {
   commentText.value = ''
 }
 
-const toggleCommentLike = (comment) => {
+const toggleCommentLike = (comment: CommentItem) => {
   comment.liked = !comment.liked
   comment.likes += comment.liked ? 1 : -1
 }

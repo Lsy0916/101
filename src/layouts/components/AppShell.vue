@@ -1,30 +1,36 @@
-<script setup>
-import Navbar from './Navbar.vue'
-import CommandPalette from '@/components/CommandPalette.vue'
-import { useRouter } from 'vue-router'
+<script setup lang="ts">
+/**
+ * 应用壳层（TS 版，替代旧 MainLayout）：
+ * grain-overlay + 命令面板 + Navbar + 页面过渡 + Footer。
+ * 路由 meta：hideNavbar / transparentNavbar / hideFooter 控制显隐。
+ */
+import { useRoute, useRouter } from 'vue-router'
 import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
+import Navbar from '../Navbar.vue'
+import CommandPalette from '@/components/CommandPalette.vue'
 
+const route = useRoute()
 const router = useRouter()
+
 function goCounseling() { router.push({ name: 'counseling' }) }
 function goAssessment() { router.push({ name: 'assessment' }) }
 function goArticles() { router.push({ name: 'articles' }) }
 function goCapsule() { router.push({ name: 'time-capsule' }) }
-
 </script>
 
 <template>
   <div class="main-layout">
     <div class="grain-overlay" aria-hidden="true"></div>
     <CommandPalette />
-    <Navbar v-if="!$route.meta.hideNavbar" />
-    <main class="main-content" :class="{ 'no-padding': $route.meta.transparentNavbar || $route.meta.hideNavbar }">
+    <Navbar v-if="!route.meta.hideNavbar" />
+    <main class="main-content" :class="{ 'no-padding': route.meta.transparentNavbar || route.meta.hideNavbar }">
       <router-view v-slot="{ Component }">
         <transition name="page-fade" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
     </main>
-    <footer class="main-footer" v-if="!$route.meta.hideFooter">
+    <footer class="main-footer" v-if="!route.meta.hideFooter">
       <div class="footer-content">
         <div class="footer-grid">
           <!-- 品牌介绍 -->
@@ -36,7 +42,7 @@ function goCapsule() { router.push({ name: 'time-capsule' }) }
               <a href="#" class="social-icon"><el-icon><Message /></el-icon></a>
             </div>
           </div>
-          
+
           <!-- 平台导航 -->
           <div class="footer-column">
             <h4>平台导航</h4>
@@ -79,7 +85,7 @@ function goCapsule() { router.push({ name: 'time-capsule' }) }
           </div>
         </div>
       </div>
-      
+
       <div class="footer-bottom">
         <div class="footer-inner">
           <p>© 2026 生涯心旅. All Rights Reserved.</p>
@@ -273,7 +279,7 @@ function goCapsule() { router.push({ name: 'time-capsule' }) }
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .footer-inner {
     flex-direction: column;
     gap: 1rem;

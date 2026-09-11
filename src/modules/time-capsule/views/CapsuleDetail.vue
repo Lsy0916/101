@@ -116,7 +116,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -125,12 +125,29 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import CountdownRing from '@/components/CountdownRing.vue'
 import ReadProgress from '@/components/ReadProgress.vue'
 
+interface CapsuleDetailItem {
+  id: number
+  title: string
+  createDate: string
+  content: string
+  images: string[]
+  openMethod: string
+  emailRecipient?: string
+  letterName?: string
+  letterPhone?: string
+  letterAddress?: string
+  isAnonymous: boolean
+  openDate: string
+  remainingDays: number
+  emotion: string
+}
+
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
 
 // 模拟数据
-const mockCapsules = {
+const mockCapsules: Record<number, CapsuleDetailItem> = {
   1: {
     id: 1,
     title: '写给一年后的自己：保持热爱',
@@ -194,7 +211,7 @@ const capsule = computed(() => {
 
 const emotionEmoji = computed(() => {
   if (!capsule.value) return '🌟'
-  const map = {
+  const map: Record<string, string> = {
     happy: '😊', excited: '🤩', calm: '😌', sad: '😢', hopeful: '🌟'
   }
   return map[capsule.value.emotion] || '🌟'
@@ -204,7 +221,7 @@ const emotionEmoji = computed(() => {
 const previewVisible = ref(false)
 const previewSrc = ref('')
 
-const previewImage = (index) => {
+const previewImage = (index: number) => {
   if (capsule.value?.images?.[index]) {
     previewSrc.value = capsule.value.images[index]
     previewVisible.value = true

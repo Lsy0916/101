@@ -5,7 +5,7 @@ import { useRealtimeStore } from '@/store/modules/realtime'
 import { emitter } from '@/utils/emitter'
 import type { Events } from '@/utils/emitter'
 import * as conn from './connection'
-import type { RealtimeEnvelope, ServerEventMap, ServerEventName } from './events'
+import type { ServerEventMap, ServerEventName } from './events'
 
 /**
  * useSignalR：组件消费实时通道的唯一入口。

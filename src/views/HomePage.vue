@@ -271,11 +271,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import type { Component } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import {
   Lock,
   TrendCharts,
@@ -301,15 +303,33 @@ import AnimatedCounter from '@/components/AnimatedCounter.vue'
 const router = useRouter()
 const { t, tm } = useI18n()
 
+interface CarouselSlide {
+  title: string
+  tag: string
+  description: string
+  buttonText: string
+  image: string
+}
+
+interface NewsItem {
+  category: string
+  title: string
+  summary: string
+  date: string
+}
+
+// tm 返回类型对深层 locale 消息实例化过深，收敛为 unknown 后按需断言
+const tmItems = tm as unknown as (key: string) => unknown
+
 // 轮播图相关状态
 const currentIndex = ref(1) // 从1开始，因为0是克隆的末尾项
-const carouselInterval = ref(null)
+const carouselInterval = ref<ReturnType<typeof setInterval> | null>(null)
 const isPaused = ref(false)
 const disableTransition = ref(false)
 const isAnimating = ref(false) // 过渡动画进行中锁，防止重复操作导致越界
 
 // 轮播图数据（使用 computed 以支持语言切换时实时更新文案）
-const carouselSlides = computed(() => [
+const carouselSlides = computed<CarouselSlide[]>(() => [
   {
     title: t('home.carousel.slide1.title'),
     tag: t('home.carousel.slide1.tag'),
@@ -353,7 +373,7 @@ const realIndex = computed(() => {
 })
 
 // 当前显示的幻灯片数据（基于真实索引，无缝跳转时保持稳定）
-const currentSlide = computed(() => carouselSlides.value[realIndex.value] || {})
+const currentSlide = computed(() => carouselSlides.value[realIndex.value] || carouselSlides.value[0])
 
 // 拖拽切换相关状态
 const isDragging = ref(false)
@@ -362,14 +382,14 @@ const dragOffset = ref(0)
 const lastX = ref(0)
 const lastTime = ref(0)
 const velocity = ref(0)
-const rafId = ref(null)
+const rafId = ref<number | null>(null)
 
-const handleDragStart = (e) => {
+const handleDragStart = (e: TouchEvent | MouseEvent) => {
   if (disableTransition.value || isAnimating.value) return
   // 文本选中与拖拽由 .carousel-container 的 user-select:none / -webkit-user-drag:none 控制
   // 不再调用 preventDefault，避免触发 passive listener 警告
   isDragging.value = true
-  const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
+  const clientX = e.type.includes('touch') ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX
   startX.value = clientX
   lastX.value = clientX
   lastTime.value = performance.now()
@@ -377,10 +397,10 @@ const handleDragStart = (e) => {
   pauseCarousel()
 }
 
-const handleDragMove = (e) => {
+const handleDragMove = (e: TouchEvent | MouseEvent) => {
   if (!isDragging.value) return
   
-  const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
+  const currentX = e.type.includes('touch') ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX
   const currentTime = performance.now()
   const deltaTime = currentTime - lastTime.value
   
@@ -440,9 +460,9 @@ const handleMouseLeave = () => {
   resumeCarousel()
 }
 
-const handleSlideAction = (slide) => {
+const handleSlideAction = (slide: { buttonText: string }) => {
   // slide1 → 测评中心, slide2 → 时光胶囊, slide3 → 心理咨询
-  const routeMap = {
+  const routeMap: Record<string, string> = {
     [t('home.carousel.slide1.btn')]: 'assessment',
     [t('home.carousel.slide2.btn')]: 'time-capsule',
     [t('home.carousel.slide3.btn')]: 'counseling'
@@ -491,7 +511,7 @@ const prevSlide = () => {
   currentIndex.value--
 }
 
-const goToSlide = (index) => {
+const goToSlide = (index: number) => {
   if (isAnimating.value || isDragging.value || disableTransition.value) return
   // index 为真实索引(0-based)，+1 跳过首部克隆项
   const target = index + 1
@@ -558,7 +578,7 @@ const contactRules = computed(() => ({
   ]
 }))
 
-const contactFormRef = ref(null)
+const contactFormRef = ref<FormInstance | null>(null)
 
 // 导航菜单相关
 const showNavMenu = ref(false)
@@ -572,7 +592,7 @@ const navSections = [
   { id: 'contact', nameKey: 'home.nav.contact' }
 ]
 
-const scrollToSection = (id) => {
+const scrollToSection = (id: string) => {
   if (id === 'top') {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   } else {
@@ -584,7 +604,7 @@ const scrollToSection = (id) => {
 }
 
 // 图标映射：i18n 中的 icon 字符串 → Element Plus 图标组件
-const iconMap = {
+const iconMap: Record<string, Component> = {
   DataAnalysis,
   Connection,
   Clock,
@@ -600,7 +620,7 @@ const serviceRoutes = ['assessment', 'counseling', 'time-capsule', 'articles']
 
 // 新闻数据（i18n 驱动，图片循环复用）
 const allNews = computed(() => {
-  const items = tm('home.news.items')
+  const items = tmItems('home.news.items') as NewsItem[]
   if (!Array.isArray(items)) return []
   return items.map((item, i) => ({
     ...item,
@@ -611,42 +631,44 @@ const allNews = computed(() => {
 
 // 服务数据（i18n 驱动）
 const services = computed(() => {
-  const items = tm('home.services.items')
+  const items = tmItems('home.services.items') as Array<{ icon?: string }>
   if (!Array.isArray(items)) return []
   return items.map((item, i) => ({
     ...item,
-    iconComp: iconMap[item.icon] || DataAnalysis,
+    iconComp: iconMap[item.icon || ''] || DataAnalysis,
     route: serviceRoutes[i] || null
   }))
 })
 
 // 特色功能数据（i18n 驱动）
 const features = computed(() => {
-  const items = tm('home.features.items')
+  const items = tmItems('home.features.items') as Array<{ icon?: string }>
   if (!Array.isArray(items)) return []
   return items.map((item) => ({
     ...item,
-    iconComp: iconMap[item.icon] || DataAnalysis
+    iconComp: iconMap[item.icon || ''] || DataAnalysis
   }))
 })
 
-function handleServiceClick(service) {
+function handleServiceClick(service: { route?: string | null }) {
   if (service.route) {
     router.push({ name: service.route })
   }
 }
 
 const goToAbout = () => {
-  document.getElementById('about').scrollIntoView({ behavior: 'smooth' })
+  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 }
 
-const readNews = (id) => {
+const readNews = (id: number) => {
   router.push({ name: 'articles' })
 }
 
 const submitContactForm = async () => {
   try {
-    await contactFormRef.value.validate()
+    const form = contactFormRef.value
+    if (!form) return
+    await form.validate()
     ElMessage.success(t('home.contact.submitSuccess'))
     contactForm.value = { name: '', email: '', message: '' }
   } catch {
@@ -655,9 +677,9 @@ const submitContactForm = async () => {
 }
 
 // 节流函数优化性能
-const throttle = (fn, delay) => {
+const throttle = (fn: (...args: unknown[]) => void, delay: number) => {
   let last = 0
-  return (...args) => {
+  return (...args: unknown[]) => {
     const now = Date.now()
     if (now - last >= delay) {
       fn(...args)
@@ -683,7 +705,7 @@ const scrollToNextSection = () => {
 // 不调用 preventDefault（wheel 在某些浏览器中被视为 passive），
 // 改用锁标志避免重复触发 smooth 滚动
 const wheelLock = ref(false)
-const handleWheel = (e) => {
+const handleWheel = (e: WheelEvent) => {
   if (wheelLock.value) return
   // 只有在顶部区域且向下滚动时触发
   if (window.scrollY < 10 && e.deltaY > 0) {
@@ -694,7 +716,7 @@ const handleWheel = (e) => {
 }
 
 // 组件挂载和卸载时的处理
-let scrollObserver = null
+let scrollObserver: IntersectionObserver | null = null
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   window.addEventListener('wheel', handleWheel, { passive: false })
@@ -702,7 +724,7 @@ onMounted(() => {
   startCarousel()
 
   // 初始化滚动显现观察器
-  const observerCallback = (entries) => {
+  const observerCallback = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible')
@@ -710,13 +732,14 @@ onMounted(() => {
     })
   }
 
-  scrollObserver = new IntersectionObserver(observerCallback, {
+  const obs = new IntersectionObserver(observerCallback, {
     threshold: 0.1
   })
 
   document.querySelectorAll('.scroll-reveal').forEach(el => {
-    scrollObserver.observe(el)
+    obs.observe(el)
   })
+  scrollObserver = obs
 })
 
 onUnmounted(() => {

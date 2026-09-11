@@ -91,186 +91,195 @@
   </el-form>
 </template>
 
-<script setup>
-import { ref, reactive, computed, onMounted, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { useAuthStore } from '@/stores/auth';
-import { ElMessage } from 'element-plus';
+<script setup lang="ts">
+import { ref, reactive, onMounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { useAuthLogin } from '@/composables/useAuth'
+import { useUserStore } from '@/store/modules/user'
+import pinia from '@/store'
+import { School, User, Lock } from '@element-plus/icons-vue'
 
-// 引入Element Plus图标
-import { School, User, Lock } from '@element-plus/icons-vue';
-
-const router = useRouter();
-const { t } = useI18n();
+const router = useRouter()
+const { t } = useI18n()
 
 // 定义事件
-const emit = defineEmits(['switch-to-forgot-password']);
+const emit = defineEmits<{ (e: 'switch-to-forgot-password'): void }>()
 
 // 登录表单数据
-const loginForm = reactive({
+interface LoginFormState {
+  school: string
+  userId: string
+  password: string
+  captcha: string
+  remember: boolean
+}
+
+const loginForm = reactive<LoginFormState>({
   school: '',
   userId: '',
   password: '',
   captcha: '',
-  remember: false
-});
+  remember: false,
+})
 
 // 登录表单引用
-const loginFormRef = ref();
+const loginFormRef = ref<FormInstance>()
 
 // 验证码Canvas引用
-const captchaCanvasRef = ref();
+const captchaCanvasRef = ref<HTMLCanvasElement>()
 
 // 验证码
-const captchaText = ref('');
-
-// 加载状态
-const loading = ref(false);
+const captchaText = ref('')
 
 // 学校选项
-const schools = ref([
+interface SchoolOption {
+  value: string
+  label: string
+}
+
+const schools = ref<SchoolOption[]>([
   { value: 'tsinghua', label: '清华大学' },
   { value: 'pku', label: '北京大学' },
   { value: 'fudan', label: '复旦大学' },
   { value: 'sjtu', label: '上海交通大学' },
-  { value: 'zju', label: '浙江大学' }
-]);
+  { value: 'zju', label: '浙江大学' },
+])
 
 // 登录表单验证规则
-const loginRules = reactive({
-  school: [
-    { required: true, message: '请选择学校', trigger: 'change' }
-  ],
+const loginRules = reactive<FormRules<LoginFormState>>({
+  school: [{ required: true, message: '请选择学校', trigger: 'change' }],
   userId: [
     { required: true, message: '请输入学号', trigger: 'blur' },
-    { min: 1, max: 20, message: '学号长度为1-20个字符', trigger: 'blur' }
+    { min: 1, max: 20, message: '学号长度为1-20个字符', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度为6-20个字符', trigger: 'blur' }
+    { min: 6, max: 20, message: '密码长度为6-20个字符', trigger: 'blur' },
   ],
   captcha: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
     { min: 4, max: 4, message: '验证码为4位字符', trigger: 'blur' },
-    { 
-      validator: (rule, value, callback) => {
+    {
+      validator: (_rule, value: string, callback: (error?: Error) => void) => {
         if (value.toLowerCase() !== captchaText.value.toLowerCase()) {
-          callback(new Error('验证码错误'));
+          callback(new Error('验证码错误'))
         } else {
-          callback();
+          callback()
         }
-      }, 
-      trigger: 'blur' 
-    }
-  ]
-});
+      },
+      trigger: 'blur',
+    },
+  ],
+})
 
 // 生成验证码 - 优化性能
 const generateCaptcha = async () => {
-  await nextTick(); // 确保DOM更新完成
-  
-  if (!captchaCanvasRef.value) return;
-  
-  const canvas = captchaCanvasRef.value;
-  const ctx = canvas.getContext('2d');
-  
+  await nextTick() // 确保DOM更新完成
+
+  const canvas = captchaCanvasRef.value
+  if (!canvas) return
+
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
   // 设置画布实际尺寸
-  canvas.width = 100;
-  canvas.height = 40;
-  
+  canvas.width = 100
+  canvas.height = 40
+
   // 清空画布
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
   // 设置背景（深色模式使用深色渐变）
-  const isDark = document.documentElement.classList.contains('dark');
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  const isDark = document.documentElement.classList.contains('dark')
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
   if (isDark) {
-    gradient.addColorStop(0, 'rgba(30, 43, 58, 0.6)');
-    gradient.addColorStop(1, 'rgba(26, 42, 74, 0.6)');
+    gradient.addColorStop(0, 'rgba(30, 43, 58, 0.6)')
+    gradient.addColorStop(1, 'rgba(26, 42, 74, 0.6)')
   } else {
-    gradient.addColorStop(0, '#f0f2f5');
-    gradient.addColorStop(1, '#e6f7ff');
+    gradient.addColorStop(0, '#f0f2f5')
+    gradient.addColorStop(1, '#e6f7ff')
   }
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
   // 生成随机验证码文本
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
-  captchaText.value = '';
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'
+  captchaText.value = ''
   for (let i = 0; i < 4; i++) {
-    captchaText.value += chars.charAt(Math.floor(Math.random() * chars.length));
+    captchaText.value += chars.charAt(Math.floor(Math.random() * chars.length))
   }
-  
+
   // 绘制验证码 - 优化绘制性能
-  ctx.font = 'bold 20px Arial';
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'center';
-  
+  ctx.font = 'bold 20px Arial'
+  ctx.textBaseline = 'middle'
+  ctx.textAlign = 'center'
+
   // 绘制字符，添加随机变化
   for (let i = 0; i < captchaText.value.length; i++) {
     // 随机颜色
-    const r = Math.floor(Math.random() * 155 + 100);
-    const g = Math.floor(Math.random() * 155 + 100);
-    const b = Math.floor(Math.random() * 155 + 100);
-    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-    
+    const r = Math.floor(Math.random() * 155 + 100)
+    const g = Math.floor(Math.random() * 155 + 100)
+    const b = Math.floor(Math.random() * 155 + 100)
+    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+
     // 添加随机旋转和位置
-    const x = 15 + i * 20;
-    const y = 20;
-    const angle = (Math.random() - 0.5) * 0.4; // 小幅度旋转
-    
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(angle);
-    ctx.fillText(captchaText.value[i], 0, 0);
-    ctx.restore();
+    const x = 15 + i * 20
+    const y = 20
+    const angle = (Math.random() - 0.5) * 0.4 // 小幅度旋转
+
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.rotate(angle)
+    ctx.fillText(captchaText.value[i], 0, 0)
+    ctx.restore()
   }
-  
+
   // 绘制少量干扰线 - 减少数量以提高性能
-  ctx.lineWidth = 0.5;
-  for (let i = 0; i < 4; i++) { // 减少干扰线数量
-    ctx.strokeStyle = `rgb(${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)})`;
-    ctx.beginPath();
-    ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-    ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
-    ctx.stroke();
+  ctx.lineWidth = 0.5
+  for (let i = 0; i < 4; i++) {
+    ctx.strokeStyle = `rgb(${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)}, ${Math.floor(Math.random() * 155 + 100)})`
+    ctx.beginPath()
+    ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height)
+    ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height)
+    ctx.stroke()
   }
-};
+}
 
-// 登录处理函数
-const handleLogin = async () => {
-  // 临时：跳过校验，只要输入即可登录用于查看效果
-  loading.value = true;
+// 登录：loading / 成功写 store / 实时通道建立均由 useAuthLogin 统一管理
+const { run: runLogin, loading } = useAuthLogin({
+  onSuccess: (result) => {
+    useUserStore(pinia).setRememberMe(loginForm.remember)
+    ElMessage.success(result.message ?? '登录成功')
+    router.push({ name: 'home' })
+  },
+  onError: (error) => {
+    ElMessage.error(error.message || t('login.form.loginFail'))
+  },
+})
 
-  const authStore = useAuthStore();
-  authStore.login({
+// 登录处理函数（沿用旧语义：暂跳过前端校验）
+const handleLogin = () => {
+  runLogin({
     roleId: 'student',
     loginType: 'account',
-    ...loginForm
-  }).then(result => {
-    if (result.success) {
-      ElMessage.success(result.message);
-      router.push({ name: 'home' });
-    } else {
-      ElMessage.error(result.message);
-    }
-  }).catch(error => {
-    ElMessage.error(error.message || t('login.form.loginFail'));
-  }).finally(() => {
-    loading.value = false;
-  });
-};
+    school: loginForm.school,
+    userId: loginForm.userId,
+    password: loginForm.password,
+  })
+}
 
 // 忘记密码处理函数
 const onForgotPassword = () => {
-  emit('switch-to-forgot-password');
-};
+  emit('switch-to-forgot-password')
+}
 
 // 组件挂载时生成验证码
 onMounted(() => {
-  generateCaptcha();
-});
+  generateCaptcha()
+})
 </script>
 
 <style scoped lang="scss">

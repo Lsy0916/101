@@ -4,7 +4,7 @@ import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import en from 'element-plus/es/locale/lang/en'
-import { useLocale } from '@/composables/settings'
+import { useLocale } from '@/composables/useLocale'
 import DefaultLayout from '@/layouts/mobile/DefaultLayout.vue'
 
 // 【过渡态】阶段 3 移动端复用现有响应式视图（Element Plus 系），因此

@@ -45,10 +45,10 @@
 
             <div class="q-options-immersive">
               <div
-                v-for="(opt, idx) in (currentScale?.options || scaleOptions[currentScale?.optionType])"
+                v-for="(opt, idx) in currentOptions"
                 :key="opt.value"
                 class="opt-card"
-                :class="{ selected: answers[currentQuestion?.id] === opt.value }"
+                :class="{ selected: currentAnswer === opt.value }"
                 :style="{ '--delay': idx * 0.05 + 's' }"
                 @click="handleSelect(currentQuestion?.id, opt.value)"
               >
@@ -57,7 +57,7 @@
                   <span class="opt-label">{{ opt.label }}</span>
                 </div>
                 <div class="opt-check">
-                  <el-icon v-if="answers[currentQuestion?.id] === opt.value"><Check /></el-icon>
+                  <el-icon v-if="currentAnswer === opt.value"><Check /></el-icon>
                 </div>
               </div>
             </div>
@@ -83,13 +83,13 @@
             v-for="(_, idx) in currentScale?.questions"
             :key="idx"
             class="dot"
-            :class="{ active: idx === currentIndex, completed: answers[currentScale?.questions[idx].id] !== undefined }"
+            :class="{ active: idx === currentIndex, completed: isAnswered(idx) }"
           ></span>
         </div>
 
         <button
           v-if="!isLastQuestion"
-          :disabled="answers[currentQuestion?.id] === undefined"
+          :disabled="currentAnswer === undefined"
           @click="nextQuestion"
           class="nav-btn-primary"
         >
@@ -122,7 +122,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -137,29 +137,64 @@ import {
   Loading
 } from '@element-plus/icons-vue'
 
+// --- 类型定义 ---
+interface ScaleResult {
+  level: string
+  levelTag: string
+  title: string
+  insight: string
+  suggestion: string
+}
+
+interface ScaleQuestion {
+  id: number
+  text: string
+  type?: string
+  dim?: string
+}
+
+interface ScaleDefinition {
+  name: string
+  optionType: 'frequency' | 'agreement' | 'mbti'
+  questions: ScaleQuestion[]
+  calc: (score: number, details: Record<string, number>) => ScaleResult
+}
+
+interface OptionItem {
+  label: string
+  value: number | string
+}
+
+interface ScaleMeta {
+  key: string
+  name: string
+  color: string
+  category: 'mental' | 'career'
+}
+
 const route = useRoute()
 const router = useRouter()
 
 // --- 状态管理 ---
 const currentIndex = ref(0)
-const answers = ref({})
+const answers = ref<Record<number, number | string>>({})
 const timeElapsed = ref(0)
 const submitting = ref(false)
-let timer = null
+let timer: ReturnType<typeof setInterval> | null = null
 
 // --- 从 AssessmentCenter 引入的数据 (实际开发中建议放在 store 或公共 data 文件) ---
-const mentalScales = [
-  { key: 'phq9', name: '抑郁自评 PHQ-9', color: '#0052d9' },
-  { key: 'gad7', name: '焦虑自评 GAD-7', color: '#059669' },
-  { key: 'pss', name: '压力感知 PSS-10', color: '#d97706' }
+const mentalScales: ScaleMeta[] = [
+  { key: 'phq9', name: '抑郁自评 PHQ-9', color: '#0052d9', category: 'mental' },
+  { key: 'gad7', name: '焦虑自评 GAD-7', color: '#059669', category: 'mental' },
+  { key: 'pss', name: '压力感知 PSS-10', color: '#d97706', category: 'mental' }
 ]
 
-const careerScales = [
-  { key: 'riasec', name: '职业兴趣 RIASEC', color: '#7c3aed' },
-  { key: 'mbti', name: '性格倾向 MBTI', color: '#db2777' }
+const careerScales: ScaleMeta[] = [
+  { key: 'riasec', name: '职业兴趣 RIASEC', color: '#7c3aed', category: 'career' },
+  { key: 'mbti', name: '性格倾向 MBTI', color: '#db2777', category: 'career' }
 ]
 
-const scaleOptions = {
+const scaleOptions: Record<'frequency' | 'agreement' | 'mbti', OptionItem[]> = {
   frequency: [
     { label: '完全没有', value: 0 },
     { label: '有几天', value: 1 },
@@ -181,7 +216,7 @@ const scaleOptions = {
   ]
 }
 
-const scales = {
+const scales: Record<string, ScaleDefinition> = {
   phq9: {
     name: '抑郁自评量表 PHQ-9',
     optionType: 'frequency',
@@ -285,10 +320,12 @@ const scales = {
 }
 
 // --- 计算属性 ---
-const currentScaleKey = computed(() => route.params.id)
+const currentScaleKey = computed(() => String(route.params.id))
 const currentScale = computed(() => scales[currentScaleKey.value])
 const currentScaleInfo = computed(() => [...mentalScales, ...careerScales].find(s => s.key === currentScaleKey.value))
 const currentQuestion = computed(() => currentScale.value?.questions[currentIndex.value])
+const currentOptions = computed<OptionItem[]>(() => (currentScale.value ? scaleOptions[currentScale.value.optionType] : []))
+const currentAnswer = computed(() => (currentQuestion.value ? answers.value[currentQuestion.value.id] : undefined))
 const isLastQuestion = computed(() => currentIndex.value === (currentScale.value?.questions.length - 1))
 const progress = computed(() => {
   if (!currentScale.value) return 0
@@ -300,13 +337,14 @@ const allAnswered = computed(() => {
 })
 
 // --- 方法 ---
-function formatTime(seconds) {
+function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60)
   const s = seconds % 60
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
 }
 
-function handleSelect(qId, val) {
+function handleSelect(qId: number | undefined, val: number | string) {
+  if (qId === undefined) return
   answers.value[qId] = val
   // 如果不是最后一题，自动跳到下一题 (延迟一小会儿增加反馈感)
   if (!isLastQuestion.value) {
@@ -318,6 +356,11 @@ function handleSelect(qId, val) {
 
 function nextQuestion() {
   if (!isLastQuestion.value) currentIndex.value++
+}
+
+function isAnswered(idx: number) {
+  const q = currentScale.value?.questions[idx]
+  return q ? answers.value[q.id] !== undefined : false
 }
 
 function prevQuestion() {
@@ -337,8 +380,13 @@ function confirmExit() {
 function handleSubmit() {
   submitting.value = true
   setTimeout(() => {
+    const scale = currentScale.value
+    if (!scale) {
+      submitting.value = false
+      return
+    }
     let total = 0
-    const details = {}
+    const details: Record<string, number> = {}
 
     // 初始化 details
     if (currentScaleKey.value === 'riasec') {
@@ -347,27 +395,30 @@ function handleSubmit() {
       ['E', 'I', 'S', 'N', 'T', 'F', 'J', 'P'].forEach(k => details[k] = 0)
     }
 
-    currentScale.value.questions.forEach(q => {
+    scale.questions.forEach(q => {
       const val = answers.value[q.id]
+      if (val === undefined) return
       if (currentScaleKey.value === 'mbti') {
+        if (typeof val !== 'string') return
         const char = val.charAt(0)
         const weight = parseInt(val.charAt(1))
-        const typeChar = char === 'A' ? q.dim[0] : q.dim[1]
+        const dim = q.dim ?? ''
+        const typeChar = char === 'A' ? dim[0] : dim[1]
         details[typeChar] += weight
       } else {
-        const numericVal = parseInt(val)
+        const numericVal = parseInt(String(val))
         total += numericVal
         if (q.type) details[q.type] += numericVal
       }
     })
 
-    const res = currentScale.value.calc(total, details)
+    const res = scale.calc(total, details)
     const record = {
       ...res,
       score: total,
       date: dayjs().format('YYYY-MM-DD HH:mm'),
       scaleKey: currentScaleKey.value,
-      scaleName: currentScale.value.name,
+      scaleName: scale.name,
       details: details,
       duration: timeElapsed.value
     }

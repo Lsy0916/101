@@ -458,7 +458,7 @@
     </el-tabs>
 
     <!-- 咨询师详情弹窗 -->
-    <el-dialog v-model="counselorDetailVisible" :title="currentCounselor?.name + ' · ' + currentCounselor?.title" width="640px" class="counselor-dialog">
+    <el-dialog v-model="counselorDetailVisible" :title="currentCounselor ? currentCounselor.name + ' · ' + currentCounselor.title : ''" width="640px" class="counselor-dialog">
       <div v-if="currentCounselor" class="cd-content">
         <div class="cd-header">
           <div class="cd-avatar" :style="{ background: currentCounselor.color }">{{ currentCounselor.name[0] }}</div>
@@ -500,7 +500,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -511,16 +511,50 @@ import {
   RefreshLeft, InfoFilled, School, Search, ChatDotRound, House, Connection
 } from '@element-plus/icons-vue'
 
+// --- 类型定义 ---
+interface Counselor {
+  id: number
+  name: string
+  title: string
+  gender: string
+  rating: number
+  sessions: number
+  exp: number
+  education: string
+  color: string
+  types: string[]
+  specialties: string[]
+  intro: string
+  background: string[]
+  reviews: string[]
+}
+
+interface BookingItem {
+  counselorName: string
+  counselorId: number
+  date: string
+  slot: string
+  typeName: string
+  type: string
+  mode: string
+  topics: string[]
+  description: string
+  isFirst: boolean
+  status: string
+  createdAt: string
+}
+
 const route = useRoute()
 const router = useRouter()
 const { t, tm } = useI18n()
 
-const tabQueryMap = { booking: 'booking', consultants: 'consultants', notice: 'notice', faq: 'faq' }
-const activeTab = ref(tabQueryMap[route.query.tab] || 'booking')
+const tabQueryMap: Record<string, string> = { booking: 'booking', consultants: 'consultants', notice: 'notice', faq: 'faq' }
+const activeTab = ref(tabQueryMap[String(route.query.tab)] || 'booking')
 
 watch(() => route.query.tab, (newTab) => {
-  if (newTab && tabQueryMap[newTab] && tabQueryMap[newTab] !== activeTab.value) {
-    activeTab.value = tabQueryMap[newTab]
+  const mapped = typeof newTab === 'string' ? tabQueryMap[newTab] : undefined
+  if (mapped && mapped !== activeTab.value) {
+    activeTab.value = mapped
   }
 })
 
@@ -537,7 +571,7 @@ const allTopics = ['情绪困扰', '焦虑抑郁', '人际关系', '学业压力
 const specialties = ['情绪管理', '焦虑抑郁', '人际关系', '亲密关系', '家庭治疗', '创伤治疗', '青少年', '职业规划', '认知行为', '正念取向', '精神分析', '团体咨询']
 
 // ============ 心理老师数据 ============
-const counselors = [
+const counselors: Counselor[] = [
   { id: 1, name: '林晓薇', title: '资深心理老师', gender: 'female', rating: 4.9, sessions: 1280, exp: 12, education: '心理学博士', color: '#0052d9',
     types: ['individual', 'couple', 'group'],
     specialties: ['情绪管理', '焦虑抑郁', '认知行为'], intro: '擅长运用认知行为疗法（CBT）帮助同学处理焦虑、抑郁情绪，12年辅导经验，温和而敏锐。',
@@ -573,13 +607,13 @@ const counselors = [
 ]
 
 // ============ 预约状态 ============
-const bookingFormRef = ref(null)
-const secType = ref(null)
-const secCounselor = ref(null)
-const secTime = ref(null)
-const secInfo = ref(null)
+const bookingFormRef = ref<HTMLElement | null>(null)
+const secType = ref<HTMLElement | null>(null)
+const secCounselor = ref<HTMLElement | null>(null)
+const secTime = ref<HTMLElement | null>(null)
+const secInfo = ref<HTMLElement | null>(null)
 
-const errors = reactive({
+const errors = reactive<Record<string, boolean | string>>({
   type: false,
   counselorId: false,
   dateIdx: false,
@@ -591,9 +625,9 @@ const errors = reactive({
 
 const booking = reactive({
   type: 'individual',
-  topics: [],
+  topics: [] as string[],
   specFilter: '',
-  counselorId: null,
+  counselorId: null as number | null,
   dateIdx: -1,
   slot: '',
   mode: 'online',
@@ -607,7 +641,7 @@ const booking = reactive({
 
 const counselorSearch = ref('')
 
-function selectCounselor(id) {
+function selectCounselor(id: number) {
   booking.counselorId = id
   errors.counselorId = false
 }
@@ -667,7 +701,7 @@ const timeSlots = computed(() => [
 
 function validateBooking() {
   let valid = true
-  let firstErrorRef = null
+  let firstErrorRef: HTMLElement | null = null
 
   if (!booking.type) { errors.type = true; valid = false; if (!firstErrorRef) firstErrorRef = secType.value }
   if (!booking.counselorId) { errors.counselorId = true; valid = false; if (!firstErrorRef) firstErrorRef = secCounselor.value }
@@ -684,21 +718,21 @@ function validateBooking() {
   return valid
 }
 
-function getTypeName(key) {
+function getTypeName(key: string) {
   return consultationTypes.find(t => t.key === key)?.name || ''
 }
-function getCounselor(id) {
+function getCounselor(id: number | null) {
   return counselors.find(c => c.id === id) || { name: '' }
 }
-function toggleTopic(t) {
+function toggleTopic(t: string) {
   const idx = booking.topics.indexOf(t)
   if (idx >= 0) booking.topics.splice(idx, 1)
   else booking.topics.push(t)
 }
 
 // 我的预约
-const myBookings = ref([])
-const statusMap = computed(() => ({
+const myBookings = ref<BookingItem[]>([])
+const statusMap = computed<Record<string, string>>(() => ({
   pending: t('counseling.bookingStatus.pending'),
   confirmed: t('counseling.bookingStatus.confirmed'),
   completed: t('counseling.bookingStatus.completed'),
@@ -707,7 +741,8 @@ const statusMap = computed(() => ({
 
 function submitBooking() {
   if (!validateBooking()) return
-  const c = getCounselor(booking.counselorId)
+  const c = counselors.find(x => x.id === booking.counselorId)
+  if (!c) return
   const newBooking = {
     counselorName: c.name,
     counselorId: c.id,
@@ -740,7 +775,7 @@ function submitBooking() {
   secType.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-function cancelBooking(idx) {
+function cancelBooking(idx: number) {
   ElMessageBox.confirm(t('counseling.message.cancelConfirm'), t('counseling.message.cancelTitle'), { type: 'warning' }).then(() => {
     myBookings.value[idx].status = 'cancelled'
     saveBookings()
@@ -756,7 +791,8 @@ function loadBookings() {
   if (saved) myBookings.value = JSON.parse(saved)
 }
 
-function goBookWith(id) {
+function goBookWith(id: number | undefined) {
+  if (id === undefined) return
   booking.type = 'individual'
   booking.counselorId = id
   counselorDetailVisible.value = false
@@ -785,8 +821,8 @@ const filteredConsultants = computed(() => {
 
 // 咨询师详情
 const counselorDetailVisible = ref(false)
-const currentCounselor = ref(null)
-function openCounselorDetail(c) {
+const currentCounselor = ref<Counselor | null>(null)
+function openCounselorDetail(c: Counselor) {
   currentCounselor.value = c
   counselorDetailVisible.value = true
 }
@@ -799,13 +835,13 @@ const counselingProcess = computed(() => [
   { title: t('counseling.process.step4.title'), desc: t('counseling.process.step4.desc') }
 ])
 
-const confidentialityItems = computed(() => tm('counseling.confidentiality.items'))
+const confidentialityItems = computed(() => tm('counseling.confidentiality.items') as string[])
 
-const prepBeforeItems = computed(() => tm('counseling.prep.beforeItems'))
-const prepDuringItems = computed(() => tm('counseling.prep.duringItems'))
-const prepAfterItems = computed(() => tm('counseling.prep.afterItems'))
+const prepBeforeItems = computed(() => tm('counseling.prep.beforeItems') as string[])
+const prepDuringItems = computed(() => tm('counseling.prep.duringItems') as string[])
+const prepAfterItems = computed(() => tm('counseling.prep.afterItems') as string[])
 
-const cancellationItems = computed(() => tm('counseling.cancellation.items'))
+const cancellationItems = computed(() => tm('counseling.cancellation.items') as string[])
 
 const serviceInfo = computed(() => [
   { label: t('counseling.service.info.target'), value: t('counseling.service.info.targetValue') },
@@ -849,7 +885,7 @@ const faqList = [
   { cat: 'privacy', q: '咨询记录保存多久？', a: '咨询记录保存至咨询关系结束后3年，之后按规定销毁。期间仅心理老师本人与督导可查阅（隐去身份信息）。' }
 ]
 
-function getFaqCount(cat) {
+function getFaqCount(cat: string) {
   return cat === 'all' ? faqList.length : faqList.filter(f => f.cat === cat).length
 }
 
@@ -864,7 +900,7 @@ const filteredFaqs = computed(() => {
 })
 
 // ============ tab 切换 ============
-function handleTabChange(name) {
+function handleTabChange(name: string | number) {
   // 占位：可在此埋点
 }
 

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -6,16 +6,38 @@ import { ElMessage } from 'element-plus'
 import { Plus, ChatLineRound, Share, Star, ArrowRight } from '@element-plus/icons-vue'
 import InitialAvatar from '@/components/InitialAvatar.vue'
 
+interface FeedItem {
+  id: number
+  type: string
+  author: string
+  isAnonymous: boolean
+  mood: string
+  content: string
+  photos: string[]
+  likes: number
+  liked: boolean
+  commentCount: number
+  createdAt: string
+  topics: string[]
+  isPinned?: boolean
+  isHot?: boolean
+}
+
+interface MemberItem {
+  name: string
+  isAnonymous?: boolean
+}
+
 const router = useRouter()
 const { t, tm } = useI18n()
 
 const activeFilter = ref('all')
 
-const moodMap = {
+const moodMap: Record<string, string> = {
   happy: '😊', excited: '🤩', calm: '😌', sad: '😢', hopeful: '🌟'
 }
 
-const feedItems = ref([
+const feedItems = ref<FeedItem[]>([
   {
     id: 1, type: 'moment', author: '林晓', isAnonymous: false, mood: 'hopeful',
     content: '今天第一次去参加了心理咨询，原本很紧张，但老师特别温柔。聊完之后发现，原来一直压在心头的不是事情本身，而是我不敢面对它的那个瞬间。给自己一个拥抱。',
@@ -66,7 +88,7 @@ const feedItems = ref([
   }
 ])
 
-const activeMembers = ref([
+const activeMembers = ref<MemberItem[]>([
   { name: '林晓' }, { name: '陈默' }, { name: '周琳' }, { name: '李华' }, { name: '苏小北' }, { name: '匿名同学', isAnonymous: true }
 ])
 
@@ -84,7 +106,7 @@ const trendingTopics = ref([
 const onlineCount = ref(23)
 const todayNewCount = ref(5)
 
-const guidelines = computed(() => tm('square.list.community.sidebar.guidelinesItems'))
+const guidelines = computed(() => tm('square.list.community.sidebar.guidelinesItems') as string[])
 
 const filteredItems = computed(() => {
   if (activeFilter.value === 'all') return feedItems.value
@@ -113,12 +135,12 @@ const filters = computed(() => [
   { key: 'capsule', label: t('square.list.filter.capsule'), count: counts.value.capsule }
 ])
 
-const toggleLike = (item) => {
+const toggleLike = (item: FeedItem) => {
   item.liked = !item.liked
   item.likes += item.liked ? 1 : -1
 }
 
-const openDetail = (id) => {
+const openDetail = (id: number) => {
   router.push(`/square/${id}`)
 }
 
@@ -126,11 +148,11 @@ const goCreate = () => {
   router.push('/square/create')
 }
 
-const handleShare = (item) => {
+const handleShare = (item: FeedItem) => {
   ElMessage.success(t('square.list.share') + ' · ' + (item.isAnonymous ? t('square.list.anonymous') : item.author))
 }
 
-const filterByTopic = (tag) => {
+const filterByTopic = (tag: string) => {
   ElMessage.info('#' + tag)
 }
 </script>

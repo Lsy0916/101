@@ -74,130 +74,127 @@
   </el-form>
 </template>
 
-<script setup>
-import { ref, reactive, computed, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { useAuthStore } from '@/stores/auth';
-import { ElMessage } from 'element-plus';
-import { sendEmailCode as apiSendEmailCode } from '@/api/captcha';
-import { School, Message } from '@element-plus/icons-vue';
+<script setup lang="ts">
+import { ref, reactive, computed, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { useAuthLogin, sendEmailCode } from '@/composables/useAuth'
+import { School, Message } from '@element-plus/icons-vue'
 
-const router = useRouter();
-const { t } = useI18n();
+const router = useRouter()
+const { t } = useI18n()
 
 // 登录表单数据
-const emailLoginForm = reactive({
+interface EmailLoginFormState {
+  school: string
+  email: string
+  code: string
+}
+
+const emailLoginForm = reactive<EmailLoginFormState>({
   school: '',
   email: '',
-  code: ''
-});
+  code: '',
+})
 
 // 登录表单引用
-const emailLoginFormRef = ref();
-
-// 加载状态
-const loading = ref(false);
+const emailLoginFormRef = ref<FormInstance>()
 
 // 倒计时
-const emailCountdown = ref(0);
-let countdownTimer = null;
+const emailCountdown = ref(0)
+let countdownTimer: ReturnType<typeof setInterval> | null = null
 
 // 学校选项
-const schools = ref([
+interface SchoolOption {
+  value: string
+  label: string
+}
+
+const schools = ref<SchoolOption[]>([
   { value: 'tsinghua', label: '清华大学' },
-  { value: 'nist', label: '宁夏理工学院' }
-]);
+  { value: 'nist', label: '宁夏理工学院' },
+])
 
 // 邮箱登录表单验证规则
-const emailLoginRules = computed(() => ({
-  school: [
-    { required: true, message: t('login.form.schoolRequired'), trigger: 'change' }
-  ],
+const emailLoginRules = computed<FormRules<EmailLoginFormState>>(() => ({
+  school: [{ required: true, message: t('login.form.schoolRequired'), trigger: 'change' }],
   email: [
     { required: true, message: t('login.form.emailRequired'), trigger: 'blur' },
     {
       pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
       message: t('login.form.emailFormat'),
-      trigger: 'blur'
-    }
+      trigger: 'blur',
+    },
   ],
   code: [
     { required: true, message: t('login.form.codeRequired'), trigger: 'blur' },
     {
       pattern: /^\d{6}$/,
       message: t('login.form.codeFormat'),
-      trigger: 'blur'
-    }
-  ]
-}));
+      trigger: 'blur',
+    },
+  ],
+}))
 
-// 发送邮箱验证码
+// 开始重发倒计时
+function startCountdown(): void {
+  emailCountdown.value = 60
+  countdownTimer = setInterval(() => {
+    emailCountdown.value--
+    if (emailCountdown.value <= 0 && countdownTimer) {
+      clearInterval(countdownTimer)
+      countdownTimer = null
+    }
+  }, 1000)
+}
+
+// 发送邮箱验证码（server 层统一出口；错误已归一化）
 const handleSendEmailCode = async () => {
-  if (!emailLoginFormRef.value) return;
+  if (!emailLoginFormRef.value) return
 
   // 验证邮箱
-  const emailValid = await emailLoginFormRef.value.validateField('email').catch(() => false);
-  if (!emailValid) return;
+  const emailValid = await emailLoginFormRef.value.validateField('email').catch(() => false)
+  if (!emailValid) return
 
   try {
-    // 调用发送邮箱验证码的API
-    const response = await apiSendEmailCode({
-      email: emailLoginForm.email,
-      type: 'login' // 登录验证码
-    });
-
-    if (response.status === 200) {
-      ElMessage.success(t('login.form.codeSent'));
-
-      // 开始倒计时
-      emailCountdown.value = 60;
-      countdownTimer = setInterval(() => {
-        emailCountdown.value--;
-        if (emailCountdown.value <= 0) {
-          clearInterval(countdownTimer);
-        }
-      }, 1000);
-    } else {
-      ElMessage.error(response.message || t('login.form.codeSendFail'));
-    }
+    await sendEmailCode({ email: emailLoginForm.email, scene: 'login' })
+    ElMessage.success(t('login.form.codeSent'))
+    startCountdown()
   } catch {
-    ElMessage.error(t('login.form.codeSendRetry'));
+    ElMessage.error(t('login.form.codeSendRetry'))
   }
-};
+}
 
-// 邮箱登录处理函数
-const handleEmailLogin = async () => {
-  // 临时：跳过校验，只要输入即可登录用于查看效果
-  loading.value = true;
+// 登录：loading / 成功写 store / 实时通道建立均由 useAuthLogin 统一管理
+const { run: runLogin, loading } = useAuthLogin({
+  onSuccess: (result) => {
+    ElMessage.success(result.message ?? '登录成功')
+    router.push({ name: 'home' })
+  },
+  onError: (error) => {
+    ElMessage.error(error.message || t('login.form.loginFail'))
+  },
+})
 
-  const authStore = useAuthStore();
-  authStore.login({
+// 邮箱登录处理函数（沿用旧语义：暂跳过前端校验）
+const handleEmailLogin = () => {
+  runLogin({
     roleId: 'student',
     loginType: 'email',
     email: emailLoginForm.email,
-    code: emailLoginForm.code
-  }).then(result => {
-    if (result.success) {
-      ElMessage.success(result.message);
-      router.push({ name: 'home' });
-    } else {
-      ElMessage.error(result.message);
-    }
-  }).catch(error => {
-    ElMessage.error(error.message || t('login.form.loginFail'));
-  }).finally(() => {
-    loading.value = false;
-  });
-};
+    code: emailLoginForm.code,
+  })
+}
 
 // 组件卸载前清理倒计时定时器，避免内存泄漏
 onBeforeUnmount(() => {
   if (countdownTimer) {
-    clearInterval(countdownTimer);
-    countdownTimer = null;
+    clearInterval(countdownTimer)
+    countdownTimer = null
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

@@ -39,11 +39,18 @@ function applyLoginSuccess(result: LoginResult): LoginResult {
   return result
 }
 
-/** 登录（manual useRequest：由表单触发） */
-export function useAuthLogin() {
+/** 登录（manual useRequest：由表单触发；成功写 store + 建立实时通道） */
+export function useAuthLogin(hooks?: {
+  onSuccess?: (result: LoginResult) => void
+  onError?: (error: Error) => void
+}) {
   const { run, loading, error, data } = useRequest(loginService, {
     manual: true,
-    onSuccess: applyLoginSuccess,
+    onSuccess: (result) => {
+      applyLoginSuccess(result)
+      hooks?.onSuccess?.(result)
+    },
+    onError: (err) => hooks?.onError?.(err instanceof Error ? err : new Error(String(err))),
   })
 
   return { run, loading, error, result: data }
@@ -63,12 +70,26 @@ async function forgotPasswordService(data: Record<string, unknown>): Promise<{ m
   throw new Error('忘记密码接口后端契约未提供（阶段5 接入）')
 }
 
-export function useRegister() {
-  return useRequest(registerService, { manual: true })
+/** 注册/登出 hooks：成功消息与页面切换由组件侧回调完成 */
+interface AsyncActionHooks<T> {
+  onSuccess?: (result: T) => void
+  onError?: (error: Error) => void
 }
 
-export function useForgotPassword() {
-  return useRequest(forgotPasswordService, { manual: true })
+export function useRegister(hooks?: AsyncActionHooks<{ message: string }>) {
+  return useRequest(registerService, {
+    manual: true,
+    onSuccess: (result) => hooks?.onSuccess?.(result),
+    onError: (err) => hooks?.onError?.(err instanceof Error ? err : new Error(String(err))),
+  })
+}
+
+export function useForgotPassword(hooks?: AsyncActionHooks<{ message: string }>) {
+  return useRequest(forgotPasswordService, {
+    manual: true,
+    onSuccess: (result) => hooks?.onSuccess?.(result),
+    onError: (err) => hooks?.onError?.(err instanceof Error ? err : new Error(String(err))),
+  })
 }
 
 /** 发送邮箱验证码（无状态动作，直接调 server 层） */

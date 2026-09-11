@@ -200,7 +200,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, shallowRef, onMounted, watch, onBeforeUnmount, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -210,6 +210,7 @@ import {
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import type { IDomEditor } from '@wangeditor/editor'
 import '@wangeditor/editor/dist/css/style.css'
 
 const router = useRouter()
@@ -220,11 +221,11 @@ const showSuccess = ref(false)
 
 const title = ref('')
 const openDate = ref(dayjs().add(1, 'day').format('YYYY-MM-DD'))
-const datePickerRef = ref(null)
+const datePickerRef = ref<{ focus: () => void } | null>(null)
 
 const openDateText = computed(() => openDate.value || t('capsule.create.placeholders.date'))
 
-const disabledDate = (time) => {
+const disabledDate = (time: Date): boolean => {
   const tomorrow = dayjs().startOf('day').add(1, 'day')
   const fiveYearsLater = dayjs().add(5, 'year')
   return time.getTime() < tomorrow.valueOf() || time.getTime() > fiveYearsLater.valueOf()
@@ -252,16 +253,16 @@ const disableComment = ref(false)
 
 const richContent = ref('')
 
-const wangEditor = shallowRef()
+const wangEditor = shallowRef<IDomEditor>()
 const valueHtml = ref('')
 const toolbarConfig = {}
 const editorConfig = computed(() => ({ placeholder: t('capsule.create.placeholders.editor') }))
 
-const handleCreated = (editor) => {
+const handleCreated = (editor: IDomEditor) => {
   wangEditor.value = editor
 }
 
-const handleEditorChange = (editor) => {
+const handleEditorChange = (editor: IDomEditor) => {
   richContent.value = editor.getHtml()
 }
 
@@ -269,8 +270,8 @@ const contentLength = computed(() => {
   return richContent.value.replace(/<[^>]*>/g, '').length
 })
 
-const imagePaths = ref([])
-const fileInputRef = ref(null)
+const imagePaths = ref<string[]>([])
+const fileInputRef = ref<HTMLInputElement | null>(null)
 
 const chooseImage = () => {
   if (imagePaths.value.length >= 6) {
@@ -280,21 +281,22 @@ const chooseImage = () => {
   fileInputRef.value?.click()
 }
 
-const onFileChange = (e) => {
-  const files = Array.from(e.target.files || [])
+const onFileChange = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  const files = Array.from(target.files || [])
   const remaining = 6 - imagePaths.value.length
   files.slice(0, remaining).forEach(file => {
     if (!file.type.startsWith('image/')) return
     const reader = new FileReader()
     reader.onload = (ev) => {
-      imagePaths.value.push(ev.target.result)
+      imagePaths.value.push(ev.target?.result as string)
     }
     reader.readAsDataURL(file)
   })
-  e.target.value = ''
+  target.value = ''
 }
 
-const deleteImage = (index) => {
+const deleteImage = (index: number) => {
   imagePaths.value.splice(index, 1)
 }
 
@@ -356,7 +358,7 @@ const submitCapsule = () => {
   }, 2000)
 }
 
-const draftTimer = ref(null)
+const draftTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 watch(
   () => richContent.value,
   (val) => {

@@ -74,119 +74,128 @@
   </el-form>
 </template>
 
-<script setup>
-import { ref, reactive, computed, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { useAuthStore } from '@/stores/auth';
-import { ElMessage } from 'element-plus';
-import { School, Iphone } from '@element-plus/icons-vue';
+<script setup lang="ts">
+import { ref, reactive, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { useAuthLogin } from '@/composables/useAuth'
+import { School, Iphone } from '@element-plus/icons-vue'
 
-const router = useRouter();
-const { t } = useI18n();
+const router = useRouter()
+const { t } = useI18n()
 
 // 登录表单数据
-const phoneLoginForm = reactive({
+interface PhoneLoginFormState {
+  school: string
+  phone: string
+  code: string
+}
+
+const phoneLoginForm = reactive<PhoneLoginFormState>({
   school: '',
   phone: '',
-  code: ''
-});
+  code: '',
+})
 
 // 登录表单引用
-const phoneLoginFormRef = ref();
-
-// 加载状态
-const loading = ref(false);
+const phoneLoginFormRef = ref<FormInstance>()
 
 // 倒计时
-const phoneCountdown = ref(0);
-let countdownTimer = null;
+const phoneCountdown = ref(0)
+let countdownTimer: ReturnType<typeof setInterval> | null = null
 
 // 学校选项
-const schools = ref([
+interface SchoolOption {
+  value: string
+  label: string
+}
+
+const schools = ref<SchoolOption[]>([
   { value: 'tsinghua', label: '清华大学' },
   { value: 'pku', label: '北京大学' },
   { value: 'fudan', label: '复旦大学' },
   { value: 'sjtu', label: '上海交通大学' },
-  { value: 'zju', label: '浙江大学' }
-]);
+  { value: 'zju', label: '浙江大学' },
+])
 
 // 手机登录表单验证规则
-const phoneLoginRules = reactive({
-  school: [
-    { required: true, message: '请选择学校', trigger: 'change' }
-  ],
+const phoneLoginRules = reactive<FormRules<PhoneLoginFormState>>({
+  school: [{ required: true, message: '请选择学校', trigger: 'change' }],
   phone: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
-    { 
-      pattern: /^1[3-9]\d{9}$/, 
-      message: '请输入正确的手机号码', 
-      trigger: 'blur' 
-    }
+    {
+      pattern: /^1[3-9]\d{9}$/,
+      message: '请输入正确的手机号码',
+      trigger: 'blur',
+    },
   ],
   code: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
-    { 
-      pattern: /^\d{6}$/, 
-      message: '验证码为6位数字', 
-      trigger: 'blur' 
-    }
-  ]
-});
+    {
+      pattern: /^\d{6}$/,
+      message: '验证码为6位数字',
+      trigger: 'blur',
+    },
+  ],
+})
 
-// 发送手机验证码
+// 开始重发倒计时
+function startCountdown(): void {
+  phoneCountdown.value = 60
+  countdownTimer = setInterval(() => {
+    phoneCountdown.value--
+    if (phoneCountdown.value <= 0 && countdownTimer) {
+      clearInterval(countdownTimer)
+      countdownTimer = null
+    }
+  }, 1000)
+}
+
+// 发送手机验证码（沿用旧实现：暂为前端模拟，后端短信契约就绪后接入 server 层）
 const sendPhoneCode = async () => {
-  if (!phoneLoginFormRef.value) return;
-  
+  if (!phoneLoginFormRef.value) return
+
   // 验证手机号
-  const phoneValid = await phoneLoginFormRef.value.validateField('phone').catch(() => false);
-  if (!phoneValid) return;
+  const phoneValid = await phoneLoginFormRef.value.validateField('phone').catch(() => false)
+  if (!phoneValid) return
 
   // 模拟发送验证码成功
-  ElMessage.success(t('login.form.codeSent'));
-  
+  ElMessage.success(t('login.form.codeSent'))
+
   // 开始倒计时
-  phoneCountdown.value = 60;
-  countdownTimer = setInterval(() => {
-    phoneCountdown.value--;
-    if (phoneCountdown.value <= 0) {
-      clearInterval(countdownTimer);
-    }
-  }, 1000);
-};
+  startCountdown()
+}
 
-// 手机登录处理函数
-const handlePhoneLogin = async () => {
-  // 临时：跳过校验，只要输入即可登录用于查看效果
-  loading.value = true;
+// 登录：loading / 成功写 store / 实时通道建立均由 useAuthLogin 统一管理
+const { run: runLogin, loading } = useAuthLogin({
+  onSuccess: (result) => {
+    ElMessage.success(result.message ?? '登录成功')
+    router.push({ name: 'home' })
+  },
+  onError: (error) => {
+    ElMessage.error(error.message || t('login.form.loginFail'))
+  },
+})
 
-  const authStore = useAuthStore();
-  authStore.login({
+// 手机登录处理函数（沿用旧语义：暂跳过前端校验）
+const handlePhoneLogin = () => {
+  runLogin({
     roleId: 'student',
     loginType: 'phone',
     phone: phoneLoginForm.phone,
-    code: phoneLoginForm.code
-  }).then(result => {
-    if (result.success) {
-      ElMessage.success(result.message);
-      router.push({ name: 'home' });
-    } else {
-      ElMessage.error(result.message);
-    }
-  }).catch(error => {
-    ElMessage.error(error.message || t('login.form.loginFail'));
-  }).finally(() => {
-    loading.value = false;
-  });
-};
+    code: phoneLoginForm.code,
+  })
+}
 
 // 组件卸载前清理倒计时定时器，避免内存泄漏
 onBeforeUnmount(() => {
   if (countdownTimer) {
-    clearInterval(countdownTimer);
-    countdownTimer = null;
+    clearInterval(countdownTimer)
+    countdownTimer = null
   }
-});
+})
 </script>
 
 <style scoped lang="scss">
