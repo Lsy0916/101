@@ -13,8 +13,8 @@ import {
   Star,
   Right
 } from '@element-plus/icons-vue'
-import ReadProgress from '@/components/ReadProgress.vue'
-import InitialAvatar from '@/components/InitialAvatar.vue'
+import BaseReadProgress from '@/components/base/BaseReadProgress.vue'
+import BaseInitialAvatar from '@/components/base/BaseInitialAvatar.vue'
 import type { ArticleItem } from '@/api/mock/articles'
 
 const route = useRoute()
@@ -299,7 +299,7 @@ function setCategory(key: string) {
 
 <template>
   <div class="article-center">
-    <ReadProgress />
+    <BaseReadProgress />
     <!-- 编辑式标题区 · 纯排版无卡片 · 随分类切换 -->
     <div class="page-intro">
       <div class="intro-container">
@@ -372,7 +372,7 @@ function setCategory(key: string) {
               <p class="spotlight-desc">{{ spotlightArticle.summary }}</p>
               <div class="spotlight-footer">
                 <div class="spotlight-author">
-                  <InitialAvatar :name="spotlightArticle.author" :size="48" class="author-avatar" />
+                  <BaseInitialAvatar :name="spotlightArticle.author" :size="48" class="author-avatar" />
                   <div class="author-info">
                     <span class="author-name">{{ spotlightArticle.author }}</span>
                     <span class="author-title">{{ spotlightArticle.authorTitle }}</span>

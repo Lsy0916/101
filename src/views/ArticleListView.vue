@@ -13,7 +13,7 @@ import {
   HotWater,
   Star
 } from '@element-plus/icons-vue'
-import ReadProgress from '@/components/ReadProgress.vue'
+import BaseReadProgress from '@/components/base/BaseReadProgress.vue'
 import type { ArticleItem } from '@/api/mock/articles'
 
 const route = useRoute()
@@ -237,7 +237,7 @@ function goBack() {
 
 <template>
   <div class="article-list-page">
-    <ReadProgress />
+    <BaseReadProgress />
     <!-- 纯排版标题区 -->
     <div class="page-intro">
       <div class="intro-container">

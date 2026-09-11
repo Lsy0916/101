@@ -9,7 +9,7 @@
             ref="inputRef"
             v-model="query"
             class="cmd-input"
-            placeholder="搜索页面、文章、测评…"
+            :placeholder="placeholder"
             @keydown.down.prevent="moveSel(1)"
             @keydown.up.prevent="moveSel(-1)"
             @keydown.enter.prevent="execSel"
@@ -28,7 +28,7 @@
                 :key="item.id"
                 :class="['cmd-item', { active: flatResults[selIndex]?.id === item.id }]"
                 @mouseenter="selIndex = flatResults.findIndex((f) => f.id === item.id)"
-                @click="run(item)"
+                @click="onSelect(item)"
               >
                 <span class="cmd-item-num">{{ item.num }}</span>
                 <span class="cmd-item-body">
@@ -42,10 +42,12 @@
           </template>
         </div>
 
-        <!-- 空状态 -->
+        <!-- 空状态（可通过 empty 插槽覆盖） -->
         <div v-else class="cmd-empty">
-          <span class="cmd-empty-eyebrow">— No Match</span>
-          <p class="cmd-empty-text">没有找到「{{ query }}」相关内容</p>
+          <slot name="empty" :query="query">
+            <span class="cmd-empty-eyebrow">— No Match</span>
+            <p class="cmd-empty-text">没有找到「{{ query }}」相关内容</p>
+          </slot>
         </div>
 
         <!-- 底部提示 -->
@@ -60,60 +62,48 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
-import { useCommandPalette } from '@/composables/useCommandPalette'
+/**
+ * 【base】BaseCommandPalette —— 命令面板纯 UI 组件
+ * - 受控组件：显隐经 v-model:open 控制，条目由 items 传入
+ * - 选中行为通过 select 事件上抛，跳转由业务层/页面处理
+ * - 分组按 items 首现顺序展示，显示名经 groupLabels 映射
+ * - 分层约束：禁止依赖 @/api、@/stores、@/realtime、@/events、vue-router
+ */
+import { ref, computed, watch, nextTick } from 'vue'
+import type { PaletteItem } from './types'
 
-const router = useRouter()
-const { open, close } = useCommandPalette()
+const props = withDefaults(
+  defineProps<{
+    /** 是否打开 */
+    open?: boolean
+    /** 面板条目（顺序即展示顺序） */
+    items?: PaletteItem[]
+    /** 搜索框占位文案 */
+    placeholder?: string
+    /** 分组键 → 显示名；未映射时直接展示分组键 */
+    groupLabels?: Record<string, string>
+  }>(),
+  {
+    open: false,
+    items: () => [],
+    placeholder: '搜索…',
+    groupLabels: () => ({}),
+  },
+)
+
+const emit = defineEmits<{
+  (e: 'update:open', v: boolean): void
+  (e: 'select', item: PaletteItem): void
+}>()
+
 const query = ref('')
 const selIndex = ref(0)
 const inputRef = ref<HTMLInputElement | null>(null)
 const resultsRef = ref<HTMLElement | null>(null)
 
-interface CmdItem {
-  id: string
-  title: string
-  desc: string
-  group: 'navigation' | 'articles' | 'assessment'
-  to: string
-  num?: string
-  tag?: string // 原模板渲染保留位（当前数据未使用）
-}
+const close = () => emit('update:open', false)
 
-// 导航条目
-const navItems: CmdItem[] = [
-  { id: 'nav-home', title: '首页', desc: '生涯心旅主页', group: 'navigation', to: '/' },
-  { id: 'nav-articles', title: '文章中心', desc: '阅读 · 看见更广阔的自己', group: 'navigation', to: '/articles' },
-  { id: 'nav-article-list', title: '文章列表', desc: '全部文章', group: 'navigation', to: '/articles/list' },
-  { id: 'nav-assessment', title: '测评中心', desc: '专业心理量表', group: 'navigation', to: '/assessment' },
-  { id: 'nav-counseling', title: '心理咨询', desc: '专业咨询师预约', group: 'navigation', to: '/counseling' },
-  { id: 'nav-capsule', title: '时光胶囊', desc: '写给未来的自己', group: 'navigation', to: '/time-capsule' },
-]
-
-// 文章条目（模拟）
-const articleItems: CmdItem[] = [
-  { id: 'art-1', title: '如何在焦虑中找到内心的锚点', desc: '精选推荐', group: 'articles', to: '/articles' },
-  { id: 'art-2', title: '大学生职业规划的五步法', desc: '职业发展', group: 'articles', to: '/articles' },
-  { id: 'art-3', title: '正念冥想：从呼吸开始', desc: '心理健康', group: 'articles', to: '/articles' },
-  { id: 'art-4', title: '拖延症背后的心理机制', desc: '心理健康', group: 'articles', to: '/articles' },
-]
-
-// 测评条目（模拟）
-const assessItems: CmdItem[] = [
-  { id: 'asm-1', title: 'SDS 抑郁自评量表', desc: '20题 · 约10分钟', group: 'assessment', to: '/assessment' },
-  { id: 'asm-2', title: 'SAS 焦虑自评量表', desc: '20题 · 约10分钟', group: 'assessment', to: '/assessment' },
-  { id: 'asm-3', title: 'MBTI 人格类型测试', desc: '93题 · 约15分钟', group: 'assessment', to: '/assessment' },
-]
-
-const allItems: CmdItem[] = [...navItems, ...articleItems, ...assessItems]
-
-// 编号
-allItems.forEach((it, i) => {
-  it.num = String(i + 1).padStart(2, '0')
-})
-
-// 模糊匹配
+// 模糊匹配（子序列匹配，保持原有行为）
 const fuzzyMatch = (text: string, q: string): boolean => {
   if (!q) return true
   const lower = text.toLowerCase()
@@ -127,24 +117,29 @@ const fuzzyMatch = (text: string, q: string): boolean => {
 
 const filtered = computed(() => {
   const q = query.value.trim()
-  if (!q) return allItems
-  return allItems.filter(
+  if (!q) return props.items
+  return props.items.filter(
     (it) => fuzzyMatch(it.title, q) || (it.desc && fuzzyMatch(it.desc, q))
   )
 })
 
+// 分组：按 items 首现顺序，避免 base 内置业务分组知识
 const groupedResults = computed(() => {
-  const groups: Array<{ label: string; items: CmdItem[] }> = [
-    { label: '— Navigate', items: [] },
-    { label: '— Articles', items: [] },
-    { label: '— Assessment', items: [] },
-  ]
-  const map = { navigation: 0, articles: 1, assessment: 2 }
+  const order: string[] = []
+  const buckets = new Map<string, PaletteItem[]>()
   filtered.value.forEach((it) => {
-    const gi = map[it.group]
-    if (gi !== undefined) groups[gi].items.push(it)
+    let list = buckets.get(it.group)
+    if (!list) {
+      list = []
+      buckets.set(it.group, list)
+      order.push(it.group)
+    }
+    list.push(it)
   })
-  return groups
+  return order.map((g) => ({
+    label: props.groupLabels[g] ?? g,
+    items: buckets.get(g)!,
+  }))
 })
 
 const flatResults = computed(() =>
@@ -167,13 +162,10 @@ const moveSel = (dir: number) => {
 
 const execSel = () => {
   const item = flatResults.value[selIndex.value]
-  if (item) run(item)
+  if (item) emit('select', item)
 }
 
-const run = (item: CmdItem) => {
-  close()
-  if (item.to) router.push(item.to)
-}
+const onSelect = (item: PaletteItem) => emit('select', item)
 
 const scrollIntoView = () => {
   const el = resultsRef.value?.querySelector('.cmd-item.active')
@@ -184,34 +176,17 @@ watch(query, () => {
   selIndex.value = 0
 })
 
-watch(open, (v) => {
-  if (v) {
-    query.value = ''
-    selIndex.value = 0
-    nextTick(() => inputRef.value?.focus())
+// 打开时重置输入并聚焦输入框
+watch(
+  () => props.open,
+  (v) => {
+    if (v) {
+      query.value = ''
+      selIndex.value = 0
+      nextTick(() => inputRef.value?.focus())
+    }
   }
-})
-
-const onKeydown = (e: KeyboardEvent) => {
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-    e.preventDefault()
-    open.value = !open.value
-  } else if (e.key === '/' && !open.value && !isTyping(e)) {
-    e.preventDefault()
-    open.value = true
-  } else if (e.key === 'Escape' && open.value) {
-    close()
-  }
-}
-
-const isTyping = (e: KeyboardEvent): boolean => {
-  const target = e.target as HTMLElement | null
-  const tag = target?.tagName
-  return tag === 'INPUT' || tag === 'TEXTAREA' || target?.isContentEditable === true
-}
-
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onUnmounted(() => window.removeEventListener('keydown', onKeydown))
+)
 </script>
 
 <style scoped>
@@ -249,7 +224,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
 .cmd-prompt {
   font-size: 22px;
-  color: #0052d9;
+  color: var(--brand-primary);
   font-weight: 300;
   line-height: 1;
 }
@@ -317,7 +292,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 }
 
 .cmd-item.active {
-  border-left: 2px solid #0052d9;
+  border-left: 2px solid var(--brand-primary);
   padding-left: 22px;
 }
 
@@ -331,7 +306,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 }
 
 .cmd-item.active .cmd-item-num {
-  color: #0052d9;
+  color: var(--brand-primary);
 }
 
 .cmd-item-body {
@@ -351,7 +326,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
 .cmd-item-title :deep(mark) {
   background: rgba(0, 82, 217, 0.12);
-  color: #0052d9;
+  color: var(--brand-primary);
   border-radius: 2px;
   padding: 0 1px;
 }
@@ -366,7 +341,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: #0052d9;
+  color: var(--brand-primary);
   text-transform: uppercase;
   flex-shrink: 0;
 }
@@ -382,7 +357,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 .cmd-item.active .cmd-item-arrow {
   opacity: 1;
   transform: none;
-  color: #0052d9;
+  color: var(--brand-primary);
 }
 
 .cmd-empty {

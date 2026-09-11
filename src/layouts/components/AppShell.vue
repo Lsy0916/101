@@ -7,7 +7,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { Location, Phone, Message, Share } from '@element-plus/icons-vue'
 import Navbar from '../Navbar.vue'
-import CommandPalette from '@/components/CommandPalette.vue'
+import AppCommandPalette from '@/components/business/common/AppCommandPalette.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -16,12 +16,14 @@ function goCounseling() { router.push({ name: 'counseling' }) }
 function goAssessment() { router.push({ name: 'assessment' }) }
 function goArticles() { router.push({ name: 'articles' }) }
 function goCapsule() { router.push({ name: 'time-capsule' }) }
+// 命令面板选中条目后的跳转（business 组件不直接碰 router）
+function onPaletteNavigate(to: string) { void router.push(to) }
 </script>
 
 <template>
   <div class="main-layout">
     <div class="grain-overlay" aria-hidden="true"></div>
-    <CommandPalette />
+    <AppCommandPalette @navigate="onPaletteNavigate" />
     <Navbar v-if="!route.meta.hideNavbar" />
     <main class="main-content" :class="{ 'no-padding': route.meta.transparentNavbar || route.meta.hideNavbar }">
       <router-view v-slot="{ Component }">

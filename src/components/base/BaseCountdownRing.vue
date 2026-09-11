@@ -33,6 +33,11 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * 【base】BaseCountdownRing —— 倒计时进度环
+ * - props：days 剩余天数 / total 周期天数 / unit 中心文案（由调用方传入，base 不内置业务文案）
+ * - 颜色经 props 注入，默认中性色，不感知品牌与业务
+ */
 import { computed, ref, onMounted } from 'vue'
 
 const props = withDefaults(
@@ -52,7 +57,7 @@ const props = withDefaults(
     strokeWidth: 4,
     progressColor: '#000',
     trackColor: '#e5e7eb',
-    unit: '天后开启',
+    unit: '',
   },
 )
 

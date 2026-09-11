@@ -81,7 +81,7 @@
             <div v-if="capsule.remainingDays > 0" class="date-count">{{ $t('capsule.detail.countdown', { days: capsule.remainingDays }) }}</div>
             <div v-else class="date-count opened-text">{{ $t('capsule.detail.capsuleOpened') }}</div>
           </div>
-          <CountdownRing
+          <BaseCountdownRing
             v-if="capsule.remainingDays > 0"
             :days="capsule.remainingDays"
             :total="365"
@@ -122,7 +122,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import CountdownRing from '@/components/CountdownRing.vue'
+import BaseCountdownRing from '@/components/base/BaseCountdownRing.vue'
 
 interface CapsuleDetailItem {
   id: number

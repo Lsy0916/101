@@ -3,8 +3,8 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getArticleById, getRelatedArticles, type ArticleItem } from '@/api/mock/articles'
 import { ArrowLeft, ArrowRight, Star, Share, Timer, View } from '@element-plus/icons-vue'
-import ReadProgress from '@/components/ReadProgress.vue'
-import InitialAvatar from '@/components/InitialAvatar.vue'
+import BaseReadProgress from '@/components/base/BaseReadProgress.vue'
+import BaseInitialAvatar from '@/components/base/BaseInitialAvatar.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -91,7 +91,7 @@ const toggleCommentLike = (comment: CommentItem) => {
 
 <template>
   <div v-if="article" class="article-detail-page">
-    <ReadProgress />
+    <BaseReadProgress />
 
     <!-- 顶部返回栏 · 紧贴 navbar -->
     <div class="top-bar">
@@ -115,7 +115,7 @@ const toggleCommentLike = (comment: CommentItem) => {
       <!-- 作者 + meta · 编辑式定义行 -->
       <div v-reveal="200" class="author-row">
         <div class="author-block">
-          <InitialAvatar :name="article.author" :size="44" class="author-avatar" />
+          <BaseInitialAvatar :name="article.author" :size="44" class="author-avatar" />
           <div class="author-info">
             <span class="author-name">{{ article.author }}</span>
             <span class="author-title">{{ article.authorTitle }}</span>
@@ -190,7 +190,7 @@ const toggleCommentLike = (comment: CommentItem) => {
 
       <!-- 评论输入 -->
       <div class="comment-input-wrap">
-        <InitialAvatar name="王同学" :size="40" />
+        <BaseInitialAvatar name="王同学" :size="40" />
         <div class="comment-input-area">
           <textarea
             v-model="commentText"
@@ -215,7 +215,7 @@ const toggleCommentLike = (comment: CommentItem) => {
           :key="comment.id"
           class="comment-item"
         >
-          <InitialAvatar :name="comment.author" :size="40" :is-anonymous="comment.isAnonymous" />
+          <BaseInitialAvatar :name="comment.author" :size="40" :is-anonymous="comment.isAnonymous" />
           <div class="comment-body">
             <div class="comment-meta">
               <span class="comment-author">{{ comment.isAnonymous ? $t('article.detail.comments.anon') : comment.author }}</span>

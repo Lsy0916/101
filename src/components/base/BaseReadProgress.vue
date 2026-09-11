@@ -3,6 +3,11 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * 【base】BaseReadProgress —— 页面顶部阅读进度条
+ * - 监听 window scroll/resize 自算进度（passive scroll）
+ * - 进度条视觉样式在全局 main.css（.read-progress），组件自身零样式
+ */
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const progress = ref(0)

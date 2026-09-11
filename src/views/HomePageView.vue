@@ -151,15 +151,15 @@
             <p>{{ $t('home.about.p2') }}</p>
             <div class="about-stats">
               <div class="stat-item">
-                <div class="stat-number"><AnimatedCounter :target="10" suffix="k+" /></div>
+                <div class="stat-number"><BaseAnimatedCounter :target="10" suffix="k+" /></div>
                 <div class="stat-label">{{ $t('home.about.statUsers') }}</div>
               </div>
               <div class="stat-item">
-                <div class="stat-number"><AnimatedCounter :target="50" suffix="+" /></div>
+                <div class="stat-number"><BaseAnimatedCounter :target="50" suffix="+" /></div>
                 <div class="stat-label">{{ $t('home.about.statExperts') }}</div>
               </div>
               <div class="stat-item">
-                <div class="stat-number"><AnimatedCounter :target="98" suffix="%" /></div>
+                <div class="stat-number"><BaseAnimatedCounter :target="98" suffix="%" /></div>
                 <div class="stat-label">{{ $t('home.about.statSatisfaction') }}</div>
               </div>
             </div>
@@ -290,7 +290,7 @@ import {
 // 导入图片资源
 import imgNist from '@/assets/images/nist-bg.jpg'
 import imgTsinghua from '@/assets/images/tsinghua-bg.jpg'
-import AnimatedCounter from '@/components/AnimatedCounter.vue'
+import BaseAnimatedCounter from '@/components/base/BaseAnimatedCounter.vue'
 
 const router = useRouter()
 const { t, tm } = useI18n()

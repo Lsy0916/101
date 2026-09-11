@@ -7,6 +7,11 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * 【base】BaseAnimatedCounter —— 进入视口后触发数字滚动动画
+ * - props：target 目标值 / duration 时长 / decimals 小数位 / prefix·suffix 前后缀
+ * - 数字按 zh-CN 千分位格式展示（与现网行为一致）
+ */
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = withDefaults(

@@ -10,6 +10,11 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * 【base】BaseInitialAvatar —— 姓名首字头像
+ * - 按姓名哈希从固定调色板取色；品牌色使用 CSS 变量 --brand-primary
+ * - isAnonymous 时展示灰色问号头像
+ */
 import { computed } from 'vue'
 
 const props = withDefaults(
@@ -26,7 +31,7 @@ const props = withDefaults(
 )
 
 const colors = [
-  '#0052d9', '#1890ff', '#10b981', '#f59e0b',
+  'var(--brand-primary)', '#1890ff', '#10b981', '#f59e0b',
   '#8b5cf6', '#ec4899', '#06b6d4', '#ef4444'
 ]
 

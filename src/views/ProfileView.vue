@@ -16,7 +16,7 @@
 
         <div class="hero-grid">
           <div class="hero-portrait">
-            <InitialAvatar :name="profileForm.name || 'U'" :size="96" />
+            <BaseInitialAvatar :name="profileForm.name || 'U'" :size="96" />
             <span class="hero-role">{{ roleLabel }}</span>
           </div>
           <div class="hero-detail">
@@ -346,7 +346,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/useUserStore'
 import { logout } from '@/composables/useAuth'
-import InitialAvatar from '@/components/InitialAvatar.vue'
+import BaseInitialAvatar from '@/components/base/BaseInitialAvatar.vue'
 
 interface UserExtra {
   name?: string

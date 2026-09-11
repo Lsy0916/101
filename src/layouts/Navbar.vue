@@ -19,7 +19,7 @@ import type { AppLocale } from '@/locales'
 import { useCommandPalette } from '@/composables/useCommandPalette'
 import { useUserStore } from '@/stores/useUserStore'
 import { logout } from '@/composables/useAuth'
-import InitialAvatar from '@/components/InitialAvatar.vue'
+import BaseInitialAvatar from '@/components/base/BaseInitialAvatar.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -333,14 +333,14 @@ function handleCommand(command: string) {
 
           <el-dropdown v-if="userStore.isLoggedIn" trigger="click" popper-class="user-dropdown-popper" @command="handleCommand">
             <div class="user-profile">
-              <InitialAvatar :name="userStore.profile?.name || 'U'" :size="32" />
+              <BaseInitialAvatar :name="userStore.profile?.name || 'U'" :size="32" />
               <span class="username desktop-only">{{ userStore.profile?.name || $t('nav.user.guest') }}</span>
               <el-icon class="caret"><ArrowDown /></el-icon>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
                 <div class="dropdown-header">
-                  <InitialAvatar :name="userStore.profile?.name || 'U'" :size="44" />
+                  <BaseInitialAvatar :name="userStore.profile?.name || 'U'" :size="44" />
                   <div class="dropdown-header-info">
                     <span class="dropdown-header-name">{{ userStore.profile?.name || $t('nav.user.guest') }}</span>
                     <span class="dropdown-header-id">{{ userStore.profile?.id || '—' }}</span>

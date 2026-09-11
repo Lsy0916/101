@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
 import { Plus, ChatLineRound, Share, Star, ArrowRight } from '@element-plus/icons-vue'
-import InitialAvatar from '@/components/InitialAvatar.vue'
+import BaseInitialAvatar from '@/components/base/BaseInitialAvatar.vue'
 
 interface FeedItem {
   id: number
@@ -238,7 +238,7 @@ const filterByTopic = (tag: string) => {
 
             <!-- 卡片头部 -->
             <div class="card-head">
-              <InitialAvatar :name="item.author" :size="44" :is-anonymous="item.isAnonymous" />
+              <BaseInitialAvatar :name="item.author" :size="44" :is-anonymous="item.isAnonymous" />
               <div class="head-meta">
                 <span class="head-author">{{ item.isAnonymous ? $t('square.list.anonymous') : item.author }}</span>
                 <span class="head-time">{{ item.createdAt }}</span>
@@ -317,7 +317,7 @@ const filterByTopic = (tag: string) => {
               class="member-avatar"
               :style="{ zIndex: activeMembers.length - i, marginLeft: i === 0 ? '0' : '-10px' }"
             >
-              <InitialAvatar :name="member.name" :size="36" :is-anonymous="member.isAnonymous" />
+              <BaseInitialAvatar :name="member.name" :size="36" :is-anonymous="member.isAnonymous" />
             </div>
             <span class="members-more">+{{ onlineCount - activeMembers.length }}</span>
           </div>
