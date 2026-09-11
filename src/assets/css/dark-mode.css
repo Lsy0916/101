@@ -1534,15 +1534,20 @@ html.dark .assessment-page .chart-legend {
 }
 
 html.dark .assessment-page .range-tabs span {
-  background: #1e2b3a !important;
+  background: transparent !important;
   color: #94a3b8 !important;
-  border-color: #1e293b !important;
+  border-color: transparent !important;
+}
+
+html.dark .assessment-page .range-tabs span:hover {
+  color: #e2e8f0 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 html.dark .assessment-page .range-tabs span.active {
-  background: #0052d9 !important;
-  color: #fff !important;
-  border-color: #0052d9 !important;
+  background: transparent !important;
+  color: #f1f5f9 !important;
+  border-color: #4d9aff !important;
 }
 
 html.dark .assessment-page .avg-line {
@@ -1573,14 +1578,26 @@ html.dark .assessment-page .cmp-arrow.down {
 
 html.dark .assessment-page .nav-item {
   color: #94a3b8 !important;
-  border-color: #1e293b !important;
+  border-left-color: transparent !important;
 }
 
-html.dark .assessment-page .nav-item:hover,
+html.dark .assessment-page .nav-item::before {
+  color: #475569 !important;
+}
+
+html.dark .assessment-page .nav-item:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: #e2e8f0 !important;
+}
+
 html.dark .assessment-page .nav-item.active {
-  background: #1a2a4a !important;
+  background: transparent !important;
+  color: #f1f5f9 !important;
+  border-left-color: #4d9aff !important;
+}
+
+html.dark .assessment-page .nav-item.active::before {
   color: #4d9aff !important;
-  border-color: #4d9aff !important;
 }
 
 html.dark .assessment-page .quick-entry-item {
@@ -4698,7 +4715,7 @@ html.dark .assessment-page .recommend-item:hover,
 html.dark .assessment-page .comparison-item:hover,
 html.dark .assessment-page .quick-entry-item:hover {
   background: rgba(77, 154, 255, 0.06) !important;
-  border-color: transparent !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -4729,7 +4746,8 @@ html.dark .assessment-page .detail-item:hover {
 }
 
 html.dark .assessment-page .goal-banner {
-  background: linear-gradient(135deg, #07193f 0%, #003a99 100%) !important;
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 html.dark .assessment-page .ai-summary-card,
@@ -4741,7 +4759,34 @@ html.dark .assessment-page .result-summary-card {
 
 html.dark .assessment-page .range-tabs span {
   background: transparent !important;
+}
+
+/* 成长看板 · 编辑式暗色适配 */
+html.dark .assessment-page .kpi-grid {
+  background: transparent !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .assessment-page .goal-title {
+  color: #f1f5f9 !important;
+}
+
+html.dark .assessment-page .goal-percent {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .card-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .assessment-page .card-header h3 .el-icon {
+  color: #4d9aff !important;
+}
+
+html.dark .assessment-page .ai-insight-grid .insight-item:hover {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
 }
 
 html.dark .assessment-page .row-icon {

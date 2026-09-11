@@ -2367,29 +2367,37 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 
 .dashboard-card {
   margin-bottom: 24px;
-  border-radius: 20px;
-  transition: all 0.3s;
+  border-radius: 6px;
+  transition: box-shadow 0.3s ease;
 }
 
 .dashboard-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px rgba(10, 15, 26, 0.05);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eef2f6;
 }
 
 .card-header h3 {
-  font-size: 17px;
-  color: #1e293b;
+  font-size: 15px;
+  color: #0a0f1a;
   font-weight: 700;
   margin: 0;
   display: flex;
   align-items: center;
   gap: 8px;
+  letter-spacing: -0.1px;
+}
+
+.card-header h3 .el-icon {
+  color: #0052d9;
+  font-size: 16px;
 }
 
 .chart-legend {
@@ -2409,7 +2417,7 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 }
 
 .legend-dot.phq { background: #0052d9; }
-.legend-dot.gad { background: #999; }
+.legend-dot.gad { background: #c3cad4; }
 
 .radar-container {
   height: 300px;
@@ -2490,8 +2498,8 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 
 /* AI 卡片 */
 .ai-summary-card {
-  background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
-  border: 1px solid #d0e7ff;
+  background: #fff;
+  border: 1px solid #eef2f6;
   position: relative;
   overflow: hidden;
 }
@@ -2515,22 +2523,23 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 }
 
 .ai-icon {
-  width: 38px;
-  height: 38px;
-  background: #0052d9;
+  width: 36px;
+  height: 36px;
+  background: #0a0f1a;
   color: #fff;
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .ai-header h3 {
   margin: 0;
-  color: #1e293b;
+  color: #0a0f1a;
   font-size: 16px;
   font-weight: 700;
+  letter-spacing: -0.1px;
 }
 
 .ai-insight-list {
@@ -2612,12 +2621,12 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 
 .bar {
   width: 12px;
-  border-radius: 5px 5px 0 0;
+  border-radius: 2px 2px 0 0;
   transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.bar.phq { background: linear-gradient(to top, #0052d9, #4d8bf5); }
-.bar.gad { background: linear-gradient(to top, #999, #bbb); }
+.bar.phq { background: #0052d9; }
+.bar.gad { background: #c3cad4; }
 
 .bar-date {
   position: absolute;
@@ -2673,88 +2682,96 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 
 /* ============ 成长看板增强样式 ============ */
 
-/* KPI 摘要栏 */
+/* KPI 摘要栏 · 编辑式数据条 */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 0;
   margin-bottom: 24px;
+  background: #fff;
+  border: 1px solid #eef2f6;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .kpi-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: #fff;
-  border: 1px solid #eef2f6;
-  border-radius: 16px;
-  padding: 20px 22px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 16px;
+  background: transparent;
+  border: none;
+  border-left: 1px solid #eef2f6;
+  border-radius: 0;
+  padding: 22px 24px;
+  transition: background 0.25s ease;
+}
+
+.kpi-card:first-child {
+  border-left: none;
 }
 
 .kpi-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px -8px rgba(0, 82, 217, 0.15);
-  border-color: #d0e7ff;
+  background: #fafbfc;
 }
 
 .kpi-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: #f0f7ff;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #f8fafc;
   color: #0052d9;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 17px;
   flex-shrink: 0;
 }
 
 .kpi-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .kpi-value {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 800;
-  color: #1e293b;
+  color: #0a0f1a;
   line-height: 1;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
 }
 
 .kpi-label {
-  font-size: 12px;
-  color: #6b7280;
-  font-weight: 500;
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 
-/* 月度目标横幅 */
+/* 月度目标横幅 · 编辑式 */
 .goal-banner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  background: linear-gradient(135deg, #0052d9 0%, #003bb3 100%);
-  border-radius: 16px;
-  padding: 20px 28px;
-  color: #fff;
+  background: #fff;
+  border: 1px solid #eef2f6;
+  border-radius: 6px;
+  padding: 22px 28px;
+  color: inherit;
   margin-bottom: 24px;
   position: relative;
-  overflow: hidden;
 }
 
 .goal-banner::before {
   content: '';
   position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  pointer-events: none;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  background: #0052d9;
 }
 
 .goal-info {
@@ -2766,20 +2783,27 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
-  margin-bottom: 6px;
+  letter-spacing: 3px;
+  color: #0a0f1a;
+  margin-bottom: 8px;
+}
+
+.goal-title .el-icon {
+  color: #0052d9;
+  font-size: 15px;
 }
 
 .goal-desc {
   font-size: 13px;
-  color: rgba(255,255,255,0.75);
+  color: #6b7280;
 }
 
 .goal-progress-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   position: relative;
   z-index: 1;
   min-width: 240px;
@@ -2787,24 +2811,28 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 
 .goal-progress-bar {
   flex: 1;
-  height: 8px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 4px;
+  height: 4px;
+  background: #eef2f6;
+  border-radius: 2px;
   overflow: hidden;
 }
 
 .goal-progress-fill {
   height: 100%;
-  background: #fff;
-  border-radius: 4px;
+  background: #0052d9;
+  border-radius: 2px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .goal-percent {
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 800;
-  min-width: 40px;
+  color: #0a0f1a;
+  min-width: 58px;
   text-align: right;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 /* 环形图 */
@@ -2878,35 +2906,39 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 .trend-controls {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .range-tabs {
   display: flex;
-  background: #f1f5f9;
-  border-radius: 8px;
-  padding: 3px;
+  gap: 16px;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
 }
 
 .range-tabs span {
-  padding: 5px 12px;
+  padding: 4px 2px;
   font-size: 12px;
-  color: #777;
+  color: #9ca3af;
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.25s;
+  border-radius: 0;
+  border-bottom: 1.5px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
   font-weight: 500;
 }
 
 .range-tabs span:hover {
-  color: #1e293b;
+  color: #0a0f1a;
+  border-bottom-color: #d0d5dd;
 }
 
 .range-tabs span.active {
-  background: #fff;
-  color: #0052d9;
+  background: transparent;
+  color: #0a0f1a;
   font-weight: 700;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border-bottom-color: #0052d9;
+  box-shadow: none;
 }
 
 .avg-line {
@@ -2921,38 +2953,44 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 .avg-label {
   position: absolute;
   right: 4px;
-  top: -16px;
+  top: -15px;
   font-size: 10px;
-  color: #f59e0b;
+  color: #b45309;
   font-weight: 700;
-  background: #fffbeb;
-  padding: 1px 6px;
-  border-radius: 4px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
   white-space: nowrap;
+  letter-spacing: 0.5px;
 }
 
-/* 进步对比 */
+/* 进步对比 · 编辑式数据行 */
 .comparison-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
 }
 
 .comparison-item {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 18px;
-  background: #f8fafc;
-  border: 1px solid #eef2f6;
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  padding: 18px 4px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #eef2f6;
+  border-radius: 0;
+  transition: background 0.2s ease;
+}
+
+.comparison-item:first-child {
+  border-top: 1px solid #eef2f6;
 }
 
 .comparison-item:hover {
-  border-color: #d0e7ff;
-  background: #fff;
-  transform: translateX(4px);
+  background: #fafbfc;
+  border-color: #eef2f6;
+  transform: none;
+  box-shadow: none;
 }
 
 .cmp-info {
@@ -2963,118 +3001,146 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 .cmp-name {
   font-size: 14px;
   font-weight: 700;
-  color: #1e293b;
+  color: #0a0f1a;
   margin-bottom: 3px;
+  letter-spacing: -0.1px;
 }
 
 .cmp-date {
   font-size: 12px;
   color: #9ca3af;
+  font-variant-numeric: tabular-nums;
 }
 
 .cmp-scores {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .cmp-prev {
   font-size: 15px;
   font-weight: 600;
-  color: #999;
+  color: #c3cad4;
+  font-variant-numeric: tabular-nums;
 }
 
 .cmp-arrow {
   font-size: 14px;
-  color: #999;
+  color: #c3cad4;
 }
 
-.cmp-arrow.up { color: #10b981; }
-.cmp-arrow.down { color: #ef4444; }
+.cmp-arrow.up { color: #059669; }
+.cmp-arrow.down { color: #dc2626; }
 
 .cmp-curr {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
-  color: #1e293b;
+  color: #0a0f1a;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
 }
 
 .cmp-diff {
   font-size: 13px;
   font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 6px;
+  padding: 0;
+  border-radius: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 .cmp-diff.good {
-  color: #10b981;
-  background: #d1fae5;
+  color: #059669;
+  background: transparent;
 }
 
 .cmp-diff.bad {
-  color: #ef4444;
-  background: #fee2e2;
+  color: #dc2626;
+  background: transparent;
 }
 
 .cmp-tag {
   font-size: 11px;
   font-weight: 700;
-  padding: 5px 11px;
-  border-radius: 999px;
+  padding: 0;
+  border-radius: 0;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 1px;
+}
+
+.cmp-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  background: currentColor;
 }
 
 .cmp-tag.good {
-  color: #10b981;
-  background: #d1fae5;
+  color: #059669;
+  background: transparent;
 }
 
 .cmp-tag.bad {
-  color: #ef4444;
-  background: #fee2e2;
+  color: #dc2626;
+  background: transparent;
 }
 
 .cmp-tag.stable {
   color: #6b7280;
-  background: #f3f4f6;
+  background: transparent;
 }
 
 /* 智能推荐 */
 .recommend-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .recommend-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: #f8fafc;
-  border: 1px solid #eef2f6;
-  border-radius: 12px;
+  gap: 16px;
+  padding: 15px 4px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #eef2f6;
+  border-radius: 0;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease;
+}
+
+.recommend-item:first-child {
+  border-top: 1px solid #eef2f6;
 }
 
 .recommend-item:hover {
-  border-color: #d0e7ff;
-  background: #fff;
-  transform: translateX(4px);
-  box-shadow: 0 6px 18px -6px rgba(0, 82, 217, 0.12);
+  background: #fafbfc;
+  border-color: #eef2f6;
+  transform: none;
+  box-shadow: none;
 }
 
 .rec-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 11px;
-  background: #f0f7ff;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #f8fafc;
   color: #0052d9;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
   flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.recommend-item:hover .rec-icon {
+  background: #0052d9;
+  color: #fff;
 }
 
 .rec-info {
@@ -3085,8 +3151,14 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 .rec-name {
   font-size: 14px;
   font-weight: 700;
-  color: #1e293b;
+  color: #0a0f1a;
   margin-bottom: 3px;
+  letter-spacing: -0.1px;
+  transition: color 0.2s ease;
+}
+
+.recommend-item:hover .rec-name {
+  color: #0052d9;
 }
 
 .rec-reason {
@@ -3127,57 +3199,77 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
   border-color: #0052d9 !important;
 }
 
-/* ============ 侧边栏导航布局 ============ */
+/* ============ 侧边栏导航布局 · 杂志目录式 ============ */
 .dashboard-layout {
   display: flex;
-  gap: 24px;
+  gap: 28px;
   align-items: flex-start;
 }
 
 .dashboard-sidebar {
-  width: 200px;
+  width: 208px;
   flex-shrink: 0;
   position: sticky;
   top: 16px;
   background: #fff;
   border: 1px solid #eef2f6;
-  border-radius: 16px;
-  padding: 12px;
+  border-radius: 6px;
+  padding: 14px 0 8px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  gap: 0;
+  box-shadow: none;
+  counter-reset: dashnav;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 11px 14px;
-  border-radius: 10px;
+  padding: 12px 18px 12px 16px;
+  border-radius: 0;
+  border-left: 2px solid transparent;
   cursor: pointer;
-  font-size: 14px;
-  color: #4b5563;
+  font-size: 13.5px;
+  color: #6b7280;
   font-weight: 500;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  counter-increment: dashnav;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   user-select: none;
 }
 
-.nav-item .el-icon {
-  font-size: 17px;
+.nav-item::before {
+  content: counter(dashnav, decimal-leading-zero);
+  font-size: 11px;
+  font-weight: 600;
+  color: #c3cad4;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+  min-width: 20px;
   flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.nav-item .el-icon {
+  display: none;
 }
 
 .nav-item:hover {
-  background: #f0f7ff;
-  color: #0052d9;
+  background: #fafbfc;
+  color: #0a0f1a;
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, #0052d9 0%, #003bb3 100%);
-  color: #fff;
+  background: transparent;
+  color: #0a0f1a;
   font-weight: 700;
-  box-shadow: 0 4px 12px -2px rgba(0, 82, 217, 0.35);
+  border-left-color: #0052d9;
+  box-shadow: none;
+}
+
+.nav-item.active::before {
+  color: #0052d9;
+  font-weight: 700;
 }
 
 .dashboard-content {
@@ -3194,45 +3286,62 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 快速入口网格 */
+/* 快速入口 · 编辑式索引行 */
 .quick-entry-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 0 28px;
 }
 
 .quick-entry-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 20px 12px;
-  background: #f8fafc;
-  border: 1px solid #eef2f6;
-  border-radius: 14px;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 15px 4px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #eef2f6;
+  border-radius: 0;
   cursor: pointer;
+  transition: color 0.2s ease;
+  text-align: left;
+}
+
+.quick-entry-item::after {
+  content: '→';
+  margin-left: auto;
+  font-size: 14px;
+  color: #0052d9;
+  opacity: 0;
+  transform: translateX(-6px);
   transition: all 0.25s ease;
-  text-align: center;
 }
 
 .quick-entry-item:hover {
-  background: #fff;
-  border-color: #d0e7ff;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px -8px rgba(0, 82, 217, 0.18);
+  background: transparent;
+  border-color: #eef2f6;
+  transform: none;
+  box-shadow: none;
+}
+
+.quick-entry-item:hover::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .quick-entry-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: #f0f7ff;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #f8fafc;
   color: #0052d9;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 16px;
+  flex-shrink: 0;
   transition: all 0.25s ease;
 }
 
@@ -3245,27 +3354,33 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
   font-size: 13px;
   font-weight: 600;
   color: #1e293b;
+  transition: color 0.2s ease;
 }
 
-/* AI 洞察 2x2 网格 */
+.quick-entry-item:hover span {
+  color: #0052d9;
+}
+
+/* AI 洞察 2x2 网格 · 编辑式分栏 */
 .ai-insight-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 20px 32px;
 }
 
 .ai-insight-grid .insight-item {
-  background: #f8fafc;
-  border: 1px solid #eef2f6;
-  border-radius: 14px;
-  padding: 18px 20px;
-  transition: all 0.25s ease;
+  background: transparent;
+  border: none;
+  border-top: 1px solid #eef2f6;
+  border-radius: 0;
+  padding: 16px 2px 0;
+  transition: border-color 0.25s ease;
 }
 
 .ai-insight-grid .insight-item:hover {
-  border-color: #d0e7ff;
-  background: #fff;
-  box-shadow: 0 6px 18px -6px rgba(0, 82, 217, 0.1);
+  border-color: #eef2f6;
+  background: transparent;
+  box-shadow: none;
 }
 
 /* 大尺寸图表容器 */
@@ -3298,6 +3413,9 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 /* 成长看板响应式 */
 @media (max-width: 1200px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .kpi-card { border-left: none; border-top: 1px solid #eef2f6; }
+  .kpi-card:nth-child(-n+2) { border-top: none; }
+  .kpi-card:nth-child(even) { border-left: 1px solid #eef2f6; }
   .ai-insight-grid { grid-template-columns: 1fr; }
   .donut-large { flex-direction: column !important; gap: 20px; }
 }
@@ -3310,19 +3428,25 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
     top: 0;
     flex-direction: row;
     overflow-x: auto;
-    padding: 10px;
-    gap: 6px;
+    padding: 4px;
+    gap: 2px;
   }
   .nav-item {
     flex-shrink: 0;
-    padding: 8px 14px;
+    padding: 9px 14px;
     white-space: nowrap;
+    border-left: none;
+    border-bottom: 2px solid transparent;
   }
+  .nav-item::before { display: none; }
+  .nav-item.active { border-bottom-color: #0052d9; }
   .quick-entry-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
   .kpi-grid { grid-template-columns: 1fr; }
+  .kpi-card { border-left: none !important; border-top: 1px solid #eef2f6; }
+  .kpi-card:first-child { border-top: none; }
   .goal-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
   .goal-progress-wrap { width: 100%; min-width: 0; }
   .trend-controls { flex-direction: column; align-items: flex-start; gap: 8px; }

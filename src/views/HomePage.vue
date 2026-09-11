@@ -174,56 +174,6 @@
       </div>
     </section>
 
-    <!-- 服务介绍 -->
-    <section id="services" class="services-section">
-      <div class="container">
-        <div class="section-header center scroll-reveal">
-          <span class="section-badge">{{ $t('home.services.badge') }}</span>
-          <h2>{{ $t('home.services.title') }}</h2>
-          <p class="section-subtitle">{{ $t('home.services.subtitle') }}</p>
-        </div>
-        <div class="services-grid">
-          <div class="service-card scroll-reveal" v-for="(service, index) in services" :key="index" :style="{ transitionDelay: `${index * 100}ms` }" @click="handleServiceClick(service)">
-            <div class="service-icon-wrapper">
-               <el-icon class="service-icon-el"><component :is="service.iconComp" /></el-icon>
-            </div>
-            <div class="service-info">
-              <h3>{{ service.title }}</h3>
-              <p>{{ service.desc }}</p>
-              <div class="service-link">
-                <span>{{ $t('home.services.learnMore') }}</span>
-                <el-icon><ArrowRight /></el-icon>
-              </div>
-            </div>
-            <div class="card-glow"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 特色功能 -->
-    <section id="features" class="features-section">
-      <div class="tech-grid-bg"></div>
-      <div class="container relative z-10">
-        <div class="section-header center scroll-reveal">
-          <span class="section-badge">{{ $t('home.features.badge') }}</span>
-          <h2>{{ $t('home.features.title') }}</h2>
-          <p class="section-subtitle">{{ $t('home.features.subtitle') }}</p>
-        </div>
-        <div class="features-grid">
-          <div class="feature-item scroll-reveal" v-for="(feature, index) in features" :key="index" :style="{ transitionDelay: `${index * 50}ms` }">
-            <div class="feature-card-inner">
-              <div class="feature-icon-box">
-                <el-icon class="feature-icon"><component :is="feature.iconComp" /></el-icon>
-              </div>
-              <h3>{{ feature.title }}</h3>
-              <p>{{ feature.desc }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- 联系我们 -->
     <section id="contact" class="contact-section">
       <div class="container">
