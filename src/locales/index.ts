@@ -1,10 +1,16 @@
 import { createI18n } from 'vue-i18n'
-import zhCN from './zh-CN.js'
-import zhTW from './zh-TW.js'
-import enUS from './en-US.js'
+import zhCN from './zh-CN'
+import zhTW from './zh-TW'
+import enUS from './en-US'
+
+export type AppLocale = 'zh-CN' | 'zh-TW' | 'en-US'
 
 const STORAGE_KEY = 'locale'
-const savedLocale = localStorage.getItem(STORAGE_KEY) || 'zh-CN'
+const KNOWN_LOCALES: AppLocale[] = ['zh-CN', 'zh-TW', 'en-US']
+
+const stored = localStorage.getItem(STORAGE_KEY) as AppLocale | null
+const savedLocale: AppLocale =
+  stored && KNOWN_LOCALES.includes(stored) ? stored : 'zh-CN'
 
 const i18n = createI18n({
   legacy: false,
@@ -18,7 +24,7 @@ const i18n = createI18n({
   warnHtmlMessage: false
 })
 
-export const elementLocaleMap = {
+export const elementLocaleMap: Record<AppLocale, () => Promise<unknown>> = {
   'zh-CN': () => import('element-plus/es/locale/lang/zh-cn'),
   'zh-TW': () => import('element-plus/es/locale/lang/zh-tw'),
   'en-US': () => import('element-plus/es/locale/lang/en')
