@@ -110,7 +110,7 @@ export const pcRoutes: RouteRecordRaw[] = [
         path: 'login',
         name: 'login',
         component: () => import('@/views/LoginView.vue'),
-        meta: { noPadding: true, transparentNavbar: true, hideFooter: true },
+        meta: { noPadding: true, transparentNavbar: true },
       },
       // ---- 404 兜底（子路径 catch-all 覆盖全部未匹配路由） ----
       {

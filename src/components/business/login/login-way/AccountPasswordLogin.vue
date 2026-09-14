@@ -283,6 +283,11 @@ onMounted(() => {
 <style scoped lang="scss">
 .login-form {
   width: 100%;
+
+  /* 压缩表单项纵向间距，保证登录卡片在整屏视口内放得下 */
+  :deep(.el-form-item) {
+    margin-bottom: 12px;
+  }
 }
 
 .captcha-form-item {
@@ -302,7 +307,7 @@ onMounted(() => {
 }
 
 .login-options {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .login-options-container {
@@ -314,9 +319,9 @@ onMounted(() => {
 
 .login-button {
   width: 100%;
-  margin-top: 8px;
+  margin-top: 4px;
   border-radius: 8px;
-  height: 48px;
+  height: 44px;
   font-size: 16px;
   font-weight: 600;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);

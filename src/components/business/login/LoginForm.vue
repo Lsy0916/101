@@ -142,7 +142,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   width: 100%;
   max-width: 420px;
   flex-shrink: 0;
-  padding: 40px;
+  padding: 28px 32px;
   background: color-mix(in srgb, white 96%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -159,7 +159,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 /* 标题区 */
 .login-header {
   text-align: left;
-  margin-bottom: 28px;
+  margin-bottom: 18px;
 }
 
 .header-badge {
@@ -171,12 +171,12 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   background: var(--ink-100);
   padding: 5px 12px;
   border-radius: 20px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 .login-header h2 {
-  margin: 0 0 8px;
-  font-size: 28px;
+  margin: 0 0 6px;
+  font-size: 24px;
   color: var(--ink-900);
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -196,14 +196,14 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   background: var(--ink-100);
   border-radius: 12px;
   padding: 4px;
-  margin-bottom: 22px;
+  margin-bottom: 16px;
   gap: 2px;
 }
 
 .tab-item {
   flex: 1;
   text-align: center;
-  padding: 10px 0;
+  padding: 8px 0;
   font-size: 13px;
   color: var(--ink-500);
   font-weight: 600;
@@ -248,13 +248,13 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 
 /* 第三方登录 */
 .social-login {
-  margin-top: 24px;
+  margin-top: 14px;
 }
 
 .social-login-separator {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .social-login-separator::before,
@@ -281,8 +281,8 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 }
 
 .social-btn {
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -317,7 +317,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 /* 注册链接 */
 .register-link {
   text-align: center;
-  margin-top: 22px;
+  margin-top: 12px;
   font-size: 14px;
   color: var(--ink-500);
 }
@@ -367,6 +367,17 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   .social-btn {
     width: 44px;
     height: 44px;
+  }
+}
+
+/* 矮视口兜底：进一步压缩卡片内边距，保证整屏放得下 */
+@media (height <= 760px) {
+  .login-box {
+    padding: 20px 28px;
+  }
+
+  .login-header {
+    margin-bottom: 14px;
   }
 }
 </style>

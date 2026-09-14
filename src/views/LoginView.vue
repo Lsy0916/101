@@ -40,7 +40,9 @@ const onLoginSuccess = (payload?: { remember?: boolean }) => {
 .login-container {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+
+  /* 固定整屏高度：登录内容页恰好占满一屏，页脚展示在下一屏 */
+  height: 100vh;
   margin: 0;
 
   /* 避开顶部 80px 高的透明导航栏，防止内容被覆盖 */

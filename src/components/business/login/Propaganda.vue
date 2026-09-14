@@ -2,11 +2,6 @@
 
 <template>
   <div class="presentation-box">
-    <!-- 顶部品牌标识 -->
-    <div class="brand-head">
-      <img src="@/assets/logo.svg" alt="生涯心旅" class="brand-logo" />
-      <span class="brand-tag">CAREER · MIND</span>
-    </div>
 
     <!-- 主标题区 -->
     <div class="hero-title">
@@ -56,11 +51,6 @@
       </li>
     </ul>
 
-    <!-- 底部署名（右偏，随意感） -->
-    <div class="hero-signature">
-      <span class="signature-line"></span>
-      <span class="signature-text">— 生涯心旅团队</span>
-    </div>
   </div>
 </template>
 
@@ -81,32 +71,6 @@
   animation: slideInFromLeft 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-/* 顶部品牌标识 */
-.brand-head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 56px;
-  animation: fadeIn 0.7s ease 0.1s both;
-}
-
-.brand-logo {
-  width: 38px;
-  height: 38px;
-  filter: brightness(0) invert(1);
-  opacity: 0.95;
-}
-
-.brand-tag {
-  font-size: 11px;
-  letter-spacing: 3px;
-  font-weight: 600;
-  color: color-mix(in srgb, white 65%, transparent);
-  padding: 5px 14px;
-  border: 1px solid color-mix(in srgb, white 20%, transparent);
-  border-radius: 20px;
-}
-
 /* 主标题：大字，大气 */
 .hero-title {
   margin-bottom: 36px;
@@ -115,7 +79,9 @@
 
 .hero-title h1 {
   margin: 0 0 24px;
-  font-size: 72px;
+
+  /* 流式字号：随视口宽度缩放，适配不同分辨率 */
+  font-size: clamp(44px, 5vw, 72px);
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -2px;
@@ -242,29 +208,6 @@
   color: color-mix(in srgb, white 70%, transparent);
   line-height: 1.5;
   letter-spacing: 0.2px;
-}
-
-/* 底部署名：右偏，简洁 */
-.hero-signature {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  animation: fadeIn 0.7s ease 0.85s both;
-}
-
-.signature-line {
-  width: 32px;
-  height: 1px;
-  background: color-mix(in srgb, white 40%, transparent);
-}
-
-.signature-text {
-  font-size: 13px;
-  color: color-mix(in srgb, white 70%, transparent);
-  font-style: italic;
-  letter-spacing: 1px;
-  font-family: Georgia, serif;
 }
 
 @keyframes slideInFromLeft {
