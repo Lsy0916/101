@@ -1,0 +1,215 @@
+<template>
+  <!-- 404 内容（可切换隐藏） -->
+  <div class="nf-hero-content" :class="{ 'stage-out': !!activeGame }">
+    <div class="nf-hero-inner">
+      <div class="nf-hero-number hero-anim">{{ t('notFound.hero.number') }}</div>
+      <div class="nf-hero-rule hero-anim"></div>
+      <h1 class="nf-hero-title hero-anim">{{ t('notFound.hero.title') }}</h1>
+      <p class="nf-hero-quote hero-anim">{{ t('notFound.hero.quote') }}</p>
+    </div>
+    <!-- 小游戏选择器 -->
+    <div class="nf-game-list hero-anim">
+      <button
+        v-for="(g, i) in games"
+        :key="g.id"
+        class="nf-game-entry"
+        @click="emit('enter', g.id)"
+      >
+        <span class="nf-game-entry-no">{{ String(i + 1).padStart(2, '0') }}</span>
+        <span class="nf-game-entry-name">{{ g.name }}</span>
+        <span class="nf-game-entry-en">{{ g.en }}</span>
+        <span class="nf-game-entry-arrow">→</span>
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import { games } from './games'
+
+defineProps<{
+  /** 当前进入的游戏（用于舞台切换动画） */
+  activeGame: string | null
+}>()
+
+const emit = defineEmits<{ enter: [id: string] }>()
+
+const { t } = useI18n()
+</script>
+
+<style scoped>
+.nf-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nf-hero-content.stage-out {
+  opacity: 0;
+  transform: translateY(-28px) scale(0.96);
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.nf-hero-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+}
+
+.nf-hero-number {
+  font-family: var(--font-display);
+  font-size: clamp(100px, 20vw, 240px);
+  font-weight: 400;
+  line-height: 0.9;
+  color: var(--dark-text);
+  letter-spacing: -0.02em;
+  text-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+.nf-hero-rule {
+  width: 60px;
+  height: 1px;
+  background: var(--dark-text);
+  margin: 20px auto 28px;
+  opacity: 0.6;
+}
+
+.nf-hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3.5vw, 42px);
+  font-weight: 400;
+  letter-spacing: 12px;
+  color: var(--dark-text);
+  margin: 0 0 28px;
+  padding-left: 12px;
+}
+
+.nf-hero-quote {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--dark-text-soft);
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.hero-anim {
+  opacity: 0;
+  transform: translateY(-30px);
+  animation: fadeInDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.nf-hero-number { animation-delay: 0s; }
+.nf-hero-rule { animation-delay: 0.1s; }
+.nf-hero-title { animation-delay: 0.2s; }
+.nf-hero-quote { animation-delay: 0.35s; }
+.nf-game-list { animation-delay: 0.5s; }
+
+@keyframes fadeInDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 小游戏选择器 · 杂志风纵向列表 */
+.nf-game-list {
+  margin: 40px auto 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 380px;
+}
+
+.nf-game-entry {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 4px;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--dark-text);
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: padding-left 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+  width: 100%;
+}
+
+.nf-game-entry:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.nf-game-entry-no {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--dark-text-mute);
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.nf-game-entry-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--dark-text);
+}
+
+.nf-game-entry-en {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dark-text-mute);
+}
+
+.nf-game-entry-arrow {
+  font-size: 16px;
+  color: var(--dark-text-soft);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+.nf-game-entry:hover {
+  padding-left: 20px;
+}
+
+.nf-game-entry:hover .nf-game-entry-no,
+.nf-game-entry:hover .nf-game-entry-arrow {
+  color: var(--brand-light);
+}
+
+.nf-game-entry:hover .nf-game-entry-arrow {
+  transform: translateX(8px);
+}
+
+@media (max-width: 768px) {
+  .nf-hero-title {
+    letter-spacing: 6px;
+  }
+}
+
+@media (max-height: 760px) {
+  .nf-hero-number {
+    font-size: clamp(70px, 14vw, 160px);
+  }
+
+  .nf-hero-title {
+    font-size: clamp(20px, 3vw, 32px);
+    margin-bottom: 16px;
+  }
+
+  .nf-hero-quote {
+    font-size: 13px;
+  }
+
+  .nf-game-list {
+    margin-top: 26px;
+  }
+}
+</style>

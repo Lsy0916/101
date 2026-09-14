@@ -1,0 +1,77 @@
+<template>
+  <div class="nf-dots" :class="{ 'is-dark-slide': dark }" aria-hidden="true">
+    <button
+      v-for="i in count"
+      :key="i"
+      class="nf-dot"
+      :class="{ active: current === i - 1 }"
+      :aria-label="`Slide ${i}`"
+      @click="emit('navigate', i - 1)"
+    ></button>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  count: number
+  current: number
+  dark: boolean
+}>()
+
+const emit = defineEmits<{ navigate: [index: number] }>()
+</script>
+
+<style scoped>
+/* ========== 翻页指示器 ========== */
+.nf-dots {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 100;
+}
+
+.nf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--text-tertiary);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.nf-dots.is-dark-slide .nf-dot {
+  border-color: var(--dark-text-mute);
+}
+
+.nf-dot.active {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  transform: scale(1.3);
+}
+
+.nf-dots.is-dark-slide .nf-dot.active {
+  background: var(--dark-text);
+  border-color: var(--dark-text);
+}
+
+.nf-dot:hover {
+  border-color: var(--brand-primary);
+}
+
+.nf-dots.is-dark-slide .nf-dot:hover {
+  border-color: var(--dark-text);
+}
+
+@media (max-width: 768px) {
+  .nf-dots {
+    right: 16px;
+    gap: 10px;
+  }
+}
+</style>
