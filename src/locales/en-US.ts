@@ -2,8 +2,8 @@ export default {
   nav: {
     brand: 'Career Journey',
     menu: { evaluation: 'Assessment', articles: 'Articles', activities: 'Activities', counseling: 'Counseling' },
-    group: { mentalScales: 'Mental Scales', careerScales: 'Career Scales', hotPicks: 'Hot Picks', browseByCategory: 'Browse by Category', featuredActivities: 'Featured Activities', professionalService: 'Professional Service', counselingSupport: 'Counseling Support' },
-    item: { phq9: 'Depression (PHQ-9)', gad7: 'Anxiety (GAD-7)', pss: 'Perceived Stress (PSS)', riasec: 'Holland Interest (RIASEC)', mbti: 'Personality (MBTI)', daily: 'Daily Picks', featured: 'Featured Stories', articleList: 'All Articles', psychology: 'Mental Health', career: 'Career Guide', stories: 'Growth Stories', timeCapsule: 'Time Capsule', square: 'Community Square', booking: 'Book a Session', consultants: 'Our Counselors', notice: 'Counseling Guide', faq: 'FAQ' },
+    group: { mentalScales: 'Mental Scales', careerScales: 'Career Scales', hotPicks: 'Hot Picks', browseByCategory: 'Browse by Category', featuredActivities: 'Featured Activities', professionalService: 'Professional Service', aiColumn: 'AI Zone', counselingSupport: 'Counseling Support' },
+    item: { phq9: 'Depression (PHQ-9)', gad7: 'Anxiety (GAD-7)', pss: 'Perceived Stress (PSS)', riasec: 'Holland Interest (RIASEC)', mbti: 'Personality (MBTI)', daily: 'Daily Picks', featured: 'Featured Stories', articleList: 'All Articles', psychology: 'Mental Health', career: 'Career Guide', stories: 'Growth Stories', timeCapsule: 'Time Capsule', square: 'Community Square', booking: 'Book a Session', aiConsult: 'AI Counselor', aiCompanion: 'AI Companion', consultants: 'Our Counselors', notice: 'Counseling Guide', faq: 'FAQ' },
     search: 'Search',
     theme: { light: 'Light', dark: 'Dark', auto: 'System' },
     user: { login: 'Log in', guest: 'Guest', profile: 'Profile', settings: 'Settings', logout: 'Log out' },

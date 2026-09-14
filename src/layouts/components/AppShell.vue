@@ -112,7 +112,7 @@ function onPaletteNavigate(to: string) { void router.push(to) }
 .main-content {
   flex: 1;
   width: 100%;
-  padding-top: var(--navbar-h, 80px);
+  padding-top: var(--navbar-h, 30px);
   min-height: 100vh;
   transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }

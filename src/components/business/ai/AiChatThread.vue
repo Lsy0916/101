@@ -395,4 +395,187 @@ html.dark .quick-btn {
   border-color: var(--slate-600);
   color: var(--brand-primary-soft);
 }
+
+/* ============ fab 形态：简约杂志风 · 品牌色（仅悬浮卡片生效） ============ */
+.is-fab .thread-messages {
+  padding: 18px;
+  gap: 14px;
+}
+
+.is-fab .ai-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--brand-primary-faint);
+  border: 1px solid var(--brand-primary-soft);
+  color: var(--brand-primary);
+  font-size: 15px;
+}
+
+.is-fab .bubble {
+  border-radius: 2px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+}
+
+/* 欢迎语用衬线字体，呼应刊头 */
+.is-fab .msg:first-child .bubble {
+  font-family: Georgia, 'Times New Roman', 'Songti SC', 'Noto Serif SC', SimSun, serif;
+  font-size: 14px;
+}
+
+.is-fab .msg-ai .bubble {
+  background: white;
+  border: 1px solid var(--brand-primary-soft);
+  border-radius: 0 6px 6px;
+}
+
+.is-fab .msg-user .bubble {
+  background: var(--brand-primary);
+  color: white;
+  border-radius: 6px 0;
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--brand-primary) 20%, transparent);
+}
+
+.is-fab .stream-caret {
+  background: var(--brand-primary);
+}
+
+.is-fab .typing-dots i {
+  background: var(--brand-primary);
+}
+
+/* 快捷提问：品牌细边签，悬停反白 */
+.is-fab .quick-prompts {
+  margin-left: 42px;
+}
+
+.is-fab .quick-btn {
+  border: 1px solid var(--brand-primary-soft);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--brand-primary);
+  padding: 5px 12px;
+  letter-spacing: 0.02em;
+}
+
+.is-fab .quick-btn:hover {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: white;
+}
+
+.is-fab .thread-disclaimer {
+  border-top: 1px solid var(--brand-primary-soft);
+  margin: 0 18px;
+  padding: 8px 0;
+}
+
+/* 输入行：下划线式输入框 + 方角品牌色发送键 */
+.is-fab .thread-input {
+  padding: 12px 16px;
+  background: white;
+  border-top: 1px solid var(--brand-primary);
+}
+
+.is-fab .thread-input-field {
+  height: 36px;
+  padding: 0 2px;
+  border: none;
+  border-bottom: 1px solid var(--mist-350);
+  border-radius: 0;
+  background: transparent;
+}
+
+.is-fab .thread-input-field:focus {
+  border-bottom-color: var(--brand-primary);
+  box-shadow: none;
+}
+
+.is-fab .send-btn {
+  border-radius: 2px;
+  background: var(--brand-primary);
+}
+
+.is-fab .send-btn:not(:disabled):hover {
+  background: var(--brand-primary-dark);
+}
+
+.is-fab .send-btn.is-stop {
+  border: 1.5px solid var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+/* fab 形态暗夜模式（品牌色不变，底色翻转） */
+html.dark .is-fab .ai-avatar {
+  background: color-mix(in srgb, var(--brand-primary) 22%, transparent);
+  border-color: color-mix(in srgb, var(--brand-primary) 45%, transparent);
+  color: var(--brand-primary-soft);
+}
+
+html.dark .is-fab .msg:first-child .bubble {
+  background: var(--slate-800);
+  border-color: var(--slate-600);
+  color: var(--slate-100);
+}
+
+html.dark .is-fab .msg-ai .bubble {
+  background: var(--slate-800);
+  border-color: var(--slate-600);
+}
+
+html.dark .is-fab .msg-user .bubble {
+  background: var(--brand-primary);
+  color: white;
+  box-shadow: 3px 3px 0 color-mix(in srgb, black 35%, transparent);
+}
+
+html.dark .is-fab .stream-caret,
+html.dark .is-fab .typing-dots i {
+  background: var(--brand-primary-soft);
+}
+
+html.dark .is-fab .quick-btn {
+  border-color: color-mix(in srgb, var(--brand-primary-soft) 55%, transparent);
+  color: var(--brand-primary-soft);
+}
+
+html.dark .is-fab .quick-btn:hover {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: white;
+}
+
+html.dark .is-fab .thread-disclaimer {
+  border-top-color: var(--slate-700);
+}
+
+html.dark .is-fab .thread-input {
+  background: var(--slate-900);
+  border-top-color: var(--brand-primary);
+}
+
+html.dark .is-fab .thread-input-field {
+  background: transparent;
+  border-bottom-color: var(--slate-600);
+  color: var(--slate-100);
+}
+
+html.dark .is-fab .thread-input-field:focus {
+  border-bottom-color: var(--brand-primary-soft);
+}
+
+html.dark .is-fab .send-btn {
+  background: var(--brand-primary);
+  color: white;
+}
+
+html.dark .is-fab .send-btn:not(:disabled):hover {
+  background: var(--brand-primary-dark);
+}
+
+html.dark .is-fab .send-btn.is-stop {
+  border-color: var(--brand-primary-soft);
+  color: var(--brand-primary-soft);
+}
 </style>

@@ -14,6 +14,7 @@ export default {
       browseByCategory: '分类浏览',
       featuredActivities: '特色活动',
       professionalService: '专业服务',
+      aiColumn: 'AI 专栏',
       counselingSupport: '咨询辅助'
     },
     item: {
@@ -31,6 +32,8 @@ export default {
       timeCapsule: '时光胶囊',
       square: '交流广场',
       booking: '预约咨询',
+      aiConsult: 'AI 咨询师',
+      aiCompanion: 'AI 伴侣',
       consultants: '咨询师简介',
       notice: '咨询须知',
       faq: '常见问题'

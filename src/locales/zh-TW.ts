@@ -2,8 +2,8 @@ export default {
   nav: {
     brand: '生涯心旅',
     menu: { evaluation: '測評中心', articles: '文章資訊', activities: '活動中心', counseling: '心理諮詢' },
-    group: { mentalScales: '心理量表', careerScales: '職業量表', hotPicks: '熱門推薦', browseByCategory: '分類瀏覽', featuredActivities: '特色活動', professionalService: '專業服務', counselingSupport: '諮詢輔助' },
-    item: { phq9: '抑鬱自評 (PHQ-9)', gad7: '焦慮自評 (GAD-7)', pss: '壓力感量表 (PSS)', riasec: '霍蘭德興趣 (RIASEC)', mbti: '性格測試 (MBTI)', daily: '每日精選', featured: '專題報導', articleList: '全部文章', psychology: '心理健康', career: '生涯導航', stories: '成長故事', timeCapsule: '時光膠囊', square: '交流廣場', booking: '預約諮詢', consultants: '諮詢師簡介', notice: '諮詢須知', faq: '常見問題' },
+    group: { mentalScales: '心理量表', careerScales: '職業量表', hotPicks: '熱門推薦', browseByCategory: '分類瀏覽', featuredActivities: '特色活動', professionalService: '專業服務', aiColumn: 'AI 專欄', counselingSupport: '諮詢輔助' },
+    item: { phq9: '抑鬱自評 (PHQ-9)', gad7: '焦慮自評 (GAD-7)', pss: '壓力感量表 (PSS)', riasec: '霍蘭德興趣 (RIASEC)', mbti: '性格測試 (MBTI)', daily: '每日精選', featured: '專題報導', articleList: '全部文章', psychology: '心理健康', career: '生涯導航', stories: '成長故事', timeCapsule: '時光膠囊', square: '交流廣場', booking: '預約諮詢', aiConsult: 'AI 諮詢師', aiCompanion: 'AI 伴侶', consultants: '諮詢師簡介', notice: '諮詢須知', faq: '常見問題' },
     search: '搜尋',
     theme: { light: '淺色', dark: '深色', auto: '跟隨系統' },
     user: { login: '登入', guest: '訪客', profile: '個人中心', settings: '帳號設定', logout: '退出登入' },

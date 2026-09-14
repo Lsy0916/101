@@ -91,25 +91,26 @@ const quickPrompts = computed(() => tm('home.aiAssistant.quickPrompts') as strin
   gap: 14px;
 }
 
-/* ============ 悬浮按钮 ============ */
+/* ============ 悬浮按钮（品牌色印刷风） ============ */
 .fab-button {
   position: relative;
   width: 56px;
   height: 56px;
-  border: none;
+  border: 1px solid var(--brand-primary);
   border-radius: 50%;
   background: var(--brand-primary);
   color: white;
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--brand-primary) 22%, transparent);
   transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .fab-button:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--brand-primary) 45%, transparent);
+  transform: translateY(-3px);
+  background: var(--brand-primary-dark);
+  box-shadow: 6px 7px 0 color-mix(in srgb, var(--brand-primary) 28%, transparent);
 }
 
 .fab-icon {
@@ -132,7 +133,7 @@ const quickPrompts = computed(() => tm('home.aiAssistant.quickPrompts') as strin
   50% { transform: scale(1.25); opacity: 0.75; }
 }
 
-/* ============ 对话面板 ============ */
+/* ============ 对话面板（品牌纸面 + 硬边框 + 印刷投影） ============ */
 .fab-panel {
   width: 380px;
   max-width: calc(100vw - 48px);
@@ -141,31 +142,47 @@ const quickPrompts = computed(() => tm('home.aiAssistant.quickPrompts') as strin
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 20px;
-  background: white;
-  border: 1px solid var(--mist-200);
-  box-shadow: 0 24px 64px color-mix(in srgb, var(--navy-950) 16%, transparent);
+  border-radius: 12px;
+  background: var(--brand-primary-wash);
+  border: 1px solid var(--brand-primary);
+  box-shadow:
+    10px 10px 0 color-mix(in srgb, var(--brand-primary) 10%, transparent),
+    0 24px 56px color-mix(in srgb, var(--navy-950) 14%, transparent);
   transform-origin: bottom right;
 }
 
+/* 刊头：纸面底 + 品牌双细线（报头式分隔） */
 .fab-panel-header {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
-  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-deep));
-  color: white;
+  padding: 16px 16px 14px;
+  background: transparent;
+  border-bottom: 1px solid var(--brand-primary);
   flex-shrink: 0;
 }
 
+.fab-panel-header::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 4px;
+  height: 1px;
+  background: color-mix(in srgb, var(--brand-primary) 32%, transparent);
+  pointer-events: none;
+}
+
 .header-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
   display: grid;
   place-items: center;
   font-size: 20px;
-  background: color-mix(in srgb, white 18%, transparent);
+  background: var(--brand-primary);
+  color: white;
 }
 
 .header-text {
@@ -175,15 +192,19 @@ const quickPrompts = computed(() => tm('home.aiAssistant.quickPrompts') as strin
 
 .header-text h3 {
   margin: 0;
-  font-size: 15px;
-  font-weight: 600;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', 'Noto Serif SC', SimSun, serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   line-height: 1.3;
+  color: var(--brand-primary-deep);
 }
 
 .header-text p {
-  margin: 0;
+  margin: 2px 0 0;
   font-size: 11px;
-  opacity: 0.8;
+  letter-spacing: 0.12em;
+  color: var(--brand-primary);
   line-height: 1.4;
 }
 
@@ -191,18 +212,19 @@ const quickPrompts = computed(() => tm('home.aiAssistant.quickPrompts') as strin
   width: 30px;
   height: 30px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   background: transparent;
-  color: white;
+  color: var(--brand-primary-deep);
   display: grid;
   place-items: center;
   font-size: 15px;
   cursor: pointer;
-  transition: background 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .header-action:hover:not(:disabled) {
-  background: color-mix(in srgb, white 20%, transparent);
+  background: var(--brand-primary-faint);
+  color: var(--brand-primary);
 }
 
 .header-action:disabled {
@@ -233,10 +255,46 @@ const quickPrompts = computed(() => tm('home.aiAssistant.quickPrompts') as strin
   transform: rotate(-45deg) scale(0.6);
 }
 
-/* ============ 暗夜模式 ============ */
+/* ============ 暗夜模式（品牌色不变，底色翻转） ============ */
 html.dark .fab-panel {
   background: var(--slate-900);
-  border-color: var(--slate-700);
+  border-color: var(--brand-primary);
+  box-shadow:
+    10px 10px 0 color-mix(in srgb, black 32%, transparent),
+    0 24px 56px color-mix(in srgb, black 40%, transparent);
+}
+
+html.dark .fab-panel-header {
+  border-bottom-color: var(--brand-primary);
+}
+
+html.dark .fab-panel-header::after {
+  background: color-mix(in srgb, var(--brand-primary) 45%, transparent);
+}
+
+html.dark .header-text h3 {
+  color: var(--brand-primary-soft);
+}
+
+html.dark .header-text p {
+  color: var(--brand-primary-soft);
+}
+
+html.dark .header-action {
+  color: var(--brand-primary-soft);
+}
+
+html.dark .header-action:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--brand-primary) 25%, transparent);
+  color: white;
+}
+
+html.dark .fab-button {
+  box-shadow: 4px 4px 0 color-mix(in srgb, black 40%, transparent);
+}
+
+html.dark .fab-button:hover {
+  box-shadow: 6px 7px 0 color-mix(in srgb, black 48%, transparent);
 }
 
 html.dark .fab-badge {

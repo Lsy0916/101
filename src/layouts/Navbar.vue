@@ -152,6 +152,13 @@ const menuData: MenuEntry[] = [
         ]
       },
       {
+        titleKey: 'nav.group.aiColumn',
+        items: [
+          { labelKey: 'nav.item.aiConsult', key: 'ai-consult' },
+          { labelKey: 'nav.item.aiCompanion', key: 'ai-companion' }
+        ]
+      },
+      {
         titleKey: 'nav.group.counselingSupport',
         items: [
           { labelKey: 'nav.item.consultants', key: 'consultants' },
@@ -203,6 +210,16 @@ function handleNav(item: NavItem) {
     } else {
       router.push({ name: 'assessment', query: { scale: item.key, view: 'intro' } })
     }
+    return
+  }
+
+  // AI 专栏跳转
+  if (item.key === 'ai-consult') {
+    router.push({ name: 'counseling-ai-chat' })
+    return
+  }
+  if (item.key === 'ai-companion') {
+    router.push({ name: 'counseling-companion' })
     return
   }
 

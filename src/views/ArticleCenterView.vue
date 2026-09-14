@@ -1,4 +1,4 @@
-﻿<!-- 文章中心页（/articles）· 页面层负责过滤/焦点/标题区状态，内容区拆至 Spotlight/CardGrid/CollectionGrid -->
+<!-- 文章中心页（/articles）· 页面层负责过滤/焦点/标题区状态，内容区拆至 Spotlight/CardGrid/CollectionGrid -->
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
