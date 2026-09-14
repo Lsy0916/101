@@ -59,6 +59,12 @@ export const useTenantStore = defineStore('tenant', () => {
     try {
       const root = document.documentElement
       root.style.setProperty('--brand-primary', c.theme.primaryColor)
+      root.style.setProperty('--brand-primary-dark', c.theme.darkColor)
+      root.style.setProperty('--brand-primary-deep', c.theme.deepColor)
+      root.style.setProperty('--brand-primary-deeper', c.theme.deeperColor)
+      root.style.setProperty('--brand-primary-soft', c.theme.softColor)
+      root.style.setProperty('--brand-primary-faint', c.theme.faintColor)
+      root.style.setProperty('--brand-primary-wash', c.theme.washColor)
       if (c.theme.radius) root.style.setProperty('--brand-radius', c.theme.radius)
       if (c.theme.fontFamily) root.style.setProperty('--brand-font-family', c.theme.fontFamily)
 

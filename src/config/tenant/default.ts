@@ -9,6 +9,16 @@ export const DEFAULT_TENANT_ID = 'default'
  */
 export const DEFAULT_BRAND_PRIMARY = '#0052d9'
 
+/** 品牌深浅阶保底值（与 brand.css 一一对应，租户通过 theme 字段覆盖） */
+export const DEFAULT_BRAND_SHADES = {
+  dark: '#0040b0',
+  deep: '#0040a8',
+  deeper: '#003bb3',
+  soft: '#d0e7ff',
+  faint: '#f0f7ff',
+  wash: '#f8fbff',
+} as const
+
 /** 完整保底配置：后端不可用 / 超时 / 字段缺失时的兜底，应用照常可用 */
 export function getDefaultConfig(): TenantConfig {
   return {
@@ -21,6 +31,12 @@ export function getDefaultConfig(): TenantConfig {
     },
     theme: {
       primaryColor: DEFAULT_BRAND_PRIMARY,
+      darkColor: DEFAULT_BRAND_SHADES.dark,
+      deepColor: DEFAULT_BRAND_SHADES.deep,
+      deeperColor: DEFAULT_BRAND_SHADES.deeper,
+      softColor: DEFAULT_BRAND_SHADES.soft,
+      faintColor: DEFAULT_BRAND_SHADES.faint,
+      washColor: DEFAULT_BRAND_SHADES.wash,
       radius: '6px',
       fontFamily: '',
     },
@@ -81,6 +97,12 @@ export function mergeTenantConfig(partial: unknown, tenantId: string = DEFAULT_T
     brand: { ...base.brand, ...stripUndefined(p.brand) },
     theme: {
       primaryColor: normalizeColor(p.theme?.primaryColor, base.theme.primaryColor),
+      darkColor: normalizeColor(p.theme?.darkColor, base.theme.darkColor),
+      deepColor: normalizeColor(p.theme?.deepColor, base.theme.deepColor),
+      deeperColor: normalizeColor(p.theme?.deeperColor, base.theme.deeperColor),
+      softColor: normalizeColor(p.theme?.softColor, base.theme.softColor),
+      faintColor: normalizeColor(p.theme?.faintColor, base.theme.faintColor),
+      washColor: normalizeColor(p.theme?.washColor, base.theme.washColor),
       radius: typeof p.theme?.radius === 'string' && p.theme.radius ? p.theme.radius : base.theme.radius,
       fontFamily: typeof p.theme?.fontFamily === 'string' ? p.theme.fontFamily : base.theme.fontFamily,
     },

@@ -19,10 +19,22 @@ export interface TenantBrand {
   copyright: string
 }
 
-/** 主题：只以 primaryColor 为唯一驱动源，其余派生 */
+/** 主题：primaryColor 为驱动源；深浅阶为非线性派生色，租户可按需覆盖 */
 export interface TenantTheme {
   /** 品牌主色（驱动 Element Plus / Vant 全部色阶） */
   primaryColor: string
+  /** 品牌深阶：hover / 按压（对应 --brand-primary-dark） */
+  darkColor: string
+  /** 品牌更深阶（对应 --brand-primary-deep） */
+  deepColor: string
+  /** 品牌最深阶（对应 --brand-primary-deeper） */
+  deeperColor: string
+  /** 品牌浅蓝高亮底（对应 --brand-primary-soft） */
+  softColor: string
+  /** 品牌极浅底（对应 --brand-primary-faint） */
+  faintColor: string
+  /** 品牌页面浅底（对应 --brand-primary-wash） */
+  washColor: string
   /** 全局圆角 */
   radius: string
   /** 全局字体（空字符串 = 系统默认） */
