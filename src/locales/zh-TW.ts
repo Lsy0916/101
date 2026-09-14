@@ -71,7 +71,19 @@ export default {
       submit: '發送留言', submitSuccess: '留言提交成功！我們會盡快與您聯繫。'
     },
     nav: { quick: '快速導航', top: '首頁', news: '最新動態', about: '關於我們', services: '我們的服務', features: '平台特色', contact: '聯繫我們' },
-    validation: { nameRequired: '請輸入您的姓名', emailRequired: '請輸入郵箱地址', emailFormat: '請輸入正確的郵箱地址', messageRequired: '請輸入您的留言' }
+    validation: { nameRequired: '請輸入您的姓名', emailRequired: '請輸入郵箱地址', emailFormat: '請輸入正確的郵箱地址', messageRequired: '請輸入您的留言' },
+    aiAssistant: {
+      fab: 'AI 客服',
+      title: 'AI 客服',
+      subtitle: '你好，我是生涯心旅 AI 助手',
+      greeting: '你好呀，我是生涯心旅的 AI 客服。平台的功能、心理小知識，或者你此刻的心情，都可以和我聊聊。有什麼可以幫你的嗎？',
+      placeholder: '輸入你想說的…',
+      send: '傳送',
+      stop: '停止產生',
+      restart: '清空重新開始',
+      disclaimer: 'AI 回覆由演算法產生，僅供參考，不能取代專業心理諮詢。緊急情況請撥打 12356。',
+      quickPrompts: ['這個平台能做什麼？', '最近壓力有點大', '總是睡不好', '怎麼預約心理老師？']
+    }
   },
   assessment: {
     tabs: { scales: '測評廣場', mine: '我的', dashboard: '成長看板' },
@@ -137,6 +149,21 @@ export default {
   },
   counseling: {
     tabs: { booking: '預約諮詢', counselors: '心理老師', notice: '諮詢須知', faq: '常見問題' },
+    aiChat: {
+      eyebrow: '— AI Counselor',
+      title: 'AI<em>諮詢師</em>',
+      desc: '隨時在線的 AI 心理陪伴：傾聽你的情緒，陪你梳理困擾。全天候可用，對話完全保密。',
+      entryTitle: 'AI 諮詢師 · 隨時傾訴',
+      entryDesc: '與 AI 心理諮詢師對話，即時獲得情緒陪伴與支持',
+      greeting: '你好，我是這裡的 AI 諮詢師。這是一個安全、保密的空間，你可以按自己的節奏，聊聊最近的狀態、情緒或困擾。我在聽。',
+      placeholder: '說說你最近的狀態或困擾…',
+      send: '傳送',
+      stop: '停止產生',
+      disclaimer: 'AI 回覆由演算法產生，僅供情緒陪伴與自我探索參考，不能取代專業心理諮詢或醫療診斷。若你正處於危機之中，請立即撥打心理援助專線 12356，或聯繫學校心理老師。',
+      footnote: '想獲得更深入的支持？',
+      bookLink: '預約真人心理老師',
+      quickPrompts: ['最近壓力很大，喘不過氣', '情緒低落，提不起勁', '和室友鬧矛盾了', '對未來很迷茫']
+    },
     cover: {
       booking: { eyebrow: '— Booking', title: '預約<em>諮詢</em>', desc: '四步完成預約：選擇類型 → 挑選老師 → 確定時間 → 填寫資訊。' },
       counselors: { eyebrow: '— Counselors', title: '心理<em>老師</em>', desc: '專業心理老師，覆蓋情緒、關係、家庭、創傷等多個方向，找到最適合你的那一位。' },

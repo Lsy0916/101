@@ -1,5 +1,15 @@
 <template>
   <div class="counseling-page">
+    <!-- AI 咨询师入口 -->
+    <button type="button" class="ai-consult-entry" @click="router.push({ name: 'counseling-ai-chat' })">
+      <span class="entry-icon"><el-icon><ChatDotRound /></el-icon></span>
+      <span class="entry-text">
+        <strong>{{ $t('counseling.aiChat.entryTitle') }}</strong>
+        <small>{{ $t('counseling.aiChat.entryDesc') }}</small>
+      </span>
+      <el-icon class="entry-arrow"><ArrowRight /></el-icon>
+    </button>
+
     <!-- 主体功能区 -->
     <el-tabs v-model="activeTab" class="main-tabs" @tab-change="handleTabChange">
       <!-- ============ 预约咨询 ============ -->
@@ -46,13 +56,18 @@
         <CounselingFaqPanel @book="activeTab = 'booking'" />
       </el-tab-pane>
     </el-tabs>
+
+    <!-- AI 客服（悬浮窗） -->
+    <AiAssistantFab />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { ArrowRight, ChatDotRound } from '@element-plus/icons-vue'
 import ModuleCover from '@/components/business/common/ModuleCover.vue'
+import AiAssistantFab from '@/components/business/ai/AiAssistantFab.vue'
 import CounselingBookingPanel from '@/components/business/counseling/CounselingBookingPanel.vue'
 import CounselingConsultantsPanel from '@/components/business/counseling/CounselingConsultantsPanel.vue'
 import CounselingNoticePanel from '@/components/business/counseling/CounselingNoticePanel.vue'
@@ -60,6 +75,7 @@ import CounselingFaqPanel from '@/components/business/counseling/CounselingFaqPa
 import { counselors } from '@/components/business/counseling/data'
 
 const route = useRoute()
+const router = useRouter()
 
 const tabQueryMap: Record<string, string> = { booking: 'booking', consultants: 'consultants', notice: 'notice', faq: 'faq' }
 const activeTab = ref(tabQueryMap[String(route.query.tab)] || 'booking')
@@ -169,5 +185,83 @@ html.dark .module-cover :deep(.cover-desc),
 html.dark .module-cover :deep(.cover-eyebrow),
 html.dark .module-cover :deep(.cover-no) {
   color: var(--slate-400) !important;
+}
+
+/* ============ AI 咨询师入口 ============ */
+.ai-consult-entry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border: 1px solid var(--brand-primary-soft);
+  border-radius: 16px;
+  background: linear-gradient(120deg, var(--brand-primary-faint), var(--brand-primary-wash));
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ai-consult-entry:hover {
+  border-color: var(--brand-primary);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-primary) 16%, transparent);
+  transform: translateY(-2px);
+}
+
+.entry-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: var(--brand-primary);
+  color: white;
+  font-size: 22px;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--brand-primary) 30%, transparent);
+}
+
+.entry-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.entry-text strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-950);
+}
+
+.entry-text small {
+  font-size: 12.5px;
+  color: var(--ink-400);
+  line-height: 1.5;
+}
+
+.entry-arrow {
+  color: var(--brand-primary);
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.ai-consult-entry:hover .entry-arrow {
+  transform: translateX(4px);
+}
+
+html.dark .ai-consult-entry {
+  background: var(--slate-800);
+  border-color: var(--slate-700);
+}
+
+html.dark .entry-text strong {
+  color: var(--slate-100);
+}
+
+html.dark .entry-text small {
+  color: var(--slate-400);
 }
 </style>

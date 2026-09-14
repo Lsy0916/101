@@ -15,6 +15,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_DOMAIN?: string
   /** 登录 mock 开关（'true' / 'false'） */
   readonly VITE_USE_MOCK_LOGIN: string
+  /** AI 对话流式接口（SSE，未配置时走本地 mock 兜底） */
+  readonly VITE_AI_CHAT_URL?: string
 }
 
 interface ImportMeta {

@@ -102,7 +102,19 @@ export default {
       submit: '发送留言', submitSuccess: '留言提交成功！我们会尽快与您联系。'
     },
     nav: { quick: '快速导航', top: '首页', news: '最新动态', about: '关于我们', services: '我们的服务', features: '平台特色', contact: '联系我们' },
-    validation: { nameRequired: '请输入您的姓名', emailRequired: '请输入邮箱地址', emailFormat: '请输入正确的邮箱地址', messageRequired: '请输入您的留言' }
+    validation: { nameRequired: '请输入您的姓名', emailRequired: '请输入邮箱地址', emailFormat: '请输入正确的邮箱地址', messageRequired: '请输入您的留言' },
+    aiAssistant: {
+      fab: 'AI 客服',
+      title: 'AI 客服',
+      subtitle: '你好，我是生涯心旅 AI 助手',
+      greeting: '你好呀，我是生涯心旅的 AI 客服。平台的功能、心理小知识，或者你此刻的心情，都可以和我聊聊。有什么可以帮你的吗？',
+      placeholder: '输入你想说的…',
+      send: '发送',
+      stop: '停止生成',
+      restart: '清空重新开始',
+      disclaimer: 'AI 回复由算法生成，仅供参考，不能替代专业心理咨询。紧急情况请拨打 12356。',
+      quickPrompts: ['这个平台能做什么？', '最近压力有点大', '总是睡不好', '怎么预约心理老师？']
+    }
   },
   assessment: {
     tabs: { scales: '测评广场', mine: '我的', dashboard: '成长看板' },
@@ -168,6 +180,21 @@ export default {
   },
   counseling: {
     tabs: { booking: '预约咨询', counselors: '心理老师', notice: '咨询须知', faq: '常见问题' },
+    aiChat: {
+      eyebrow: '— AI Counselor',
+      title: 'AI<em>咨询师</em>',
+      desc: '随时在线的 AI 心理陪伴：倾听你的情绪，陪你梳理困扰。全天候可用，对话完全保密。',
+      entryTitle: 'AI 咨询师 · 随时倾诉',
+      entryDesc: '与 AI 心理咨询师对话，即时获得情绪陪伴与支持',
+      greeting: '你好，我是这里的 AI 咨询师。这是一个安全、保密的空间，你可以按自己的节奏，聊聊最近的状态、情绪或困扰。我在听。',
+      placeholder: '说说你最近的状态或困扰…',
+      send: '发送',
+      stop: '停止生成',
+      disclaimer: 'AI 回复由算法生成，仅供情绪陪伴与自我探索参考，不能替代专业心理咨询或医疗诊断。若你正处于危机之中，请立即拨打心理援助热线 12356，或联系学校心理老师。',
+      footnote: '想获得更深入的支持？',
+      bookLink: '预约真人心理老师',
+      quickPrompts: ['最近压力很大，喘不过气', '情绪低落，提不起劲', '和室友闹矛盾了', '对未来很迷茫']
+    },
     cover: {
       booking: { eyebrow: '— Booking', title: '预约<em>咨询</em>', desc: '四步完成预约：选择类型 → 挑选老师 → 确定时间 → 填写信息。' },
       counselors: { eyebrow: '— Counselors', title: '心理<em>老师</em>', desc: '专业心理老师，覆盖情绪、关系、家庭、创伤等多个方向，找到最适合你的那一位。' },

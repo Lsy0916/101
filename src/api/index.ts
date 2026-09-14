@@ -4,6 +4,7 @@
 export { default as http } from './http'
 
 // ---- 业务 modules ----
+export * as aiApi from './ai'
 export * as authApi from './modules/auth'
 export * as userApi from './modules/user'
 export * as adminApi from './modules/admin'

@@ -71,7 +71,19 @@ export default {
       submit: 'Send Message', submitSuccess: 'Message submitted successfully! We will contact you soon.'
     },
     nav: { quick: 'Quick Nav', top: 'Home', news: 'Latest News', about: 'About Us', services: 'Our Services', features: 'Features', contact: 'Contact Us' },
-    validation: { nameRequired: 'Please enter your name', emailRequired: 'Please enter your email', emailFormat: 'Please enter a valid email address', messageRequired: 'Please enter your message' }
+    validation: { nameRequired: 'Please enter your name', emailRequired: 'Please enter your email', emailFormat: 'Please enter a valid email address', messageRequired: 'Please enter your message' },
+    aiAssistant: {
+      fab: 'AI Assistant',
+      title: 'AI Assistant',
+      subtitle: 'Hi, I am your campus companion',
+      greeting: 'Hi there! I am the AI assistant here. Ask me about the platform, mental wellness tips, or just share how you feel today. How can I help?',
+      placeholder: 'Type your message…',
+      send: 'Send',
+      stop: 'Stop',
+      restart: 'Start over',
+      disclaimer: 'AI replies are generated automatically and for reference only — not a substitute for professional counseling. In emergencies call 12356.',
+      quickPrompts: ['What can this platform do?', 'I feel stressed lately', 'I cannot sleep well', 'How to book a counselor?']
+    }
   },
   assessment: {
     tabs: { scales: 'Assessment Square', mine: 'Mine', dashboard: 'Growth Board' },
@@ -137,6 +149,21 @@ export default {
   },
   counseling: {
     tabs: { booking: 'Book a Session', counselors: 'Counselors', notice: 'Counseling Guide', faq: 'FAQ' },
+    aiChat: {
+      eyebrow: '— AI Counselor',
+      title: 'AI <em>Counselor</em>',
+      desc: 'An always-available AI companion: it listens to your feelings and helps you sort things out. Around the clock, fully private.',
+      entryTitle: 'AI Counselor · Talk anytime',
+      entryDesc: 'Chat with an AI counselor for instant emotional support',
+      greeting: 'Hello, I am your AI counselor. This is a safe and private space — take your time to share how you have been feeling lately. I am listening.',
+      placeholder: 'Share how you feel…',
+      send: 'Send',
+      stop: 'Stop',
+      disclaimer: 'AI replies are generated automatically for emotional support and self-exploration only. They cannot replace professional counseling or medical diagnosis. If you are in crisis, call hotline 12356 or contact your school counselor immediately.',
+      footnote: 'Need deeper support?',
+      bookLink: 'Book a human counselor',
+      quickPrompts: ['I am overwhelmed by stress', 'Feeling down lately', 'Roommate conflicts', 'Confused about my future']
+    },
     cover: {
       booking: { eyebrow: '— Booking', title: 'Book a <em>Session</em>', desc: 'Four steps to book: choose type → pick counselor → select time → fill in info.' },
       counselors: { eyebrow: '— Counselors', title: 'Our <em>Counselors</em>', desc: 'Professional counselors covering emotions, relationships, family, trauma and more. Find the one that suits you best.' },

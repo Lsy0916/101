@@ -22,6 +22,9 @@
 
     <!-- 回到顶部与快速导航 -->
     <HomeBackTop />
+
+    <!-- AI 客服（悬浮窗） -->
+    <AiAssistantFab />
   </div>
 </template>
 
@@ -40,6 +43,7 @@ import HomeNewsSection from '@/components/business/home/HomeNewsSection.vue'
 import HomeAboutSection from '@/components/business/home/HomeAboutSection.vue'
 import HomeContactSection from '@/components/business/home/HomeContactSection.vue'
 import HomeBackTop from '@/components/business/home/HomeBackTop.vue'
+import AiAssistantFab from '@/components/business/ai/AiAssistantFab.vue'
 import type { CarouselSlide } from '@/components/business/home/types'
 import imgNist from '@/assets/images/nist-bg.jpg'
 import imgTsinghua from '@/assets/images/tsinghua-bg.jpg'
