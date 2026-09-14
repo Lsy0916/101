@@ -33,35 +33,15 @@
       <span class="bg-question-num">Q{{ String(currentIndex + 1).padStart(2, '0') }}</span>
       <transition name="q-slide" mode="out-in">
         <div :key="currentIndex" class="question-container">
-          <div class="q-card-immersive">
-            <div class="q-header">
-              <div class="q-badge-row">
-                <span class="q-badge">Q{{ currentIndex + 1 }}</span>
-                <span class="q-category-tag">{{ currentScaleInfo?.category === 'mental' ? '心理健康' : '生涯发展' }}</span>
-                <span class="q-progress-mark">{{ currentIndex + 1 }} / {{ currentScale?.questions.length }}</span>
-              </div>
-              <h2 class="q-text">{{ currentQuestion?.text }}</h2>
-            </div>
-
-            <div class="q-options-immersive">
-              <div
-                v-for="(opt, idx) in currentOptions"
-                :key="opt.value"
-                class="opt-card"
-                :class="{ selected: currentAnswer === opt.value }"
-                :style="{ '--delay': idx * 0.05 + 's' }"
-                @click="handleSelect(currentQuestion?.id, opt.value)"
-              >
-                <div class="opt-content">
-                  <div class="opt-index">{{ String.fromCharCode(65 + idx) }}</div>
-                  <span class="opt-label">{{ opt.label }}</span>
-                </div>
-                <div class="opt-check">
-                  <el-icon v-if="currentAnswer === opt.value"><Check /></el-icon>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AssessmentQuestionCard
+            :index="currentIndex"
+            :total="currentScale?.questions.length || 0"
+            :question="currentQuestion"
+            :options="currentOptions"
+            :answer="currentAnswer"
+            :category-label="categoryLabel"
+            @select="handleSelect"
+          />
         </div>
       </transition>
     </main>
@@ -127,42 +107,10 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
-import {
-  Close,
-  Timer,
-  Check,
-  ArrowLeft,
-  ArrowRight,
-  Finished
-} from '@element-plus/icons-vue'
-
-// --- 类型定义 ---
-interface ScaleResult {
-  level: string
-  levelTag: string
-  title: string
-  insight: string
-  suggestion: string
-}
-
-interface ScaleQuestion {
-  id: number
-  text: string
-  type?: string
-  dim?: string
-}
-
-interface ScaleDefinition {
-  name: string
-  optionType: 'frequency' | 'agreement' | 'mbti'
-  questions: ScaleQuestion[]
-  calc: (score: number, details: Record<string, number>) => ScaleResult
-}
-
-interface OptionItem {
-  label: string
-  value: number | string
-}
+import { Close, Timer, ArrowLeft, ArrowRight, Finished } from '@element-plus/icons-vue'
+import AssessmentQuestionCard from '@/components/business/assessment/AssessmentQuestionCard.vue'
+import { ASSESSMENT_STORAGE_KEY, scales, scaleOptions } from '@/components/business/assessment/data'
+import type { OptionItem, ScaleResult } from '@/components/business/assessment/types'
 
 interface ScaleMeta {
   key: string
@@ -181,7 +129,7 @@ const timeElapsed = ref(0)
 const submitting = ref(false)
 let timer: ReturnType<typeof setInterval> | null = null
 
-// --- 从 AssessmentCenter 引入的数据 (实际开发中建议放在 store 或公共 data 文件) ---
+// --- 量表分类元信息 ---
 const mentalScales: ScaleMeta[] = [
   { key: 'phq9', name: '抑郁自评 PHQ-9', color: '#0052d9', category: 'mental' },
   { key: 'gad7', name: '焦虑自评 GAD-7', color: '#059669', category: 'mental' },
@@ -193,131 +141,6 @@ const careerScales: ScaleMeta[] = [
   { key: 'mbti', name: '性格倾向 MBTI', color: '#db2777', category: 'career' }
 ]
 
-const scaleOptions: Record<'frequency' | 'agreement' | 'mbti', OptionItem[]> = {
-  frequency: [
-    { label: '完全没有', value: 0 },
-    { label: '有几天', value: 1 },
-    { label: '一半以上的天数', value: 2 },
-    { label: '几乎每天', value: 3 }
-  ],
-  agreement: [
-    { label: '非常不同意', value: 1 },
-    { label: '不同意', value: 2 },
-    { label: '一般', value: 3 },
-    { label: '同意', value: 4 },
-    { label: '非常同意', value: 5 }
-  ],
-  mbti: [
-    { label: '非常符合 A', value: 'A2' },
-    { label: '比较符合 A', value: 'A1' },
-    { label: '比较符合 B', value: 'B1' },
-    { label: '非常符合 B', value: 'B2' }
-  ]
-}
-
-const scales: Record<string, ScaleDefinition> = {
-  phq9: {
-    name: '抑郁自评量表 PHQ-9',
-    optionType: 'frequency',
-    questions: [
-      { id: 1, text: '做事提不起劲，或没有乐趣' },
-      { id: 2, text: '感到心情低落、沮丧或绝望' },
-      { id: 3, text: '入睡困难、睡得不稳或睡得太多' },
-      { id: 4, text: '感到疲倦或没有劲' },
-      { id: 5, text: '胃口不好或吃得太多' },
-      { id: 6, text: '觉得自己很糟，或觉得自己很失败' },
-      { id: 7, text: '对事物专注有困难，例如看报纸或看电视' },
-      { id: 8, text: '动作或说话速度缓慢到别人都能察觉' },
-      { id: 9, text: '有不如死掉或想伤害自己的念头' }
-    ],
-    calc: (score) => ({
-      level: score <= 4 ? '健康' : score <= 9 ? '轻度' : score <= 14 ? '中度' : '重度',
-      levelTag: score <= 4 ? 'success' : score <= 9 ? 'info' : score <= 14 ? 'warning' : 'danger',
-      title: score <= 4 ? '情绪状态良好' : '需要关注情绪',
-      insight: '系统已完成深度分析。',
-      suggestion: '保持良好的生活习惯。'
-    })
-  },
-  gad7: {
-    name: '焦虑自评量表 GAD-7',
-    optionType: 'frequency',
-    questions: [
-      { id: 1, text: '感到紧张、焦虑或心情不安' },
-      { id: 2, text: '无法停止或控制担忧' },
-      { id: 3, text: '对各种各样的事情担忧过多' },
-      { id: 4, text: '很难放松下来' },
-      { id: 5, text: '由于不安而无法静坐' },
-      { id: 6, text: '变得容易烦躁或急躁' },
-      { id: 7, text: '感到好像有什么可怕的事会发生' }
-    ],
-    calc: (score) => ({
-      level: score <= 4 ? '正常' : score <= 9 ? '轻度' : '显著',
-      levelTag: score <= 4 ? 'success' : score <= 9 ? 'info' : 'warning',
-      title: score <= 4 ? '心态平和' : '建议情绪疏导',
-      insight: '焦虑水平分析完成。',
-      suggestion: '尝试深呼吸和正念。'
-    })
-  },
-  riasec: {
-    name: '霍兰德职业兴趣 RIASEC',
-    optionType: 'agreement',
-    questions: [
-      { id: 1, text: '我喜欢修补电器设备或机械', type: 'R' },
-      { id: 2, text: '我喜欢进行科学实验或研究', type: 'I' },
-      { id: 3, text: '我喜欢创作绘画、设计或摄影', type: 'A' },
-      { id: 4, text: '我喜欢参加公益活动或帮助他人', type: 'S' },
-      { id: 5, text: '我喜欢说服他人或领导团队', type: 'E' },
-      { id: 6, text: '我喜欢整理文档或处理精确数据', type: 'C' },
-      { id: 7, text: '我喜欢操作复杂的工具或仪器', type: 'R' },
-      { id: 8, text: '我喜欢分析复杂的逻辑问题', type: 'I' },
-      { id: 9, text: '我喜欢写诗、写小说或进行表演', type: 'A' },
-      { id: 10, text: '我喜欢教导他人知识或技能', type: 'S' },
-      { id: 11, text: '我喜欢策划并启动一个商业项目', type: 'E' },
-      { id: 12, text: '我喜欢按照既定流程精确办事', type: 'C' }
-    ],
-    calc: (score, details) => {
-      const sorted = Object.entries(details).sort((a, b) => b[1] - a[1])
-      const code = sorted.slice(0, 3).map(i => i[0]).join('')
-      return {
-        level: code,
-        levelTag: 'primary',
-        title: '职业兴趣代码：' + code,
-        insight: '您的职业兴趣倾向分析完成。',
-        suggestion: '建议关注匹配度较高的行业。'
-      }
-    }
-  },
-  mbti: {
-    name: '性格倾向自评 (简版 MBTI)',
-    optionType: 'mbti',
-    questions: [
-      { id: 1, text: '在社交聚会中，我倾向于：A.活跃参与；B.静观其变', dim: 'EI' },
-      { id: 2, text: '我更喜欢：A.关注现实细节；B.想象未来可能性', dim: 'SN' },
-      { id: 3, text: '决策时我更看重：A.逻辑分析；B.情感价值', dim: 'TF' },
-      { id: 4, text: '生活方式上我倾向：A.有计划有组织；B.随性且开放', dim: 'JP' },
-      { id: 5, text: '独自一人让我：A.感到无聊；B.感到充能', dim: 'EI' },
-      { id: 6, text: '我更信任：A.经验；B.直觉', dim: 'SN' },
-      { id: 7, text: '我会被描述为：A.理性的；B.感性的', dim: 'TF' },
-      { id: 8, text: '面对最后期限，我：A.提前完成；B.最后一刻冲刺', dim: 'JP' },
-      { id: 9, text: '说话前：A.经常直接说出；B.先在脑中构思', dim: 'EI' },
-      { id: 10, text: '处理问题时：A.脚踏实地；B.脑洞大开', dim: 'SN' }
-    ],
-    calc: (score, details) => {
-      const type = (details.E >= details.I ? 'E' : 'I') +
-                   (details.S >= details.N ? 'S' : 'N') +
-                   (details.T >= details.F ? 'T' : 'F') +
-                   (details.J >= details.P ? 'J' : 'P')
-      return {
-        level: type,
-        levelTag: 'danger',
-        title: '您的性格类型是 ' + type,
-        insight: '性格倾向深度分析完成。',
-        suggestion: '了解性格有助于提升沟通效率。'
-      }
-    }
-  }
-}
-
 // --- 计算属性 ---
 const currentScaleKey = computed(() => String(route.params.id))
 const currentScale = computed(() => scales[currentScaleKey.value])
@@ -325,6 +148,7 @@ const currentScaleInfo = computed(() => [...mentalScales, ...careerScales].find(
 const currentQuestion = computed(() => currentScale.value?.questions[currentIndex.value])
 const currentOptions = computed<OptionItem[]>(() => (currentScale.value ? scaleOptions[currentScale.value.optionType] : []))
 const currentAnswer = computed(() => (currentQuestion.value ? answers.value[currentQuestion.value.id] : undefined))
+const categoryLabel = computed(() => (currentScaleInfo.value?.category === 'mental' ? '心理健康' : '生涯发展'))
 const isLastQuestion = computed(() => currentIndex.value === (currentScale.value?.questions.length - 1))
 const progress = computed(() => {
   if (!currentScale.value) return 0
@@ -411,7 +235,7 @@ function handleSubmit() {
       }
     })
 
-    const res = scale.calc(total, details)
+    const res: ScaleResult = scale.calc(total, details)
     const record = {
       ...res,
       score: total,
@@ -423,9 +247,9 @@ function handleSubmit() {
     }
 
     // 保存到本地
-    const history = JSON.parse(localStorage.getItem('edu_assessment_records') || '[]')
+    const history = JSON.parse(localStorage.getItem(ASSESSMENT_STORAGE_KEY) || '[]')
     history.unshift(record)
-    localStorage.setItem('edu_assessment_records', JSON.stringify(history.slice(0, 30)))
+    localStorage.setItem(ASSESSMENT_STORAGE_KEY, JSON.stringify(history.slice(0, 30)))
 
     submitting.value = false
     ElMessage.success('测评已完成！')
@@ -608,180 +432,6 @@ onUnmounted(() => {
   z-index: 1;
 }
 
-.q-card-immersive {
-  background: #fff;
-  border-radius: 24px;
-  padding: 56px 48px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f0f0f0;
-}
-
-.q-header {
-  margin-bottom: 36px;
-}
-
-.q-badge-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.q-badge {
-  display: inline-block;
-  padding: 5px 12px;
-  border-radius: 8px;
-  background: #111;
-  color: #fff;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-}
-
-.q-category-tag {
-  font-size: 12px;
-  color: #666;
-  background: #f5f5f5;
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-weight: 500;
-}
-
-.q-progress-mark {
-  margin-left: auto;
-  font-size: 12px;
-  color: #999;
-  font-weight: 600;
-  letter-spacing: 1px;
-  font-variant-numeric: tabular-nums;
-}
-
-.q-text {
-  font-size: clamp(22px, 2.6vw, 30px);
-  color: #111;
-  font-weight: 700;
-  line-height: 1.4;
-  margin: 0;
-  letter-spacing: -0.3px;
-}
-
-/* 选项 */
-.q-options-immersive {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.opt-card {
-  padding: 20px 24px;
-  border: 1.5px solid #eee;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  animation: slide-in 0.4s ease-out backwards;
-  animation-delay: var(--delay);
-  position: relative;
-  overflow: hidden;
-}
-
-.opt-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: #111;
-  transform: scaleY(0);
-  transform-origin: center;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.opt-card.selected::before {
-  transform: scaleY(1);
-}
-
-.opt-content {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.opt-index {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: #f9f9f9;
-  border: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  color: #888;
-  font-size: 14px;
-  transition: all 0.25s;
-  flex-shrink: 0;
-}
-
-.opt-label {
-  font-size: 16px;
-  color: #333;
-  font-weight: 500;
-}
-
-.opt-check {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 2px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  transition: all 0.25s;
-  flex-shrink: 0;
-}
-
-.opt-card:hover {
-  border-color: #111;
-  transform: translateX(4px);
-}
-
-.opt-card:hover .opt-index {
-  border-color: #111;
-  color: #111;
-}
-
-.opt-card.selected {
-  border-color: #111;
-  background: #111;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.opt-card.selected .opt-label {
-  color: #fff;
-}
-
-.opt-card.selected .opt-index {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: transparent;
-  color: #fff;
-}
-
-.opt-card.selected .opt-check {
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-@keyframes slide-in {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* 底栏 */
 .take-footer {
   height: 88px;
@@ -941,13 +591,6 @@ onUnmounted(() => {
   .take-header { height: 64px; padding: 0 16px; }
   .header-center { display: none; }
   .scale-name { font-size: 13px; }
-  .q-card-immersive {
-    padding: 32px 24px;
-    border-radius: 20px;
-  }
-  .q-text { font-size: 20px; }
-  .opt-card { padding: 16px 18px; border-radius: 14px; }
-  .opt-label { font-size: 15px; }
   .take-footer { height: 76px; padding: 0 16px; }
   .step-dots { display: none; }
   .nav-btn span { display: none; }
