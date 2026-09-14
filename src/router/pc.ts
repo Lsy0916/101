@@ -87,6 +87,11 @@ export const pcRoutes: RouteRecordRaw[] = [
         name: 'counseling-ai-chat',
         component: () => import('@/views/AiConsultView.vue'),
       },
+      {
+        path: 'counseling/companion',
+        name: 'counseling-companion',
+        component: () => import('@/views/AiCompanionView.vue'),
+      },
       // ---- 用户 ----
       {
         path: 'profile',

@@ -14,7 +14,7 @@ export interface AiChatMessage {
 }
 
 /** 对话人设：assistant = 平台客服，counselor = AI 心理咨询师 */
-export type AiChatPersona = 'assistant' | 'counselor'
+export type AiChatPersona = 'assistant' | 'counselor' | 'companion'
 
 /** 流式对话选项 */
 export interface AiChatStreamOptions {

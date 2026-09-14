@@ -148,7 +148,7 @@ export default {
     action: { viewDetails: '查看詳情', retake: '重新測評', goAssess: '去測評' }
   },
   counseling: {
-    tabs: { booking: '預約諮詢', counselors: '心理老師', notice: '諮詢須知', faq: '常見問題' },
+    tabs: { booking: '預約諮詢', counselors: '心理老師', notice: '諮詢須知', faq: '常見問題', companion: 'AI 伴侶' },
     aiChat: {
       eyebrow: '— AI Counselor',
       title: 'AI<em>諮詢師</em>',
@@ -163,6 +163,19 @@ export default {
       footnote: '想獲得更深入的支持？',
       bookLink: '預約真人心理老師',
       quickPrompts: ['最近壓力很大，喘不過氣', '情緒低落，提不起勁', '和室友鬧矛盾了', '對未來很迷茫']
+    },
+    companion: {
+      eyebrow: '— AI Companion',
+      title: 'AI<em>伴侶</em>',
+      desc: '一個隨時的樹洞與陪伴：不評判、不說教，只是安靜地聽你說話，陪你度過每一個平常或難熬的日子。',
+      greeting: '嗨，我在呢。今天過得怎麼樣？不管想聊什麼——開心的、煩心的、或者只是隨口碎碎念，我都陪著你。',
+      placeholder: '隨便說點什麼，我都在…',
+      send: '傳送',
+      stop: '停止產生',
+      disclaimer: 'AI 回覆由演算法產生，僅供日常陪伴與自我探索參考，不能取代專業心理諮詢或醫療診斷。若你正處於危機之中，請立即撥打心理援助專線 12356，或聯繫學校心理老師。',
+      footnote: '想要更專業的心理支持？',
+      bookLink: '預約真人心理老師',
+      quickPrompts: ['今天有點累，想找人聊聊', '陪我聊聊最近的煩心事', '睡不著，陪我說說話', '給我一點放鬆的小建議']
     },
     cover: {
       booking: { eyebrow: '— Booking', title: '預約<em>諮詢</em>', desc: '四步完成預約：選擇類型 → 挑選老師 → 確定時間 → 填寫資訊。' },

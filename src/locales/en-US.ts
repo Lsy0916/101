@@ -148,7 +148,7 @@ export default {
     action: { viewDetails: 'View Details', retake: 'Retake', goAssess: 'Start Assessment' }
   },
   counseling: {
-    tabs: { booking: 'Book a Session', counselors: 'Counselors', notice: 'Counseling Guide', faq: 'FAQ' },
+    tabs: { booking: 'Book a Session', counselors: 'Counselors', notice: 'Counseling Guide', faq: 'FAQ', companion: 'AI Companion' },
     aiChat: {
       eyebrow: '— AI Counselor',
       title: 'AI <em>Counselor</em>',
@@ -163,6 +163,19 @@ export default {
       footnote: 'Need deeper support?',
       bookLink: 'Book a human counselor',
       quickPrompts: ['I am overwhelmed by stress', 'Feeling down lately', 'Roommate conflicts', 'Confused about my future']
+    },
+    companion: {
+      eyebrow: '— AI Companion',
+      title: 'AI <em>Companion</em>',
+      desc: 'A judgment-free companion for everyday moments: no lectures, just someone who listens — through ordinary days and hard ones alike.',
+      greeting: 'Hey, I am here. How was your day? Talk about anything — the good, the messy, or just random thoughts. I am all ears.',
+      placeholder: 'Say anything, I am listening…',
+      send: 'Send',
+      stop: 'Stop',
+      disclaimer: 'AI replies are generated automatically for everyday companionship and self-exploration only. They cannot replace professional counseling or medical diagnosis. If you are in crisis, call hotline 12356 or contact your school counselor immediately.',
+      footnote: 'Need professional support?',
+      bookLink: 'Book a human counselor',
+      quickPrompts: ['I feel tired today, just want to talk', 'Keep me company about my worries', 'Cannot sleep, chat with me', 'Give me some relaxation tips']
     },
     cover: {
       booking: { eyebrow: '— Booking', title: 'Book a <em>Session</em>', desc: 'Four steps to book: choose type → pick counselor → select time → fill in info.' },

@@ -55,6 +55,9 @@
         />
         <CounselingFaqPanel @book="activeTab = 'booking'" />
       </el-tab-pane>
+
+      <!-- ============ AI 伴侣（导航至独立对话子页） ============ -->
+      <el-tab-pane :label="$t('counseling.tabs.companion')" name="companion" />
     </el-tabs>
 
     <!-- AI 客服（悬浮窗） -->
@@ -96,8 +99,9 @@ function goBookWith(id: number | undefined) {
 }
 
 // ============ tab 切换 ============
-function handleTabChange(_name: string | number) {
-  // 占位：可在此埋点
+function handleTabChange(name: string | number) {
+  // AI 伴侣为独立对话子页：点击页签即跳转（其余页签为页内面板）
+  if (name === 'companion') void router.push({ name: 'counseling-companion' })
 }
 </script>
 

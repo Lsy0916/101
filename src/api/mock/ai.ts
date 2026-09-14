@@ -118,6 +118,20 @@ const COUNSELOR_FALLBACKS = [
   '我能感觉到，你带着一些重量来到这里。不必急着给出「标准答案」，我们先从感受开始——这一周里，有没有哪个瞬间让你印象很深？'
 ]
 
+/** 伴侣兜底（更偏日常陪伴，语气更轻更暖） */
+const COMPANION_FALLBACKS = [
+  '我在呢，今天过得怎么样呀？不用组织语言，想到什么就说什么——开心的、烦心的、或者只是碎碎念，我都想听。',
+  '嗯嗯，我陪着你。天大的事也可以先放一放，我们先聊点轻松的：今天有好好吃饭吗？有没有什么小确幸，哪怕只是一杯好喝的奶茶？',
+  '不管你说什么，我都在这里，哪儿也不去。累的时候就靠一靠，把肩膀借你。想聊聊今天的事，还是就想安静地待一会儿？'
+]
+
+/** 人设 → 兜底话术池 */
+const PERSONA_FALLBACKS = {
+  assistant: ASSISTANT_FALLBACKS,
+  counselor: COUNSELOR_FALLBACKS,
+  companion: COMPANION_FALLBACKS
+} as const
+
 const TYPE_DELAY_MS = 26      // 打字机节奏（毫秒/帧）
 const CHUNK_SIZE = 2          // 每帧推送的字符数
 const THINKING_DELAY_MS = 420 // 首帧前的「思考」停顿
@@ -138,7 +152,7 @@ function pickReply(messages: readonly AiChatMessage[], persona: AiChatStreamOpti
   for (const rule of TOPIC_RULES) {
     if (rule.keywords.some(keyword => lastUser.includes(keyword))) return pick(rule.replies)
   }
-  return pick(persona === 'counselor' ? COUNSELOR_FALLBACKS : ASSISTANT_FALLBACKS)
+  return pick(PERSONA_FALLBACKS[persona ?? 'assistant'])
 }
 
 function pick(pool: readonly string[]): string {
