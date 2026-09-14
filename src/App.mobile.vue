@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { RouterView } from 'vue-router'
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import zhTw from 'element-plus/es/locale/lang/zh-tw'
 import en from 'element-plus/es/locale/lang/en'
 import { useLocale } from '@/composables/useLocale'
-import DefaultLayout from '@/layouts/mobile/DefaultLayout.vue'
 
 // 【过渡态】阶段 3 移动端复用现有响应式视图（Element Plus 系），因此
 // ConfigProvider 与 EP locale 同步逻辑与 PC 一致；阶段 5 Vant 化后改由
@@ -25,7 +25,7 @@ const elementLocale = computed(
 
 <template>
   <el-config-provider :locale="elementLocale">
-    <DefaultLayout />
+    <RouterView />
   </el-config-provider>
 </template>
 
