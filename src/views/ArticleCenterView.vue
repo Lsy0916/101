@@ -372,7 +372,7 @@ function onCollectionSelect(title: string) {
 <style scoped>
 .article-center {
   min-height: 100vh;
-  background-color: #f8fafc;
+  background-color: var(--slate-50);
   padding-top: 28px;
   position: relative;
 }
@@ -392,7 +392,7 @@ function onCollectionSelect(title: string) {
   align-items: flex-end;
   gap: 48px;
   padding-bottom: 40px;
-  border-bottom: 1px solid #e8ecf0;
+  border-bottom: 1px solid var(--mist-100);
 }
 
 .intro-left {
@@ -412,7 +412,7 @@ function onCollectionSelect(title: string) {
 .intro-title {
   font-size: clamp(48px, 7vw, 104px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin: 0;
   letter-spacing: -3px;
   line-height: 0.92;
@@ -426,7 +426,7 @@ function onCollectionSelect(title: string) {
 
 .intro-sub {
   font-size: 0.95rem;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 400;
   line-height: 1.6;
   margin: 0;
@@ -450,7 +450,7 @@ function onCollectionSelect(title: string) {
 .stat-num {
   font-size: 32px;
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   line-height: 1;
   letter-spacing: -1px;
   font-variant-numeric: tabular-nums;
@@ -466,7 +466,7 @@ function onCollectionSelect(title: string) {
 
 .stat-label {
   font-size: 11px;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -474,8 +474,8 @@ function onCollectionSelect(title: string) {
 
 /* ===== 导读栏 · sticky 紧贴 navbar（滚动后 navbar 64px）===== */
 .discovery-ribbon {
-  background: #ffffff;
-  border-bottom: 1px solid #eef2f6;
+  background: white;
+  border-bottom: 1px solid var(--mist-050);
   padding: 14px 0;
   position: sticky;
   top: 64px;
@@ -495,7 +495,7 @@ function onCollectionSelect(title: string) {
   scrollbar-width: none;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .ribbon-scroll { overflow-x: auto; }
 }
 
@@ -517,14 +517,14 @@ function onCollectionSelect(title: string) {
 .item-num {
   font-size: 11px;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
 }
 
 .item-label {
   font-size: 0.95rem;
-  color: #111827;
+  color: var(--ink-900);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -536,7 +536,7 @@ function onCollectionSelect(title: string) {
   left: 0;
   width: 100%;
   height: 2px;
-  background: #0a0f1a;
+  background: var(--navy-950);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -579,7 +579,7 @@ function onCollectionSelect(title: string) {
 .search-box {
   background: transparent;
   border: none;
-  border-bottom: 1px solid #e8ecf0;
+  border-bottom: 1px solid var(--mist-100);
   border-radius: 0;
   padding: 8px 0 12px;
   display: flex;
@@ -591,11 +591,11 @@ function onCollectionSelect(title: string) {
 }
 
 .search-box:focus-within {
-  border-color: #0a0f1a;
+  border-color: var(--navy-950);
 }
 
 .search-icon {
-  color: #9ca3af;
+  color: var(--ink-400);
   font-size: 1.15rem;
 }
 
@@ -604,35 +604,38 @@ function onCollectionSelect(title: string) {
   outline: none;
   width: 100%;
   font-size: 1rem;
-  color: #111827;
+  color: var(--ink-900);
   font-weight: 500;
   background: transparent;
 }
 
 .search-input::placeholder {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   .ribbon-container, .main-content, .page-intro {
     padding-left: 24px;
     padding-right: 24px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .page-intro {
     padding: 40px 24px 32px;
   }
+
   .intro-container {
     flex-direction: column;
     align-items: flex-start;
     gap: 32px;
   }
+
   .ribbon-scroll {
     gap: 28px;
   }
+
   .search-wrapper {
     margin-bottom: 48px;
   }

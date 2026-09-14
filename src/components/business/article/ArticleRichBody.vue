@@ -56,7 +56,7 @@ const articleBody = computed(() => {
 .rich-content {
   font-size: 17px;
   line-height: 1.85;
-  color: #1f2937;
+  color: var(--ink-800);
   font-weight: 400;
 }
 
@@ -67,12 +67,13 @@ const articleBody = computed(() => {
 .rich-content :deep(h3) {
   font-size: clamp(20px, 2vw, 26px);
   font-weight: 800;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: -0.5px;
   margin: 56px 0 20px;
   position: relative;
   padding-left: 18px;
 }
+
 .rich-content :deep(h3)::before {
   content: '';
   position: absolute;
@@ -86,7 +87,7 @@ const articleBody = computed(() => {
 
 .rich-content :deep(strong) {
   font-weight: 700;
-  color: #0a0f1a;
+  color: var(--navy-950);
 }
 
 .rich-content :deep(blockquote) {
@@ -94,8 +95,8 @@ const articleBody = computed(() => {
   padding: 16px 24px;
   border-left: 3px solid var(--brand-primary);
   font-style: italic;
-  color: #4b5563;
-  background: #f8fbff;
+  color: var(--ink-600);
+  background: var(--brand-primary-wash);
 }
 
 .rich-content :deep(a) {
@@ -114,11 +115,13 @@ const articleBody = computed(() => {
 }
 
 /* ===== Hero 大图 ===== */
+
 /* 文章首图（封面）· 嵌入正文 */
 .rich-content :deep(.article-hero-img) {
   margin: 0 0 40px;
   position: relative;
 }
+
 .rich-content :deep(.article-hero-img img) {
   width: 100%;
   height: clamp(280px, 38vw, 480px);
@@ -128,13 +131,15 @@ const articleBody = computed(() => {
   filter: grayscale(1%) contrast(1.02);
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .rich-content :deep(.article-hero-img:hover img) {
   transform: scale(1.02);
 }
+
 .rich-content :deep(.article-hero-img figcaption) {
   margin-top: 14px;
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1.5px;
   font-style: italic;
   font-family: Georgia, 'Times New Roman', serif;
@@ -148,7 +153,7 @@ const articleBody = computed(() => {
 
 .footer-line {
   height: 1px;
-  background: #eef2f6;
+  background: var(--mist-050);
   margin-bottom: 28px;
 }
 
@@ -162,7 +167,7 @@ const articleBody = computed(() => {
 .footer-mark {
   font-size: 11px;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -178,8 +183,8 @@ const articleBody = computed(() => {
   gap: 8px;
   padding: 10px 18px;
   background: transparent;
-  border: 1px solid #e8ecf0;
-  color: #1f2937;
+  border: 1px solid var(--mist-100);
+  color: var(--ink-800);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -188,19 +193,21 @@ const articleBody = computed(() => {
   transition: all 0.25s ease;
   border-radius: 0;
 }
+
 .action-btn:hover {
-  border-color: #0a0f1a;
-  background: #0a0f1a;
-  color: #fff;
+  border-color: var(--navy-950);
+  background: var(--navy-950);
+  color: white;
 }
+
 .action-btn.active {
   border-color: var(--brand-primary);
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
 }
 .action-btn .el-icon { font-size: 13px; }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .footer-row {
     flex-direction: column;
     align-items: flex-start;

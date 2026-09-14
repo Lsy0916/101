@@ -55,11 +55,11 @@ const goCreate = () => {
 <style scoped>
 .square-page {
   min-height: 100vh;
-  background: #f8fbff;
+  background: var(--brand-primary-wash);
   padding-top: 28px;
   padding-bottom: 120px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-  color: #111827;
+  color: var(--ink-900);
   position: relative;
   overflow-x: hidden;
 }
@@ -101,8 +101,8 @@ const goCreate = () => {
   align-items: center;
   gap: 8px;
   padding: 16px 28px;
-  background: linear-gradient(135deg, #0052d9, #1890ff);
-  color: #fff;
+  background: linear-gradient(135deg, var(--brand-primary), var(--color-info));
+  color: white;
   border: none;
   border-radius: 32px;
   font-size: 14px;
@@ -112,19 +112,19 @@ const goCreate = () => {
   z-index: 50;
   transition: all 0.3s ease;
   font-family: inherit;
-  box-shadow: 0 8px 24px rgba(0, 82, 217, 0.3);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-primary) 30%, transparent);
   animation: fab-pulse 2.4s ease-out infinite;
 }
 
 @keyframes fab-pulse {
-  0% { box-shadow: 0 8px 24px rgba(0, 82, 217, 0.3), 0 0 0 0 rgba(0, 82, 217, 0.4); }
-  100% { box-shadow: 0 8px 24px rgba(0, 82, 217, 0.3), 0 0 0 20px rgba(0, 82, 217, 0); }
+  0% { box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-primary) 30%, transparent), 0 0 0 0 color-mix(in srgb, var(--brand-primary) 40%, transparent); }
+  100% { box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-primary) 30%, transparent), 0 0 0 20px transparent; }
 }
 
 .fab-btn:hover {
-  background: linear-gradient(135deg, #0040b0, #0077e6);
+  background: linear-gradient(135deg, var(--brand-primary-dark), var(--blue-600));
   transform: translateY(-3px);
-  box-shadow: 0 14px 32px rgba(0, 82, 217, 0.4);
+  box-shadow: 0 14px 32px color-mix(in srgb, var(--brand-primary) 40%, transparent);
   animation: none;
 }
 
@@ -133,28 +133,30 @@ const goCreate = () => {
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 1100px) {
+@media (width <= 1100px) {
   .community-body {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .community-body {
     padding-left: 32px;
     padding-right: 32px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .community-body {
     padding: 24px 20px 0;
   }
+
   .fab-btn {
     right: 20px;
     bottom: 24px;
     padding: 14px 22px;
   }
+
   .fab-text {
     display: none;
   }

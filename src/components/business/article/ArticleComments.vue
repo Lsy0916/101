@@ -116,7 +116,7 @@ const toggleCommentLike = (comment: CommentItem) => {
   gap: 8px;
   margin-bottom: 36px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   position: relative;
 }
 
@@ -131,7 +131,7 @@ const toggleCommentLike = (comment: CommentItem) => {
 .comments-header .comments-title {
   font-size: clamp(28px, 3.5vw, 40px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: -1px;
   margin: 0;
 }
@@ -141,7 +141,7 @@ const toggleCommentLike = (comment: CommentItem) => {
   right: 0;
   bottom: 28px;
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 500;
   letter-spacing: 0.5px;
   font-variant-numeric: tabular-nums;
@@ -153,16 +153,16 @@ const toggleCommentLike = (comment: CommentItem) => {
   gap: 14px;
   margin-bottom: 40px;
   padding: 20px;
-  background: #f8fbff;
-  border: 1px solid #eef2f6;
+  background: var(--brand-primary-wash);
+  border: 1px solid var(--mist-050);
   border-radius: 16px;
   transition: border-color 0.25s ease;
 }
 
 .comment-input-wrap:focus-within {
-  border-color: #d0e7ff;
-  background: #ffffff;
-  box-shadow: 0 4px 16px rgba(0, 82, 217, 0.06);
+  border-color: var(--brand-primary-soft);
+  background: white;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--brand-primary) 6%, transparent);
 }
 
 .comment-input-area {
@@ -175,12 +175,12 @@ const toggleCommentLike = (comment: CommentItem) => {
 .comment-textarea {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
   border-radius: 12px;
   font-size: 14px;
   line-height: 1.6;
-  color: #1f2937;
-  background: #ffffff;
+  color: var(--ink-800);
+  background: white;
   resize: vertical;
   min-height: 72px;
   font-family: inherit;
@@ -191,18 +191,18 @@ const toggleCommentLike = (comment: CommentItem) => {
 .comment-textarea:focus {
   outline: none;
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.08);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 8%, transparent);
 }
 
 .comment-textarea::placeholder {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .comment-submit-btn {
   align-self: flex-end;
   padding: 10px 28px;
-  background: linear-gradient(135deg, #0052d9, #1890ff);
-  color: #fff;
+  background: linear-gradient(135deg, var(--brand-primary), var(--color-info));
+  color: white;
   border: none;
   border-radius: 12px;
   font-size: 13px;
@@ -215,11 +215,11 @@ const toggleCommentLike = (comment: CommentItem) => {
 
 .comment-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 82, 217, 0.25);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--brand-primary) 25%, transparent);
 }
 
 .comment-submit-btn:disabled {
-  background: #d0e7ff;
+  background: var(--brand-primary-soft);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -236,15 +236,15 @@ const toggleCommentLike = (comment: CommentItem) => {
   display: flex;
   gap: 14px;
   padding: 20px 24px;
-  background: #ffffff;
-  border: 1px solid #eef2f6;
+  background: white;
+  border: 1px solid var(--mist-050);
   border-radius: 14px;
   transition: all 0.25s ease;
 }
 
 .comment-item:hover {
-  border-color: #d0e7ff;
-  box-shadow: 0 6px 18px rgba(0, 82, 217, 0.06);
+  border-color: var(--brand-primary-soft);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 6%, transparent);
   transform: translateY(-2px);
 }
 
@@ -264,19 +264,19 @@ const toggleCommentLike = (comment: CommentItem) => {
 .comment-author {
   font-size: 14px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
 }
 
 .comment-time {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 0.5px;
 }
 
 .comment-content {
   font-size: 14px;
   line-height: 1.75;
-  color: #4b5563;
+  color: var(--ink-600);
   margin: 0 0 12px;
 }
 
@@ -286,24 +286,24 @@ const toggleCommentLike = (comment: CommentItem) => {
   gap: 6px;
   padding: 5px 12px;
   background: transparent;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
   border-radius: 20px;
   font-size: 12px;
-  color: #6b7280;
+  color: var(--ink-500);
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
 }
 
 .comment-like-btn:hover {
-  border-color: #d0e7ff;
-  background: #f0f7ff;
+  border-color: var(--brand-primary-soft);
+  background: var(--brand-primary-faint);
   color: var(--brand-primary);
 }
 
 .comment-like-btn.liked {
   border-color: var(--brand-primary);
-  background: rgba(0, 82, 217, 0.08);
+  background: color-mix(in srgb, var(--brand-primary) 8%, transparent);
   color: var(--brand-primary);
   font-weight: 600;
 }
@@ -315,15 +315,16 @@ const toggleCommentLike = (comment: CommentItem) => {
 .comments-empty {
   text-align: center;
   padding: 48px 0;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-size: 14px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .comments-section {
     padding-left: 20px;
     padding-right: 20px;
   }
+
   .comment-input-wrap {
     flex-direction: column;
     gap: 10px;

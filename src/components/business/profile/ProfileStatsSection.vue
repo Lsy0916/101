@@ -36,7 +36,7 @@ const stats = computed(() => [
 <style scoped>
 /* ============ 杂志区块通用 ============ */
 .mag-section {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
   padding: 48px 0 40px;
 }
 
@@ -55,7 +55,7 @@ const stats = computed(() => [
   color: var(--brand-primary);
   line-height: 1;
   padding-top: 2px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-titles {
@@ -66,16 +66,16 @@ const stats = computed(() => [
   margin: 0 0 8px;
   font-size: 26px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   line-height: 1.2;
   letter-spacing: -0.3px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-desc {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
   max-width: 540px;
 }
@@ -92,7 +92,7 @@ const stats = computed(() => [
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--ink-200);
 }
 
 .stat-block:first-child {
@@ -104,7 +104,7 @@ const stats = computed(() => [
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-family: Georgia, serif;
   font-style: italic;
 }
@@ -115,60 +115,70 @@ const stats = computed(() => [
   line-height: 1;
   color: var(--brand-primary);
   letter-spacing: -1px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .stat-label {
   font-size: 13px;
-  color: #4b5563;
+  color: var(--ink-600);
   letter-spacing: 0.5px;
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .stats-row {
     grid-template-columns: repeat(3, 1fr);
   }
+
   .stat-block:nth-child(4) {
     border-left: none;
     padding-left: 0;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .mag-section {
     padding: 36px 0 28px;
   }
+
   .sec-head {
     grid-template-columns: auto 1fr;
     gap: 16px;
     margin-bottom: 26px;
   }
+
   .sec-title {
     font-size: 22px;
   }
+
   .sec-num {
     font-size: 24px;
   }
+
   .stats-row {
     grid-template-columns: 1fr;
   }
+
   .stat-block {
     border-left: none;
-    border-bottom: 1px solid #f0f2f5;
+    border-bottom: 1px solid var(--mist-075);
     padding: 16px 0;
     flex-direction: row;
     align-items: baseline;
     gap: 16px;
   }
+
   .stat-block:last-child {
     border-bottom: none;
   }
+
   .stat-index {
     width: 28px;
   }
+
   .stat-num {
     font-size: 38px;
   }
+
   .stat-label {
     margin-left: auto;
     text-align: right;

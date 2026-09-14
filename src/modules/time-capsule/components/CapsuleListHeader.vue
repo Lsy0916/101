@@ -65,7 +65,7 @@ const postmarkDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart
 .eyebrow-text {
   font-size: 11px;
   letter-spacing: 2.5px;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -73,11 +73,11 @@ const postmarkDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart
 .header-title {
   font-size: clamp(48px, 7vw, 88px);
   font-weight: 900;
-  color: #111827;
-  margin: 0 0 16px 0;
+  color: var(--ink-900);
+  margin: 0 0 16px;
   letter-spacing: -3px;
   line-height: 0.95;
-  font-family: 'Georgia', 'PingFang SC', serif;
+  font-family: Georgia, 'PingFang SC', serif;
 }
 
 .header-title em {
@@ -85,12 +85,12 @@ const postmarkDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart
   font-weight: 300;
   color: var(--brand-primary);
   opacity: 0.85;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
 }
 
 .header-desc {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
   letter-spacing: 0.5px;
   margin: 0;
   line-height: 1.6;
@@ -105,7 +105,7 @@ const postmarkDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart
 .postmark {
   width: 108px;
   height: 108px;
-  border: 1.5px solid rgba(0, 82, 217, 0.55);
+  border: 1.5px solid color-mix(in srgb, var(--brand-primary) 55%, transparent);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -122,7 +122,7 @@ const postmarkDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart
   content: '';
   position: absolute;
   inset: 6px;
-  border: 1px solid rgba(0, 82, 217, 0.3);
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 30%, transparent);
   border-radius: 50%;
 }
 
@@ -142,7 +142,7 @@ const postmarkDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart
 .pm-bar {
   width: 60%;
   height: 1px;
-  background: rgba(0, 82, 217, 0.4);
+  background: color-mix(in srgb, var(--brand-primary) 40%, transparent);
 }
 
 .pm-text {
@@ -154,7 +154,7 @@ const postmarkDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart
   line-height: 1.3;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .page-header {
     padding: 24px 20px 20px;
     flex-direction: column;

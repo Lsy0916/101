@@ -51,11 +51,11 @@ const emit = defineEmits<{
 
 <style scoped>
 .q-card-immersive {
-  background: #fff;
+  background: white;
   border-radius: 24px;
   padding: 56px 48px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px color-mix(in srgb, black 4%, transparent), 0 12px 32px color-mix(in srgb, black 5%, transparent);
+  border: 1px solid var(--neutral-075);
 }
 
 .q-header {
@@ -73,8 +73,8 @@ const emit = defineEmits<{
   display: inline-block;
   padding: 5px 12px;
   border-radius: 8px;
-  background: #111;
-  color: #fff;
+  background: var(--neutral-900);
+  color: white;
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.5px;
@@ -82,8 +82,8 @@ const emit = defineEmits<{
 
 .q-category-tag {
   font-size: 12px;
-  color: #666;
-  background: #f5f5f5;
+  color: var(--neutral-600);
+  background: var(--neutral-050);
   padding: 5px 10px;
   border-radius: 8px;
   font-weight: 500;
@@ -92,7 +92,7 @@ const emit = defineEmits<{
 .q-progress-mark {
   margin-left: auto;
   font-size: 12px;
-  color: #999;
+  color: var(--neutral-400);
   font-weight: 600;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
@@ -100,7 +100,7 @@ const emit = defineEmits<{
 
 .q-text {
   font-size: clamp(22px, 2.6vw, 30px);
-  color: #111;
+  color: var(--neutral-900);
   font-weight: 700;
   line-height: 1.4;
   margin: 0;
@@ -116,14 +116,14 @@ const emit = defineEmits<{
 
 .opt-card {
   padding: 20px 24px;
-  border: 1.5px solid #eee;
+  border: 1.5px solid var(--neutral-100);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
+  background: white;
   animation: slide-in 0.4s ease-out backwards;
   animation-delay: var(--delay);
   position: relative;
@@ -137,7 +137,7 @@ const emit = defineEmits<{
   top: 0;
   bottom: 0;
   width: 3px;
-  background: #111;
+  background: var(--neutral-900);
   transform: scaleY(0);
   transform-origin: center;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -157,13 +157,13 @@ const emit = defineEmits<{
   width: 32px;
   height: 32px;
   border-radius: 10px;
-  background: #f9f9f9;
-  border: 1px solid #eee;
+  background: #f9f9f9; /* stylelint-disable-line color-no-hex, function-allowed-list */
+  border: 1px solid var(--neutral-100);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  color: #888;
+  color: var(--neutral-450);
   font-size: 14px;
   transition: all 0.25s;
   flex-shrink: 0;
@@ -171,7 +171,7 @@ const emit = defineEmits<{
 
 .opt-label {
   font-size: 16px;
-  color: #333;
+  color: var(--neutral-800);
   font-weight: 500;
 }
 
@@ -179,44 +179,44 @@ const emit = defineEmits<{
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 2px solid #ddd;
+  border: 2px solid #ddd; /* stylelint-disable-line color-no-hex, function-allowed-list */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: white;
   transition: all 0.25s;
   flex-shrink: 0;
 }
 
 .opt-card:hover {
-  border-color: #111;
+  border-color: var(--neutral-900);
   transform: translateX(4px);
 }
 
 .opt-card:hover .opt-index {
-  border-color: #111;
-  color: #111;
+  border-color: var(--neutral-900);
+  color: var(--neutral-900);
 }
 
 .opt-card.selected {
-  border-color: #111;
-  background: #111;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-color: var(--neutral-900);
+  background: var(--neutral-900);
+  box-shadow: 0 8px 20px color-mix(in srgb, black 15%, transparent);
 }
 
 .opt-card.selected .opt-label {
-  color: #fff;
+  color: white;
 }
 
 .opt-card.selected .opt-index {
-  background: rgba(255, 255, 255, 0.15);
+  background: color-mix(in srgb, white 15%, transparent);
   border-color: transparent;
-  color: #fff;
+  color: white;
 }
 
 .opt-card.selected .opt-check {
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+  background: color-mix(in srgb, white 20%, transparent);
 }
 
 @keyframes slide-in {
@@ -224,7 +224,7 @@ const emit = defineEmits<{
   to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .q-card-immersive {
     padding: 32px 24px;
     border-radius: 20px;

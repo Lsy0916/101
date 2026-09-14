@@ -42,6 +42,7 @@ const onLoginSuccess = (payload?: { remember?: boolean }) => {
   width: 100%;
   min-height: 100vh;
   margin: 0;
+
   /* 避开顶部 80px 高的透明导航栏，防止内容被覆盖 */
   padding-top: 80px;
   padding-bottom: 0;
@@ -57,7 +58,7 @@ const onLoginSuccess = (payload?: { remember?: boolean }) => {
 .bg-layer {
   position: fixed;
   inset: 0;
-  background-image: url('../assets/images/nist-bg.jpg'), linear-gradient(135deg, #0a2a6b 0%, #0052d9 50%, #1890ff 100%);
+  background-image: url('../assets/images/nist-bg.jpg'), linear-gradient(135deg, var(--navy-800) 0%, var(--brand-primary) 50%, var(--color-info) 100%);
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
@@ -69,9 +70,9 @@ const onLoginSuccess = (payload?: { remember?: boolean }) => {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(24, 144, 255, 0.18) 0%, transparent 55%),
-    radial-gradient(circle at 50% 100%, rgba(0, 82, 217, 0.12) 0%, transparent 60%);
+    radial-gradient(circle at 20% 30%, color-mix(in srgb, white 8%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--color-info) 18%, transparent) 0%, transparent 55%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--brand-primary) 12%, transparent) 0%, transparent 60%);
   z-index: 1;
 }
 
@@ -95,6 +96,7 @@ const onLoginSuccess = (payload?: { remember?: boolean }) => {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -102,7 +104,7 @@ const onLoginSuccess = (payload?: { remember?: boolean }) => {
 }
 
 /* 响应式：< 1200px 隐藏品牌区，表单居中 */
-@media (max-width: 1199px) {
+@media (width <= 1199px) {
   .content-wrapper {
     justify-content: center;
     gap: 0;
@@ -111,10 +113,11 @@ const onLoginSuccess = (payload?: { remember?: boolean }) => {
 }
 
 /* 响应式：< 768px 调整内边距 */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .login-container {
     padding-top: 64px;
   }
+
   .content-wrapper {
     padding: 24px 16px;
   }

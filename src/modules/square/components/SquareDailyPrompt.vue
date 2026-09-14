@@ -39,7 +39,7 @@ const emit = defineEmits<{
   justify-content: space-between;
   gap: 24px;
   padding: 28px 36px;
-  background: linear-gradient(120deg, #0052d9 0%, #1890ff 100%);
+  background: linear-gradient(120deg, var(--brand-primary) 0%, var(--color-info) 100%);
   border-radius: 20px;
   position: relative;
   overflow: hidden;
@@ -54,19 +54,19 @@ const emit = defineEmits<{
   display: inline-block;
   font-size: 10px;
   letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.7);
+  color: color-mix(in srgb, white 70%, transparent);
   font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 10px;
   padding: 3px 10px;
-  background: rgba(255, 255, 255, 0.15);
+  background: color-mix(in srgb, white 15%, transparent);
   border-radius: 4px;
 }
 
 .prompt-question {
   font-size: clamp(18px, 2vw, 24px);
   font-weight: 700;
-  color: #fff;
+  color: white;
   margin: 0 0 14px;
   line-height: 1.4;
   letter-spacing: -0.3px;
@@ -77,9 +77,9 @@ const emit = defineEmits<{
   align-items: center;
   gap: 6px;
   padding: 8px 18px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
+  background: color-mix(in srgb, white 18%, transparent);
+  border: 1px solid color-mix(in srgb, white 30%, transparent);
+  color: white;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -91,7 +91,7 @@ const emit = defineEmits<{
 }
 
 .prompt-join:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: color-mix(in srgb, white 28%, transparent);
   transform: translateX(4px);
 }
 
@@ -102,26 +102,28 @@ const emit = defineEmits<{
 .prompt-deco {
   font-size: 120px;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.12);
+  color: color-mix(in srgb, white 12%, transparent);
   line-height: 0.7;
   font-family: Georgia, serif;
   flex-shrink: 0;
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .daily-prompt-section {
     padding-left: 32px;
     padding-right: 32px;
   }
+
   .prompt-deco {
     display: none;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .daily-prompt-section {
     padding: 0 20px;
   }
+
   .daily-prompt-card {
     padding: 20px 22px;
     border-radius: 16px;

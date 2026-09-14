@@ -140,18 +140,21 @@ function clearCache() {
 /* ============ 区块通用 ============ */
 .editorial-section {
   padding: 40px 0 56px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
   scroll-margin-top: 80px;
 }
+
 .editorial-section:first-of-type {
-  border-top: 1px solid #111827;
+  border-top: 1px solid var(--ink-900);
 }
+
 .section-marker {
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 22px;
 }
+
 .marker-num {
   font-family: Georgia, 'Times New Roman', serif;
   font-style: italic;
@@ -160,22 +163,26 @@ function clearCache() {
   color: var(--brand-primary);
   line-height: 1;
 }
+
 .marker-rule {
   flex: 1;
   height: 1px;
-  background: #111827;
+  background: var(--ink-900);
 }
+
 .marker-icon {
   font-size: 16px;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .marker-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .section-headline-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -183,22 +190,24 @@ function clearCache() {
   align-items: end;
   margin-bottom: 36px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--ink-200);
 }
+
 .section-headline {
   margin: 0;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 1.1;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .section-deck {
   margin: 0;
   font-size: 15px;
   font-style: italic;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 /* ============ 网格 ============ */
@@ -206,11 +215,13 @@ function clearCache() {
   display: grid;
 }
 .two-col { grid-template-columns: 1fr 1fr; }
+
 .editorial-col {
   padding: 0 32px;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid var(--ink-200);
 }
 .editorial-col:first-child { padding-left: 0; }
+
 .editorial-col:last-child {
   padding-right: 0;
   border-right: none;
@@ -223,14 +234,15 @@ function clearCache() {
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #111827;
+  color: var(--ink-900);
 }
-.col-title-danger { color: #dc2626; }
+.col-title-danger { color: var(--danger-600); }
+
 .col-deck {
   margin: 0 0 18px;
   font-size: 13px;
   font-style: italic;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.5;
 }
 
@@ -241,19 +253,22 @@ function clearCache() {
   gap: 8px;
   margin-bottom: 16px;
 }
+
 .field-label {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #374151;
+  color: var(--ink-700);
 }
+
 .checkbox-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px 16px;
   padding: 8px 0;
 }
+
 .field-actions {
   display: flex;
   justify-content: flex-end;
@@ -264,9 +279,9 @@ function clearCache() {
 /* ============ Editorial 按钮 ============ */
 .editorial-btn {
   padding: 10px 28px;
-  background: #111827;
-  color: #fff;
-  border: 1px solid #111827;
+  background: var(--ink-900);
+  color: white;
+  border: 1px solid var(--ink-900);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -274,41 +289,47 @@ function clearCache() {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .editorial-btn:hover {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
 }
+
 .editorial-btn-danger {
-  background: #dc2626;
-  border-color: #dc2626;
-}
-.editorial-btn-danger:hover {
-  background: #b91c1c;
-  border-color: #b91c1c;
+  background: var(--danger-600);
+  border-color: var(--danger-600);
 }
 
-@media (max-width: 1024px) {
+.editorial-btn-danger:hover {
+  background: var(--danger-700);
+  border-color: var(--danger-700);
+}
+
+@media (width <= 1024px) {
   .section-headline-row {
     grid-template-columns: 1fr;
     gap: 12px;
   }
   .section-headline { font-size: 26px; }
   .two-col { grid-template-columns: 1fr; }
+
   .editorial-col {
     padding: 24px 0;
     border-right: none;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--ink-200);
   }
   .editorial-col:first-child { padding-top: 0; }
+
   .editorial-col:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .checkbox-grid { grid-template-columns: 1fr; }
   .field-actions { justify-content: stretch; }
+
   .field-actions .editorial-btn {
     flex: 1;
     text-align: center;

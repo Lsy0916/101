@@ -13,6 +13,31 @@
     "value-no-vendor-prefix": null,
     "color-hex-length": null,
     "alpha-value-notation": null,
-    "color-function-notation": null
-  }
+    "color-function-notation": null,
+    "declaration-block-single-line-max-declarations": null,
+    "color-no-hex": true,
+    "function-allowed-list": [
+      "var", "calc", "clamp", "min", "max", "env", "attr", "url", "local", "format",
+      "counter", "counters", "color-mix",
+      "linear-gradient", "radial-gradient", "conic-gradient",
+      "repeating-linear-gradient", "repeating-radial-gradient", "repeating-conic-gradient",
+      "cubic-bezier", "steps", "minmax", "repeat",
+      "translate", "translate3d", "translateX", "translateY", "translateZ",
+      "scale", "scale3d", "scaleX", "scaleY", "scaleZ",
+      "rotate", "rotate3d", "rotateX", "rotateY", "rotateZ",
+      "skew", "skewX", "skewY", "matrix", "matrix3d", "perspective",
+      "blur", "brightness", "contrast", "grayscale", "hue-rotate", "invert",
+      "opacity", "saturate", "sepia", "drop-shadow",
+      "polygon", "circle", "ellipse", "inset", "path"
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/styles/**/*.css"],
+      "rules": {
+        "color-no-hex": null,
+        "function-allowed-list": null
+      }
+    }
+  ]
 }

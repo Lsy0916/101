@@ -51,7 +51,7 @@ defineProps<{
   justify-content: space-between;
   gap: 48px;
   padding-bottom: 32px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .header-left {
@@ -63,7 +63,7 @@ defineProps<{
   display: block;
   font-size: 12px;
   letter-spacing: 3px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   margin-bottom: 14px;
   text-transform: uppercase;
@@ -72,7 +72,7 @@ defineProps<{
 .header-title {
   font-size: clamp(40px, 6vw, 68px);
   font-weight: 900;
-  color: #111827;
+  color: var(--ink-900);
   margin: 0 0 14px;
   letter-spacing: -2px;
   line-height: 1.02;
@@ -87,7 +87,7 @@ defineProps<{
 
 .header-desc {
   font-size: 15px;
-  color: #6b7280;
+  color: var(--ink-500);
   margin: 0;
   letter-spacing: 0.3px;
 }
@@ -117,7 +117,7 @@ defineProps<{
 
 .stat-label {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1px;
   text-transform: uppercase;
   font-weight: 600;
@@ -126,27 +126,30 @@ defineProps<{
 .stat-divider {
   width: 1px;
   height: 36px;
-  background: #eef2f6;
+  background: var(--mist-050);
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 28px;
   }
+
   .header-right {
     gap: 20px;
   }
+
   .stat-num {
     font-size: 26px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .page-header {
-    padding: 24px 20px 24px;
+    padding: 24px 20px;
   }
+
   .header-title {
     font-size: 36px;
     letter-spacing: -1px;

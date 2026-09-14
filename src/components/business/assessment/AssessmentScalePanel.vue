@@ -105,8 +105,8 @@ const emit = defineEmits<{
   align-items: center;
   gap: 24px;
   padding: 18px 0;
-  border-top: 1px solid #0a0f1a;
-  border-bottom: 1px solid #eef2f6;
+  border-top: 1px solid var(--navy-950);
+  border-bottom: 1px solid var(--mist-050);
   margin-bottom: 8px;
   flex-wrap: wrap;
 }
@@ -142,7 +142,7 @@ const emit = defineEmits<{
 .ribbon-cat .cat-name {
   font-size: 15px;
   font-weight: 500;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: 0.2px;
 }
 
@@ -152,7 +152,7 @@ const emit = defineEmits<{
 
 .ribbon-cat .cat-count {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   margin-left: 4px;
   opacity: 0.7;
@@ -167,14 +167,14 @@ const emit = defineEmits<{
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid #0a0f1a;
+  border-bottom: 1px solid var(--navy-950);
   padding: 4px 0;
   min-width: 200px;
 }
 
 .ribbon-search .search-ico {
   font-size: 15px;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .ribbon-search input {
@@ -182,14 +182,14 @@ const emit = defineEmits<{
   outline: none;
   background: transparent;
   font-size: 14px;
-  color: #0a0f1a;
+  color: var(--navy-950);
   font-family: inherit;
   width: 100%;
   padding: 4px 0;
 }
 
 .ribbon-search input::placeholder {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 /* 当前分类小标题 */
@@ -203,19 +203,19 @@ const emit = defineEmits<{
 .rows-heading .heading-name {
   font-size: clamp(22px, 2.4vw, 30px);
   font-weight: 800;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: -0.5px;
 }
 
 .rows-heading .heading-line {
   flex: 1;
   height: 1px;
-  background: #eef2f6;
+  background: var(--mist-050);
 }
 
 .rows-heading .heading-count {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
@@ -226,8 +226,8 @@ const emit = defineEmits<{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 0;
-  border-top: 1px solid #eef2f6;
-  border-left: 1px solid #eef2f6;
+  border-top: 1px solid var(--mist-050);
+  border-left: 1px solid var(--mist-050);
 }
 
 .scale-row {
@@ -235,17 +235,17 @@ const emit = defineEmits<{
   flex-direction: column;
   gap: 18px;
   padding: 28px 24px 24px;
-  border-right: 1px solid #eef2f6;
-  border-bottom: 1px solid #eef2f6;
+  border-right: 1px solid var(--mist-050);
+  border-bottom: 1px solid var(--mist-050);
   cursor: pointer;
   transition: background 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  background: #ffffff;
+  background: white;
 }
 
 .scale-row:hover {
-  background: #f8fbff;
-  box-shadow: 0 12px 32px rgba(0, 82, 217, 0.1);
+  background: var(--brand-primary-wash);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--brand-primary) 10%, transparent);
   z-index: 2;
 }
 
@@ -259,7 +259,7 @@ const emit = defineEmits<{
 
 .scale-row.is-unavailable:hover {
   opacity: 0.9;
-  background: #fafafa;
+  background: var(--neutral-025);
 }
 
 .row-number {
@@ -271,7 +271,7 @@ const emit = defineEmits<{
 .row-number .num {
   font-size: 13px;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1.5px;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -289,17 +289,17 @@ const emit = defineEmits<{
   justify-content: center;
   font-size: 18px;
   border-radius: 8px;
-  background: #f8fafc;
+  background: var(--slate-50);
   color: var(--brand-primary);
   transition: all 0.3s ease;
 }
 
-.row-icon.cat-mental { background: #f0f7ff; color: #0052d9; }
-.row-icon.cat-career { background: #eef6ff; color: #1890ff; }
-.row-icon.cat-cognitive { background: #f5f0ff; color: #6b5ce7; }
-.row-icon.cat-esports { background: #fff0f6; color: #e84393; }
-.row-icon.cat-learning { background: #f0fbf6; color: #00a878; }
-.row-icon.cat-social { background: #fff7e6; color: #e8830c; }
+.row-icon.cat-mental { background: var(--brand-primary-faint); color: var(--brand-primary); }
+.row-icon.cat-career { background: #eef6ff; color: var(--color-info); } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.row-icon.cat-cognitive { background: #f5f0ff; color: #6b5ce7; } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.row-icon.cat-esports { background: #fff0f6; color: #e84393; } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.row-icon.cat-learning { background: #f0fbf6; color: #00a878; } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.row-icon.cat-social { background: #fff7e6; color: #e8830c; } /* stylelint-disable-line color-no-hex, function-allowed-list */
 
 .scale-row:hover .row-icon {
   transform: scale(1.08) rotate(-4deg);
@@ -321,7 +321,7 @@ const emit = defineEmits<{
 .row-title {
   font-size: 17px;
   font-weight: 700;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.2px;
@@ -337,21 +337,21 @@ const emit = defineEmits<{
 }
 
 .row-status.done {
-  background: #0a0f1a;
-  color: #fff;
+  background: var(--navy-950);
+  color: white;
 }
 
 .row-status.soon {
   background: transparent;
-  color: #9ca3af;
-  border: 1px dashed #d0d5dd;
+  color: var(--ink-400);
+  border: 1px dashed var(--mist-300);
 }
 
 .row-desc {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -366,14 +366,14 @@ const emit = defineEmits<{
 
 .row-tag {
   font-size: 11px;
-  color: #6b7280;
+  color: var(--ink-500);
   padding: 2px 0;
   font-weight: 500;
 }
 
 .row-tag::before {
   content: '/ ';
-  color: #d0d5dd;
+  color: var(--mist-300);
 }
 
 .row-tag:first-child::before {
@@ -386,7 +386,7 @@ const emit = defineEmits<{
   justify-content: space-between;
   gap: 12px;
   padding-top: 14px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--slate-100);
 }
 
 .row-meta .meta-item {
@@ -403,7 +403,7 @@ const emit = defineEmits<{
 .meta-difficulty {
   font-size: 11px;
   font-weight: 700;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -421,7 +421,7 @@ const emit = defineEmits<{
   transform: translateX(0);
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .scale-rows {
     grid-template-columns: 1fr;
   }
@@ -440,13 +440,13 @@ const emit = defineEmits<{
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   line-height: 1.6;
-  border-top: 1px solid #eef2f6;
+  border-top: 1px solid var(--mist-050);
 }
 
 .footer-tip .el-icon {
-  color: #6b7280;
+  color: var(--ink-500);
   flex-shrink: 0;
   font-size: 14px;
 }

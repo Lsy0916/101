@@ -426,18 +426,21 @@ function revokeDevice(device: DeviceItem) {
 /* ============ 区块通用 ============ */
 .editorial-section {
   padding: 40px 0 56px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
   scroll-margin-top: 80px;
 }
+
 .editorial-section:first-of-type {
-  border-top: 1px solid #111827;
+  border-top: 1px solid var(--ink-900);
 }
+
 .section-marker {
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 22px;
 }
+
 .marker-num {
   font-family: Georgia, 'Times New Roman', serif;
   font-style: italic;
@@ -446,22 +449,26 @@ function revokeDevice(device: DeviceItem) {
   color: var(--brand-primary);
   line-height: 1;
 }
+
 .marker-rule {
   flex: 1;
   height: 1px;
-  background: #111827;
+  background: var(--ink-900);
 }
+
 .marker-icon {
   font-size: 16px;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .marker-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .section-headline-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -469,22 +476,24 @@ function revokeDevice(device: DeviceItem) {
   align-items: end;
   margin-bottom: 36px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--ink-200);
 }
+
 .section-headline {
   margin: 0;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 1.1;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .section-deck {
   margin: 0;
   font-size: 15px;
   font-style: italic;
   line-height: 1.6;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 /* ============ 网格 ============ */
@@ -492,11 +501,13 @@ function revokeDevice(device: DeviceItem) {
   display: grid;
 }
 .two-col { grid-template-columns: 1fr 1fr; }
+
 .editorial-col {
   padding: 0 32px;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid var(--ink-200);
 }
 .editorial-col:first-child { padding-left: 0; }
+
 .editorial-col:last-child {
   padding-right: 0;
   border-right: none;
@@ -509,7 +520,7 @@ function revokeDevice(device: DeviceItem) {
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #111827;
+  color: var(--ink-900);
 }
 .col-title-spaced { margin-top: 36px; }
 
@@ -519,30 +530,35 @@ function revokeDevice(device: DeviceItem) {
   flex-direction: column;
   gap: 16px;
 }
+
 .pwd-form :deep(.el-form-item__label) {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #374151;
+  color: var(--ink-700);
   padding-bottom: 6px;
 }
+
 .pwd-form :deep(.el-input__wrapper) {
   border-radius: 0 !important;
 }
+
 .field {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 16px;
 }
+
 .field-label {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #374151;
+  color: var(--ink-700);
 }
+
 .field-actions {
   display: flex;
   justify-content: flex-end;
@@ -553,9 +569,9 @@ function revokeDevice(device: DeviceItem) {
 /* ============ Editorial 按钮 ============ */
 .editorial-btn {
   padding: 10px 28px;
-  background: #111827;
-  color: #fff;
-  border: 1px solid #111827;
+  background: var(--ink-900);
+  color: white;
+  border: 1px solid var(--ink-900);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -563,18 +579,21 @@ function revokeDevice(device: DeviceItem) {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .editorial-btn:hover {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
 }
+
 .editorial-btn-ghost {
   background: transparent;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .editorial-btn-ghost:hover {
-  background: #111827;
-  color: #fff;
-  border-color: #111827;
+  background: var(--ink-900);
+  color: white;
+  border-color: var(--ink-900);
 }
 
 /* ============ 联系方式列表 ============ */
@@ -583,14 +602,16 @@ function revokeDevice(device: DeviceItem) {
   margin: 0;
   padding: 0;
 }
+
 .entry-row {
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 16px 0;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--ink-200);
 }
 .entry-row:last-child { border-bottom: none; }
+
 .entry-mark {
   display: flex;
   align-items: center;
@@ -599,8 +620,9 @@ function revokeDevice(device: DeviceItem) {
   height: 36px;
   font-size: 18px;
   color: var(--brand-primary);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--ink-200);
 }
+
 .entry-text {
   flex: 1;
   display: flex;
@@ -608,16 +630,18 @@ function revokeDevice(device: DeviceItem) {
   gap: 2px;
   min-width: 0;
 }
+
 .entry-key {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #6b7280;
+  color: var(--ink-500);
 }
+
 .entry-value {
   font-size: 15px;
-  color: #111827;
+  color: var(--ink-900);
   letter-spacing: 0.5px;
 }
 
@@ -635,17 +659,20 @@ function revokeDevice(device: DeviceItem) {
   border-bottom: 1px solid var(--brand-primary);
   transition: all 0.2s;
 }
+
 .link-btn:hover {
-  color: #1890ff;
-  border-bottom-color: #1890ff;
+  color: var(--color-info);
+  border-bottom-color: var(--color-info);
 }
+
 .link-btn-danger {
-  color: #dc2626;
-  border-bottom-color: #dc2626;
+  color: var(--danger-600);
+  border-bottom-color: var(--danger-600);
 }
+
 .link-btn-danger:hover {
-  color: #b91c1c;
-  border-bottom-color: #b91c1c;
+  color: var(--danger-700);
+  border-bottom-color: var(--danger-700);
 }
 
 /* ============ 登录设备 ============ */
@@ -654,26 +681,31 @@ function revokeDevice(device: DeviceItem) {
   margin: 0;
   padding: 0;
 }
+
 .device-row {
   padding: 18px 0;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--ink-200);
 }
 .device-row:last-child { border-bottom: none; }
+
 .device-row.current {
   padding-left: 16px;
   border-left: 3px solid var(--brand-primary);
 }
+
 .device-head {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
 }
+
 .device-name {
   font-size: 15px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
 }
+
 .device-tag {
   font-size: 10px;
   font-weight: 700;
@@ -683,6 +715,7 @@ function revokeDevice(device: DeviceItem) {
   border: 1px solid var(--brand-primary);
   padding: 2px 6px;
 }
+
 .device-meta {
   display: flex;
   flex-wrap: wrap;
@@ -690,45 +723,50 @@ function revokeDevice(device: DeviceItem) {
   margin: 0 0 10px;
 }
 .meta-item { margin: 0; }
+
 .meta-item dt {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #9ca3af;
+  color: var(--ink-400);
   margin-bottom: 2px;
 }
+
 .meta-item dd {
   margin: 0;
   font-size: 13px;
-  color: #374151;
+  color: var(--ink-700);
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .section-headline-row {
     grid-template-columns: 1fr;
     gap: 12px;
   }
   .section-headline { font-size: 26px; }
   .two-col { grid-template-columns: 1fr; }
+
   .editorial-col {
     padding: 24px 0;
     border-right: none;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--ink-200);
   }
   .editorial-col:first-child { padding-top: 0; }
+
   .editorial-col:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .device-meta {
     flex-direction: column;
     gap: 8px;
   }
   .field-actions { justify-content: stretch; }
+
   .field-actions .editorial-btn {
     flex: 1;
     text-align: center;
@@ -740,30 +778,35 @@ function revokeDevice(device: DeviceItem) {
 <style>
 .contact-dialog {
   border-radius: 0 !important;
-  border: 1px solid #111827;
+  border: 1px solid var(--ink-900);
 }
+
 .contact-dialog .el-dialog__header {
   margin: 0;
   padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--ink-200);
 }
+
 .contact-dialog .el-dialog__title {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 22px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
 }
 .contact-dialog .el-dialog__body { padding: 24px; }
+
 .contact-dialog .el-dialog__footer {
   padding: 16px 24px 20px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
 }
+
 .contact-dialog .dialog-steps {
   display: flex;
   margin-bottom: 24px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--ink-200);
 }
+
 .contact-dialog .ds-item {
   flex: 1;
   display: flex;
@@ -773,6 +816,7 @@ function revokeDevice(device: DeviceItem) {
   padding: 0 4px;
   position: relative;
 }
+
 .contact-dialog .ds-item:not(:last-child)::after {
   content: '';
   position: absolute;
@@ -780,54 +824,60 @@ function revokeDevice(device: DeviceItem) {
   left: 50%;
   width: 100%;
   height: 1px;
-  background: #e5e7eb;
+  background: var(--ink-200);
   z-index: 0;
 }
 .contact-dialog .ds-item.active:not(:last-child)::after { background: var(--brand-primary); }
+
 .contact-dialog .ds-num {
   width: 28px;
   height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e5e7eb;
-  background: #fff;
+  border: 1px solid var(--ink-200);
+  background: white;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 14px;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--ink-400);
   position: relative;
   z-index: 1;
 }
+
 .contact-dialog .ds-item.active .ds-num {
   border-color: var(--brand-primary);
   color: var(--brand-primary);
 }
+
 .contact-dialog .ds-item.current .ds-num {
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
 }
+
 .contact-dialog .ds-label {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #9ca3af;
+  color: var(--ink-400);
   text-align: center;
 }
-.contact-dialog .ds-item.active .ds-label { color: #111827; }
+.contact-dialog .ds-item.active .ds-label { color: var(--ink-900); }
 .contact-dialog .ds-item.current .ds-label { color: var(--brand-primary); }
 .contact-dialog .dialog-body { min-height: 140px; }
+
 .contact-dialog .code-row {
   display: flex;
   gap: 8px;
 }
 .contact-dialog .code-row .el-input { flex: 1; }
+
 .contact-dialog .send-btn {
   flex-shrink: 0;
   padding: 0 16px;
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
   border: 1px solid var(--brand-primary);
   font-size: 12px;
   font-weight: 700;
@@ -836,41 +886,48 @@ function revokeDevice(device: DeviceItem) {
   white-space: nowrap;
   transition: all 0.2s;
 }
+
 .contact-dialog .send-btn:hover:not(:disabled) {
-  background: #1890ff;
-  border-color: #1890ff;
+  background: var(--color-info);
+  border-color: var(--color-info);
 }
+
 .contact-dialog .send-btn:disabled {
-  background: #e5e7eb;
-  border-color: #e5e7eb;
-  color: #9ca3af;
+  background: var(--ink-200);
+  border-color: var(--ink-200);
+  color: var(--ink-400);
   cursor: not-allowed;
 }
+
 .contact-dialog .summary-row {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
   margin-bottom: 16px;
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   border-left: 3px solid var(--brand-primary);
 }
+
 .contact-dialog .summary-label {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #6b7280;
+  color: var(--ink-500);
 }
+
 .contact-dialog .summary-value {
   font-size: 15px;
   color: var(--brand-primary);
 }
+
 .contact-dialog .dialog-footer {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
+
 .contact-dialog .field-label {
   display: block;
   margin-bottom: 8px;
@@ -878,7 +935,7 @@ function revokeDevice(device: DeviceItem) {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #374151;
+  color: var(--ink-700);
 }
 .contact-dialog .el-input__wrapper { border-radius: 0 !important; }
 </style>

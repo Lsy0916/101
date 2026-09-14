@@ -213,7 +213,7 @@ function getLevelColor(tag: string) {
   z-index: 10;
   width: 32px;
   height: 32px;
-  background: rgba(0, 0, 0, 0.05);
+  background: color-mix(in srgb, black 5%, transparent);
   border-radius: 50%;
 }
 
@@ -247,21 +247,21 @@ function getLevelColor(tag: string) {
   font-size: 12px;
   font-weight: 600;
   margin-bottom: 16px;
-  background: #f0f7ff;
-  color: #1e293b;
+  background: var(--brand-primary-faint);
+  color: var(--slate-800);
   letter-spacing: 0.5px;
 }
 
 .intro-header h2 {
   font-size: 26px;
-  color: #1e293b;
-  margin: 0 0 12px 0;
+  color: var(--slate-800);
+  margin: 0 0 12px;
   font-weight: 800;
   letter-spacing: -0.3px;
 }
 
 .scale-desc {
-  color: #777;
+  color: var(--neutral-500);
   font-size: 14px;
   line-height: 1.7;
   margin: 0 auto;
@@ -277,21 +277,21 @@ function getLevelColor(tag: string) {
 
 .detail-item {
   padding: 20px 12px;
-  background: #f8fafc;
+  background: var(--slate-50);
   border-radius: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
   transition: all 0.3s ease;
 }
 
 .detail-item:hover {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   border-color: var(--brand-primary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px -6px rgba(0, 82, 217, 0.15);
+  box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--brand-primary) 15%, transparent);
 }
 
 .detail-item .el-icon {
@@ -308,22 +308,22 @@ function getLevelColor(tag: string) {
 
 .item-text .label {
   font-size: 11px;
-  color: #999;
+  color: var(--neutral-400);
   letter-spacing: 0.3px;
 }
 
 .item-text .val {
   font-size: 15px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--slate-800);
 }
 
 .intro-tips {
   text-align: left;
-  background: linear-gradient(135deg, #f0f7ff 0%, #f8fbff 100%);
+  background: linear-gradient(135deg, var(--brand-primary-faint) 0%, var(--brand-primary-wash) 100%);
   padding: 20px 22px;
   border-radius: 14px;
-  border: 1px solid #d0e7ff;
+  border: 1px solid var(--brand-primary-soft);
   margin-bottom: 28px;
 }
 
@@ -331,20 +331,20 @@ function getLevelColor(tag: string) {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #1e293b;
-  margin: 0 0 12px 0;
+  color: var(--slate-800);
+  margin: 0 0 12px;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.3px;
 }
 
 .intro-tips h4 .el-icon {
-  color: #555;
+  color: var(--neutral-700);
 }
 
 .intro-tips ul {
   padding-left: 20px;
-  color: #666;
+  color: var(--neutral-600);
   margin: 0;
 }
 
@@ -364,7 +364,7 @@ function getLevelColor(tag: string) {
   gap: 10px;
   padding: 15px 40px;
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 999px;
   font-size: 15px;
@@ -372,14 +372,14 @@ function getLevelColor(tag: string) {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
-  box-shadow: 0 8px 22px -6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 22px -6px color-mix(in srgb, black 30%, transparent);
   letter-spacing: 0.5px;
 }
 
 .start-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 28px -8px rgba(0, 0, 0, 0.35);
-  background: #003bb3;
+  box-shadow: 0 14px 28px -8px color-mix(in srgb, black 35%, transparent);
+  background: var(--brand-primary-deeper);
 }
 
 .start-btn .el-icon {
@@ -399,11 +399,11 @@ function getLevelColor(tag: string) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #f0f7ff 0%, #f8fbff 100%);
+  background: linear-gradient(135deg, var(--brand-primary-faint) 0%, var(--brand-primary-wash) 100%);
   padding: 28px;
   border-radius: 18px;
   margin-bottom: 24px;
-  border: 1px solid #d0e7ff;
+  border: 1px solid var(--brand-primary-soft);
   position: relative;
   overflow: hidden;
 }
@@ -427,22 +427,22 @@ function getLevelColor(tag: string) {
   margin-bottom: 12px;
 }
 
-.res-badge[type="success"] { background: #dcfce7; color: #059669; }
-.res-badge[type="info"] { background: #dbeafe; color: var(--brand-primary); }
-.res-badge[type="warning"] { background: #fef3c7; color: #d97706; }
-.res-badge[type="danger"] { background: #fee2e2; color: #ef4444; }
-.res-badge[type="primary"] { background: #ede9fe; color: #7c3aed; }
+.res-badge[type="success"] { background: #dcfce7; color: var(--success-600); } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.res-badge[type="info"] { background: var(--blue-100); color: var(--brand-primary); }
+.res-badge[type="warning"] { background: var(--warning-100); color: var(--warning-600); }
+.res-badge[type="danger"] { background: var(--danger-100); color: var(--danger-500); }
+.res-badge[type="primary"] { background: var(--violet-100); color: var(--violet-600); }
 
 .res-left h2 {
   font-size: 22px;
-  color: #1e293b;
-  margin: 0 0 6px 0;
+  color: var(--slate-800);
+  margin: 0 0 6px;
   font-weight: 700;
 }
 
 .res-date {
   font-size: 12px;
-  color: #999;
+  color: var(--neutral-400);
   font-weight: 500;
   margin: 0;
 }
@@ -456,20 +456,20 @@ function getLevelColor(tag: string) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  background: white;
+  box-shadow: 0 8px 20px color-mix(in srgb, black 6%, transparent);
 }
 
 .score-val {
   font-size: 30px;
   font-weight: 800;
-  color: #1e293b;
+  color: var(--slate-800);
   line-height: 1;
 }
 
 .score-unit {
   font-size: 11px;
-  color: #999;
+  color: var(--neutral-400);
   margin-top: 4px;
   font-weight: 600;
 }
@@ -484,8 +484,8 @@ function getLevelColor(tag: string) {
 .insight-card {
   padding: 22px;
   border-radius: 16px;
-  border: 1px solid #eef2f6;
-  background: #fff;
+  border: 1px solid var(--mist-050);
+  background: white;
 }
 
 .insight-card h3 {
@@ -493,39 +493,39 @@ function getLevelColor(tag: string) {
   align-items: center;
   gap: 10px;
   font-size: 15px;
-  margin: 0 0 12px 0;
-  color: #1e293b;
+  margin: 0 0 12px;
+  color: var(--slate-800);
   font-weight: 700;
 }
 
 .insight-card p {
-  color: #555;
+  color: var(--neutral-700);
   line-height: 1.7;
   font-size: 13px;
   margin: 0;
 }
 
 .insight-card.highlight {
-  background: #f8fbff;
-  border-color: #d0e7ff;
+  background: var(--brand-primary-wash);
+  border-color: var(--brand-primary-soft);
 }
 
 .mbti-details h3,
 .riasec-details h3 {
   font-size: 15px;
-  color: #1e293b;
+  color: var(--slate-800);
   font-weight: 700;
-  margin: 0 0 14px 0;
+  margin: 0 0 14px;
 }
 
 .mbti-bars {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: #f8fafc;
+  background: var(--slate-50);
   padding: 22px;
   border-radius: 16px;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
 }
 
 .mbti-bar-item {
@@ -537,7 +537,7 @@ function getLevelColor(tag: string) {
 .dim-l, .dim-r {
   width: 36px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--slate-800);
   font-size: 13px;
 }
 
@@ -546,7 +546,7 @@ function getLevelColor(tag: string) {
 .bar-track {
   flex: 1;
   height: 11px;
-  background: #e5e5e5;
+  background: var(--neutral-150);
   border-radius: 6px;
   position: relative;
   overflow: hidden;
@@ -555,7 +555,7 @@ function getLevelColor(tag: string) {
 .bar-fill {
   position: absolute;
   height: 100%;
-  background: linear-gradient(to right, #0052d9, #4d8bf5);
+  background: linear-gradient(to right, var(--brand-primary), #4d8bf5); /* stylelint-disable-line color-no-hex, function-allowed-list */
   border-radius: 6px;
   transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -564,10 +564,10 @@ function getLevelColor(tag: string) {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: #f8fafc;
+  background: var(--slate-50);
   padding: 22px;
   border-radius: 16px;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
 }
 
 .r-info {
@@ -576,16 +576,16 @@ function getLevelColor(tag: string) {
   margin-bottom: 5px;
   font-size: 13px;
   font-weight: 600;
-  color: #222;
+  color: #222; /* stylelint-disable-line color-no-hex, function-allowed-list */
 }
 
 .r-val {
   font-weight: 700;
-  color: #1e293b;
+  color: var(--slate-800);
 }
 
 :deep(.el-progress-bar__outer) {
-  background-color: #e5e5e5;
+  background-color: var(--neutral-150);
   border-radius: 6px;
   height: 10px !important;
 }
@@ -613,11 +613,11 @@ function getLevelColor(tag: string) {
 }
 
 :deep(.result-footer .el-button--primary:hover) {
-  background: #003bb3;
-  border-color: #003bb3;
+  background: var(--brand-primary-deeper);
+  border-color: var(--brand-primary-deeper);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .insight-grid { grid-template-columns: 1fr; }
   .intro-details { grid-template-columns: 1fr; }
   .result-summary-card { flex-direction: column; gap: 20px; text-align: center; }

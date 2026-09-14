@@ -111,7 +111,7 @@ const formatViews = (n: number) => {
 <style scoped>
 .article-detail-page {
   min-height: 100vh;
-  background: #ffffff;
+  background: white;
   padding-top: 28px;
   padding-bottom: 80px;
 }
@@ -124,7 +124,7 @@ const formatViews = (n: number) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .back-btn {
@@ -133,7 +133,7 @@ const formatViews = (n: number) => {
   gap: 8px;
   background: transparent;
   border: none;
-  color: #1f2937;
+  color: var(--ink-800);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 1.5px;
@@ -142,6 +142,7 @@ const formatViews = (n: number) => {
   padding: 8px 0;
   transition: color 0.2s ease, transform 0.2s ease;
 }
+
 .back-btn:hover {
   color: var(--brand-primary);
   transform: translateX(-4px);
@@ -151,7 +152,7 @@ const formatViews = (n: number) => {
 .top-mark {
   font-size: 11px;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
@@ -175,13 +176,13 @@ const formatViews = (n: number) => {
   text-transform: uppercase;
   margin-bottom: 28px;
 }
-.eyebrow-sep { color: #d0d5db; font-weight: 400; }
-.eyebrow-date { color: #6b7280; font-weight: 500; }
+.eyebrow-sep { color: #d0d5db; font-weight: 400; } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.eyebrow-date { color: var(--ink-500); font-weight: 500; }
 
 .detail-title {
   font-size: clamp(36px, 5.5vw, 68px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   line-height: 1.04;
   letter-spacing: -2px;
   margin: 0 0 28px;
@@ -190,7 +191,7 @@ const formatViews = (n: number) => {
 .detail-summary {
   font-size: clamp(16px, 1.4vw, 20px);
   line-height: 1.7;
-  color: #4b5563;
+  color: var(--ink-600);
   font-weight: 400;
   font-style: italic;
   margin: 0 0 40px;
@@ -205,7 +206,7 @@ const formatViews = (n: number) => {
   align-items: center;
   gap: 24px;
   padding-top: 28px;
-  border-top: 1px solid #eef2f6;
+  border-top: 1px solid var(--mist-050);
 }
 
 .author-block {
@@ -227,13 +228,13 @@ const formatViews = (n: number) => {
 .author-name {
   font-size: 14px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   letter-spacing: 0.2px;
 }
 
 .author-title {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -241,7 +242,7 @@ const formatViews = (n: number) => {
 .meta-divider {
   width: 1px;
   height: 28px;
-  background: #eef2f6;
+  background: var(--mist-050);
 }
 
 .meta-stats {
@@ -254,12 +255,12 @@ const formatViews = (n: number) => {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 500;
   letter-spacing: 0.5px;
   font-variant-numeric: tabular-nums;
 }
-.meta-item .el-icon { font-size: 13px; color: #9ca3af; }
+.meta-item .el-icon { font-size: 13px; color: var(--ink-400); }
 
 /* ===== 双栏布局 ===== */
 .article-grid {
@@ -273,14 +274,14 @@ const formatViews = (n: number) => {
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .article-grid {
     grid-template-columns: 1fr;
     gap: 64px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .top-bar,
   .detail-header,
   .article-grid {
@@ -288,6 +289,7 @@ const formatViews = (n: number) => {
     padding-right: 20px;
   }
   .detail-header { padding-top: 36px; padding-bottom: 32px; }
+
   .author-row {
     flex-direction: column;
     align-items: flex-start;

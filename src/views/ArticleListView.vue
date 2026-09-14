@@ -139,7 +139,7 @@ function goBack() {
 <style scoped>
 .article-list-page {
   min-height: 100vh;
-  background-color: #f8fafc;
+  background-color: var(--slate-50);
   padding-top: 28px;
   position: relative;
 }
@@ -159,7 +159,7 @@ function goBack() {
   align-items: flex-end;
   gap: 40px;
   padding-bottom: 40px;
-  border-bottom: 1px solid #e8ecf0;
+  border-bottom: 1px solid var(--mist-100);
 }
 
 .intro-left {
@@ -179,7 +179,7 @@ function goBack() {
 .intro-title {
   font-size: clamp(48px, 7vw, 96px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin: 0;
   letter-spacing: -3px;
   line-height: 0.95;
@@ -196,7 +196,7 @@ function goBack() {
 .intro-count {
   font-size: clamp(48px, 5vw, 72px);
   font-weight: 200;
-  color: #0a0f1a;
+  color: var(--navy-950);
   line-height: 1;
   letter-spacing: -2px;
   font-variant-numeric: tabular-nums;
@@ -204,22 +204,22 @@ function goBack() {
 
 .intro-count-label {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1px;
   font-weight: 500;
   text-transform: uppercase;
 }
 
-@media (max-width: 768px) {
-  .page-intro { padding: 32px 24px 32px; }
+@media (width <= 768px) {
+  .page-intro { padding: 32px 24px; }
   .intro-container { flex-direction: column; align-items: flex-start; gap: 24px; padding-bottom: 28px; }
   .intro-right { padding-bottom: 0; }
 }
 
-/* Discovery Ribbon · sticky 紧贴 navbar（滚动后 navbar 64px）*/
+/* Discovery Ribbon · sticky 紧贴 navbar（滚动后 navbar 64px） */
 .discovery-ribbon {
-  background: #ffffff;
-  border-bottom: 1px solid #eef2f6;
+  background: white;
+  border-bottom: 1px solid var(--mist-050);
   padding: 14px 0;
   position: sticky;
   top: 64px;
@@ -239,8 +239,8 @@ function goBack() {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f0f7ff;
-  border: 1px solid #d0e7ff;
+  background: var(--brand-primary-faint);
+  border: 1px solid var(--brand-primary-soft);
   color: var(--brand-primary);
   font-weight: 700;
   cursor: pointer;
@@ -254,9 +254,9 @@ function goBack() {
 .back-link:hover {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
-  color: #fff;
+  color: white;
   transform: translateX(-4px);
-  box-shadow: 0 8px 18px -6px rgba(0, 82, 217, 0.3);
+  box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--brand-primary) 30%, transparent);
 }
 
 .ribbon-scroll {
@@ -283,12 +283,12 @@ function goBack() {
 
 .item-icon {
   font-size: 1.1rem;
-  color: #1e293b;
+  color: var(--slate-800);
 }
 
 .item-label {
   font-size: 1rem;
-  color: #1e293b;
+  color: var(--slate-800);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -336,7 +336,7 @@ function goBack() {
 .search-box {
   background: transparent;
   border: none;
-  border-bottom: 1px solid #d1d5db;
+  border-bottom: 1px solid var(--ink-300);
   border-radius: 0;
   padding: 12px 0;
   display: flex;
@@ -353,7 +353,7 @@ function goBack() {
 }
 
 .search-icon {
-  color: #94a3b8;
+  color: var(--slate-400);
   font-size: 1.2rem;
 }
 
@@ -362,18 +362,20 @@ function goBack() {
   outline: none;
   width: 100%;
   font-size: 1rem;
-  color: #1e293b;
+  color: var(--slate-800);
   font-weight: 500;
 }
 
 /* 响应式 */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .ribbon-container {
     padding: 0 20px;
   }
+
   .back-link span {
     display: none;
   }
+
   .main-content {
     padding: 30px 20px 60px;
   }

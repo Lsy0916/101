@@ -87,14 +87,14 @@ const filteredFaqs = computed(() => {
 .faq-sidebar {
   position: sticky;
   top: 96px;
-  background: #ffffff;
-  border: 1px solid #eef2f6;
+  background: white;
+  border: 1px solid var(--mist-050);
   border-radius: 16px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--slate-900) 4%, transparent);
 }
 
 .faq-cat {
@@ -105,7 +105,7 @@ const filteredFaqs = computed(() => {
   border-radius: 10px;
   cursor: pointer;
   font-size: 13px;
-  color: #4b5563;
+  color: var(--ink-600);
   font-weight: 500;
   transition: all 0.25s ease;
   border: none;
@@ -113,67 +113,75 @@ const filteredFaqs = computed(() => {
   background: transparent;
 }
 
-.faq-cat:hover { background: #f0f7ff; color: var(--brand-primary); }
+.faq-cat:hover { background: var(--brand-primary-faint); color: var(--brand-primary); }
+
 .faq-cat.active {
-  background: linear-gradient(135deg, #0052d9 0%, #1890ff 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--color-info) 100%);
+  color: white;
   font-weight: 600;
-  box-shadow: 0 6px 16px rgba(0, 82, 217, 0.25);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-primary) 25%, transparent);
 }
 .faq-cat .el-icon { font-size: 16px; }
+
 .faq-cat-count {
   margin-left: auto;
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 8px;
-  background: #f1f5f9;
-  color: #9ca3af;
+  background: var(--slate-100);
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
 }
+
 .faq-cat.active .faq-cat-count {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: color-mix(in srgb, white 20%, transparent);
+  color: white;
 }
 
 .faq-content { min-width: 0; }
 
 .faq-search { margin-bottom: 28px; max-width: 460px; }
+
 :deep(.faq-search .el-input__wrapper) {
   border-radius: 12px;
-  background: #f8fafc;
+  background: var(--slate-50);
   box-shadow: none !important;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--slate-200);
   padding: 8px 14px;
 }
+
 :deep(.faq-search .el-input__wrapper:hover) {
   border-color: var(--brand-primary);
-  background: #ffffff;
+  background: white;
 }
+
 :deep(.faq-search.is-focus .el-input__wrapper) {
   border-color: var(--brand-primary) !important;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.1) !important;
+  background: white;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 10%, transparent) !important;
 }
-:deep(.faq-search .el-input__inner) { font-size: 14px; color: #1f2937; }
+:deep(.faq-search .el-input__inner) { font-size: 14px; color: var(--ink-800); }
 
 :deep(.el-collapse) { border: none; }
+
 :deep(.el-collapse-item__header) {
   background: transparent;
   border: none;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   border-radius: 0;
   padding: 0;
   margin-bottom: 0;
   font-size: 15px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--ink-800);
   height: 64px;
   letter-spacing: -0.2px;
   transition: color 0.2s ease;
 }
 :deep(.el-collapse-item__header:hover) { color: var(--brand-primary); }
 :deep(.el-collapse-item__wrap) { border: none; background: transparent; }
+
 :deep(.el-collapse-item__content) {
   padding: 16px 0 24px;
   background: transparent;
@@ -182,7 +190,7 @@ const filteredFaqs = computed(() => {
   border: none;
 }
 
-.faq-q { display: flex; align-items: center; gap: 14px; color: #1f2937; }
+.faq-q { display: flex; align-items: center; gap: 14px; color: var(--ink-800); }
 
 .q-mark {
   display: inline-flex;
@@ -191,7 +199,7 @@ const filteredFaqs = computed(() => {
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #f0f7ff, #d0e7ff);
+  background: linear-gradient(135deg, var(--brand-primary-faint), var(--brand-primary-soft));
   color: var(--brand-primary);
   border: none;
   font-size: 12px;
@@ -203,11 +211,11 @@ const filteredFaqs = computed(() => {
 .faq-a {
   margin: 0 0 0 44px;
   font-size: 14px;
-  color: #4b5563;
+  color: var(--ink-600);
   line-height: 1.85;
   letter-spacing: 0.1px;
   padding: 14px 18px;
-  background: #f8fafc;
+  background: var(--slate-50);
   border-radius: 10px;
   border-left: 3px solid var(--brand-primary);
 }
@@ -218,11 +226,11 @@ const filteredFaqs = computed(() => {
   gap: 14px;
   margin-top: 40px;
   padding: 20px 24px;
-  background: linear-gradient(135deg, rgba(0, 82, 217, 0.06) 0%, rgba(24, 144, 255, 0.02) 100%);
-  border: 1px solid rgba(0, 82, 217, 0.12);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand-primary) 6%, transparent) 0%, color-mix(in srgb, var(--color-info) 2%, transparent) 100%);
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 12%, transparent);
   border-radius: 14px;
   font-size: 14px;
-  color: #4b5563;
+  color: var(--ink-600);
 }
 .faq-contact .el-icon { color: var(--brand-primary); font-size: 20px; }
 .faq-contact a { color: var(--brand-primary); text-decoration: none; font-weight: 600; }
@@ -230,21 +238,21 @@ const filteredFaqs = computed(() => {
 
 .empty-tip { padding: 80px 0; }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .faq-layout { grid-template-columns: 1fr; gap: 28px; }
   .faq-sidebar { position: relative; top: 0; flex-direction: row; overflow-x: auto; gap: 8px; padding: 8px; }
   .faq-cat { flex-shrink: 0; white-space: nowrap; }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .faq-a { margin-left: 0; padding: 12px 14px; }
   .q-mark { width: 26px; height: 26px; }
 }
 
 /* ============ 暗夜模式适配 ============ */
 html.dark .faq-sidebar {
-  background: #1e293b !important;
-  border-color: #334155 !important;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3) !important;
+  background: var(--slate-800) !important;
+  border-color: var(--slate-700) !important;
+  box-shadow: 0 2px 12px color-mix(in srgb, black 30%, transparent) !important;
 }
 </style>

@@ -60,7 +60,7 @@ const avatarStyle = computed(() => ({
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: #fff;
+  color: white;
   font-weight: 700;
   letter-spacing: 0;
   flex-shrink: 0;

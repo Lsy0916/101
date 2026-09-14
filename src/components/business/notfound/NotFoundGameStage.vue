@@ -180,7 +180,7 @@ defineExpose({ handleKey })
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: radial-gradient(circle at center, rgba(24, 144, 255, 0.32) 0%, rgba(10, 42, 107, 0.62) 100%);
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--color-info) 32%, transparent) 0%, color-mix(in srgb, var(--navy-800) 62%, transparent) 100%);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   pointer-events: none;
@@ -192,7 +192,7 @@ defineExpose({ handleKey })
   font-size: 56px;
   color: var(--dark-text);
   letter-spacing: 8px;
-  text-shadow: 0 4px 30px rgba(24, 144, 255, 0.8);
+  text-shadow: 0 4px 30px color-mix(in srgb, var(--color-info) 80%, transparent);
   animation: nfClearPop 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -249,12 +249,13 @@ defineExpose({ handleKey })
 .nf-game-stage .fade-leave-active {
   transition: opacity 0.5s ease;
 }
+
 .nf-game-stage .fade-enter-from,
 .nf-game-stage .fade-leave-to {
   opacity: 0;
 }
 
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-game-stage .nf-game-canvas-wrap {
     max-width: 360px;
   }

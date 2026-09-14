@@ -138,7 +138,7 @@ const timelineGroups = computed(() => {
 <style scoped>
 /* ============ 杂志区块通用 ============ */
 .mag-section {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
   padding: 48px 0 40px;
 }
 
@@ -157,7 +157,7 @@ const timelineGroups = computed(() => {
   color: var(--brand-primary);
   line-height: 1;
   padding-top: 2px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-titles {
@@ -168,16 +168,16 @@ const timelineGroups = computed(() => {
   margin: 0 0 8px;
   font-size: 26px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   line-height: 1.2;
   letter-spacing: -0.3px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-desc {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
   max-width: 540px;
 }
@@ -190,57 +190,64 @@ const timelineGroups = computed(() => {
   font-size: 13px;
   font-weight: 600;
   color: var(--brand-primary);
-  background: #f0f7ff;
-  border: 1px solid #d0e7ff;
+  background: var(--brand-primary-faint);
+  border: 1px solid var(--brand-primary-soft);
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .sec-toggle:hover {
-  background: #d0e7ff;
+  background: var(--brand-primary-soft);
 }
 
 /* ============ 成长足迹 ============ */
 .growth-summary {
   margin-bottom: 36px;
 }
+
 .gs-header {
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 20px;
 }
+
 .gs-label {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #111827;
+  color: var(--ink-900);
   white-space: nowrap;
 }
+
 .gs-line {
   flex: 1;
   height: 1px;
-  background: #111827;
+  background: var(--ink-900);
 }
+
 .gs-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
+  border-bottom: 1px solid var(--ink-200);
 }
+
 .gs-stat {
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid var(--ink-200);
 }
+
 .gs-stat:last-child {
   border-right: none;
 }
+
 .gs-num {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(36px, 4vw, 48px);
@@ -249,12 +256,13 @@ const timelineGroups = computed(() => {
   color: var(--brand-primary);
   letter-spacing: -1px;
 }
+
 .gs-key {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 /* ============ 徽章墙 ============ */
@@ -264,23 +272,27 @@ const timelineGroups = computed(() => {
   gap: 16px;
   margin-bottom: 40px;
 }
+
 .badge-card {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 18px 16px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--ink-200);
   transition: all 0.25s;
 }
+
 .badge-card.earned {
-  border-color: #d0e7ff;
-  background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+  border-color: var(--brand-primary-soft);
+  background: linear-gradient(135deg, var(--brand-primary-faint) 0%, white 100%);
 }
+
 .badge-card.earned:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 82, 217, 0.1);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--brand-primary) 10%, transparent);
   border-color: var(--brand-primary);
 }
+
 .badge-icon {
   display: flex;
   align-items: center;
@@ -290,34 +302,39 @@ const timelineGroups = computed(() => {
   font-family: Georgia, serif;
   font-size: 18px;
   font-weight: 700;
-  color: #9ca3af;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  color: var(--ink-400);
+  background: var(--ink-100);
+  border: 1px solid var(--ink-200);
   border-radius: 50%;
   flex-shrink: 0;
 }
+
 .badge-card.earned .badge-icon {
-  color: #fff;
-  background: linear-gradient(135deg, #0052d9, #1890ff);
+  color: white;
+  background: linear-gradient(135deg, var(--brand-primary), var(--color-info));
   border-color: transparent;
 }
+
 .badge-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
   min-width: 0;
 }
+
 .badge-name {
   font-size: 14px;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--ink-800);
 }
+
 .badge-card.earned .badge-name {
   color: var(--brand-primary);
 }
+
 .badge-desc {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   line-height: 1.4;
 }
 
@@ -327,15 +344,18 @@ const timelineGroups = computed(() => {
   flex-direction: column;
   gap: 8px;
 }
+
 .timeline-group {
   margin-bottom: 16px;
 }
+
 .tg-year-mark {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 8px;
 }
+
 .tg-year {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 28px;
@@ -344,20 +364,22 @@ const timelineGroups = computed(() => {
   color: var(--brand-primary);
   line-height: 1;
 }
+
 .tg-rule {
   flex: 1;
   height: 1px;
-  background: #d0e7ff;
+  background: var(--brand-primary-soft);
 }
+
 .timeline-end {
   text-align: center;
   font-size: 12px;
   font-style: italic;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 2px;
   text-transform: uppercase;
   padding: 20px 0 0;
-  border-top: 1px solid #f0f2f5;
+  border-top: 1px solid var(--mist-075);
 }
 
 /* ============ 时间线列表 ============ */
@@ -374,12 +396,12 @@ const timelineGroups = computed(() => {
   gap: 28px;
   align-items: center;
   padding: 18px 0;
-  border-bottom: 1px solid #f0f2f5;
+  border-bottom: 1px solid var(--mist-075);
   transition: background 0.2s;
 }
 
 .timeline-row:hover {
-  background: #fafbfc;
+  background: var(--mist-025);
 }
 
 .timeline-no {
@@ -387,7 +409,7 @@ const timelineGroups = computed(() => {
   font-weight: 700;
   font-style: italic;
   font-family: Georgia, serif;
-  color: #d0e7ff;
+  color: var(--brand-primary-soft);
   line-height: 1;
   width: 40px;
 }
@@ -406,12 +428,12 @@ const timelineGroups = computed(() => {
 .timeline-text {
   font-size: 15px;
   font-weight: 500;
-  color: #1f2937;
+  color: var(--ink-800);
 }
 
 .timeline-date {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1px;
 }
 
@@ -424,90 +446,107 @@ const timelineGroups = computed(() => {
   font-size: 12px;
   font-weight: 700;
   font-family: Georgia, serif;
-  color: #fff;
+  color: white;
   background: var(--brand-primary);
   border-radius: 50%;
 }
 
-.timeline-kind.counseling { background: #1890ff; }
-.timeline-kind.capsule { background: #722ed1; }
-.timeline-kind.article { background: #fa8c16; }
+.timeline-kind.counseling { background: var(--color-info); }
+.timeline-kind.capsule { background: var(--purple-600); }
+.timeline-kind.article { background: #fa8c16; } /* stylelint-disable-line color-no-hex, function-allowed-list */
 .timeline-kind.milestone { background: var(--brand-primary); }
-.timeline-kind.square { background: #13c2c2; }
-.timeline-kind.comment { background: #eb2f96; }
-.timeline-kind.like { background: #52c41a; }
-.timeline-kind.login { background: #722ed1; }
+.timeline-kind.square { background: #13c2c2; } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.timeline-kind.comment { background: #eb2f96; } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.timeline-kind.like { background: #52c41a; } /* stylelint-disable-line color-no-hex, function-allowed-list */
+.timeline-kind.login { background: var(--purple-600); }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .badge-wall {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .mag-section {
     padding: 36px 0 28px;
   }
+
   .sec-head {
     grid-template-columns: auto 1fr;
     gap: 16px;
     margin-bottom: 26px;
   }
+
   .sec-toggle {
     grid-column: 1 / -1;
     justify-self: start;
     margin-top: 4px;
   }
+
   .sec-title {
     font-size: 22px;
   }
+
   .sec-num {
     font-size: 24px;
   }
+
   .timeline-row {
     grid-template-columns: auto 1fr;
     gap: 16px;
     padding: 16px 0;
   }
+
   .timeline-kind {
     grid-column: 2;
     justify-self: start;
     margin-top: 6px;
   }
+
   .timeline-no {
     font-size: 18px;
     width: 32px;
   }
+
   .gs-stats {
     grid-template-columns: 1fr 1fr;
   }
+
   .gs-stat {
     padding: 18px 12px;
   }
+
   .gs-stat:nth-child(2) {
     border-right: none;
   }
+
   .gs-stat:nth-child(1), .gs-stat:nth-child(2) {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--ink-200);
   }
+
   .gs-num {
     font-size: 32px;
   }
+
   .badge-wall {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
+
   .badge-card {
     padding: 14px 12px;
   }
+
   .badge-icon {
     width: 36px;
     height: 36px;
     font-size: 15px;
   }
+
   .badge-name {
     font-size: 13px;
   }
+
   .badge-desc {
     font-size: 10px;
   }

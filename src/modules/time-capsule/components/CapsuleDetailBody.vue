@@ -166,7 +166,7 @@ const deleteCapsule = () => {
 /* 标题区 */
 .detail-title-area {
   padding: 36px 0 28px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .detail-emoji {
@@ -179,11 +179,11 @@ const deleteCapsule = () => {
 .detail-title {
   font-size: clamp(28px, 4.5vw, 44px);
   font-weight: 800;
-  color: #111827;
-  margin: 0 0 16px 0;
+  color: var(--ink-900);
+  margin: 0 0 16px;
   letter-spacing: -1px;
   line-height: 1.15;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .detail-meta {
@@ -195,29 +195,29 @@ const deleteCapsule = () => {
 }
 
 .meta-text {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .meta-sep {
-  color: #d0e7ff;
+  color: var(--brand-primary-soft);
 }
 
 .meta-status {
   font-weight: 600;
 }
 
-.meta-status.pending { color: #ea580c; }
-.meta-status.opened { color: #15803d; }
+.meta-status.pending { color: var(--orange-600); }
+.meta-status.opened { color: var(--success-700); }
 
 /* 内容区域 */
 .detail-content {
   padding: 28px 0;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .rich-content {
   font-size: 15px;
-  color: #1f2937;
+  color: var(--ink-800);
   line-height: 1.85;
   letter-spacing: 0.2px;
 }
@@ -269,7 +269,7 @@ const deleteCapsule = () => {
   border-radius: 10px;
   background-size: cover;
   background-position: center;
-  background-color: #f8fafc;
+  background-color: var(--slate-50);
   cursor: pointer;
   transition: opacity 0.2s;
 }
@@ -281,13 +281,13 @@ const deleteCapsule = () => {
 /* 收件信息 · 编辑式定义列表 */
 .detail-info {
   padding: 28px 0;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .info-eyebrow {
   font-size: 12px;
   letter-spacing: 3px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -303,7 +303,7 @@ const deleteCapsule = () => {
   align-items: baseline;
   gap: 24px;
   padding: 12px 0;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .info-row:last-child {
@@ -312,7 +312,7 @@ const deleteCapsule = () => {
 
 .info-label {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   min-width: 80px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -322,7 +322,7 @@ const deleteCapsule = () => {
 
 .info-value {
   font-size: 14px;
-  color: #1f2937;
+  color: var(--ink-800);
   flex: 1;
   letter-spacing: 0.2px;
 }
@@ -330,7 +330,7 @@ const deleteCapsule = () => {
 /* 开启时间 · 编辑式大字 */
 .detail-date {
   padding: 28px 0;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .date-flex {
@@ -349,7 +349,7 @@ const deleteCapsule = () => {
 .date-display {
   font-size: clamp(32px, 5vw, 48px);
   font-weight: 800;
-  color: #111827;
+  color: var(--ink-900);
   letter-spacing: -1px;
   line-height: 1.1;
   margin: 8px 0;
@@ -358,13 +358,13 @@ const deleteCapsule = () => {
 
 .date-count {
   font-size: 13px;
-  color: #ea580c;
+  color: var(--orange-600);
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
 .opened-text {
-  color: #15803d;
+  color: var(--success-700);
 }
 
 /* 操作按钮 */
@@ -394,14 +394,14 @@ const deleteCapsule = () => {
 
 .action-btn.primary {
   background: var(--brand-primary);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(0, 82, 217, 0.22);
+  color: white;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 22%, transparent);
 }
 
 .action-btn.primary:hover {
-  background: #0040b0;
-  color: #fff;
-  box-shadow: 0 10px 26px rgba(0, 82, 217, 0.3);
+  background: var(--brand-primary-dark);
+  color: white;
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--brand-primary) 30%, transparent);
   transform: translateY(-2px);
 }
 
@@ -415,8 +415,8 @@ const deleteCapsule = () => {
 
 .action-btn.ghost {
   background: transparent;
-  color: #1f2937;
-  box-shadow: inset 0 0 0 1px #eef2f6;
+  color: var(--ink-800);
+  box-shadow: inset 0 0 0 1px var(--mist-050);
 }
 
 .action-btn.ghost:hover {
@@ -436,7 +436,7 @@ const deleteCapsule = () => {
 .loading-spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid #eef2f6;
+  border: 3px solid var(--mist-050);
   border-top-color: var(--brand-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -450,7 +450,7 @@ const deleteCapsule = () => {
 
 .loading-text {
   font-size: 14px;
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 /* 图片预览 */
@@ -471,7 +471,7 @@ const deleteCapsule = () => {
   border-radius: 12px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .capsule-detail {
     padding: 0 16px;
   }

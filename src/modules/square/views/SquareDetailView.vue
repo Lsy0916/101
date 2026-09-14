@@ -60,11 +60,11 @@ const handleShare = () => {
 <style scoped>
 .square-detail-page {
   min-height: 100vh;
-  background: #f8fbff;
+  background: var(--brand-primary-wash);
   padding-top: 28px;
   padding-bottom: 80px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
-  color: #111827;
+  color: var(--ink-900);
   position: relative;
   overflow-x: hidden;
 }

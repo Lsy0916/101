@@ -325,20 +325,20 @@ defineExpose({ closeAll })
 .stat-value {
   font-size: clamp(32px, 4vw, 44px);
   font-weight: 900;
-  color: #111827;
+  color: var(--ink-900);
   letter-spacing: -1.5px;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
 }
 
-.stat-pending { color: #b45309; }
-.stat-opened { color: #166534; }
-.stat-auditing { color: #92400e; }
+.stat-pending { color: var(--warning-700); }
+.stat-opened { color: var(--success-800); }
+.stat-auditing { color: var(--warning-800); }
 
 .stat-label {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -346,7 +346,7 @@ defineExpose({ closeAll })
 
 .stat-divider {
   width: 1px;
-  background: #eef2f6;
+  background: var(--mist-050);
   align-self: stretch;
 }
 
@@ -359,7 +359,7 @@ defineExpose({ closeAll })
   padding: 0 56px;
   display: flex;
   gap: 8px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   position: relative;
   z-index: 1;
 }
@@ -401,7 +401,7 @@ defineExpose({ closeAll })
 .nav-label {
   font-size: 15px;
   font-weight: 500;
-  color: #1f2937;
+  color: var(--ink-800);
   letter-spacing: 0.3px;
 }
 
@@ -412,7 +412,7 @@ defineExpose({ closeAll })
 .nav-count {
   font-size: 12px;
   font-weight: 500;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   margin-left: 2px;
 }
@@ -435,7 +435,7 @@ defineExpose({ closeAll })
 /* 单条档案 */
 .archive-entry {
   position: relative;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   overflow: hidden;
 }
 
@@ -454,7 +454,7 @@ defineExpose({ closeAll })
   pointer-events: none;
   user-select: none;
   z-index: 0;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
   transition: opacity 0.3s ease;
 }
 
@@ -466,7 +466,7 @@ defineExpose({ closeAll })
 .swipe-track {
   position: relative;
   z-index: 2;
-  background: #f8fbff;
+  background: var(--brand-primary-wash);
   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -496,7 +496,7 @@ defineExpose({ closeAll })
   left: 0;
   right: 0;
   height: 1px;
-  background-image: linear-gradient(to right, #d0e7ff 50%, transparent 50%);
+  background-image: linear-gradient(to right, var(--brand-primary-soft) 50%, transparent 50%);
   background-size: 8px 1px;
   background-repeat: repeat-x;
   opacity: 0;
@@ -520,10 +520,10 @@ defineExpose({ closeAll })
 .env-serial {
   font-size: 14px;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
   transition: color 0.3s ease;
 }
 
@@ -548,7 +548,7 @@ defineExpose({ closeAll })
 .env-title {
   font-size: 17px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--ink-800);
   margin: 0;
   line-height: 1.35;
   letter-spacing: 0.1px;
@@ -571,25 +571,25 @@ defineExpose({ closeAll })
 
 .meta-date {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.3px;
 }
 
 .meta-dot {
-  color: #d0e7ff;
+  color: var(--brand-primary-soft);
   font-size: 12px;
 }
 
 .meta-method {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--ink-500);
   letter-spacing: 0.2px;
 }
 
 .meta-countdown {
   font-size: 12px;
-  color: #b45309;
+  color: var(--warning-700);
   font-weight: 600;
   letter-spacing: 0.2px;
 }
@@ -612,25 +612,25 @@ defineExpose({ closeAll })
 }
 
 .tag-pending {
-  color: #b45309;
-  border-color: #b45309;
+  color: var(--warning-700);
+  border-color: var(--warning-700);
 }
 
 .tag-opened {
-  color: #166534;
-  border-color: #166534;
+  color: var(--success-800);
+  border-color: var(--success-800);
 }
 
 .tag-auditing {
-  color: #92400e;
-  border-color: #92400e;
+  color: var(--warning-800);
+  border-color: var(--warning-800);
   border-style: dashed;
 }
 
 .tag-rejected,
 .tag-failed {
-  color: #991b1b;
-  border-color: #991b1b;
+  color: var(--danger-800);
+  border-color: var(--danger-800);
 }
 
 /* 滑出删除面板 */
@@ -646,14 +646,14 @@ defineExpose({ closeAll })
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: #ef4444;
-  color: #fff;
+  background: var(--danger-500);
+  color: white;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .delete-panel:hover {
-  background: #dc2626;
+  background: var(--danger-600);
 }
 
 .delete-icon {
@@ -678,12 +678,12 @@ defineExpose({ closeAll })
 .end-line {
   width: 60px;
   height: 1px;
-  background: #d0e7ff;
+  background: var(--brand-primary-soft);
 }
 
 .end-text {
   font-size: 10px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 3px;
   font-weight: 700;
 }
@@ -725,11 +725,11 @@ defineExpose({ closeAll })
 .empty-title {
   font-size: clamp(40px, 5.5vw, 64px);
   font-weight: 900;
-  color: #111827;
-  margin: 0 0 16px 0;
+  color: var(--ink-900);
+  margin: 0 0 16px;
   letter-spacing: -2.5px;
   line-height: 1;
-  font-family: 'Georgia', 'PingFang SC', serif;
+  font-family: Georgia, 'PingFang SC', serif;
 }
 
 .empty-title em {
@@ -740,8 +740,8 @@ defineExpose({ closeAll })
 
 .empty-hint {
   font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 36px 0;
+  color: var(--ink-500);
+  margin: 0 0 36px;
   letter-spacing: 0.3px;
 }
 
@@ -751,7 +751,7 @@ defineExpose({ closeAll })
   gap: 10px;
   padding: 16px 36px;
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 14px;
   font-size: 13px;
@@ -761,13 +761,13 @@ defineExpose({ closeAll })
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: inherit;
-  box-shadow: 0 6px 18px rgba(0, 82, 217, 0.22);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 22%, transparent);
 }
 
 .empty-btn:hover {
-  background: #0040b0;
-  color: #fff;
-  box-shadow: 0 10px 26px rgba(0, 82, 217, 0.3);
+  background: var(--brand-primary-dark);
+  color: white;
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--brand-primary) 30%, transparent);
   transform: translateY(-2px);
   gap: 16px;
 }
@@ -782,20 +782,20 @@ defineExpose({ closeAll })
 
 /* Element Plus 样式覆盖 */
 :deep(.el-button--danger) {
-  background: #ef4444;
-  border-color: #ef4444;
+  background: var(--danger-500);
+  border-color: var(--danger-500);
 }
 
 :deep(.el-button--danger:hover) {
-  background: #dc2626;
-  border-color: #dc2626;
+  background: var(--danger-600);
+  border-color: var(--danger-600);
 }
 
 :deep(.el-message-box) {
   border-radius: 16px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .stats-bar {
     padding: 0 20px 20px;
   }
@@ -870,14 +870,17 @@ defineExpose({ closeAll })
 .capsule-anim-enter-active {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .capsule-anim-leave-active {
   transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
+
 .capsule-anim-enter-from {
   opacity: 0;
   transform: translateY(24px);
 }
+
 .capsule-anim-leave-to {
   opacity: 0;
   transform: translateX(-120%) scale(0.92);
@@ -886,6 +889,7 @@ defineExpose({ closeAll })
   padding: 0;
   overflow: hidden;
 }
+
 .capsule-anim-move {
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }

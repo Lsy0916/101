@@ -268,29 +268,24 @@ onBeforeUnmount(() => {
 <style scoped>
 /* ========== 色彩与字体变量（品牌蓝主题） ========== */
 .nf-page {
-  --brand-primary: #0052d9;
-  --brand-light: #1890ff;
-  --brand-dark: #0a2a6b;
-  --brand-gradient: linear-gradient(135deg, #0a2a6b 0%, #0052d9 50%, #1890ff 100%);
-
-  --bg-primary: #f8fbff;
-  --bg-secondary: #ffffff;
-  --bg-tint: #f0f7ff;
-
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-tertiary: #9ca3af;
-
-  --border: #e5e7eb;
-  --border-light: #f1f5f9;
-  --border-blue: #d0e7ff;
-
-  --dark-text: #ffffff;
-  --dark-text-soft: rgba(255, 255, 255, 0.78);
-  --dark-text-mute: rgba(255, 255, 255, 0.5);
-
-  --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
-  --font-serif: 'Noto Serif SC', 'Playfair Display', Georgia, serif;
+  --brand-primary: var(--brand-primary);
+  --brand-light: var(--color-info);
+  --brand-dark: var(--navy-800);
+  --brand-gradient: linear-gradient(135deg, var(--navy-800) 0%, var(--brand-primary) 50%, var(--color-info) 100%);
+  --bg-primary: var(--brand-primary-wash);
+  --bg-secondary: white;
+  --bg-tint: var(--brand-primary-faint);
+  --text-primary: var(--ink-900);
+  --text-secondary: var(--ink-500);
+  --text-tertiary: var(--ink-400);
+  --border: var(--ink-200);
+  --border-light: var(--slate-100);
+  --border-blue: var(--brand-primary-soft);
+  --dark-text: white;
+  --dark-text-soft: color-mix(in srgb, white 78%, transparent);
+  --dark-text-mute: color-mix(in srgb, white 50%, transparent);
+  --font-display: 'Playfair Display', 'Noto Serif SC', georgia, serif;
+  --font-serif: 'Noto Serif SC', 'Playfair Display', georgia, serif;
   --font-sans: 'Noto Sans SC', -apple-system, sans-serif;
 
   background: var(--bg-primary);
@@ -310,7 +305,7 @@ onBeforeUnmount(() => {
   left: 0;
   width: 8px;
   height: 8px;
-  background: #ffffff;
+  background: white;
   border-radius: 50%;
   mix-blend-mode: difference;
   pointer-events: none;
@@ -329,7 +324,7 @@ onBeforeUnmount(() => {
   width: 42px;
   height: 42px;
   background: transparent;
-  border-color: #ffffff;
+  border-color: white;
 }
 
 /* ========== 翻页容器 ========== */
@@ -414,6 +409,7 @@ onBeforeUnmount(() => {
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s ease;
 }
+
 .fade-enter-from, .fade-leave-to {
   opacity: 0;
 }
@@ -429,8 +425,8 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, white 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, white 4%, transparent) 1px, transparent 1px);
   background-size: 60px 60px;
   pointer-events: none;
 }
@@ -484,16 +480,19 @@ onBeforeUnmount(() => {
               transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.18s,
               filter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.18s;
 }
+
 .stage-game-leave-active {
   transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .stage-game-enter-from {
   opacity: 0;
   transform: translateY(40px) scale(0.96);
   filter: blur(10px);
 }
+
 .stage-game-leave-to {
   opacity: 0;
   transform: translateY(-24px) scale(0.96);
@@ -501,7 +500,7 @@ onBeforeUnmount(() => {
 }
 
 /* ========== 响应式 ========== */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nf-slide {
     padding: 80px 24px 30px;
   }
@@ -518,7 +517,7 @@ onBeforeUnmount(() => {
 }
 
 /* 低高度屏幕：进一步压缩 */
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-slide {
     padding: 70px 56px 24px;
   }
@@ -536,17 +535,20 @@ onBeforeUnmount(() => {
   cursor: none !important;
 }
 
-@media (hover: none), (max-width: 768px) {
+@media (hover: none), (width <= 768px) {
   .nf-page .cursor-dot {
     display: none;
   }
+
   .nf-page,
   .nf-page * {
     cursor: auto !important;
   }
+
   .nf-page :is(.nf-nav-logo, .nf-nav-link, .nf-dot, .nf-flip-hint, .nf-topic, .nf-note-action, .nf-write-submit, .nf-footer-link, .nf-game-entry, .nf-game-back, .nf-memory-card, .nf-breath-wrap, a, button) {
     cursor: pointer !important;
   }
+
   .nf-page .nf-write-input {
     cursor: text !important;
   }

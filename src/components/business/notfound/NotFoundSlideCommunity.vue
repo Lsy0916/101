@@ -266,7 +266,7 @@ function submitNote() {
 }
 
 .nf-note-action.liked {
-  color: #ef4444;
+  color: var(--danger-500);
 }
 
 .nf-note-action.liked .nf-heart {
@@ -381,7 +381,7 @@ function submitNote() {
 .reveal-anim[data-anim="3"] { transition-delay: 0.3s; }
 
 /* ========== 响应式 ========== */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nf-footline {
     flex-direction: column;
     gap: 8px;
@@ -389,7 +389,7 @@ function submitNote() {
   }
 }
 
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-community-head {
     margin-bottom: 20px;
   }

@@ -15,6 +15,7 @@ import 'default-passive-events' // 解决 passive event listener 警告
 import 'element-plus/dist/index.css'
 import './styles/element.css'
 import './styles/main.css'
+import './styles/tokens.css'
 import './styles/brand.css'
 
 async function bootstrap(): Promise<void> {

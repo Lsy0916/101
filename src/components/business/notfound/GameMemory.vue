@@ -167,13 +167,13 @@ onBeforeUnmount(() => {
   justify-content: center;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid color-mix(in srgb, white 30%, transparent);
   border-radius: 4px;
   font-family: var(--font-display);
 }
 
 .nf-memory-back {
-  background: rgba(255, 255, 255, 0.06);
+  background: color-mix(in srgb, white 6%, transparent);
   color: var(--dark-text-soft);
   font-size: 22px;
   letter-spacing: 2px;
@@ -181,16 +181,16 @@ onBeforeUnmount(() => {
 
 .nf-memory-face {
   transform: rotateY(180deg);
-  background: rgba(24, 144, 255, 0.15);
+  background: color-mix(in srgb, var(--color-info) 15%, transparent);
   color: var(--dark-text);
   font-size: 30px;
-  border-color: rgba(24, 144, 255, 0.5);
+  border-color: color-mix(in srgb, var(--color-info) 50%, transparent);
 }
 
 .nf-memory-card.matched .nf-memory-face {
-  background: rgba(24, 144, 255, 0.35);
-  border-color: rgba(24, 144, 255, 0.9);
-  box-shadow: 0 0 20px rgba(24, 144, 255, 0.4);
+  background: color-mix(in srgb, var(--color-info) 35%, transparent);
+  border-color: color-mix(in srgb, var(--color-info) 90%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-info) 40%, transparent);
 }
 
 .nf-memory-clear {
@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
   z-index: 2;
 }
 
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-memory-grid {
     gap: 8px;
   }

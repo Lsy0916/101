@@ -118,10 +118,10 @@ function handleDelete() {
   max-width: 1280px;
   margin: 0 auto;
   padding: 32px 40px 80px;
-  color: #1f2937;
+  color: var(--ink-800);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .profile-page {
     padding: 20px 18px 60px;
   }

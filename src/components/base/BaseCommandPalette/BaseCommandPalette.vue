@@ -194,7 +194,7 @@ watch(
   position: fixed;
   inset: 0;
   z-index: 10000;
-  background: rgba(10, 15, 26, 0.4);
+  background: color-mix(in srgb, var(--navy-950) 40%, transparent);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: flex-start;
@@ -205,9 +205,9 @@ watch(
 .cmd-panel {
   width: 92%;
   max-width: 640px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 24px 64px rgba(10, 15, 26, 0.18);
+  background: white;
+  border: 1px solid var(--ink-200);
+  box-shadow: 0 24px 64px color-mix(in srgb, var(--navy-950) 18%, transparent);
   display: flex;
   flex-direction: column;
   max-height: 70vh;
@@ -219,7 +219,7 @@ watch(
   align-items: center;
   gap: 12px;
   padding: 18px 24px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .cmd-prompt {
@@ -234,21 +234,21 @@ watch(
   border: none;
   outline: none;
   font-size: 17px;
-  color: #0a0f1a;
+  color: var(--navy-950);
   background: transparent;
   font-family: inherit;
 }
 
 .cmd-input::placeholder {
-  color: #b0b8c4;
+  color: #b0b8c4; /* stylelint-disable-line color-no-hex, function-allowed-list */
 }
 
 .cmd-esc {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #9ca3af;
-  border: 1px solid #e5e7eb;
+  color: var(--ink-400);
+  border: 1px solid var(--ink-200);
   padding: 3px 7px;
   border-radius: 3px;
 }
@@ -266,7 +266,7 @@ watch(
 .cmd-group-label {
   font-size: 10px;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 700;
   text-transform: uppercase;
   padding: 6px 24px 4px;
@@ -288,7 +288,7 @@ watch(
 
 .cmd-item:hover,
 .cmd-item.active {
-  background: #f8fbff;
+  background: var(--brand-primary-wash);
 }
 
 .cmd-item.active {
@@ -299,7 +299,7 @@ watch(
 .cmd-item-num {
   font-size: 10px;
   font-weight: 600;
-  color: #c0c8d4;
+  color: #c0c8d4; /* stylelint-disable-line color-no-hex, function-allowed-list */
   font-variant-numeric: tabular-nums;
   width: 20px;
   flex-shrink: 0;
@@ -319,13 +319,13 @@ watch(
 
 .cmd-item-title {
   font-size: 14px;
-  color: #111827;
+  color: var(--ink-900);
   font-weight: 500;
   line-height: 1.3;
 }
 
 .cmd-item-title :deep(mark) {
-  background: rgba(0, 82, 217, 0.12);
+  background: color-mix(in srgb, var(--brand-primary) 12%, transparent);
   color: var(--brand-primary);
   border-radius: 2px;
   padding: 0 1px;
@@ -333,7 +333,7 @@ watch(
 
 .cmd-item-desc {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 0.2px;
 }
 
@@ -348,7 +348,7 @@ watch(
 
 .cmd-item-arrow {
   font-size: 14px;
-  color: #d1d5db;
+  color: var(--ink-300);
   opacity: 0;
   transform: translateX(-4px);
   transition: all 0.2s ease;
@@ -368,7 +368,7 @@ watch(
 .cmd-empty-eyebrow {
   font-size: 11px;
   letter-spacing: 3px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   display: block;
@@ -377,15 +377,15 @@ watch(
 
 .cmd-empty-text {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .cmd-footer {
   display: flex;
   gap: 20px;
   padding: 12px 24px;
-  border-top: 1px solid #eef2f6;
-  background: #fafbfc;
+  border-top: 1px solid var(--mist-050);
+  background: var(--mist-025);
 }
 
 .cmd-footer-hint {
@@ -393,17 +393,17 @@ watch(
   align-items: center;
   gap: 5px;
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .cmd-footer-hint kbd {
   font-size: 10px;
   font-weight: 600;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--ink-200);
   padding: 2px 5px;
   border-radius: 3px;
-  background: #fff;
-  color: #6b7280;
+  background: white;
+  color: var(--ink-500);
 }
 
 /* 过渡 */
@@ -431,13 +431,15 @@ watch(
   opacity: 0;
 }
 
-@media (max-width: 576px) {
+@media (width <= 576px) {
   .cmd-backdrop {
     padding-top: 8vh;
   }
+
   .cmd-panel {
     max-height: 80vh;
   }
+
   .cmd-item-desc {
     display: none;
   }

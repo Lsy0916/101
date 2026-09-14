@@ -280,12 +280,12 @@ onMounted(() => {
 
 .forgot-password-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(64, 158, 255, 0.45);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--blue-400) 45%, transparent);
 }
 
 .forgot-password-button:active {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.4);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--blue-400) 40%, transparent);
 }
 
 .back-to-login {
@@ -305,8 +305,8 @@ onMounted(() => {
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  background: #f0f2f5;
-  border: 1px solid #dcdfe6;
+  background: var(--mist-075);
+  border: 1px solid var(--mist-200);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -315,8 +315,8 @@ onMounted(() => {
 
 .captcha-image:hover {
   transform: scale(1.03);
-  border-color: #409eff;
-  box-shadow: 0 0 15px rgba(64, 158, 255, 0.3);
-  background: #e6f7ff;
+  border-color: var(--blue-400);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--blue-400) 30%, transparent);
+  background: var(--blue-025);
 }
 </style>

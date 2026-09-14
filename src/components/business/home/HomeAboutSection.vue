@@ -79,7 +79,7 @@ import imgNist from '@/assets/images/nist-bg.jpg'
 }
 
 .section-tag {
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 3px;
@@ -89,7 +89,7 @@ import imgNist from '@/assets/images/nist-bg.jpg'
 
 .about-text h2 {
   font-size: clamp(32px, 4vw, 54px);
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin-bottom: 1.5rem;
   font-weight: 800;
   line-height: 1.08;
@@ -99,7 +99,7 @@ import imgNist from '@/assets/images/nist-bg.jpg'
 .about-text p {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #6b7280;
+  color: var(--ink-500);
   margin-bottom: 1.5rem;
 }
 
@@ -109,13 +109,13 @@ import imgNist from '@/assets/images/nist-bg.jpg'
   gap: 2rem;
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #eef2f6;
+  border-top: 1px solid var(--mist-050);
 }
 
 .stat-number {
   font-size: clamp(28px, 3vw, 40px);
   font-weight: 800;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin-bottom: 0.25rem;
   line-height: 1;
   letter-spacing: -1px;
@@ -123,7 +123,7 @@ import imgNist from '@/assets/images/nist-bg.jpg'
 }
 
 .stat-label {
-  color: #9ca3af;
+  color: var(--ink-400);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 1.5px;
@@ -138,7 +138,7 @@ import imgNist from '@/assets/images/nist-bg.jpg'
 .about-image {
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 25px 50px -12px color-mix(in srgb, black 15%, transparent);
   transform: rotateY(-5deg);
   transition: transform 0.5s ease;
   height: auto;
@@ -155,7 +155,7 @@ import imgNist from '@/assets/images/nist-bg.jpg'
   display: block;
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .about-content {
     grid-template-columns: 1fr;
     gap: 2rem;

@@ -52,7 +52,7 @@ const navLinks = [
 }
 
 .nf-nav:not(.is-dark-slide) {
-  background: rgba(248, 251, 255, 0.85);
+  background: color-mix(in srgb, var(--brand-primary-wash) 85%, transparent);
 }
 
 .nf-nav.is-dark-slide {
@@ -60,7 +60,7 @@ const navLinks = [
 }
 
 .nf-nav.scrolled {
-  border-bottom-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: color-mix(in srgb, white 10%, transparent);
 }
 
 .nf-nav:not(.is-dark-slide).scrolled {
@@ -133,7 +133,7 @@ const navLinks = [
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nf-nav-inner {
     padding: 16px 20px;
   }

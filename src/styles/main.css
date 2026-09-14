@@ -43,30 +43,30 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 82, 217, 0.2);
+  background: rgb(0, 82, 217, 0.2);
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 82, 217, 0.4);
+  background: rgb(0, 82, 217, 0.4);
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgb(255, 255, 255, 0.15);
 }
 
 html.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgb(255, 255, 255, 0.25);
 }
 
 /* 文本选中色 */
 ::selection {
-  background: rgba(0, 82, 217, 0.2);
+  background: rgb(0, 82, 217, 0.2);
   color: inherit;
 }
 
 html.dark ::selection {
-  background: rgba(51, 117, 224, 0.4);
+  background: rgb(51, 117, 224, 0.4);
 }
 
 /* 链接默认样式 */
@@ -95,11 +95,11 @@ a:hover {
   transition: box-shadow 0.3s, transform 0.3s;
   border: none;
   border-radius: var(--el-border-radius-base, 8px);
-  box-shadow: var(--el-box-shadow-light, 0 2px 8px rgba(0, 82, 217, 0.06));
+  box-shadow: var(--el-box-shadow-light, 0 2px 8px rgb(0, 82, 217, 0.06));
 }
 
 .el-card:hover {
-  box-shadow: var(--el-box-shadow, 0 4px 16px rgba(0, 82, 217, 0.08));
+  box-shadow: var(--el-box-shadow, 0 4px 16px rgb(0, 82, 217, 0.08));
 }
 
 /* 表单样式 */
@@ -126,12 +126,12 @@ html.dark,
 html.dark .el-card,
 :root.dark .el-card {
   background-color: #1d1e1f;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgb(0, 0, 0, 0.3);
 }
 
 html.dark .el-card:hover,
 :root.dark .el-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgb(0, 0, 0, 0.4);
 }
 
 html.dark .el-form,

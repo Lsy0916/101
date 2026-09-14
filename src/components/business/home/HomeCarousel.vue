@@ -338,21 +338,23 @@ onUnmounted(() => {
   margin-bottom: 8px;
   text-transform: uppercase;
   font-weight: 500;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 4px color-mix(in srgb, black 30%, transparent);
 }
 
 .scroll-icon {
   font-size: 1.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 2px 4px color-mix(in srgb, black 30%, transparent));
 }
 
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateX(-50%) translateY(0);
   }
+
   40% {
     transform: translateX(-50%) translateY(-10px);
   }
+
   60% {
     transform: translateX(-50%) translateY(-5px);
   }
@@ -409,7 +411,7 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+  background: linear-gradient(to bottom, color-mix(in srgb, black 30%, transparent) 0%, color-mix(in srgb, black 60%, transparent) 100%);
 }
 
 /* 文字内容独立层：覆盖在轮播图上方，不受 track 滑动影响 */
@@ -446,7 +448,7 @@ onUnmounted(() => {
 .slide-tag {
   display: inline-block;
   padding: 4px 12px;
-  background: rgba(0, 82, 217, 0.2);
+  background: color-mix(in srgb, var(--brand-primary) 20%, transparent);
   border-left: 3px solid var(--brand-primary);
   font-size: 0.9rem;
   font-weight: 600;
@@ -469,7 +471,7 @@ onUnmounted(() => {
   margin-bottom: 2.5rem;
   line-height: 1.6;
   text-shadow: none;
-  color: rgba(255, 255, 255, 0.9);
+  color: color-mix(in srgb, white 90%, transparent);
   max-width: 500px;
 }
 
@@ -495,21 +497,21 @@ onUnmounted(() => {
 }
 
 .carousel-button.primary:hover {
-  background: #003bb3;
+  background: var(--brand-primary-deeper);
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 82, 217, 0.3);
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--brand-primary) 30%, transparent);
 }
 
 .carousel-button.secondary {
-  background: rgba(255, 255, 255, 0.1);
+  background: color-mix(in srgb, white 10%, transparent);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid color-mix(in srgb, white 30%, transparent);
   backdrop-filter: blur(10px);
 }
 
 .carousel-button.secondary:hover {
   background: white;
-  color: #1e293b;
+  color: var(--slate-800);
   transform: translateY(-3px);
 }
 
@@ -526,7 +528,7 @@ onUnmounted(() => {
   width: 40px;
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.3);
+  background: color-mix(in srgb, white 30%, transparent);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -559,7 +561,7 @@ onUnmounted(() => {
   top: 50%;
   transform: translateY(-50%);
   background: transparent !important;
-  color: rgba(255, 255, 255, 0.7);
+  color: color-mix(in srgb, white 70%, transparent);
   border: none;
   width: 80px;
   height: 100px;
@@ -580,7 +582,7 @@ onUnmounted(() => {
 
 .carousel-btn .el-icon {
   font-size: 40px;
-  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 2px 10px color-mix(in srgb, black 30%, transparent));
   transition: all 0.3s ease;
 }
 
@@ -609,13 +611,13 @@ onUnmounted(() => {
   transform: translateY(-50%) scale(0.9);
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .slide-text h2 {
     font-size: 2.5rem;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .carousel-indicators {
     display: none;
   }

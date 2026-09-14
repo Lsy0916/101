@@ -20,9 +20,9 @@ const router = useRouter()
 /* 时光胶囊 - 新建页（仿小程序 new-capsule） */
 .time-capsule-page {
   min-height: 100vh;
-  background: #f8fbff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'PingFang SC', sans-serif;
-  color: #111827;
+  background: var(--brand-primary-wash);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', sans-serif;
+  color: var(--ink-900);
   padding-bottom: 60px;
   position: relative;
   overflow-x: hidden;

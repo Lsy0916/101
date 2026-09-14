@@ -75,7 +75,7 @@
   max-width: 620px;
   display: flex;
   flex-direction: column;
-  color: #fff;
+  color: white;
   position: relative;
   padding: 8px 0;
   animation: slideInFromLeft 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -101,9 +101,9 @@
   font-size: 11px;
   letter-spacing: 3px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
+  color: color-mix(in srgb, white 65%, transparent);
   padding: 5px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid color-mix(in srgb, white 20%, transparent);
   border-radius: 20px;
 }
 
@@ -114,13 +114,13 @@
 }
 
 .hero-title h1 {
-  margin: 0 0 24px 0;
+  margin: 0 0 24px;
   font-size: 72px;
   font-weight: 800;
   line-height: 1.02;
   letter-spacing: -2px;
-  color: #fff;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  color: white;
+  text-shadow: 0 4px 24px color-mix(in srgb, black 45%, transparent);
 }
 
 .hero-subtitle {
@@ -128,9 +128,9 @@
   margin-left: 4px;
   font-size: 18px;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.82);
+  color: color-mix(in srgb, white 82%, transparent);
   letter-spacing: 0.5px;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 8px color-mix(in srgb, black 35%, transparent);
   font-weight: 400;
   max-width: 360px;
 }
@@ -139,33 +139,33 @@
 .divider {
   width: 56px;
   height: 2px;
-  background: rgba(255, 255, 255, 0.5);
+  background: color-mix(in srgb, white 50%, transparent);
   margin-bottom: 32px;
   animation: fadeIn 0.7s ease 0.35s both;
 }
 
 /* 引言：左对齐，斜体，文字偏柔 */
 .hero-quote {
-  margin: 0 0 48px 0;
+  margin: 0 0 48px;
   padding: 0;
   border: none;
   font-size: 16px;
   line-height: 1.95;
-  color: rgba(255, 255, 255, 0.88);
+  color: color-mix(in srgb, white 88%, transparent);
   font-style: italic;
   letter-spacing: 0.6px;
   font-weight: 300;
   max-width: 420px;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 6px color-mix(in srgb, black 40%, transparent);
   animation: fadeIn 0.7s ease 0.45s both;
 }
 
 .quote-mark {
   font-size: 22px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: color-mix(in srgb, white 55%, transparent);
   font-style: normal;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
   margin-right: 4px;
 }
 
@@ -177,7 +177,7 @@
 /* 特性列表：错落缩进 + 横线编号风格，无背景卡片 */
 .feature-list {
   list-style: none;
-  margin: 0 0 48px 0;
+  margin: 0 0 48px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -196,10 +196,12 @@
   margin-left: 0;
   animation: fadeIn 0.7s ease 0.55s both;
 }
+
 .feature-step-2 {
   margin-left: 64px;
   animation: fadeIn 0.7s ease 0.65s both;
 }
+
 .feature-step-3 {
   margin-left: 24px;
   animation: fadeIn 0.7s ease 0.75s both;
@@ -213,9 +215,9 @@
   flex-shrink: 0;
   font-size: 14px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.55);
+  color: color-mix(in srgb, white 55%, transparent);
   letter-spacing: 2px;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
   min-width: 28px;
 }
 
@@ -223,21 +225,21 @@
   flex-shrink: 0;
   width: 32px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.4);
+  background: color-mix(in srgb, white 40%, transparent);
 }
 
 .feature-content h3 {
-  margin: 0 0 4px 0;
+  margin: 0 0 4px;
   font-size: 17px;
   font-weight: 700;
-  color: #fff;
+  color: white;
   letter-spacing: 0.3px;
 }
 
 .feature-content p {
   margin: 0;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  color: color-mix(in srgb, white 70%, transparent);
   line-height: 1.5;
   letter-spacing: 0.2px;
 }
@@ -254,15 +256,15 @@
 .signature-line {
   width: 32px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.4);
+  background: color-mix(in srgb, white 40%, transparent);
 }
 
 .signature-text {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  color: color-mix(in srgb, white 70%, transparent);
   font-style: italic;
   letter-spacing: 1px;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
 }
 
 @keyframes slideInFromLeft {
@@ -270,6 +272,7 @@
     opacity: 0;
     transform: translateX(-50px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -281,6 +284,7 @@
     opacity: 0;
     transform: translateY(14px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -288,7 +292,7 @@
 }
 
 /* 响应式：< 1200px 隐藏品牌区 */
-@media (max-width: 1199px) {
+@media (width <= 1199px) {
   .presentation-box {
     display: none !important;
   }

@@ -122,7 +122,7 @@ onUnmounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 16px rgba(0, 82, 217, 0.3);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--brand-primary) 30%, transparent);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
@@ -171,7 +171,7 @@ onUnmounted(() => {
 
 .back-to-top-btn:hover {
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 8px 24px rgba(0, 82, 217, 0.4);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-primary) 40%, transparent);
 }
 
 .back-to-top-btn:hover .btn-content {
@@ -182,21 +182,21 @@ onUnmounted(() => {
   position: absolute;
   bottom: 70px;
   right: 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: color-mix(in srgb, white 80%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 20px;
   padding: 12px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 15px 40px color-mix(in srgb, black 12%, transparent);
   min-width: 160px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid color-mix(in srgb, white 60%, transparent);
   transform-origin: bottom right;
 }
 
 .nav-menu-title {
   display: block;
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   padding: 4px 12px 8px;
   letter-spacing: 1px;
@@ -207,7 +207,7 @@ onUnmounted(() => {
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--ink-700);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: left;
@@ -236,7 +236,7 @@ onUnmounted(() => {
 .menu-item:hover {
   background: white;
   color: var(--brand-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px color-mix(in srgb, black 5%, transparent);
   padding-left: 20px;
 }
 

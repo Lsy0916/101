@@ -143,14 +143,14 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   max-width: 420px;
   flex-shrink: 0;
   padding: 40px;
-  background: rgba(255, 255, 255, 0.96);
+  background: color-mix(in srgb, white 96%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid color-mix(in srgb, white 50%, transparent);
   box-shadow:
-    0 20px 50px -12px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 20px 50px -12px color-mix(in srgb, black 35%, transparent),
+    0 0 0 1px color-mix(in srgb, white 10%, transparent);
   position: relative;
   overflow: hidden;
   animation: fadeInUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
@@ -167,8 +167,8 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1.5px;
-  color: #6b7280;
-  background: #f3f4f6;
+  color: var(--ink-500);
+  background: var(--ink-100);
   padding: 5px 12px;
   border-radius: 20px;
   margin-bottom: 14px;
@@ -177,7 +177,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 .login-header h2 {
   margin: 0 0 8px;
   font-size: 28px;
-  color: #111827;
+  color: var(--ink-900);
   font-weight: 800;
   letter-spacing: -0.5px;
   line-height: 1.2;
@@ -185,7 +185,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 
 .login-header p {
   margin: 0;
-  color: #6b7280;
+  color: var(--ink-500);
   font-size: 14px;
   letter-spacing: 0.3px;
 }
@@ -193,7 +193,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 /* 登录方式切换标签 */
 .login-type-tabs {
   display: flex;
-  background: #f3f4f6;
+  background: var(--ink-100);
   border-radius: 12px;
   padding: 4px;
   margin-bottom: 22px;
@@ -205,7 +205,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   text-align: center;
   padding: 10px 0;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 600;
   cursor: pointer;
   border-radius: 8px;
@@ -214,14 +214,14 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 }
 
 .tab-item:hover {
-  color: #111827;
+  color: var(--ink-900);
 }
 
 .tab-item.active {
-  background: #fff;
-  color: #0052d9;
+  background: white;
+  color: var(--brand-primary);
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0, 82, 217, 0.12);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--brand-primary) 12%, transparent);
 }
 
 .tab-content {
@@ -231,13 +231,16 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 .tab-fade-enter-active {
   transition: all 0.3s ease;
 }
+
 .tab-fade-leave-active {
   transition: all 0.2s ease;
 }
+
 .tab-fade-enter-from {
   opacity: 0;
   transform: translateY(8px);
 }
+
 .tab-fade-leave-to {
   opacity: 0;
   transform: translateY(-4px);
@@ -259,11 +262,11 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+  background: linear-gradient(to right, transparent, var(--ink-200), transparent);
 }
 
 .social-login-text {
-  color: #9ca3af;
+  color: var(--ink-400);
   font-size: 12px;
   padding: 0 14px;
   white-space: nowrap;
@@ -284,8 +287,8 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px solid #e5e7eb;
-  background: #fff;
+  border: 1px solid var(--ink-200);
+  background: white;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
@@ -294,21 +297,21 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 
 .social-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 18px color-mix(in srgb, black 12%, transparent);
   border-color: transparent;
 }
 
 .wechat-btn:hover {
-  background: #07c160;
+  background: #07c160; /* stylelint-disable-line color-no-hex, function-allowed-list */
 }
 
 .qq-btn:hover {
-  background: #12b7f5;
+  background: #12b7f5; /* stylelint-disable-line color-no-hex, function-allowed-list */
 }
 
 .wechat-btn:hover svg path,
 .qq-btn:hover svg path {
-  fill: #fff !important;
+  fill: white !important;
 }
 
 /* 注册链接 */
@@ -316,14 +319,14 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
   text-align: center;
   margin-top: 22px;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .register-btn {
   margin-left: 6px;
   background: none;
   border: none;
-  color: #0052d9;
+  color: var(--brand-primary);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -332,7 +335,7 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
 }
 
 .register-btn:hover {
-  color: #1890ff;
+  color: var(--color-info);
 }
 
 @keyframes fadeInUp {
@@ -340,13 +343,14 @@ const debouncedHandleQQLogin = debounce(handleQQLogin, 1000);
     opacity: 0;
     transform: translateY(16px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .login-box {
     padding: 28px 22px;
     max-width: 100%;

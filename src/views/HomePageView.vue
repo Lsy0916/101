@@ -151,7 +151,7 @@ onUnmounted(() => {
 
 <style scoped>
 .animated-homepage {
-  background: linear-gradient(to bottom, #ffffff, #f0f7ff) fixed;
+  background: linear-gradient(to bottom, white, var(--brand-primary-faint)) fixed;
   min-height: 100vh;
 }
 </style>

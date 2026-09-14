@@ -69,7 +69,7 @@ const { t } = useI18n()
 
 .reveal-anim[data-anim="0"] { transition-delay: 0s; }
 
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-quote-mark {
     font-size: 90px;
   }

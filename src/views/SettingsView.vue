@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
   padding: 0 48px 100px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
     'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  color: #111827;
+  color: var(--ink-900);
 }
 
 /* ============ Sections ============ */
@@ -106,11 +106,11 @@ onBeforeUnmount(() => {
 /* ============ 自定义滚动条 ============ */
 .custom-scroll {
   scrollbar-width: thin;
-  scrollbar-color: #c1c8d0 transparent;
+  scrollbar-color: var(--mist-350) transparent;
 }
 .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
 .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-.custom-scroll::-webkit-scrollbar-thumb { background: #c1c8d0; }
+.custom-scroll::-webkit-scrollbar-thumb { background: var(--mist-350); }
 .custom-scroll::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
 
 /* ============ Element Plus overrides ============ */
@@ -118,21 +118,25 @@ onBeforeUnmount(() => {
 :deep(.el-select .el-input__wrapper),
 :deep(.el-textarea__inner) {
   border-radius: 0 !important;
-  box-shadow: 0 0 0 1px #d1d5db inset !important;
+  box-shadow: 0 0 0 1px var(--ink-300) inset !important;
 }
+
 :deep(.el-input__wrapper:hover),
 :deep(.el-select .el-input__wrapper:hover) {
   box-shadow: 0 0 0 1px var(--brand-primary) inset !important;
 }
+
 :deep(.el-input__wrapper.is-focus),
 :deep(.el-select .el-input__wrapper.is-focus) {
   box-shadow: 0 0 0 1px var(--brand-primary) inset !important;
 }
+
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
   background-color: var(--brand-primary);
   border-color: var(--brand-primary);
 }
 :deep(.el-checkbox__input.is-checked + .el-checkbox__label) { color: var(--brand-primary); }
+
 :deep(.el-switch.is-checked .el-switch__core) {
   background-color: var(--brand-primary);
   border-color: var(--brand-primary);
@@ -141,7 +145,7 @@ onBeforeUnmount(() => {
 :deep(.el-date-editor .el-range-input) { font-family: inherit; }
 
 /* ============ Responsive ============ */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .settings-page { padding: 0 24px 80px; }
 
   .mobile-toc {
@@ -149,15 +153,16 @@ onBeforeUnmount(() => {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: #fff;
-    border-top: 1px solid #111827;
-    border-bottom: 1px solid #e5e7eb;
+    background: white;
+    border-top: 1px solid var(--ink-900);
+    border-bottom: 1px solid var(--ink-200);
     overflow-x: auto;
-    margin: 0 -24px 0;
+    margin: 0 -24px;
     padding: 0 24px;
     scrollbar-width: none;
   }
   .mobile-toc::-webkit-scrollbar { display: none; }
+
   .mtoc-item {
     flex-shrink: 0;
     display: flex;
@@ -166,20 +171,23 @@ onBeforeUnmount(() => {
     gap: 2px;
     padding: 12px 18px;
     text-decoration: none;
-    color: #6b7280;
+    color: var(--ink-500);
     border-bottom: 2px solid transparent;
     transition: color 0.2s;
   }
+
   .mtoc-item.active {
     color: var(--brand-primary);
     border-bottom-color: var(--brand-primary);
   }
+
   .mtoc-num {
     font-family: Georgia, 'Times New Roman', serif;
     font-style: italic;
     font-size: 14px;
     font-weight: 600;
   }
+
   .mtoc-text {
     font-size: 11px;
     font-weight: 600;
@@ -188,7 +196,7 @@ onBeforeUnmount(() => {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .settings-page { padding: 0 16px 80px; }
 }
 </style>

@@ -58,14 +58,14 @@ defineProps<{
 }
 
 .eyebrow-date {
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 500;
 }
 
 .detail-title {
   font-size: clamp(32px, 4.5vw, 52px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   line-height: 1.08;
   letter-spacing: -1.5px;
   margin: 0 0 32px;
@@ -83,7 +83,7 @@ defineProps<{
   align-items: center;
   gap: 24px;
   padding-top: 24px;
-  border-top: 1px solid #eef2f6;
+  border-top: 1px solid var(--mist-050);
 }
 
 .author-block {
@@ -105,23 +105,20 @@ defineProps<{
 .author-name {
   font-size: 14px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   letter-spacing: 0.2px;
 }
 
 .author-title {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .detail-header {
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 36px;
-    padding-bottom: 28px;
+    padding: 36px 20px 28px;
   }
 }
 </style>

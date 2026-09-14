@@ -190,11 +190,11 @@ const filterByTopic = (tag: string) => {
   gap: 6px;
   padding: 10px 20px;
   background: transparent;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
   border-radius: 24px;
   font-size: 13px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--ink-500);
   cursor: pointer;
   transition: all 0.25s ease;
   font-family: inherit;
@@ -202,16 +202,16 @@ const filterByTopic = (tag: string) => {
 }
 
 .filter-tab:hover {
-  border-color: #d0e7ff;
-  background: #f0f7ff;
+  border-color: var(--brand-primary-soft);
+  background: var(--brand-primary-faint);
   color: var(--brand-primary);
 }
 
 .filter-tab.active {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(0, 82, 217, 0.2);
+  color: white;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--brand-primary) 20%, transparent);
 }
 
 .tab-count {
@@ -227,8 +227,8 @@ const filterByTopic = (tag: string) => {
 }
 
 .feed-card {
-  background: #ffffff;
-  border: 1px solid #eef2f6;
+  background: white;
+  border: 1px solid var(--mist-050);
   border-radius: 20px;
   padding: 28px 32px;
   cursor: pointer;
@@ -244,15 +244,15 @@ const filterByTopic = (tag: string) => {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #d0e7ff, #f0f7ff);
+  background: linear-gradient(90deg, var(--brand-primary-soft), var(--brand-primary-faint));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .feed-card:hover {
-  border-color: #e5e7eb;
+  border-color: var(--ink-200);
   transform: translateY(-6px) rotate(-0.3deg);
-  box-shadow: 0 18px 40px rgba(0, 82, 217, 0.12);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--brand-primary) 12%, transparent);
 }
 
 .feed-card:hover::before {
@@ -260,17 +260,17 @@ const filterByTopic = (tag: string) => {
 }
 
 .feed-card.is-capsule {
-  background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 60%);
-  border-color: #d0e7ff;
+  background: linear-gradient(135deg, var(--brand-primary-faint) 0%, white 60%);
+  border-color: var(--brand-primary-soft);
 }
 
 .feed-card.is-capsule::before {
-  background: linear-gradient(90deg, #e0e7ff, #f0f7ff);
+  background: linear-gradient(90deg, #e0e7ff, var(--brand-primary-faint)); /* stylelint-disable-line color-no-hex, function-allowed-list */
   opacity: 0;
 }
 
 .feed-card.is-pinned {
-  border-color: #e5e7eb;
+  border-color: var(--ink-200);
 }
 
 /* 图片网格 */
@@ -290,6 +290,7 @@ const filterByTopic = (tag: string) => {
 .photo-count-3 .card-photo { height: 140px; }
 .photo-count-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 .photo-count-4 .card-photo { height: 120px; }
+
 .card-photo {
   width: 100%;
   height: 100%;
@@ -299,12 +300,13 @@ const filterByTopic = (tag: string) => {
   transition: transform 0.4s ease;
 }
 .card-photo:hover { transform: scale(1.03); }
+
 .photo-more {
   position: absolute;
   right: 8px;
   bottom: 8px;
-  background: rgba(17, 24, 39, 0.7);
-  color: #fff;
+  background: color-mix(in srgb, var(--ink-900) 70%, transparent);
+  color: white;
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 12px;
@@ -328,13 +330,13 @@ const filterByTopic = (tag: string) => {
 
 .mark-badge.pinned {
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
 }
 
 .mark-badge.hot {
-  background: #fef2f2;
-  color: #ef4444;
-  border: 1px solid #fecaca;
+  background: var(--danger-50);
+  color: var(--danger-500);
+  border: 1px solid var(--danger-200);
 }
 
 /* 卡片头部 */
@@ -357,13 +359,13 @@ const filterByTopic = (tag: string) => {
 .head-author {
   font-size: 14px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   letter-spacing: 0.2px;
 }
 
 .head-time {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 0.3px;
 }
 
@@ -378,13 +380,13 @@ const filterByTopic = (tag: string) => {
 }
 
 .type-badge.moment {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   color: var(--brand-primary);
 }
 
 .type-badge.capsule {
-  background: linear-gradient(135deg, #0052d9, #1890ff);
-  color: #fff;
+  background: linear-gradient(135deg, var(--brand-primary), var(--color-info));
+  color: white;
 }
 
 /* 卡片正文 */
@@ -404,7 +406,7 @@ const filterByTopic = (tag: string) => {
 .card-content {
   font-size: 15px;
   line-height: 1.8;
-  color: #1f2937;
+  color: var(--ink-800);
   margin: 0;
   letter-spacing: 0.1px;
   display: -webkit-box;
@@ -424,7 +426,7 @@ const filterByTopic = (tag: string) => {
 .topic-tag {
   font-size: 12px;
   color: var(--brand-primary);
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   padding: 4px 10px;
   border-radius: 12px;
   cursor: pointer;
@@ -435,7 +437,7 @@ const filterByTopic = (tag: string) => {
 
 .topic-tag:hover {
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
 }
 
 /* 互动栏 */
@@ -444,7 +446,7 @@ const filterByTopic = (tag: string) => {
   align-items: center;
   gap: 8px;
   padding-top: 16px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--slate-100);
 }
 
 .interact-btn {
@@ -456,7 +458,7 @@ const filterByTopic = (tag: string) => {
   border: 1px solid transparent;
   border-radius: 20px;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--ink-500);
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
@@ -464,15 +466,15 @@ const filterByTopic = (tag: string) => {
 }
 
 .interact-btn:hover {
-  background: #f0f7ff;
-  border-color: #d0e7ff;
+  background: var(--brand-primary-faint);
+  border-color: var(--brand-primary-soft);
   color: var(--brand-primary);
 }
 
 .interact-btn.liked {
   color: var(--brand-primary);
-  background: #f0f7ff;
-  border-color: #d0e7ff;
+  background: var(--brand-primary-faint);
+  border-color: var(--brand-primary-soft);
 }
 
 .interact-btn .el-icon {
@@ -488,14 +490,14 @@ const filterByTopic = (tag: string) => {
 .empty-title {
   font-size: 24px;
   font-weight: 800;
-  color: #111827;
+  color: var(--ink-900);
   margin: 0 0 10px;
   letter-spacing: -0.5px;
 }
 
 .empty-hint {
   font-size: 14px;
-  color: #9ca3af;
+  color: var(--ink-400);
   margin: 0 0 28px;
 }
 
@@ -505,7 +507,7 @@ const filterByTopic = (tag: string) => {
   gap: 8px;
   padding: 14px 32px;
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 12px;
   font-size: 13px;
@@ -515,33 +517,36 @@ const filterByTopic = (tag: string) => {
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: inherit;
-  box-shadow: 0 6px 18px rgba(0, 82, 217, 0.22);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 22%, transparent);
 }
 
 .empty-btn:hover {
-  background: #0040b0;
+  background: var(--brand-primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(0, 82, 217, 0.3);
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--brand-primary) 30%, transparent);
 }
 
-@media (max-width: 1100px) {
+@media (width <= 1100px) {
   .feed-column {
     order: 1;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .feed-card {
     padding: 20px 18px;
     border-radius: 16px;
   }
+
   .interact-btn {
     padding: 6px 10px;
     font-size: 12px;
   }
+
   .card-head {
     padding-right: 0;
   }
+
   .card-mark {
     position: static;
     margin-bottom: 10px;

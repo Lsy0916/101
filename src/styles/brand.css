@@ -17,8 +17,20 @@
 :root {
   --brand-primary: #0052d9;
   --brand-radius: 6px;
-  --brand-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+  --brand-font-family: -apple-system, blinkmacsystemfont, 'Segoe UI', 'PingFang SC',
     'Microsoft YaHei', sans-serif;
+}
+
+/* ----- 品牌深浅阶（非线性派生，无法由主色 color-mix 精确导出，独立定值） -----
+ * 注意：applyConfig 当前仅覆盖 --brand-primary，租户深度换肤时
+ * 需在租户主题配置中同步这组深浅阶（存量行为不变的前提下先独立定值） */
+:root {
+  --brand-primary-dark: #0040b0;
+  --brand-primary-deep: #0040a8;
+  --brand-primary-deeper: #003bb3;
+  --brand-primary-soft: #d0e7ff;
+  --brand-primary-faint: #f0f7ff;
+  --brand-primary-wash: #f8fbff;
 }
 
 /* ----- Element Plus 主色阶（color-mix 派生） ----- */

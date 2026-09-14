@@ -41,9 +41,9 @@
 /* 跑马灯滚动信息条 */
 .marquee-band {
   overflow: hidden;
-  border-top: 1px solid #eef2f6;
-  border-bottom: 1px solid #eef2f6;
-  background: #f8fbff;
+  border-top: 1px solid var(--mist-050);
+  border-bottom: 1px solid var(--mist-050);
+  background: var(--brand-primary-wash);
   padding: 14px 0;
 }
 
@@ -63,7 +63,7 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 1.5px;
-  color: #111827;
+  color: var(--ink-900);
   text-transform: uppercase;
 }
 

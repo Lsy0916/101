@@ -31,12 +31,12 @@ const { t } = useI18n()
 <style scoped>
 /* ============ 杂志区块通用 ============ */
 .mag-section {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
   padding: 48px 0 40px;
 }
 
 .mag-section:last-child {
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--ink-200);
 }
 
 .sec-head {
@@ -54,11 +54,11 @@ const { t } = useI18n()
   color: var(--brand-primary);
   line-height: 1;
   padding-top: 2px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-num.danger {
-  color: #ef4444;
+  color: var(--danger-500);
 }
 
 .sec-titles {
@@ -69,27 +69,27 @@ const { t } = useI18n()
   margin: 0 0 8px;
   font-size: 26px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   line-height: 1.2;
   letter-spacing: -0.3px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-desc {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
   max-width: 540px;
 }
 
 /* ============ 危险区 ============ */
 .danger-section {
-  border-top-color: #fecaca;
+  border-top-color: var(--danger-200);
 }
 
 .danger-section .sec-title {
-  color: #b91c1c;
+  color: var(--danger-700);
 }
 
 .danger-action {
@@ -103,21 +103,25 @@ const { t } = useI18n()
   padding: 10px 24px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .mag-section {
     padding: 36px 0 28px;
   }
+
   .sec-head {
     grid-template-columns: auto 1fr;
     gap: 16px;
     margin-bottom: 26px;
   }
+
   .sec-title {
     font-size: 22px;
   }
+
   .sec-num {
     font-size: 24px;
   }
+
   .danger-action .el-button {
     width: 100%;
   }

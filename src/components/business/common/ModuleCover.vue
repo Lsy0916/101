@@ -23,55 +23,62 @@ defineProps<{
 <style scoped>
 .module-cover {
   padding: 8px 0 32px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   position: relative;
 }
+
 .module-cover .cover-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
+
 .module-cover .cover-eyebrow {
   font-size: 12px;
   letter-spacing: 3px;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 600;
   text-transform: uppercase;
 }
+
 .module-cover .cover-no {
   font-size: 12px;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
   padding: 4px 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--ink-200);
 }
+
 .module-cover .cover-title {
   font-size: clamp(36px, 5vw, 60px);
   font-weight: 800;
-  color: #0a0f1a;
-  margin: 0 0 12px 0;
+  color: var(--navy-950);
+  margin: 0 0 12px;
   letter-spacing: -1.5px;
   line-height: 1.02;
 }
+
 .module-cover .cover-title :deep(em) {
   font-style: italic;
   font-weight: 300;
   color: var(--brand-primary);
   opacity: 0.85;
 }
+
 .module-cover .cover-desc {
   font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 20px 0;
+  color: var(--ink-500);
+  margin: 0 0 20px;
   line-height: 1.7;
   max-width: 640px;
 }
+
 .module-cover .cover-line {
   height: 1px;
-  background: linear-gradient(to right, #0052d9 0, #0052d9 56px, #eef2f6 56px, #eef2f6 100%);
+  background: linear-gradient(to right, var(--brand-primary) 0, var(--brand-primary) 56px, var(--mist-050) 56px, var(--mist-050) 100%);
 }
 </style>

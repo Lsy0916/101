@@ -143,8 +143,8 @@ defineExpose({ handleKey })
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(24, 144, 255, 0.28) 0%, rgba(10, 42, 107, 0.15) 70%, transparent 100%);
-  border: 1px solid rgba(24, 144, 255, 0.35);
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--color-info) 28%, transparent) 0%, color-mix(in srgb, var(--navy-800) 15%, transparent) 70%, transparent 100%);
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -158,8 +158,8 @@ defineExpose({ handleKey })
 
 .nf-breath-circle.breath-inhale {
   transform: scale(1.3);
-  background: radial-gradient(circle at center, rgba(24, 144, 255, 0.5) 0%, rgba(10, 42, 107, 0.25) 70%, transparent 100%);
-  border-color: rgba(24, 144, 255, 0.7);
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--color-info) 50%, transparent) 0%, color-mix(in srgb, var(--navy-800) 25%, transparent) 70%, transparent 100%);
+  border-color: color-mix(in srgb, var(--color-info) 70%, transparent);
   transition: transform 4s cubic-bezier(0.45, 0, 0.55, 1),
               background 4s ease,
               border-color 4s ease;
@@ -167,15 +167,15 @@ defineExpose({ handleKey })
 
 .nf-breath-circle.breath-hold {
   transform: scale(1.3);
-  background: radial-gradient(circle at center, rgba(24, 144, 255, 0.5) 0%, rgba(10, 42, 107, 0.25) 70%, transparent 100%);
-  border-color: rgba(24, 144, 255, 0.7);
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--color-info) 50%, transparent) 0%, color-mix(in srgb, var(--navy-800) 25%, transparent) 70%, transparent 100%);
+  border-color: color-mix(in srgb, var(--color-info) 70%, transparent);
   transition: none;
 }
 
 .nf-breath-circle.breath-exhale {
   transform: scale(0.85);
-  background: radial-gradient(circle at center, rgba(24, 144, 255, 0.22) 0%, rgba(10, 42, 107, 0.1) 70%, transparent 100%);
-  border-color: rgba(24, 144, 255, 0.22);
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--color-info) 22%, transparent) 0%, color-mix(in srgb, var(--navy-800) 10%, transparent) 70%, transparent 100%);
+  border-color: color-mix(in srgb, var(--color-info) 22%, transparent);
   transition: transform 6s cubic-bezier(0.45, 0, 0.55, 1),
               background 6s ease,
               border-color 6s ease;
@@ -186,7 +186,7 @@ defineExpose({ handleKey })
   font-size: 18px;
   letter-spacing: 8px;
   color: var(--dark-text);
-  text-shadow: 0 0 20px rgba(24, 144, 255, 0.8);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--color-info) 80%, transparent);
 }
 
 .nf-breath-sync {
@@ -209,7 +209,7 @@ defineExpose({ handleKey })
   100% { transform: scale(1); opacity: 1; }
 }
 
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-breath-circle {
     width: 170px;
     height: 170px;

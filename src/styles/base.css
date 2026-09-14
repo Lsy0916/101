@@ -8,22 +8,17 @@
   --color-background: #f8fafc;
   --color-background-soft: #f1f5f9;
   --color-background-mute: #e2e8f0;
-
   --color-text: #1e293b;
   --color-text-soft: #64748b;
   --color-text-inverse: #f1f5f9;
-
   --color-border: #cbd5e1;
   --color-border-hover: #94a3b8;
-
   --muted: #6b7280;
-  --card-bg: rgba(255,255,255,0.95);
-
+  --card-bg: rgb(255,255,255,0.95);
   --border-radius: 6px;
   --border-radius-medium: 8px;
   --border-radius-big: 12px;
   --border-radius-circle: 50%;
-
   --shadow-small: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-big: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -34,11 +29,9 @@
   --color-background: #0f172a;
   --color-background-soft: #1e2b3a;
   --color-background-mute: #334155;
-
   --color-text: #f1f5f9;
   --color-text-soft: #94a3b8;
   --color-text-inverse: #1e2b3a;
-
   --color-border: #475569;
   --color-border-hover: #64748b;
 }
@@ -90,14 +83,14 @@ body {
   backdrop-filter: blur(10px);
   border-radius: var(--border-radius-big);
   box-shadow: var(--shadow-big);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 /* 登录页面响应式设计 */
-@media (max-width: 1199px) {
+@media (width <= 1199px) {
   .presentation-box {
     display: none !important;
   }
@@ -107,7 +100,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .login-box {
     margin: 0;
     padding: 30px 20px;
@@ -134,7 +127,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .login-box {
     margin: 0;
     padding: 25px 15px;
@@ -170,7 +163,7 @@ body {
 }
 
 /* 针对非常小的屏幕优化 */
-@media (max-width: 360px) {
+@media (width <= 360px) {
   .login-box {
     padding: 20px 10px;
     min-width: 260px;
@@ -187,7 +180,7 @@ body {
 }
 
 /* 针对大屏幕优化 */
-@media (min-width: 1200px) {
+@media (width >= 1200px) {
   .presentation-box {
     display: block !important;
   }

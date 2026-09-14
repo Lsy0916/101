@@ -84,7 +84,7 @@ const collectionItems = computed(() => {
 .module-title {
   font-size: clamp(22px, 2.2vw, 30px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin: 0;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -92,7 +92,7 @@ const collectionItems = computed(() => {
 
 .article-count {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 500;
 }
 
@@ -120,7 +120,7 @@ const collectionItems = computed(() => {
 .module-collections {
   margin-top: 88px;
   padding-top: 64px;
-  border-top: 1px solid #eef2f6;
+  border-top: 1px solid var(--mist-050);
 }
 
 .collection-grid {
@@ -130,7 +130,7 @@ const collectionItems = computed(() => {
 }
 
 .collection-card {
-  background: #ffffff;
+  background: white;
   padding: 28px 24px;
   border-radius: 16px;
   display: flex;
@@ -139,15 +139,15 @@ const collectionItems = computed(() => {
   gap: 20px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
   position: relative;
   overflow: hidden;
 }
 
 .collection-card:hover {
   transform: translateY(-4px);
-  border-color: #d0e7ff;
-  box-shadow: 0 16px 32px -12px rgba(0, 82, 217, 0.12);
+  border-color: var(--brand-primary-soft);
+  box-shadow: 0 16px 32px -12px color-mix(in srgb, var(--brand-primary) 12%, transparent);
 }
 
 .collection-top {
@@ -159,7 +159,7 @@ const collectionItems = computed(() => {
 .collection-icon-wrapper {
   width: 44px;
   height: 44px;
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -176,7 +176,7 @@ const collectionItems = computed(() => {
 
 .collection-count {
   font-size: 0.72rem;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -185,14 +185,14 @@ const collectionItems = computed(() => {
 .collection-title {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #0a0f1a;
-  margin: 0 0 8px 0;
+  color: var(--navy-950);
+  margin: 0 0 8px;
   line-height: 1.3;
 }
 
 .collection-desc {
   font-size: 0.88rem;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
   margin: 0;
   display: -webkit-box;
@@ -206,7 +206,7 @@ const collectionItems = computed(() => {
   align-items: center;
   gap: 6px;
   padding-top: 16px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--slate-100);
   color: var(--brand-primary);
   font-weight: 600;
   font-size: 0.85rem;
@@ -221,7 +221,7 @@ const collectionItems = computed(() => {
   transform: translateX(4px);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .module-title {
     font-size: 1.4rem;
   }

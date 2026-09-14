@@ -183,7 +183,7 @@ function savePsych() {
 <style scoped>
 /* ============ 杂志区块通用 ============ */
 .mag-section {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--ink-200);
   padding: 48px 0 40px;
 }
 
@@ -202,7 +202,7 @@ function savePsych() {
   color: var(--brand-primary);
   line-height: 1;
   padding-top: 2px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-titles {
@@ -213,16 +213,16 @@ function savePsych() {
   margin: 0 0 8px;
   font-size: 26px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   line-height: 1.2;
   letter-spacing: -0.3px;
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 .sec-desc {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
   max-width: 540px;
 }
@@ -235,15 +235,15 @@ function savePsych() {
   font-size: 13px;
   font-weight: 600;
   color: var(--brand-primary);
-  background: #f0f7ff;
-  border: 1px solid #d0e7ff;
+  background: var(--brand-primary-faint);
+  border: 1px solid var(--brand-primary-soft);
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
 }
 
 .sec-toggle:hover {
-  background: #d0e7ff;
+  background: var(--brand-primary-soft);
 }
 
 /* ============ 字段列表（查看模式） ============ */
@@ -256,14 +256,14 @@ function savePsych() {
 
 .field-row {
   padding: 18px 24px 18px 0;
-  border-bottom: 1px solid #f0f2f5;
+  border-bottom: 1px solid var(--mist-075);
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
 .field-row:not(:nth-child(3n)) {
-  border-right: 1px solid #f0f2f5;
+  border-right: 1px solid var(--mist-075);
   padding-right: 24px;
 }
 
@@ -283,13 +283,13 @@ function savePsych() {
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .field-value {
   margin: 0;
   font-size: 15px;
-  color: #1f2937;
+  color: var(--ink-800);
   line-height: 1.5;
   font-weight: 500;
 }
@@ -304,7 +304,7 @@ function savePsych() {
 
 .field-value.prose {
   font-weight: 400;
-  color: #374151;
+  color: var(--ink-700);
   line-height: 1.7;
   white-space: pre-wrap;
 }
@@ -315,8 +315,8 @@ function savePsych() {
   padding: 4px 12px;
   font-size: 13px;
   color: var(--brand-primary);
-  background: #f0f7ff;
-  border: 1px solid #d0e7ff;
+  background: var(--brand-primary-faint);
+  border: 1px solid var(--brand-primary-soft);
 }
 
 .tag-chip.removable {
@@ -356,7 +356,7 @@ function savePsych() {
   gap: 12px;
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid #f0f2f5;
+  border-top: 1px solid var(--mist-075);
 }
 
 .solid-btn {
@@ -368,8 +368,8 @@ function savePsych() {
 }
 
 .solid-btn:hover {
-  background: #0040a8;
-  border-color: #0040a8;
+  background: var(--brand-primary-deep);
+  border-color: var(--brand-primary-deep);
 }
 
 .ghost-btn {
@@ -400,7 +400,7 @@ function savePsych() {
 }
 
 .tag-add:hover {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
 }
 
 .tag-input {
@@ -410,7 +410,7 @@ function savePsych() {
 /* ============ 自定义滚动条 ============ */
 .custom-scroll :deep(.el-textarea__inner) {
   scrollbar-width: thin;
-  scrollbar-color: #d0e7ff transparent;
+  scrollbar-color: var(--brand-primary-soft) transparent;
 }
 
 .custom-scroll :deep(.el-textarea__inner)::-webkit-scrollbar {
@@ -423,7 +423,7 @@ function savePsych() {
 }
 
 .custom-scroll :deep(.el-textarea__inner)::-webkit-scrollbar-thumb {
-  background: #d0e7ff;
+  background: var(--brand-primary-soft);
 }
 
 .custom-scroll :deep(.el-textarea__inner)::-webkit-scrollbar-thumb:hover {
@@ -436,7 +436,7 @@ function savePsych() {
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #6b7280;
+  color: var(--ink-500);
   padding-bottom: 6px;
 }
 
@@ -446,49 +446,59 @@ function savePsych() {
   border-radius: 0;
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .field-list {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .field-row:not(:nth-child(3n)) {
     border-right: none;
   }
+
   .field-row:nth-child(odd) {
-    border-right: 1px solid #f0f2f5;
+    border-right: 1px solid var(--mist-075);
     padding-right: 24px;
   }
+
   .field-row:nth-child(even) {
     padding-left: 24px;
   }
+
   .form-grid,
   .form-grid.two {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .mag-section {
     padding: 36px 0 28px;
   }
+
   .sec-head {
     grid-template-columns: auto 1fr;
     gap: 16px;
     margin-bottom: 26px;
   }
+
   .sec-toggle {
     grid-column: 1 / -1;
     justify-self: start;
     margin-top: 4px;
   }
+
   .sec-title {
     font-size: 22px;
   }
+
   .sec-num {
     font-size: 24px;
   }
+
   .field-list {
     grid-template-columns: 1fr;
   }
+
   .field-row,
   .field-row:nth-child(odd),
   .field-row:nth-child(even),
@@ -497,15 +507,18 @@ function savePsych() {
     padding-left: 0;
     padding-right: 0;
   }
+
   .form-grid,
   .form-grid.two {
     grid-template-columns: 1fr;
     gap: 16px;
   }
+
   .form-actions {
     flex-direction: column-reverse;
     gap: 10px;
   }
+
   .form-actions .el-button {
     width: 100%;
     margin-left: 0 !important;

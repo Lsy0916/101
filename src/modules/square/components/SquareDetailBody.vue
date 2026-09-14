@@ -54,7 +54,7 @@ const emit = defineEmits<{
 .content-text {
   font-size: 17px;
   line-height: 1.9;
-  color: #1f2937;
+  color: var(--ink-800);
   margin: 0;
   letter-spacing: 0.1px;
   position: relative;
@@ -68,7 +68,7 @@ const emit = defineEmits<{
   top: -16px;
   font-size: 64px;
   font-family: Georgia, 'Times New Roman', serif;
-  color: rgba(0, 82, 217, 0.15);
+  color: color-mix(in srgb, var(--brand-primary) 15%, transparent);
   line-height: 1;
   font-weight: 900;
   pointer-events: none;
@@ -108,7 +108,7 @@ const emit = defineEmits<{
 
 .footer-line {
   height: 1px;
-  background: #eef2f6;
+  background: var(--mist-050);
   margin-bottom: 28px;
 }
 
@@ -122,7 +122,7 @@ const emit = defineEmits<{
 .footer-mark {
   font-size: 11px;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -138,8 +138,8 @@ const emit = defineEmits<{
   gap: 8px;
   padding: 10px 18px;
   background: transparent;
-  border: 1px solid #e8ecf0;
-  color: #1f2937;
+  border: 1px solid var(--mist-100);
+  color: var(--ink-800);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -153,33 +153,36 @@ const emit = defineEmits<{
 .action-btn:hover {
   border-color: var(--brand-primary);
   background: var(--brand-primary);
-  color: #fff;
-  box-shadow: 0 6px 16px rgba(0, 82, 217, 0.2);
+  color: white;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-primary) 20%, transparent);
   transform: translateY(-2px);
 }
 
 .action-btn.active {
   border-color: var(--brand-primary);
   background: var(--brand-primary);
-  color: #fff;
+  color: white;
 }
 
 .action-btn .el-icon { font-size: 13px; }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .rich-content {
     padding-left: 20px;
     padding-right: 20px;
   }
+
   .detail-footer {
     padding-left: 20px;
     padding-right: 20px;
   }
+
   .footer-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
+
   .photo-grid {
     grid-template-columns: 1fr;
   }

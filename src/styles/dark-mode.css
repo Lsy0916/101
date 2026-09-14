@@ -10,26 +10,22 @@
   --bg-mute: #f1f5f9;
   --bg-blue-tint: #f0f7ff;
   --bg-card: #ffffff;
-  --bg-overlay: rgba(255, 255, 255, 0.95);
-
+  --bg-overlay: rgb(255, 255, 255, 0.95);
   --text-heading: #0a0f1a;
   --text-primary: #111827;
   --text-regular: #1f2937;
   --text-secondary: #4b5563;
   --text-muted: #6b7280;
   --text-faint: #9ca3af;
-
   --border-light: #eef2f6;
   --border-regular: #f1f5f9;
   --border-strong: #e2e8f0;
   --border-blue: #d0e7ff;
-
-  --shadow-soft: 0 2px 8px rgba(0, 82, 217, 0.06);
-  --shadow-medium: 0 4px 16px rgba(0, 82, 217, 0.08);
-  --shadow-hover: 0 20px 40px rgba(0, 82, 217, 0.1);
-
-  --navbar-bg: rgba(255, 255, 255, 0.98);
-  --navbar-bg-blur: rgba(255, 255, 255, 0.8);
+  --shadow-soft: 0 2px 8px rgb(0, 82, 217, 0.06);
+  --shadow-medium: 0 4px 16px rgb(0, 82, 217, 0.08);
+  --shadow-hover: 0 20px 40px rgb(0, 82, 217, 0.1);
+  --navbar-bg: rgb(255, 255, 255, 0.98);
+  --navbar-bg-blur: rgb(255, 255, 255, 0.8);
 }
 
 :root.dark {
@@ -38,26 +34,22 @@
   --bg-mute: #1e293b;
   --bg-blue-tint: #1a2a4a;
   --bg-card: #1e2b3a;
-  --bg-overlay: rgba(30, 43, 58, 0.95);
-
+  --bg-overlay: rgb(30, 43, 58, 0.95);
   --text-heading: #f1f5f9;
   --text-primary: #f1f5f9;
   --text-regular: #e2e8f0;
   --text-secondary: #94a3b8;
   --text-muted: #94a3b8;
   --text-faint: #64748b;
-
   --border-light: #1e293b;
   --border-regular: #334155;
   --border-strong: #475569;
   --border-blue: #1a3a6b;
-
-  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.5);
-
-  --navbar-bg: rgba(15, 23, 42, 0.98);
-  --navbar-bg-blur: rgba(15, 23, 42, 0.8);
+  --shadow-soft: 0 2px 8px rgb(0, 0, 0, 0.3);
+  --shadow-medium: 0 4px 16px rgb(0, 0, 0, 0.4);
+  --shadow-hover: 0 20px 40px rgb(0, 0, 0, 0.5);
+  --navbar-bg: rgb(15, 23, 42, 0.98);
+  --navbar-bg-blur: rgb(15, 23, 42, 0.8);
 }
 
 /* ---------- 基础元素 ---------- */
@@ -168,7 +160,7 @@ html.dark .feature-item {
 html.dark .service-card:hover,
 html.dark .feature-item:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.4) !important;
 }
 
 html.dark .service-icon-wrapper,
@@ -255,7 +247,7 @@ html.dark .about-stats {
 }
 
 html.dark .about-image {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 25px 50px -12px rgb(0, 0, 0, 0.5) !important;
 }
 
 /* ---------- 跑马灯 ---------- */
@@ -315,9 +307,9 @@ html.dark .back-to-top-btn {
 }
 
 html.dark .nav-menu {
-  background-color: rgba(30, 43, 58, 0.9) !important;
+  background-color: rgb(30, 43, 58, 0.9) !important;
   border-color: var(--border-regular) !important;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 15px 40px rgb(0, 0, 0, 0.4) !important;
 }
 
 html.dark .menu-item {
@@ -441,7 +433,7 @@ html.dark .el-divider {
 }
 
 html.dark .el-loading-mask {
-  background-color: rgba(15, 23, 42, 0.7) !important;
+  background-color: rgb(15, 23, 42, 0.7) !important;
 }
 
 html.dark .el-message-box {
@@ -455,7 +447,7 @@ html.dark .el-message-box__content {
 }
 
 html.dark .el-scrollbar__bar {
-  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgb(255, 255, 255, 0.2) !important;
 }
 
 /* ---------- 滚动条 ---------- */
@@ -464,16 +456,16 @@ html.dark ::-webkit-scrollbar-track {
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgb(255, 255, 255, 0.15);
 }
 
 html.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgb(255, 255, 255, 0.25);
 }
 
 /* ---------- 文本选中 ---------- */
 html.dark ::selection {
-  background: rgba(51, 117, 224, 0.4);
+  background: rgb(51, 117, 224, 0.4);
   color: #fff;
 }
 
@@ -556,14 +548,14 @@ html.dark .footer-links span:hover {
 
 /* ---------- Navbar 补全 ---------- */
 html.dark .nav-header {
-  background-color: rgba(15, 23, 42, 0.98) !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+  background-color: rgb(15, 23, 42, 0.98) !important;
+  box-shadow: 0 2px 10px rgb(0, 0, 0, 0.3) !important;
 }
 
 html.dark .nav-header.is-scrolled {
-  background-color: rgba(15, 23, 42, 0.85) !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  background-color: rgb(15, 23, 42, 0.85) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
+  box-shadow: 0 4px 20px rgb(0, 0, 0, 0.3) !important;
 }
 
 html.dark .nav-header.is-transparent {
@@ -576,13 +568,13 @@ html.dark .menu-item {
 
 html.dark .menu-item:hover {
   color: #4d9aff !important;
-  background: rgba(77, 154, 255, 0.12) !important;
+  background: rgb(77, 154, 255, 0.12) !important;
 }
 
 html.dark .mega-menu {
   background: #1e2b3a !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.5) !important;
 }
 
 html.dark .mega-title {
@@ -594,7 +586,7 @@ html.dark .mega-item {
 }
 
 html.dark .mega-item:hover {
-  background: rgba(77, 154, 255, 0.12) !important;
+  background: rgb(77, 154, 255, 0.12) !important;
   color: #4d9aff !important;
 }
 
@@ -632,7 +624,7 @@ html.dark .lang-btn:hover {
 }
 
 html.dark .user-profile:hover {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   border-color: #1a3a6b !important;
 }
 
@@ -647,7 +639,7 @@ html.dark .user-profile .caret {
 html.dark .login-btn-desktop {
   border-color: #4d9aff !important;
   color: #4d9aff !important;
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
 }
 
 html.dark .login-btn-desktop:hover {
@@ -700,7 +692,7 @@ html.dark .mobile-grid-item {
 }
 
 html.dark .mobile-grid-item.active {
-  background: rgba(77, 154, 255, 0.12) !important;
+  background: rgb(77, 154, 255, 0.12) !important;
   border-color: #4d9aff !important;
   color: #4d9aff !important;
 }
@@ -708,7 +700,7 @@ html.dark .mobile-grid-item.active {
 /* 用户下拉菜单（teleported popper，全局样式） */
 html.dark .user-dropdown-popper.el-popper {
   border-color: #1e293b !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 12px 40px rgb(0, 0, 0, 0.5) !important;
   background: #1e2b3a !important;
 }
 
@@ -748,7 +740,7 @@ html.dark .user-dropdown-popper .el-dropdown-menu__item.is-divided::before {
 
 html.dark .user-dropdown-popper .el-dropdown-menu__item.is-divided:hover {
   color: #ef4444 !important;
-  background: rgba(239, 68, 68, 0.12) !important;
+  background: rgb(239, 68, 68, 0.12) !important;
 }
 
 /* ---------- HomePage 补全 ---------- */
@@ -757,9 +749,9 @@ html.dark .animated-homepage {
 }
 
 html.dark .nav-menu {
-  background: rgba(15, 23, 42, 0.9) !important;
+  background: rgb(15, 23, 42, 0.9) !important;
   border-color: #1e293b !important;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 15px 40px rgb(0, 0, 0, 0.4) !important;
 }
 
 html.dark .nav-menu-title {
@@ -835,7 +827,7 @@ html.dark .stat-label {
 }
 
 html.dark .about-image {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 25px 50px -12px rgb(0, 0, 0, 0.5) !important;
 }
 
 html.dark .service-card,
@@ -847,7 +839,7 @@ html.dark .feature-item {
 html.dark .service-card:hover,
 html.dark .feature-item:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.4) !important;
 }
 
 html.dark .service-icon-wrapper,
@@ -884,7 +876,7 @@ html.dark .service-link:hover {
 }
 
 html.dark .card-glow {
-  background: radial-gradient(circle, rgba(77, 154, 255, 0.08) 0%, transparent 70%) !important;
+  background: radial-gradient(circle, rgb(77, 154, 255, 0.08) 0%, transparent 70%) !important;
 }
 
 html.dark .contact-section {
@@ -973,7 +965,7 @@ html.dark .counseling-page .step-block {
 
 html.dark .counseling-page .step-block:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.4) !important;
 }
 
 html.dark .counseling-page .step-num {
@@ -1118,7 +1110,7 @@ html.dark .counseling-page .ps-content:hover {
 
 html.dark .counseling-page .notice-section:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 12px 28px rgb(0, 0, 0, 0.35) !important;
 }
 
 html.dark .counseling-page .faq-cat {
@@ -1180,7 +1172,7 @@ html.dark .counseling-page .cd-review {
 html.dark .counselor-popover.el-popover.el-popper {
   background: #1e2b3a !important;
   border-color: #1e293b !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 12px 32px rgb(0, 0, 0, 0.5) !important;
 }
 
 html.dark .counselor-popover .pop-head {
@@ -1303,7 +1295,7 @@ html.dark .assessment-page .scale-row {
 html.dark .assessment-page .scale-row:hover {
   border-color: #4d9aff !important;
   background: #1a2a4a !important;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 16px 32px rgb(0, 0, 0, 0.4) !important;
   transform: translateY(-4px);
 }
 
@@ -1333,12 +1325,12 @@ html.dark .assessment-page .row-title {
 }
 
 html.dark .assessment-page .row-status.done {
-  background: rgba(16, 185, 129, 0.15) !important;
+  background: rgb(16, 185, 129, 0.15) !important;
   color: #10b981 !important;
 }
 
 html.dark .assessment-page .row-status.soon {
-  background: rgba(245, 158, 11, 0.15) !important;
+  background: rgb(245, 158, 11, 0.15) !important;
   color: #fbbf24 !important;
 }
 
@@ -1420,11 +1412,11 @@ html.dark .assessment-page .editorial-btn-ghost:hover {
 html.dark .assessment-page .editorial-btn-danger {
   background: transparent !important;
   color: #f87171 !important;
-  border-color: rgba(239, 68, 68, 0.4) !important;
+  border-color: rgb(239, 68, 68, 0.4) !important;
 }
 
 html.dark .assessment-page .editorial-btn-danger:hover {
-  background: rgba(239, 68, 68, 0.12) !important;
+  background: rgb(239, 68, 68, 0.12) !important;
   border-color: #ef4444 !important;
 }
 
@@ -1453,7 +1445,7 @@ html.dark .assessment-page .recommend-item:hover,
 html.dark .assessment-page .comparison-item:hover,
 html.dark .assessment-page .quick-entry-item:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 16px 32px rgb(0, 0, 0, 0.4) !important;
   transform: translateY(-4px);
 }
 
@@ -1541,7 +1533,7 @@ html.dark .assessment-page .range-tabs span {
 
 html.dark .assessment-page .range-tabs span:hover {
   color: #e2e8f0 !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgb(255, 255, 255, 0.2) !important;
 }
 
 html.dark .assessment-page .range-tabs span.active {
@@ -1586,7 +1578,7 @@ html.dark .assessment-page .nav-item::before {
 }
 
 html.dark .assessment-page .nav-item:hover {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
   color: #e2e8f0 !important;
 }
 
@@ -1759,11 +1751,11 @@ html.dark .settings-page .editorial-btn-ghost:hover {
 html.dark .settings-page .editorial-btn-danger {
   background: transparent !important;
   color: #f87171 !important;
-  border-color: rgba(239, 68, 68, 0.4) !important;
+  border-color: rgb(239, 68, 68, 0.4) !important;
 }
 
 html.dark .settings-page .editorial-btn-danger:hover {
-  background: rgba(239, 68, 68, 0.12) !important;
+  background: rgb(239, 68, 68, 0.12) !important;
   border-color: #ef4444 !important;
 }
 
@@ -1796,11 +1788,11 @@ html.dark .settings-page .link-btn:hover {
 
 html.dark .settings-page .link-btn-danger {
   color: #f87171 !important;
-  border-color: rgba(239, 68, 68, 0.4) !important;
+  border-color: rgb(239, 68, 68, 0.4) !important;
 }
 
 html.dark .settings-page .link-btn-danger:hover {
-  background: rgba(239, 68, 68, 0.12) !important;
+  background: rgb(239, 68, 68, 0.12) !important;
   border-color: #ef4444 !important;
 }
 
@@ -1922,37 +1914,37 @@ html.dark .profile-page .hero-role {
 
 html.dark .profile-page .hero-sub,
 html.dark .profile-page .hero-bio {
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: rgb(255, 255, 255, 0.85) !important;
 }
 
 html.dark .profile-page .hero-divider {
-  background: rgba(255, 255, 255, 0.2) !important;
+  background: rgb(255, 255, 255, 0.2) !important;
 }
 
 html.dark .profile-page .meta-item,
 html.dark .profile-page .meta-dot {
-  color: rgba(255, 255, 255, 0.75) !important;
+  color: rgb(255, 255, 255, 0.75) !important;
 }
 
 html.dark .profile-page .cta-btn {
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: rgb(255, 255, 255, 0.12) !important;
   color: #fff !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgb(255, 255, 255, 0.2) !important;
   backdrop-filter: blur(10px);
 }
 
 html.dark .profile-page .cta-btn:hover {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
+  background: rgb(255, 255, 255, 0.2) !important;
+  border-color: rgb(255, 255, 255, 0.4) !important;
 }
 
 html.dark .profile-page .cta-btn.ghost {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgb(255, 255, 255, 0.3) !important;
 }
 
 html.dark .profile-page .cta-btn.ghost:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: rgb(255, 255, 255, 0.1) !important;
 }
 
 html.dark .profile-page .mag-section {
@@ -2080,7 +2072,7 @@ html.dark .profile-page .badge-card.earned {
 
 html.dark .profile-page .badge-card.earned:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 16px 32px rgb(0, 0, 0, 0.4) !important;
   transform: translateY(-4px);
 }
 
@@ -2166,8 +2158,8 @@ html.dark .profile-page .timeline-kind.login {
 }
 
 html.dark .profile-page .danger-section {
-  border-color: rgba(239, 68, 68, 0.3) !important;
-  background: rgba(239, 68, 68, 0.05) !important;
+  border-color: rgb(239, 68, 68, 0.3) !important;
+  background: rgb(239, 68, 68, 0.05) !important;
 }
 
 /* ---------- ArticleCenter（文章中心，使用真实类名） ---------- */
@@ -2261,7 +2253,7 @@ html.dark .article-center .spotlight-card {
 
 html.dark .article-center .spotlight-card:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.45) !important;
   transform: translateY(-6px);
 }
 
@@ -2296,7 +2288,7 @@ html.dark .article-center .article-card {
 
 html.dark .article-center .article-card:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.45) !important;
   transform: translateY(-6px);
 }
 
@@ -2326,7 +2318,7 @@ html.dark .article-center .collection-card {
 
 html.dark .article-center .collection-card:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.45) !important;
   transform: translateY(-6px);
 }
 
@@ -2426,7 +2418,7 @@ html.dark .article-list-page .article-row {
 
 html.dark .article-list-page .article-row:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 16px 32px rgb(0, 0, 0, 0.4) !important;
   transform: translateY(-4px);
 }
 
@@ -2725,7 +2717,7 @@ html.dark .immersive-assessment .exit-btn {
 html.dark .immersive-assessment .exit-btn:hover {
   background: #1a2a4a !important;
   color: #f87171 !important;
-  border-color: rgba(239, 68, 68, 0.4) !important;
+  border-color: rgb(239, 68, 68, 0.4) !important;
 }
 
 html.dark .immersive-assessment .divider {
@@ -2755,13 +2747,13 @@ html.dark .immersive-assessment .top-progress-pct {
 
 html.dark .immersive-assessment .timer {
   color: #fbbf24 !important;
-  background: rgba(251, 191, 36, 0.1) !important;
+  background: rgb(251, 191, 36, 0.1) !important;
 }
 
 html.dark .immersive-assessment .q-card-immersive {
   background: #1e2b3a !important;
   border-color: #1e293b !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 20px 50px rgb(0, 0, 0, 0.4) !important;
 }
 
 html.dark .immersive-assessment .q-badge-row {
@@ -2800,7 +2792,7 @@ html.dark .immersive-assessment .opt-card:hover {
 html.dark .immersive-assessment .opt-card.selected {
   border-color: #4d9aff !important;
   background: #1a2a4a !important;
-  box-shadow: 0 0 0 2px rgba(77, 154, 255, 0.3) !important;
+  box-shadow: 0 0 0 2px rgb(77, 154, 255, 0.3) !important;
 }
 
 html.dark .immersive-assessment .opt-index {
@@ -2810,7 +2802,6 @@ html.dark .immersive-assessment .opt-index {
 
 html.dark .immersive-assessment .opt-card:hover .opt-index,
 html.dark .immersive-assessment .opt-card.selected .opt-index {
-  color: #4d9aff !important;
   background: #0052d9 !important;
   color: #fff !important;
 }
@@ -2880,7 +2871,7 @@ html.dark .immersive-assessment .step-dots .dot.completed {
 }
 
 html.dark .immersive-assessment .submitting-overlay {
-  background: rgba(15, 23, 42, 0.85) !important;
+  background: rgb(15, 23, 42, 0.85) !important;
   backdrop-filter: blur(8px);
 }
 
@@ -2895,19 +2886,19 @@ html.dark .immersive-assessment .loading-sub {
 }
 
 html.dark .immersive-assessment .bg-question-num {
-  color: rgba(77, 154, 255, 0.05) !important;
+  color: rgb(77, 154, 255, 0.05) !important;
 }
 
 /* ---------- CommandPalette（搜索面板，使用 cmd-* 真实类名） ---------- */
 html.dark .cmd-backdrop {
-  background: rgba(0, 0, 0, 0.65) !important;
+  background: rgb(0, 0, 0, 0.65) !important;
   backdrop-filter: blur(6px) !important;
 }
 
 html.dark .cmd-panel {
   background: #1e2b3a !important;
   border-color: #1e293b !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 25px 60px rgb(0, 0, 0, 0.6) !important;
 }
 
 html.dark .cmd-prompt {
@@ -2935,7 +2926,7 @@ html.dark .cmd-group-label {
 }
 
 html.dark .cmd-item {
-  border-bottom-color: rgba(30, 41, 59, 0.6) !important;
+  border-bottom-color: rgb(30, 41, 59, 0.6) !important;
 }
 
 html.dark .cmd-item-num {
@@ -3000,16 +2991,16 @@ html.dark .cmd-footer-hint kbd {
 
 /* ---------- LoginForm（登录表单，使用真实类名） ---------- */
 html.dark .login-box {
-  background: rgba(15, 23, 42, 0.75) !important;
+  background: rgb(15, 23, 42, 0.75) !important;
   backdrop-filter: blur(20px) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgb(255, 255, 255, 0.1) !important;
   color: #e2e8f0 !important;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 25px 50px rgb(0, 0, 0, 0.5) !important;
 }
 
 html.dark .login-box.register-form,
 html.dark .login-box.forgot-password-form {
-  background: rgba(15, 23, 42, 0.75) !important;
+  background: rgb(15, 23, 42, 0.75) !important;
 }
 
 html.dark .login-header h2,
@@ -3024,14 +3015,14 @@ html.dark .login-box p {
 }
 
 html.dark .header-badge {
-  background: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.15) !important;
   color: #4d9aff !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
 }
 
 html.dark .login-type-tabs {
-  background: rgba(15, 23, 42, 0.6) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(15, 23, 42, 0.6) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .login-box .tab-item {
@@ -3048,13 +3039,13 @@ html.dark .login-box .tab-item.active {
 }
 
 html.dark .login-box .el-input__wrapper {
-  background: rgba(15, 23, 42, 0.6) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgb(15, 23, 42, 0.6) !important;
+  border-color: rgb(255, 255, 255, 0.1) !important;
 }
 
 html.dark .login-box .el-input__wrapper.is-focus {
   border-color: #4d9aff !important;
-  box-shadow: 0 0 0 3px rgba(77, 154, 255, 0.15) !important;
+  box-shadow: 0 0 0 3px rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .login-box .el-input__inner {
@@ -3071,7 +3062,7 @@ html.dark .login-box .el-form-item__label {
 
 html.dark .login-social,
 html.dark .social-login {
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .login-box .social-login-separator,
@@ -3081,13 +3072,13 @@ html.dark .login-box .social-login-text {
 
 html.dark .login-box .social-login-separator::before,
 html.dark .login-box .social-login-separator::after {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: rgb(255, 255, 255, 0.1) !important;
 }
 
 html.dark .login-box .social-btn,
 html.dark .login-box .wechat-btn,
 html.dark .login-box .qq-btn {
-  background: rgba(30, 43, 58, 0.8) !important;
+  background: rgb(30, 43, 58, 0.8) !important;
   border-color: #334155 !important;
   color: #cbd5e1 !important;
 }
@@ -3128,6 +3119,7 @@ html.dark .nf-page {
   --text-muted: #64748b !important;
   --border: #1e293b !important;
   --border-light: #334155 !important;
+
   background: #0f172a !important;
   color: #f1f5f9 !important;
 }
@@ -3169,7 +3161,7 @@ html.dark .capsule-list-page {
 }
 
 html.dark .capsule-list-page .watermark {
-  color: rgba(77, 154, 255, 0.04) !important;
+  color: rgb(77, 154, 255, 0.04) !important;
 }
 
 html.dark .capsule-list-page .header-eyebrow,
@@ -3277,11 +3269,11 @@ html.dark .capsule-list-page .archive-entry {
 }
 
 html.dark .capsule-list-page .entry-bg-num {
-  color: rgba(77, 154, 255, 0.08) !important;
+  color: rgb(77, 154, 255, 0.08) !important;
 }
 
 html.dark .capsule-list-page .archive-entry:hover .entry-bg-num {
-  color: rgba(77, 154, 255, 0.18) !important;
+  color: rgb(77, 154, 255, 0.18) !important;
 }
 
 html.dark .capsule-list-page .envelope {
@@ -3291,7 +3283,7 @@ html.dark .capsule-list-page .envelope {
 
 html.dark .capsule-list-page .envelope:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.45) !important;
   transform: translateY(-6px);
 }
 
@@ -3351,12 +3343,12 @@ html.dark .capsule-list-page .tag-failed {
 
 /* 删除面板（红色危险信号） */
 html.dark .capsule-list-page .delete-panel {
-  background: rgba(239, 68, 68, 0.15) !important;
+  background: rgb(239, 68, 68, 0.15) !important;
   border-left-color: #ef4444 !important;
 }
 
 html.dark .capsule-list-page .delete-panel:hover {
-  background: rgba(239, 68, 68, 0.25) !important;
+  background: rgb(239, 68, 68, 0.25) !important;
 }
 
 html.dark .capsule-list-page .delete-icon,
@@ -3404,12 +3396,12 @@ html.dark .capsule-list-page .empty-btn:hover {
 html.dark .capsule-list-page .fab-button {
   background: #0052d9 !important;
   color: #fff !important;
-  box-shadow: 0 8px 24px rgba(0, 82, 217, 0.4) !important;
+  box-shadow: 0 8px 24px rgb(0, 82, 217, 0.4) !important;
 }
 
 html.dark .capsule-list-page .fab-button:hover {
   background: #0042ad !important;
-  box-shadow: 0 12px 32px rgba(0, 82, 217, 0.5) !important;
+  box-shadow: 0 12px 32px rgb(0, 82, 217, 0.5) !important;
   transform: translateY(-2px);
 }
 
@@ -3558,7 +3550,7 @@ html.dark .time-capsule-page .image-item {
 }
 
 html.dark .time-capsule-page .delete-btn {
-  background: rgba(239, 68, 68, 0.85) !important;
+  background: rgb(239, 68, 68, 0.85) !important;
   color: #fff !important;
 }
 
@@ -3833,7 +3825,7 @@ html.dark .square-page .prompt-question {
 
 html.dark .square-page .prompt-join {
   color: #4d9aff !important;
-  background: rgba(77, 154, 255, 0.12) !important;
+  background: rgb(77, 154, 255, 0.12) !important;
 }
 
 html.dark .square-page .prompt-join:hover {
@@ -3881,7 +3873,7 @@ html.dark .square-page .feed-card {
 
 html.dark .square-page .feed-card:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.45) !important;
   transform: translateY(-4px);
 }
 
@@ -3894,12 +3886,12 @@ html.dark .square-page .feed-card.is-pinned {
 }
 
 html.dark .square-page .mark-badge.pinned {
-  background: rgba(251, 191, 36, 0.15) !important;
+  background: rgb(251, 191, 36, 0.15) !important;
   color: #fbbf24 !important;
 }
 
 html.dark .square-page .mark-badge.hot {
-  background: rgba(239, 68, 68, 0.15) !important;
+  background: rgb(239, 68, 68, 0.15) !important;
   color: #f87171 !important;
 }
 
@@ -3917,7 +3909,7 @@ html.dark .square-page .type-badge.moment {
 }
 
 html.dark .square-page .type-badge.capsule {
-  background: rgba(16, 185, 129, 0.15) !important;
+  background: rgb(16, 185, 129, 0.15) !important;
   color: #10b981 !important;
 }
 
@@ -3940,7 +3932,7 @@ html.dark .square-page .card-photo:hover {
 }
 
 html.dark .square-page .photo-more {
-  background: rgba(15, 23, 42, 0.85) !important;
+  background: rgb(15, 23, 42, 0.85) !important;
   color: #cbd5e1 !important;
 }
 
@@ -3997,7 +3989,7 @@ html.dark .square-page .sidebar-card {
 
 html.dark .square-page .sidebar-card:hover {
   border-color: #4d9aff !important;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 16px 32px rgb(0, 0, 0, 0.4) !important;
 }
 
 html.dark .square-page .sidebar-title {
@@ -4059,12 +4051,12 @@ html.dark .square-page .rule-text {
 html.dark .square-page .fab-btn {
   background: #0052d9 !important;
   color: #fff !important;
-  box-shadow: 0 8px 24px rgba(0, 82, 217, 0.4) !important;
+  box-shadow: 0 8px 24px rgb(0, 82, 217, 0.4) !important;
 }
 
 html.dark .square-page .fab-btn:hover {
   background: #0042ad !important;
-  box-shadow: 0 12px 32px rgba(0, 82, 217, 0.5) !important;
+  box-shadow: 0 12px 32px rgb(0, 82, 217, 0.5) !important;
   transform: translateY(-2px);
 }
 
@@ -4206,7 +4198,7 @@ html.dark .square-create-page .image-item {
 }
 
 html.dark .square-create-page .delete-btn {
-  background: rgba(239, 68, 68, 0.85) !important;
+  background: rgb(239, 68, 68, 0.85) !important;
   color: #fff !important;
 }
 
@@ -4240,7 +4232,7 @@ html.dark .square-create-page .submit-btn:disabled {
 
 html.dark .square-create-page .success-big-icon {
   color: #10b981 !important;
-  background: rgba(16, 185, 129, 0.15) !important;
+  background: rgb(16, 185, 129, 0.15) !important;
 }
 
 /* SquareDetail.vue */
@@ -4275,7 +4267,7 @@ html.dark .square-detail-page .type-mark.moment {
 
 html.dark .square-detail-page .type-mark.capsule {
   color: #10b981 !important;
-  background: rgba(16, 185, 129, 0.15) !important;
+  background: rgb(16, 185, 129, 0.15) !important;
 }
 
 html.dark .square-detail-page .header-eyebrow,
@@ -4573,14 +4565,14 @@ html.dark .el-alert .el-alert__description {
 
 /* ---------- 通用：el-image-viewer ---------- */
 html.dark .el-image-viewer__wrapper {
-  background: rgba(0, 0, 0, 0.85) !important;
+  background: rgb(0, 0, 0, 0.85) !important;
 }
 
 /* ---------- 通用：el-backtop ---------- */
 html.dark .el-backtop {
   background: #0052d9 !important;
   color: #fff !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 4px 16px rgb(0, 0, 0, 0.4) !important;
 }
 
 /* ---------- 通用：文本查看器/代码块 ---------- */
@@ -4604,32 +4596,33 @@ html.dark blockquote {
    ============================================================ */
 
 /* ---------- Navbar 透明态悬停修复 ---------- */
+
 /* 修复：透明导航栏悬停时显示白色背景 → 改为极淡白色叠加 */
 html.dark .nav-header.is-transparent .menu-item:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.08) !important;
   color: #fff !important;
 }
 
 html.dark .nav-header.is-transparent .cmd-trigger:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .nav-header.is-transparent .icon-btn:hover,
 html.dark .nav-header.is-transparent .lang-btn:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.08) !important;
 }
 
 /* 透明态导航栏在 nav-center 悬停后变为不透明态的悬停色 */
 html.dark .nav-header.is-transparent:has(.nav-center:hover) .menu-item:hover {
-  background: rgba(0, 82, 217, 0.15) !important;
+  background: rgb(0, 82, 217, 0.15) !important;
   color: #4d9aff !important;
 }
 
 /* mega-menu 面板硬编码白色 → 深色 */
 html.dark .mega-menu {
   background: #1a2332 !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
+  box-shadow: 0 20px 50px rgb(0, 0, 0, 0.5) !important;
 }
 
 html.dark .mega-menu-inner {
@@ -4637,7 +4630,7 @@ html.dark .mega-menu-inner {
 }
 
 html.dark .mega-column {
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .mega-title {
@@ -4649,7 +4642,7 @@ html.dark .mega-item {
 }
 
 html.dark .mega-item:hover {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   color: #4d9aff !important;
 }
 
@@ -4661,13 +4654,13 @@ html.dark .assessment-page .scale-rows {
 html.dark .assessment-page .scale-row {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.04) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.04) !important;
 }
 
 html.dark .assessment-page .scale-row:hover {
-  background: rgba(77, 154, 255, 0.06) !important;
+  background: rgb(77, 154, 255, 0.06) !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  border-bottom-color: rgb(77, 154, 255, 0.2) !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -4680,13 +4673,13 @@ html.dark .assessment-page .module-cover,
 html.dark .assessment-page .profile-editorial {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .assessment-page .scale-ribbon {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .assessment-page .ribbon-cat {
@@ -4694,8 +4687,8 @@ html.dark .assessment-page .ribbon-cat {
 }
 
 html.dark .assessment-page .ribbon-search {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .assessment-page .panel,
@@ -4704,7 +4697,7 @@ html.dark .assessment-page .dashboard-sidebar,
 html.dark .assessment-page .dashboard-card {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
   box-shadow: none !important;
 }
 
@@ -4714,8 +4707,8 @@ html.dark .assessment-page .timeline-card:hover,
 html.dark .assessment-page .recommend-item:hover,
 html.dark .assessment-page .comparison-item:hover,
 html.dark .assessment-page .quick-entry-item:hover {
-  background: rgba(77, 154, 255, 0.06) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(77, 154, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -4735,26 +4728,26 @@ html.dark .assessment-page .ai-insight-grid .insight-item,
 html.dark .assessment-page .mbti-bars,
 html.dark .assessment-page .riasec-bars {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
   box-shadow: none !important;
 }
 
 html.dark .assessment-page .detail-item:hover {
-  background: rgba(77, 154, 255, 0.06) !important;
+  background: rgb(77, 154, 255, 0.06) !important;
   border-color: transparent !important;
   transform: none !important;
 }
 
 html.dark .assessment-page .goal-banner {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .assessment-page .ai-summary-card,
 html.dark .assessment-page .intro-tips,
 html.dark .assessment-page .result-summary-card {
-  background: rgba(77, 154, 255, 0.04) !important;
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .assessment-page .range-tabs span {
@@ -4764,7 +4757,7 @@ html.dark .assessment-page .range-tabs span {
 /* 成长看板 · 编辑式暗色适配 */
 html.dark .assessment-page .kpi-grid {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .assessment-page .goal-title {
@@ -4776,7 +4769,7 @@ html.dark .assessment-page .goal-percent {
 }
 
 html.dark .assessment-page .card-header {
-  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .assessment-page .card-header h3 .el-icon {
@@ -4785,21 +4778,21 @@ html.dark .assessment-page .card-header h3 .el-icon {
 
 html.dark .assessment-page .ai-insight-grid .insight-item:hover {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
   box-shadow: none !important;
 }
 
 html.dark .assessment-page .row-icon {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
 }
 
 html.dark .assessment-page .badge-icon {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   border-color: transparent !important;
 }
 
 html.dark .assessment-page .kpi-icon {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
 }
 
 html.dark .assessment-page .badge-card.locked {
@@ -4819,19 +4812,19 @@ html.dark .assessment-page .res-score-circle {
 }
 
 html.dark .assessment-page .rec-icon {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
 }
 
 html.dark .assessment-page :deep(.history-filter .el-input__wrapper),
 html.dark .assessment-page .history-filter .el-input__wrapper {
-  background: rgba(255, 255, 255, 0.04) !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  box-shadow: 0 0 0 1px rgb(255, 255, 255, 0.08) inset !important;
 }
 
 html.dark .assessment-page .row-icon.cat-mental,
 html.dark .assessment-page .row-icon.cat-career,
 html.dark .assessment-page .row-icon.cat-personality {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
 }
 
 /* ---------- AssessmentTake 卡片融入背景 ---------- */
@@ -4842,34 +4835,34 @@ html.dark .immersive-assessment .q-card-immersive {
 }
 
 html.dark .immersive-assessment .opt-card {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .immersive-assessment .opt-card:hover {
-  background: rgba(77, 154, 255, 0.06) !important;
-  border-color: rgba(77, 154, 255, 0.2) !important;
+  background: rgb(77, 154, 255, 0.06) !important;
+  border-color: rgb(77, 154, 255, 0.2) !important;
 }
 
 html.dark .immersive-assessment .opt-card.selected {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   border-color: #4d9aff !important;
   box-shadow: none !important;
 }
 
 html.dark .immersive-assessment .exit-btn {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .immersive-assessment .nav-btn {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .immersive-assessment .nav-btn:hover:not(:disabled) {
-  background: rgba(77, 154, 255, 0.1) !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
 }
 
 html.dark .immersive-assessment .loading-box {
@@ -4878,7 +4871,7 @@ html.dark .immersive-assessment .loading-box {
 }
 
 html.dark .immersive-assessment .opt-index {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
 }
 
 html.dark .immersive-assessment .opt-card:hover .opt-index,
@@ -4890,28 +4883,28 @@ html.dark .immersive-assessment .opt-card.selected .opt-index {
 /* ---------- Profile / 成长看板 卡片融入背景 ---------- */
 html.dark .profile-page .gs-stat {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .profile-page .badge-card {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .profile-page .badge-card.earned {
-  background: rgba(77, 154, 255, 0.04) !important;
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .profile-page .badge-card.earned:hover {
-  background: rgba(77, 154, 255, 0.08) !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 html.dark .profile-page .badge-icon {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   border-color: transparent !important;
 }
 
@@ -4920,23 +4913,23 @@ html.dark .profile-page .badge-card.earned .badge-icon {
 }
 
 html.dark .profile-page .tag-chip {
-  background: rgba(77, 154, 255, 0.08) !important;
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .profile-page .sec-toggle {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .profile-page .timeline-row:hover {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
 }
 
 html.dark .profile-page .field-row,
 html.dark .profile-page .stat-block,
 html.dark .profile-page .gs-stats {
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 /* ---------- ArticleCenter / ArticleList / ArticleDetail 卡片融入背景 ---------- */
@@ -4944,13 +4937,13 @@ html.dark .article-center .discovery-ribbon,
 html.dark .article-list-page .discovery-ribbon {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .article-center .search-box,
 html.dark .article-list-page .search-box {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .article-center .spotlight-card,
@@ -4958,15 +4951,15 @@ html.dark .article-center .article-card,
 html.dark .article-center .collection-card {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .article-center .spotlight-card:hover,
 html.dark .article-center .article-card:hover,
 html.dark .article-center .collection-card:hover {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  border-bottom-color: rgb(77, 154, 255, 0.2) !important;
   box-shadow: none !important;
   transform: none !important;
 }
@@ -4977,11 +4970,11 @@ html.dark .article-center .spotlight-card.no-cover .spotlight-content {
 }
 
 html.dark .article-center .collection-icon-wrapper {
-  background: rgba(77, 154, 255, 0.08) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
 }
 
 html.dark .article-center .card-tag {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   border-color: transparent !important;
 }
 
@@ -4989,20 +4982,20 @@ html.dark .article-center .card-tag {
 html.dark .article-list-page .article-row {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .article-list-page .article-row:first-child {
-  border-top-color: rgba(255, 255, 255, 0.06) !important;
+  border-top-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .article-list-page .article-row:hover {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
 }
 
 html.dark .article-list-page .back-link {
-  background: rgba(77, 154, 255, 0.06) !important;
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.06) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .article-list-page .row-arrow {
@@ -5013,34 +5006,34 @@ html.dark .article-list-page .row-arrow {
 html.dark .article-detail-page .sidebar-card {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .article-detail-page .sidebar-card:hover {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  border-bottom-color: rgb(77, 154, 255, 0.2) !important;
   transform: none !important;
 }
 
 html.dark .article-detail-page .comment-item {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .article-detail-page .comment-item:hover {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 html.dark .article-detail-page .comment-input-wrap {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .article-detail-page .comment-input-wrap:focus-within {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
   box-shadow: none !important;
 }
 
@@ -5051,7 +5044,7 @@ html.dark .article-detail-page .comment-textarea {
 
 html.dark .article-detail-page .rich-content :deep(blockquote),
 html.dark .article-detail-page blockquote {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
 }
 
 /* ---------- CapsuleList / SquareList 卡片融入背景 ---------- */
@@ -5062,62 +5055,62 @@ html.dark .capsule-list-page .swipe-track {
 html.dark .square-page .feed-card {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .square-page .feed-card:hover {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(77, 154, 255, 0.2) !important;
+  border-bottom-color: rgb(77, 154, 255, 0.2) !important;
   box-shadow: none !important;
   transform: none !important;
 }
 
 html.dark .square-page .feed-card.is-capsule {
-  background: rgba(77, 154, 255, 0.04) !important;
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .square-page .sidebar-card {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .square-page .sidebar-card:hover {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
 
 html.dark .square-page .sidebar-card.guidelines-card {
-  background: rgba(77, 154, 255, 0.03) !important;
-  border-color: rgba(77, 154, 255, 0.12) !important;
+  background: rgb(77, 154, 255, 0.03) !important;
+  border-color: rgb(77, 154, 255, 0.12) !important;
 }
 
 html.dark .square-page .cloud-tag {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .square-page .cloud-tag:hover {
-  background: rgba(77, 154, 255, 0.08) !important;
-  border-color: rgba(77, 154, 255, 0.2) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
+  border-color: rgb(77, 154, 255, 0.2) !important;
   transform: none !important;
 }
 
 html.dark .square-page .filter-tab {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .square-page .filter-tab:hover {
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
 }
 
 html.dark .square-page .topic-tag,
 html.dark .square-page .type-badge.moment {
-  background: rgba(77, 154, 255, 0.08) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
   border-color: transparent !important;
 }
 
@@ -5132,37 +5125,37 @@ html.dark .time-capsule-page .wang-editor-wrap,
 html.dark .time-capsule-page .wang-toolbar,
 html.dark .time-capsule-page .wang-editor {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .time-capsule-page .method-option:hover,
 html.dark .time-capsule-page .method-option.active {
-  background: rgba(77, 154, 255, 0.08) !important;
-  border-color: rgba(77, 154, 255, 0.2) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
+  border-color: rgb(77, 154, 255, 0.2) !important;
 }
 
 html.dark .time-capsule-page .emotion-tag {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .time-capsule-page .emotion-tag:hover,
 html.dark .time-capsule-page .emotion-tag.active {
-  background: rgba(77, 154, 255, 0.1) !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
 }
 
 html.dark .time-capsule-page .title-input,
 html.dark .time-capsule-page .info-input,
 html.dark .time-capsule-page .address-input {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
   color: #f1f5f9 !important;
 }
 
 html.dark .time-capsule-page .date-picker-row {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 /* CapsuleDetail */
@@ -5170,14 +5163,14 @@ html.dark .detail-page .detail-info,
 html.dark .detail-page .info-rows,
 html.dark .detail-page .info-row {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .detail-page .comment-item,
 html.dark .detail-page .comment-input-wrap,
 html.dark .detail-page .comment-textarea {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 /* ---------- SquareCreate / SquareDetail 卡片融入背景 ---------- */
@@ -5188,28 +5181,28 @@ html.dark .square-create-page .image-uploader,
 html.dark .square-create-page .add-image-btn,
 html.dark .square-create-page .image-item {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .square-create-page .content-textarea {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
   color: #f1f5f9 !important;
 }
 
 html.dark .square-create-page .emotion-tag {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .square-create-page .emotion-tag:hover,
 html.dark .square-create-page .emotion-tag.active {
-  background: rgba(77, 154, 255, 0.1) !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
 }
 
 html.dark .square-create-page .topic-tag {
-  background: rgba(77, 154, 255, 0.08) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
   border-color: transparent !important;
 }
 
@@ -5223,19 +5216,19 @@ html.dark .square-detail-page .comment-item,
 html.dark .square-detail-page .comment-input-wrap,
 html.dark .square-detail-page .comment-textarea {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .square-detail-page .comment-input-area {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 /* wangEditor 富文本编辑器深色模式 */
 html.dark .w-e-toolbar,
 html.dark .w-e-bar {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .w-e-toolbar-button {
@@ -5243,7 +5236,7 @@ html.dark .w-e-toolbar-button {
 }
 
 html.dark .w-e-toolbar-button:hover {
-  background: rgba(77, 154, 255, 0.08) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
   color: #4d9aff !important;
 }
 
@@ -5259,18 +5252,18 @@ html.dark .w-e-text-placeholder {
 
 html.dark .w-e-panel-content-color {
   background: #1a2332 !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 /* ---------- CounselingCenter 卡片融入背景 ---------- */
 html.dark .counseling-page .step-block {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .counseling-page .step-block:hover {
-  background: rgba(77, 154, 255, 0.04) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
@@ -5280,7 +5273,7 @@ html.dark .counseling-page .ribbon-search,
 html.dark .counseling-page .rows-heading {
   background: transparent !important;
   border-color: transparent !important;
-  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  border-bottom-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .counseling-page .ribbon-search input {
@@ -5292,8 +5285,8 @@ html.dark .counseling-page .date-opt,
 html.dark .counseling-page .slot-opt,
 html.dark .counseling-page .mode-opt,
 html.dark .counseling-page .filter-chip {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .counseling-page .type-opt:hover,
@@ -5306,53 +5299,53 @@ html.dark .counseling-page .mode-opt:hover,
 html.dark .counseling-page .mode-opt.active,
 html.dark .counseling-page .filter-chip:hover,
 html.dark .counseling-page .filter-chip.active {
-  background: rgba(77, 154, 255, 0.1) !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
 }
 
 html.dark .counseling-page .mb-item {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .counseling-page .row-tag {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   border-color: transparent !important;
 }
 
 html.dark .counseling-page .faq-cat {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 html.dark .counseling-page .faq-cat:hover,
 html.dark .counseling-page .faq-cat.active {
-  background: rgba(77, 154, 255, 0.1) !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
 }
 
 html.dark .counseling-page .q-mark {
-  background: rgba(77, 154, 255, 0.1) !important;
+  background: rgb(77, 154, 255, 0.1) !important;
   border-color: transparent !important;
 }
 
 html.dark .counseling-page .faq-contact {
-  background: rgba(77, 154, 255, 0.06) !important;
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.06) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .counseling-page .cd-review {
-  background: rgba(255, 255, 255, 0.03) !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  background: rgb(255, 255, 255, 0.03) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .counseling-page .ps-content:hover {
-  background: rgba(77, 154, 255, 0.04) !important;
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  background: rgb(77, 154, 255, 0.04) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
 }
 
 html.dark .counseling-page .notice-section:hover {
-  border-color: rgba(77, 154, 255, 0.15) !important;
+  border-color: rgb(77, 154, 255, 0.15) !important;
   box-shadow: none !important;
 }
 
@@ -5360,28 +5353,29 @@ html.dark .counseling-page .notice-section:hover {
 html.dark .settings-page .setting-item,
 html.dark .settings-page .info-section {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 /* ---------- LoginForm 修复 ---------- */
+
 /* 登录卡片不要过度透明 → 提高不透明度 */
 html.dark .login-box {
-  background: rgba(15, 23, 42, 0.92) !important;
+  background: rgb(15, 23, 42, 0.92) !important;
   backdrop-filter: blur(24px) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
+  box-shadow: 0 25px 60px rgb(0, 0, 0, 0.6) !important;
 }
 
 html.dark .login-box.register-form,
 html.dark .login-box.forgot-password-form {
-  background: rgba(15, 23, 42, 0.92) !important;
+  background: rgb(15, 23, 42, 0.92) !important;
 }
 
 /* 登录页文字不加黑色背景 — 修复子组件文字背景 */
 html.dark .login-box .el-input__wrapper {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+  background: rgb(255, 255, 255, 0.05) !important;
+  border-color: rgb(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 0 1px rgb(255, 255, 255, 0.1) inset !important;
 }
 
 html.dark .login-box .el-input__wrapper.is-focus {
@@ -5395,13 +5389,13 @@ html.dark .login-box .el-input__inner {
 }
 
 html.dark .login-box .header-badge {
-  background: rgba(77, 154, 255, 0.12) !important;
-  border-color: rgba(77, 154, 255, 0.2) !important;
+  background: rgb(77, 154, 255, 0.12) !important;
+  border-color: rgb(77, 154, 255, 0.2) !important;
 }
 
 html.dark .login-box .login-type-tabs {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  background: rgb(255, 255, 255, 0.04) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
 }
 
 html.dark .login-box .tab-item.active {
@@ -5412,26 +5406,26 @@ html.dark .login-box .tab-item.active {
 html.dark .login-box .social-btn,
 html.dark .login-box .wechat-btn,
 html.dark .login-box .qq-btn {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgb(255, 255, 255, 0.05) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 /* 验证码图片容器 — 深色模式下融入背景 */
 html.dark .captcha-image {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgb(255, 255, 255, 0.05) !important;
+  border-color: rgb(255, 255, 255, 0.1) !important;
 }
 
 html.dark .captcha-image:hover {
-  background: rgba(77, 154, 255, 0.08) !important;
-  border-color: rgba(77, 154, 255, 0.3) !important;
+  background: rgb(77, 154, 255, 0.08) !important;
+  border-color: rgb(77, 154, 255, 0.3) !important;
   box-shadow: none !important;
 }
 
 /* ---------- 通用：el-card 融入背景（非弹层场景） ---------- */
 html.dark .el-card {
   background: transparent !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgb(255, 255, 255, 0.06) !important;
   box-shadow: none !important;
 }
 
@@ -5449,7 +5443,7 @@ html.dark .el-popover.el-popper,
 html.dark .el-select-dropdown,
 html.dark .el-cascader__dropdown {
   background: #1a2332 !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgb(255, 255, 255, 0.08) !important;
 }
 
 /* ---------- 通用：移除卡片化 hover 位移（杂志风） ---------- */

@@ -84,7 +84,7 @@ const emit = defineEmits<{
 .module-title {
   font-size: clamp(22px, 2.2vw, 30px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin: 0;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -92,7 +92,7 @@ const emit = defineEmits<{
 
 .article-count {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 500;
 }
 
@@ -127,22 +127,23 @@ const emit = defineEmits<{
   grid-column: span 1;
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .article-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (max-width: 768px) {
+
+@media (width <= 768px) {
   .article-grid {
     grid-template-columns: 1fr;
   }
 }
 
 .article-card {
-  background: #ffffff;
+  background: white;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
@@ -151,8 +152,8 @@ const emit = defineEmits<{
 
 .article-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px -12px rgba(0, 82, 217, 0.15);
-  border-color: #d0e7ff;
+  box-shadow: 0 20px 40px -12px color-mix(in srgb, var(--brand-primary) 15%, transparent);
+  border-color: var(--brand-primary-soft);
 }
 
 .card-image {
@@ -176,7 +177,7 @@ const emit = defineEmits<{
   position: absolute;
   top: 14px;
   left: 14px;
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in srgb, white 95%, transparent);
   padding: 4px 10px;
   border-radius: 4px;
   font-size: 0.7rem;
@@ -187,7 +188,7 @@ const emit = defineEmits<{
 
 /* 无封面网格卡 · 杂志式文字排版 */
 .article-card.no-cover {
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  background: linear-gradient(180deg, white 0%, var(--neutral-025) 100%);
   position: relative;
 }
 
@@ -201,7 +202,7 @@ const emit = defineEmits<{
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 22px;
   font-weight: 400;
-  color: #6b7280;
+  color: var(--ink-500);
   letter-spacing: 1.5px;
   font-style: italic;
 }
@@ -237,14 +238,14 @@ const emit = defineEmits<{
   margin-bottom: 10px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .card-title {
   font-size: 1.1rem;
   font-weight: 800;
-  color: #0a0f1a;
-  margin: 0 0 10px 0;
+  color: var(--navy-950);
+  margin: 0 0 10px;
   line-height: 1.35;
   letter-spacing: -0.015em;
   display: -webkit-box;
@@ -254,10 +255,10 @@ const emit = defineEmits<{
 }
 
 .card-summary {
-  color: #4b5563;
+  color: var(--ink-600);
   font-size: 0.88rem;
   line-height: 1.6;
-  margin: 0 0 16px 0;
+  margin: 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -268,11 +269,11 @@ const emit = defineEmits<{
   margin-top: auto;
   display: flex;
   gap: 16px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-size: 0.78rem;
   font-weight: 500;
   padding-top: 14px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--slate-100);
 }
 
 .meta-item {
@@ -282,14 +283,14 @@ const emit = defineEmits<{
 }
 
 .publish-date {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .no-results {
   padding: 80px 0;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .module-title {
     font-size: 1.4rem;
   }

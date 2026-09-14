@@ -36,7 +36,7 @@ const emit = defineEmits<{
   justify-content: space-between;
   position: relative;
   z-index: 1;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .back-btn {
@@ -45,7 +45,7 @@ const emit = defineEmits<{
   gap: 8px;
   background: transparent;
   border: none;
-  color: #1f2937;
+  color: var(--ink-800);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 1.5px;
@@ -69,7 +69,7 @@ const emit = defineEmits<{
   gap: 10px;
   font-size: 11px;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
@@ -82,16 +82,16 @@ const emit = defineEmits<{
 }
 
 .type-mark.moment {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   color: var(--brand-primary);
 }
 
 .type-mark.capsule {
-  background: linear-gradient(135deg, #0052d9, #1890ff);
-  color: #fff;
+  background: linear-gradient(135deg, var(--brand-primary), var(--color-info));
+  color: white;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .top-bar {
     padding-left: 20px;
     padding-right: 20px;

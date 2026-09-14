@@ -64,7 +64,7 @@ const emit = defineEmits<{
 .module-title {
   font-size: clamp(22px, 2.2vw, 30px);
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin: 0;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -72,7 +72,7 @@ const emit = defineEmits<{
 
 .article-count {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 500;
 }
 
@@ -87,13 +87,13 @@ const emit = defineEmits<{
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .spotlight-card:hover {
-  box-shadow: 0 24px 56px -20px rgba(0, 82, 217, 0.18);
-  border-color: #d0e7ff;
+  box-shadow: 0 24px 56px -20px color-mix(in srgb, var(--brand-primary) 18%, transparent);
+  border-color: var(--brand-primary-soft);
 }
 
 .spotlight-image {
@@ -120,7 +120,7 @@ const emit = defineEmits<{
   grid-template-columns: 1fr;
   position: relative;
   padding: 0;
-  background: #fafafa;
+  background: var(--neutral-025);
 }
 
 .spotlight-quote-deco {
@@ -130,7 +130,7 @@ const emit = defineEmits<{
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 200px;
   font-weight: 900;
-  color: rgba(17, 24, 39, 0.05);
+  color: color-mix(in srgb, var(--ink-900) 5%, transparent);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -141,7 +141,7 @@ const emit = defineEmits<{
   padding: 72px 64px;
   position: relative;
   z-index: 1;
-  background: #fafafa;
+  background: var(--neutral-025);
 }
 
 .spotlight-card.no-cover .spotlight-content::before {
@@ -150,7 +150,7 @@ const emit = defineEmits<{
 
 .spotlight-card.no-cover .spotlight-title {
   font-size: clamp(32px, 4vw, 52px);
-  background: linear-gradient(135deg, #111827, #4b5563);
+  background: linear-gradient(135deg, var(--ink-900), var(--ink-600));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -169,8 +169,8 @@ const emit = defineEmits<{
   top: 24px;
   left: 24px;
   z-index: 2;
-  background: rgba(255, 255, 255, 0.95);
-  color: #0a0f1a;
+  background: color-mix(in srgb, white 95%, transparent);
+  color: var(--navy-950);
   padding: 6px 12px;
   font-size: 0.7rem;
   font-weight: 800;
@@ -183,7 +183,7 @@ const emit = defineEmits<{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: #ffffff;
+  background: white;
   position: relative;
 }
 
@@ -194,7 +194,7 @@ const emit = defineEmits<{
   left: 0;
   width: 3px;
   height: 100%;
-  background: linear-gradient(180deg, #0052d9, #1890ff);
+  background: linear-gradient(180deg, var(--brand-primary), var(--color-info));
 }
 
 .spotlight-meta {
@@ -213,7 +213,7 @@ const emit = defineEmits<{
 }
 
 .read-badge {
-  color: #6b7280;
+  color: var(--ink-500);
   font-size: 0.75rem;
   font-weight: 500;
 }
@@ -222,22 +222,22 @@ const emit = defineEmits<{
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background-color: #d1d5db;
+  background-color: var(--ink-300);
 }
 
 .spotlight-title {
   font-size: clamp(26px, 2.6vw, 38px);
   font-weight: 900;
   line-height: 1.12;
-  color: #0a0f1a;
-  margin: 0 0 20px 0;
+  color: var(--navy-950);
+  margin: 0 0 20px;
   letter-spacing: -0.03em;
 }
 
 .spotlight-desc {
-  color: #4b5563;
+  color: var(--ink-600);
   line-height: 1.7;
-  margin: 0 0 36px 0;
+  margin: 0 0 36px;
   font-size: 1rem;
   font-weight: 400;
   display: -webkit-box;
@@ -251,7 +251,7 @@ const emit = defineEmits<{
   justify-content: space-between;
   align-items: center;
   padding-top: 28px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--slate-100);
   gap: 16px;
 }
 
@@ -274,18 +274,18 @@ const emit = defineEmits<{
 
 .author-name {
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   font-size: 0.9rem;
 }
 
 .author-title {
   font-size: 0.72rem;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 500;
 }
 
 .read-more {
-  background: #0a0f1a;
+  background: var(--navy-950);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -306,22 +306,25 @@ const emit = defineEmits<{
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .spotlight-card {
     grid-template-columns: 1fr;
   }
+
   .spotlight-image {
     min-height: 320px;
   }
+
   .spotlight-content {
     padding: 36px 32px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .spotlight-title {
     font-size: 1.6rem;
   }
+
   .module-title {
     font-size: 1.4rem;
   }

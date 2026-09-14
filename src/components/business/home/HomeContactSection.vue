@@ -138,22 +138,22 @@ const submitContactForm = async () => {
   background: white;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 25px 50px -12px color-mix(in srgb, black 10%, transparent);
   display: grid;
   grid-template-columns: 400px 1fr;
-  border: 1px solid #eef2f6;
+  border: 1px solid var(--mist-050);
 }
 
 .contact-info {
-  background: #f8fafc;
+  background: var(--slate-50);
   position: relative;
   overflow: hidden;
   padding: 4rem;
-  color: #1f2937;
+  color: var(--ink-800);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-right: 1px solid #eef2f6;
+  border-right: 1px solid var(--mist-050);
 }
 
 .contact-bg-shape {
@@ -162,12 +162,12 @@ const submitContactForm = async () => {
   right: -50px;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(0, 82, 217, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--brand-primary) 10%, transparent) 0%, transparent 70%);
   border-radius: 50%;
 }
 
 .contact-header h2 {
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin-bottom: 1rem;
   font-size: clamp(28px, 3.5vw, 44px);
   font-weight: 800;
@@ -176,7 +176,7 @@ const submitContactForm = async () => {
 }
 
 .contact-header p {
-  color: #6b7280;
+  color: var(--ink-500);
   margin-bottom: 3rem;
   line-height: 1.7;
 }
@@ -191,7 +191,7 @@ const submitContactForm = async () => {
   width: 40px;
   height: 40px;
   background: white;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--slate-200);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -204,13 +204,13 @@ const submitContactForm = async () => {
 .method-text label {
   display: block;
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--ink-500);
   margin-bottom: 0.25rem;
 }
 
 .method-text span {
   font-size: 1rem;
-  color: #1f2937;
+  color: var(--ink-800);
   font-weight: 600;
 }
 
@@ -221,7 +221,7 @@ const submitContactForm = async () => {
 
 .contact-form-wrapper h3 {
   font-size: 1.5rem;
-  color: #1f2937;
+  color: var(--ink-800);
   margin-bottom: 2rem;
   font-weight: 700;
 }
@@ -239,14 +239,14 @@ const submitContactForm = async () => {
 }
 
 .submit-btn:hover {
-  background-color: #003bb3;
-  border-color: #003bb3;
+  background-color: var(--brand-primary-deeper);
+  border-color: var(--brand-primary-deeper);
 }
 
 .tech-form :deep(.el-input__wrapper) {
-  background-color: #f8fafc;
+  background-color: var(--slate-50);
   box-shadow: none !important;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--slate-200);
   transition: all 0.3s;
   padding: 8px 15px;
 }
@@ -254,23 +254,23 @@ const submitContactForm = async () => {
 .tech-form :deep(.el-input__wrapper.is-focus) {
   background-color: white;
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.1) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 10%, transparent) !important;
 }
 
 .tech-form :deep(.el-textarea__inner) {
-  background-color: #f8fafc;
+  background-color: var(--slate-50);
   box-shadow: none !important;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--slate-200);
   padding: 12px 15px;
 }
 
 .tech-form :deep(.el-textarea__inner:focus) {
   background-color: white;
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.1) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 10%, transparent) !important;
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .contact-wrapper {
     grid-template-columns: 1fr;
     gap: 2rem;

@@ -22,7 +22,7 @@ const emit = defineEmits<{ back: [] }>()
   margin: 0 auto;
   padding: 40px 56px 32px;
   position: relative;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   z-index: 1;
 }
 
@@ -31,7 +31,7 @@ const emit = defineEmits<{ back: [] }>()
   align-items: center;
   gap: 4px;
   font-size: 12px;
-  color: #6b7280;
+  color: var(--ink-500);
   cursor: pointer;
   transition: color 0.2s;
   letter-spacing: 0.5px;
@@ -46,7 +46,7 @@ const emit = defineEmits<{ back: [] }>()
   display: block;
   font-size: 12px;
   letter-spacing: 3px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   margin-bottom: 16px;
   text-transform: uppercase;
@@ -55,8 +55,8 @@ const emit = defineEmits<{ back: [] }>()
 .header-title {
   font-size: clamp(40px, 6vw, 64px);
   font-weight: 800;
-  color: #111827;
-  margin: 0 0 14px 0;
+  color: var(--ink-900);
+  margin: 0 0 14px;
   letter-spacing: -2px;
   line-height: 1.02;
 }
@@ -70,14 +70,14 @@ const emit = defineEmits<{ back: [] }>()
 
 .header-subtitle {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--ink-500);
   letter-spacing: 0.5px;
   margin: 0;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .page-header {
-    padding: 20px 16px 20px;
+    padding: 20px 16px;
   }
 
   .header-title {

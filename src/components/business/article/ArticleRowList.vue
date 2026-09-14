@@ -61,14 +61,14 @@ const emit = defineEmits<{
   gap: 32px;
   align-items: center;
   padding: 36px 0;
-  border-bottom: 1px solid #e8ecf0;
+  border-bottom: 1px solid var(--mist-100);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
 
 .article-row:first-child {
-  border-top: 1px solid #e8ecf0;
+  border-top: 1px solid var(--mist-100);
 }
 
 .article-row:hover {
@@ -79,7 +79,7 @@ const emit = defineEmits<{
 .row-index {
   font-size: clamp(20px, 2vw, 28px);
   font-weight: 200;
-  color: rgba(0, 82, 217, 0.25);
+  color: color-mix(in srgb, var(--brand-primary) 25%, transparent);
   letter-spacing: -1px;
   font-variant-numeric: tabular-nums;
   transition: color 0.4s ease, font-weight 0.4s ease;
@@ -98,7 +98,7 @@ const emit = defineEmits<{
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.7em;
-  color: rgba(0, 82, 217, 0.3);
+  color: color-mix(in srgb, var(--brand-primary) 30%, transparent);
   font-weight: 400;
 }
 
@@ -129,16 +129,16 @@ const emit = defineEmits<{
 
 .row-date {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 500;
 }
 
 .row-title {
   font-size: clamp(20px, 2vw, 26px);
   font-weight: 700;
-  color: #0a0f1a;
+  color: var(--navy-950);
   line-height: 1.3;
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
   letter-spacing: -0.02em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -153,9 +153,9 @@ const emit = defineEmits<{
 
 .row-summary {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
-  margin: 0 0 14px 0;
+  margin: 0 0 14px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -167,14 +167,14 @@ const emit = defineEmits<{
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 500;
 }
 
 .row-meta .dot {
   width: 3px;
   height: 3px;
-  background: #d1d5db;
+  background: var(--ink-300);
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -214,7 +214,7 @@ const emit = defineEmits<{
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent 60%, rgba(0, 82, 217, 0.12) 100%);
+  background: linear-gradient(135deg, transparent 60%, color-mix(in srgb, var(--brand-primary) 12%, transparent) 100%);
   pointer-events: none;
 }
 
@@ -225,7 +225,7 @@ const emit = defineEmits<{
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in srgb, white 95%, transparent);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -244,29 +244,33 @@ const emit = defineEmits<{
 }
 
 /* 响应式 */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .article-row {
     grid-template-columns: 64px 1fr 180px;
     gap: 24px;
   }
+
   .row-image {
     width: 180px;
     height: 110px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .article-row {
     grid-template-columns: 48px 1fr;
     gap: 16px;
     padding: 24px 0;
   }
+
   .row-image {
     display: none;
   }
+
   .row-index {
     font-size: 20px;
   }
+
   .article-row:hover {
     transform: translateX(8px);
   }

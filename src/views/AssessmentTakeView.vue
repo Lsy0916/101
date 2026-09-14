@@ -277,8 +277,8 @@ onUnmounted(() => {
 /* 沉浸式答题 - 黑白极简专注风格 */
 .immersive-assessment {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: #fafafa;
+  inset: 0;
+  background: var(--neutral-025);
   z-index: 2000;
   display: flex;
   flex-direction: column;
@@ -294,7 +294,7 @@ onUnmounted(() => {
   transform: translate(-50%, -50%);
   font-size: clamp(280px, 42vw, 520px);
   font-weight: 900;
-  color: #000;
+  color: black;
   opacity: 0.028;
   letter-spacing: -16px;
   line-height: 0.8;
@@ -307,12 +307,12 @@ onUnmounted(() => {
 /* 顶栏 */
 .take-header {
   height: 72px;
-  background: #fff;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--neutral-075);
   z-index: 10;
 }
 
@@ -330,7 +330,7 @@ onUnmounted(() => {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  color: #666;
+  color: var(--neutral-600);
   padding: 8px 12px;
   border-radius: 8px;
   transition: all 0.2s ease;
@@ -338,14 +338,14 @@ onUnmounted(() => {
 }
 
 .exit-btn:hover {
-  color: #dc2626;
-  background: #fef2f2;
+  color: var(--danger-600);
+  background: var(--danger-50);
 }
 
 .divider {
   width: 1px;
   height: 24px;
-  background: #e5e5e5;
+  background: var(--neutral-150);
 }
 
 .scale-meta {
@@ -355,14 +355,14 @@ onUnmounted(() => {
 
 .scale-name {
   font-weight: 600;
-  color: #111;
+  color: var(--neutral-900);
   font-size: 14px;
   line-height: 1.3;
 }
 
 .scale-progress-text {
   font-size: 12px;
-  color: #999;
+  color: var(--neutral-400);
   margin-top: 2px;
 }
 
@@ -378,21 +378,21 @@ onUnmounted(() => {
 .top-progress-track {
   flex: 1;
   height: 3px;
-  background: #f0f0f0;
+  background: var(--neutral-075);
   border-radius: 0;
   overflow: hidden;
 }
 
 .top-progress-fill {
   height: 100%;
-  background: #111;
+  background: var(--neutral-900);
   border-radius: 0;
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .top-progress-pct {
   font-size: 12px;
-  color: #999;
+  color: var(--neutral-400);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
@@ -404,14 +404,14 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #333;
+  color: var(--neutral-800);
   font-family: 'SF Mono', 'JetBrains Mono', Menlo, monospace;
   font-size: 14px;
-  background: #f5f5f5;
+  background: var(--neutral-050);
   padding: 8px 14px;
   border-radius: 8px;
   font-weight: 600;
-  border: 1px solid #eee;
+  border: 1px solid var(--neutral-100);
 }
 
 /* 主体 */
@@ -435,8 +435,8 @@ onUnmounted(() => {
 /* 底栏 */
 .take-footer {
   height: 88px;
-  background: #fff;
-  border-top: 1px solid #f0f0f0;
+  background: white;
+  border-top: 1px solid var(--neutral-075);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -461,7 +461,7 @@ onUnmounted(() => {
   border: none;
   cursor: pointer;
   font-size: 14px;
-  color: #666;
+  color: var(--neutral-600);
   padding: 12px 20px;
   border-radius: 12px;
   transition: all 0.2s ease;
@@ -470,8 +470,8 @@ onUnmounted(() => {
 }
 
 .nav-btn:hover:not(:disabled) {
-  color: #111;
-  background: #f5f5f5;
+  color: var(--neutral-900);
+  background: var(--neutral-050);
 }
 
 .nav-btn:disabled {
@@ -483,8 +483,8 @@ onUnmounted(() => {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #111;
-  color: #fff;
+  background: var(--neutral-900);
+  color: white;
   border: none;
   cursor: pointer;
   padding: 14px 32px;
@@ -493,12 +493,12 @@ onUnmounted(() => {
   font-weight: 600;
   font-family: inherit;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px color-mix(in srgb, black 20%, transparent);
 }
 
 .nav-btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 20px color-mix(in srgb, black 25%, transparent);
 }
 
 .nav-btn-primary:disabled {
@@ -517,25 +517,25 @@ onUnmounted(() => {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #e5e5e5;
+  background: var(--neutral-150);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .step-dots .dot.active {
   width: 28px;
   border-radius: 4px;
-  background: #111;
+  background: var(--neutral-900);
 }
 
 .step-dots .dot.completed {
-  background: #999;
+  background: var(--neutral-400);
 }
 
 /* 提交遮罩 */
 .submitting-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.92);
+  inset: 0;
+  background: color-mix(in srgb, white 92%, transparent);
   backdrop-filter: blur(12px);
   z-index: 3000;
   display: flex;
@@ -550,8 +550,8 @@ onUnmounted(() => {
 .loading-spinner {
   width: 48px;
   height: 48px;
-  border: 3px solid #eee;
-  border-top-color: #111;
+  border: 3px solid var(--neutral-100);
+  border-top-color: var(--neutral-900);
   border-radius: 50%;
   margin: 0 auto 24px;
   animation: spin 0.8s linear infinite;
@@ -563,14 +563,14 @@ onUnmounted(() => {
 
 .loading-box p {
   font-size: 16px;
-  color: #111;
+  color: var(--neutral-900);
   font-weight: 600;
   margin: 0;
 }
 
 .loading-sub {
   font-size: 13px !important;
-  color: #999 !important;
+  color: var(--neutral-400) !important;
   font-weight: 400 !important;
   margin-top: 6px !important;
 }
@@ -587,7 +587,7 @@ onUnmounted(() => {
 }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .take-header { height: 64px; padding: 0 16px; }
   .header-center { display: none; }
   .scale-name { font-size: 13px; }

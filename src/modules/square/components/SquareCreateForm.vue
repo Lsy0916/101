@@ -251,15 +251,15 @@ onBeforeUnmount(() => {
 
 .form-card {
   padding: 28px;
-  background: #ffffff;
-  border: 1px solid #eef2f6;
+  background: white;
+  border: 1px solid var(--mist-050);
   border-radius: 18px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-card:hover {
-  border-color: #d0e7ff;
-  box-shadow: 0 6px 20px rgba(0, 82, 217, 0.05);
+  border-color: var(--brand-primary-soft);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--brand-primary) 5%, transparent);
 }
 
 .form-card-row {
@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
 .section-title {
   font-size: 13px;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink-900);
   margin-bottom: 18px;
   display: flex;
   align-items: baseline;
@@ -283,7 +283,7 @@ onBeforeUnmount(() => {
 .section-num {
   font-size: 11px;
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.5px;
 }
@@ -293,7 +293,7 @@ onBeforeUnmount(() => {
 }
 
 .optional-hint {
-  color: #9ca3af;
+  color: var(--ink-400);
   font-size: 12px;
   font-weight: normal;
   margin-left: 8px;
@@ -315,8 +315,8 @@ onBeforeUnmount(() => {
   gap: 4px;
   padding: 12px 16px;
   border-radius: 14px;
-  background: #f8fbff;
-  border: 1px solid #eef2f6;
+  background: var(--brand-primary-wash);
+  border: 1px solid var(--mist-050);
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 72px;
@@ -329,25 +329,25 @@ onBeforeUnmount(() => {
 
 .emotion-label {
   font-size: 11px;
-  color: #6b7280;
+  color: var(--ink-500);
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
 .emotion-tag:hover {
-  border-color: #d0e7ff;
-  background: #f0f7ff;
+  border-color: var(--brand-primary-soft);
+  background: var(--brand-primary-faint);
   transform: translateY(-2px);
 }
 
 .emotion-tag.active {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
-  box-shadow: 0 6px 16px rgba(0, 82, 217, 0.25);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-primary) 25%, transparent);
 }
 
 .emotion-tag.active .emotion-label {
-  color: #ffffff;
+  color: white;
 }
 
 /* 话题输入 */
@@ -357,16 +357,16 @@ onBeforeUnmount(() => {
   gap: 8px;
   align-items: center;
   padding: 12px 14px;
-  background: #f8fbff;
-  border: 1px solid #eef2f6;
+  background: var(--brand-primary-wash);
+  border: 1px solid var(--mist-050);
   border-radius: 12px;
   transition: border-color 0.25s ease;
 }
 
 .topic-input-wrap:focus-within {
   border-color: var(--brand-primary);
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.08);
+  background: white;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 8%, transparent);
 }
 
 .topic-tags {
@@ -380,7 +380,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 4px;
   padding: 4px 10px;
-  background: rgba(0, 82, 217, 0.08);
+  background: color-mix(in srgb, var(--brand-primary) 8%, transparent);
   color: var(--brand-primary);
   border-radius: 6px;
   font-size: 12px;
@@ -410,12 +410,12 @@ onBeforeUnmount(() => {
   outline: none;
   background: transparent;
   font-size: 13px;
-  color: #1f2937;
+  color: var(--ink-800);
   font-family: inherit;
 }
 
 .topic-input::placeholder {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 /* 内容输入 */
@@ -427,12 +427,12 @@ onBeforeUnmount(() => {
   width: 100%;
   min-height: 160px;
   padding: 16px 18px;
-  background: #ffffff;
-  border: 1px solid #eef2f6;
+  background: white;
+  border: 1px solid var(--mist-050);
   border-radius: 14px;
   font-size: 15px;
   line-height: 1.8;
-  color: #1f2937;
+  color: var(--ink-800);
   resize: vertical;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -442,11 +442,11 @@ onBeforeUnmount(() => {
 
 .content-textarea:focus {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(0, 82, 217, 0.08);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 8%, transparent);
 }
 
 .content-textarea::placeholder {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .content-count {
@@ -454,7 +454,7 @@ onBeforeUnmount(() => {
   right: 8px;
   bottom: -22px;
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
 }
 
@@ -468,25 +468,25 @@ onBeforeUnmount(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px dashed #d0e7ff;
+  border: 1px dashed var(--brand-primary-soft);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .image-uploader:hover {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   border-color: var(--brand-primary);
 }
 
 .upload-icon {
   font-size: 32px;
-  color: #9ca3af;
+  color: var(--ink-400);
   margin-bottom: 12px;
 }
 
 .upload-text {
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .image-grid {
@@ -501,7 +501,7 @@ onBeforeUnmount(() => {
   padding-bottom: 100%;
   border-radius: 12px;
   overflow: hidden;
-  background: #f8fafc;
+  background: var(--slate-50);
 }
 
 .uploaded-image {
@@ -519,8 +519,8 @@ onBeforeUnmount(() => {
   right: 6px;
   width: 22px;
   height: 22px;
-  background: rgba(0, 82, 217, 0.8);
-  color: #fff;
+  background: color-mix(in srgb, var(--brand-primary) 80%, transparent);
+  color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -532,18 +532,18 @@ onBeforeUnmount(() => {
 }
 
 .image-item .delete-btn:hover {
-  background: rgba(0, 82, 217, 1);
+  background: var(--brand-primary);
 }
 
 .add-image-btn {
   background: transparent;
-  border: 1px dashed #d0e7ff;
+  border: 1px dashed var(--brand-primary-soft);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .add-image-btn:hover {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   border-color: var(--brand-primary);
 }
 
@@ -561,13 +561,13 @@ onBeforeUnmount(() => {
 
 .add-icon {
   font-size: 24px;
-  color: #9ca3af;
+  color: var(--ink-400);
   margin-bottom: 4px;
 }
 
 .add-text {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .hidden-file-input {
@@ -581,15 +581,15 @@ onBeforeUnmount(() => {
 
 .submit-btn {
   width: 100%;
-  background: linear-gradient(135deg, #0052d9, #1890ff);
-  color: #fff;
+  background: linear-gradient(135deg, var(--brand-primary), var(--color-info));
+  color: white;
   font-size: 13px;
   padding: 18px 0;
   border-radius: 14px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  box-shadow: 0 6px 18px rgba(0, 82, 217, 0.22);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 22%, transparent);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -601,9 +601,9 @@ onBeforeUnmount(() => {
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #0040b0, #0077e6);
-  color: #fff;
-  box-shadow: 0 12px 28px rgba(0, 82, 217, 0.35);
+  background: linear-gradient(135deg, var(--brand-primary-dark), var(--blue-600));
+  color: white;
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--brand-primary) 35%, transparent);
   transform: translateY(-3px);
 }
 
@@ -616,8 +616,8 @@ onBeforeUnmount(() => {
 }
 
 .submit-btn:disabled {
-  background: #d0e7ff;
-  color: #fff;
+  background: var(--brand-primary-soft);
+  color: white;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -630,14 +630,14 @@ onBeforeUnmount(() => {
 
 .success-big-icon {
   font-size: 56px;
-  color: #2e7d32;
+  color: var(--green-800);
   margin-bottom: 16px;
 }
 
 .success-dialog-content h3 {
   font-size: 20px;
   margin-bottom: 24px;
-  color: #1f2937;
+  color: var(--ink-800);
   font-weight: 700;
 }
 
@@ -651,7 +651,7 @@ onBeforeUnmount(() => {
 }
 
 :deep(.el-dialog__header) {
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 :deep(.el-button--primary) {
@@ -660,20 +660,22 @@ onBeforeUnmount(() => {
 }
 
 :deep(.el-button--primary:hover) {
-  background: #0040b0;
-  border-color: #0040b0;
+  background: var(--brand-primary-dark);
+  border-color: var(--brand-primary-dark);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .emotion-tags {
     gap: 12px;
   }
+
   .emotion-tag {
     width: 48px;
     height: 48px;
     font-size: 22px;
     border-radius: 12px;
   }
+
   .submit-section {
     padding: 28px 0 12px;
   }

@@ -15,8 +15,8 @@
   --el-border-radius-base: 8px;
   --el-border-radius-small: 6px;
   --el-border-radius-round: 20px;
-  --el-box-shadow: 0 4px 16px rgba(0, 82, 217, 0.08);
-  --el-box-shadow-light: 0 2px 8px rgba(0, 82, 217, 0.06);
+  --el-box-shadow: 0 4px 16px rgb(0, 82, 217, 0.08);
+  --el-box-shadow-light: 0 2px 8px rgb(0, 82, 217, 0.06);
 }
 
 /* 深色主题 */
@@ -33,6 +33,6 @@ html.dark,
   --el-border-color-light: #303030;
   --el-border-color-extra-light: #202020;
   --el-color-primary-light-9: #1a2a4a;
-  --el-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --el-box-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --el-box-shadow: 0 4px 16px rgb(0, 0, 0, 0.4);
+  --el-box-shadow-light: 0 2px 8px rgb(0, 0, 0, 0.3);
 }

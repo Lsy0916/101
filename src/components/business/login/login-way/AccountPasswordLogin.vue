@@ -296,8 +296,8 @@ onMounted(() => {
     cursor: pointer;
     border-radius: 4px;
     overflow: hidden;
-    background: #f5f5f5;
-    border: 1px solid #d9d9d9;
+    background: var(--neutral-050);
+    border: 1px solid #d9d9d9; /* stylelint-disable-line color-no-hex, function-allowed-list */
   }
 }
 
@@ -322,17 +322,17 @@ onMounted(() => {
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   letter-spacing: 1px;
   transform: translateY(0);
-  background: linear-gradient(135deg, #0052d9, #1890ff);
+  background: linear-gradient(135deg, var(--brand-primary), var(--color-info));
   border: none;
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 82, 217, 0.4);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--brand-primary) 40%, transparent);
 }
 
 .login-button:active {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 82, 217, 0.35);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--brand-primary) 35%, transparent);
 }
 </style>

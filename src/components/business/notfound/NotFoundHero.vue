@@ -69,7 +69,7 @@ const { t } = useI18n()
   line-height: 0.9;
   color: var(--dark-text);
   letter-spacing: -0.02em;
-  text-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 8px 40px color-mix(in srgb, black 20%, transparent);
 }
 
 .nf-hero-rule {
@@ -134,7 +134,7 @@ const { t } = useI18n()
   padding: 16px 4px;
   background: transparent;
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid color-mix(in srgb, white 18%, transparent);
   color: var(--dark-text);
   font-family: var(--font-sans);
   text-align: left;
@@ -144,7 +144,7 @@ const { t } = useI18n()
 }
 
 .nf-game-entry:last-child {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid color-mix(in srgb, white 18%, transparent);
 }
 
 .nf-game-entry-no {
@@ -188,13 +188,13 @@ const { t } = useI18n()
   transform: translateX(8px);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nf-hero-title {
     letter-spacing: 6px;
   }
 }
 
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-hero-number {
     font-size: clamp(70px, 14vw, 160px);
   }

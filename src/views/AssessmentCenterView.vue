@@ -225,7 +225,7 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
   max-width: 1400px;
   margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', sans-serif;
-  color: #111827;
+  color: var(--ink-900);
   position: relative;
 }
 
@@ -244,24 +244,24 @@ watch(() => [route.query.scale, route.query.view], ([newScale, newView]) => {
 
 :deep(.main-tabs .el-tabs__item) {
   font-size: 14px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 500;
   padding: 0 20px 14px 0;
   letter-spacing: 0.5px;
 }
 
 :deep(.main-tabs .el-tabs__item.is-active) {
-  color: #0a0f1a;
+  color: var(--navy-950);
   font-weight: 700;
 }
 
 :deep(.main-tabs .el-tabs__active-bar) {
-  background: #0a0f1a;
+  background: var(--navy-950);
   height: 2px;
   border-radius: 0;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .assessment-page { padding: 16px 14px 48px; }
   :deep(.main-tabs .el-tabs__item) { font-size: 14px; padding: 0 14px 12px 0; }
 }

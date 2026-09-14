@@ -157,8 +157,8 @@ function bookFromDialog() {
   align-items: center;
   gap: 24px;
   padding: 18px 0;
-  border-top: 1px solid #0a0f1a;
-  border-bottom: 1px solid #eef2f6;
+  border-top: 1px solid var(--navy-950);
+  border-bottom: 1px solid var(--mist-050);
   margin-bottom: 8px;
   flex-wrap: wrap;
 }
@@ -167,14 +167,14 @@ function bookFromDialog() {
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid #0a0f1a;
+  border-bottom: 1px solid var(--navy-950);
   padding: 4px 0;
   min-width: 220px;
 }
 
 .cons-ribbon .search-ico {
   font-size: 15px;
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .cons-ribbon .ribbon-search input {
@@ -182,14 +182,14 @@ function bookFromDialog() {
   outline: none;
   background: transparent;
   font-size: 14px;
-  color: #0a0f1a;
+  color: var(--navy-950);
   font-family: inherit;
   width: 100%;
   padding: 4px 0;
 }
 
 .cons-ribbon .ribbon-search input::placeholder {
-  color: #9ca3af;
+  color: var(--ink-400);
 }
 
 .cons-filters { display: flex; gap: 10px; }
@@ -199,14 +199,15 @@ function bookFromDialog() {
   background: transparent;
   box-shadow: none !important;
   border: none;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--slate-200);
   padding: 4px 0;
 }
+
 :deep(.cons-select .el-input__wrapper:hover),
 :deep(.cons-select .el-input.is-focus .el-input__wrapper) {
-  border-bottom-color: #0a0f1a;
+  border-bottom-color: var(--navy-950);
 }
-:deep(.cons-select .el-input__inner) { font-size: 13px; color: #1f2937; }
+:deep(.cons-select .el-input__inner) { font-size: 13px; color: var(--ink-800); }
 :deep(.cons-select) { width: 120px; }
 
 /* 当前分类小标题 */
@@ -220,19 +221,19 @@ function bookFromDialog() {
 .rows-heading .heading-name {
   font-size: clamp(22px, 2.4vw, 30px);
   font-weight: 800;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: -0.5px;
 }
 
 .rows-heading .heading-line {
   flex: 1;
   height: 1px;
-  background: #eef2f6;
+  background: var(--mist-050);
 }
 
 .rows-heading .heading-count {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
@@ -252,7 +253,7 @@ function bookFromDialog() {
   gap: 24px;
   align-items: center;
   padding: 24px 0;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   cursor: pointer;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
   position: relative;
@@ -286,7 +287,7 @@ function bookFromDialog() {
 .row-number .num {
   font-size: 22px;
   font-weight: 800;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: -0.5px;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -300,7 +301,7 @@ function bookFromDialog() {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  color: #fff;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -325,7 +326,7 @@ function bookFromDialog() {
 .row-title {
   font-size: clamp(17px, 1.4vw, 20px);
   font-weight: 700;
-  color: #0a0f1a;
+  color: var(--navy-950);
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.2px;
@@ -334,7 +335,7 @@ function bookFromDialog() {
 
 .row-title-sub {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 0.2px;
 }
 
@@ -343,16 +344,16 @@ function bookFromDialog() {
   font-weight: 700;
   color: var(--brand-primary);
   padding: 2px 8px;
-  border: 1px solid #d0e7ff;
+  border: 1px solid var(--brand-primary-soft);
   border-radius: 4px;
   letter-spacing: 0.5px;
 }
 
 .row-desc {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--ink-500);
   line-height: 1.6;
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -367,14 +368,14 @@ function bookFromDialog() {
 
 .row-tag {
   font-size: 11px;
-  color: #6b7280;
+  color: var(--ink-500);
   padding: 2px 0;
   font-weight: 500;
 }
 
 .row-tag::before {
   content: '/ ';
-  color: #d0d5dd;
+  color: var(--mist-300);
 }
 
 .row-tag:first-child::before {
@@ -394,25 +395,25 @@ function bookFromDialog() {
   gap: 5px;
   font-size: 13px;
   font-weight: 700;
-  color: #0a0f1a;
+  color: var(--navy-950);
   font-variant-numeric: tabular-nums;
 }
 
 .row-meta .meta-rating .el-icon {
-  color: #f59e0b;
+  color: var(--warning-500);
   font-size: 14px;
 }
 
 .row-meta .meta-sessions {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
 }
 
 .row-book {
   background: var(--brand-primary);
   border: none;
-  color: #fff;
+  color: white;
   font-size: 12px;
   font-weight: 600;
   padding: 8px 20px;
@@ -421,12 +422,12 @@ function bookFromDialog() {
   font-family: inherit;
   letter-spacing: 0.5px;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(0, 82, 217, 0.2);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--brand-primary) 20%, transparent);
 }
 
 .row-book:hover {
-  background: #0040b8;
-  box-shadow: 0 6px 18px rgba(0, 82, 217, 0.35);
+  background: #0040b8; /* stylelint-disable-line color-no-hex, function-allowed-list */
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 35%, transparent);
   transform: translateY(-1px);
 }
 
@@ -443,11 +444,12 @@ function bookFromDialog() {
   transform: translateX(0);
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .counselor-row {
     grid-template-columns: 40px 48px 1fr;
     gap: 16px;
   }
+
   .row-meta {
     display: none;
   }
@@ -463,7 +465,7 @@ function bookFromDialog() {
   gap: 20px;
   align-items: center;
   padding-bottom: 24px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
   margin-bottom: 28px;
 }
 
@@ -471,31 +473,33 @@ function bookFromDialog() {
   width: 64px;
   height: 64px;
   border-radius: 16px;
-  color: #fff;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 26px;
   font-weight: 700;
   flex-shrink: 0;
-  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--slate-900) 12%, transparent);
   letter-spacing: -0.5px;
 }
 
-.cd-name { font-size: 22px; font-weight: 700; color: #1f2937; letter-spacing: -0.4px; }
-.cd-title { font-size: 13px; color: #9ca3af; margin: 6px 0 10px; letter-spacing: 0.2px; }
+.cd-name { font-size: 22px; font-weight: 700; color: var(--ink-800); letter-spacing: -0.4px; }
+.cd-title { font-size: 13px; color: var(--ink-400); margin: 6px 0 10px; letter-spacing: 0.2px; }
+
 .cd-stats {
   display: flex;
   gap: 20px;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--ink-500);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.2px;
 }
-.cd-stats .el-icon { color: #f59e0b; }
+.cd-stats .el-icon { color: var(--warning-500); }
 .cd-stats span { display: inline-flex; align-items: center; gap: 6px; }
 
 .cd-section { margin-bottom: 28px; }
+
 .cd-section h4 {
   font-size: 12px;
   color: var(--brand-primary);
@@ -507,36 +511,40 @@ function bookFromDialog() {
   align-items: center;
   gap: 8px;
 }
+
 .cd-section h4::before {
   content: '';
   width: 16px;
   height: 2px;
-  background: linear-gradient(90deg, #0052d9, transparent);
+  background: linear-gradient(90deg, var(--brand-primary), transparent);
   border-radius: 2px;
 }
-.cd-section p { font-size: 14px; color: #4b5563; line-height: 1.8; margin: 0; }
+.cd-section p { font-size: 14px; color: var(--ink-600); line-height: 1.8; margin: 0; }
 
 .cd-specs { display: flex; flex-wrap: wrap; gap: 6px; }
+
 .cd-spec {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   color: var(--brand-primary);
   font-size: 12px;
   padding: 5px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 82, 217, 0.08);
+  border: 1px solid color-mix(in srgb, var(--brand-primary) 8%, transparent);
   font-weight: 500;
   letter-spacing: 0.2px;
 }
 
 .cd-edu { margin: 0; padding-left: 22px; }
+
 .cd-edu li {
   font-size: 13px;
-  color: #4b5563;
+  color: var(--ink-600);
   line-height: 1.8;
   padding: 8px 0;
   list-style: none;
   position: relative;
 }
+
 .cd-edu li::before {
   content: '';
   position: absolute;
@@ -544,7 +552,7 @@ function bookFromDialog() {
   top: 16px;
   width: 8px;
   height: 8px;
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
   border: 2px solid var(--brand-primary);
   border-radius: 50%;
 }
@@ -554,31 +562,31 @@ function bookFromDialog() {
   background: transparent;
   border-radius: 0;
   margin-bottom: 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--slate-100);
 }
 .cd-review:last-child { border-bottom: none; }
-.rv-stars { display: flex; gap: 2px; color: #f59e0b; margin-bottom: 8px; font-size: 14px; }
-.cd-review p { font-size: 13px; color: #4b5563; line-height: 1.8; margin: 0; }
+.rv-stars { display: flex; gap: 2px; color: var(--warning-500); margin-bottom: 8px; font-size: 14px; }
+.cd-review p { font-size: 13px; color: var(--ink-600); line-height: 1.8; margin: 0; }
 
 /* ============ 暗夜模式适配 ============ */
 html.dark .counselor-row {
-  border-bottom-color: #334155 !important;
+  border-bottom-color: var(--slate-700) !important;
 }
 
 html.dark .row-title,
 html.dark .row-number .num,
 html.dark .meta-rating {
-  color: #f1f5f9 !important;
+  color: var(--slate-100) !important;
 }
 
 html.dark .row-desc,
 html.dark .row-title-sub,
 html.dark .meta-sessions {
-  color: #94a3b8 !important;
+  color: var(--slate-400) !important;
 }
 
 html.dark .row-book {
-  background: #0052d9 !important;
-  color: #fff !important;
+  background: var(--brand-primary) !important;
+  color: white !important;
 }
 </style>

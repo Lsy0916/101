@@ -68,7 +68,7 @@ const emit = defineEmits<{ navigate: [index: number] }>()
   border-color: var(--dark-text);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nf-dots {
     right: 16px;
     gap: 10px;

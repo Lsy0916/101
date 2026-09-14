@@ -49,12 +49,12 @@ const createCapsule = () => {
 
 .capsule-list-page {
   min-height: 100vh;
-  background: #f8fbff;
+  background: var(--brand-primary-wash);
   background-image:
-    radial-gradient(circle at 20% 10%, rgba(0,82,217,0.015) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(0,82,217,0.012) 0%, transparent 50%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'PingFang SC', sans-serif;
-  color: #111827;
+    radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--brand-primary) 1.5%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, color-mix(in srgb, var(--brand-primary) 1.2%, transparent) 0%, transparent 50%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', sans-serif;
+  color: var(--ink-900);
   padding-bottom: 140px;
   position: relative;
   overflow-x: hidden;
@@ -75,7 +75,7 @@ const createCapsule = () => {
   pointer-events: none;
   user-select: none;
   z-index: 0;
-  font-family: 'Georgia', serif;
+  font-family: Georgia, serif;
   white-space: nowrap;
 }
 
@@ -93,7 +93,7 @@ const createCapsule = () => {
   align-items: center;
   gap: 10px;
   border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(0, 82, 217, 0.25);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--brand-primary) 25%, transparent);
   z-index: 100;
   transition: all 0.3s ease;
   border: none;
@@ -102,9 +102,9 @@ const createCapsule = () => {
 }
 
 .fab-button:hover {
-  background: #0040b0;
-  color: #fff;
-  box-shadow: 0 16px 40px rgba(0, 82, 217, 0.35);
+  background: var(--brand-primary-dark);
+  color: white;
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--brand-primary) 35%, transparent);
   gap: 14px;
   transform: translateY(-2px);
 }
@@ -115,28 +115,28 @@ const createCapsule = () => {
 
 .fab-plus {
   font-size: 24px;
-  color: #fff;
+  color: white;
   font-weight: 300;
   line-height: 1;
 }
 
 .fab-button:hover .fab-plus {
-  color: #fff;
+  color: white;
 }
 
 .fab-label {
   font-size: 12px;
   font-weight: 600;
-  color: #fff;
+  color: white;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .fab-button:hover .fab-label {
-  color: #fff;
+  color: white;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .fab-button {
     right: 16px;
     bottom: 32px;

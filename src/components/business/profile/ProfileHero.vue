@@ -72,7 +72,7 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
 /* 字体定义 */
 .hero-title,
 .hero-name {
-  font-family: Georgia, 'Times New Roman', 'Songti SC', 'STSong', serif;
+  font-family: Georgia, 'Times New Roman', 'Songti SC', STSong, serif;
 }
 
 /* ============ Hero 封面 ============ */
@@ -80,22 +80,22 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   position: relative;
   overflow: hidden;
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #0a2a6b 0%, #0052d9 50%, #1890ff 100%);
+  background: linear-gradient(135deg, var(--navy-800) 0%, var(--brand-primary) 50%, var(--color-info) 100%);
 }
 
 .hero-bg {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.14) 0%, transparent 42%),
-    radial-gradient(circle at 12% 88%, rgba(24, 144, 255, 0.28) 0%, transparent 50%);
+    radial-gradient(circle at 88% 18%, color-mix(in srgb, white 14%, transparent) 0%, transparent 42%),
+    radial-gradient(circle at 12% 88%, color-mix(in srgb, var(--color-info) 28%, transparent) 0%, transparent 50%);
 }
 
 .hero-inner {
   position: relative;
   z-index: 1;
   padding: 56px 56px 48px;
-  color: #fff;
+  color: white;
 }
 
 .hero-topline {
@@ -106,7 +106,7 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: color-mix(in srgb, white 70%, transparent);
   font-weight: 600;
 }
 
@@ -126,13 +126,13 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -1px;
-  color: #fff;
+  color: white;
 }
 
 .hero-title :deep(em) {
   font-style: italic;
   font-weight: 400;
-  color: #bae0ff;
+  color: #bae0ff; /* stylelint-disable-line color-no-hex, function-allowed-list */
 }
 
 .hero-sub {
@@ -140,12 +140,12 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   max-width: 620px;
   font-size: 15px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.78);
+  color: color-mix(in srgb, white 78%, transparent);
 }
 
 .hero-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.25);
+  background: color-mix(in srgb, white 25%, transparent);
   margin-bottom: 32px;
 }
 
@@ -168,8 +168,8 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: color-mix(in srgb, white 90%, transparent);
+  border: 1px solid color-mix(in srgb, white 30%, transparent);
   padding: 3px 12px;
 }
 
@@ -198,7 +198,7 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.85);
+  color: color-mix(in srgb, white 85%, transparent);
 }
 
 .meta-item .el-icon {
@@ -206,7 +206,7 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
 }
 
 .meta-dot {
-  color: rgba(255, 255, 255, 0.35);
+  color: color-mix(in srgb, white 35%, transparent);
   font-size: 13px;
 }
 
@@ -214,7 +214,7 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   margin: 0;
   font-size: 14px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.72);
+  color: color-mix(in srgb, white 72%, transparent);
   max-width: 560px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -237,33 +237,34 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  border: 1px solid #fff;
-  background: #fff;
+  border: 1px solid white;
+  background: white;
   color: var(--brand-primary);
   transition: all 0.25s ease;
   white-space: nowrap;
 }
 
 .cta-btn:hover {
-  background: #f0f7ff;
+  background: var(--brand-primary-faint);
 }
 
 .cta-btn.ghost {
   background: transparent;
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.4);
+  color: white;
+  border-color: color-mix(in srgb, white 40%, transparent);
 }
 
 .cta-btn.ghost:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.7);
+  background: color-mix(in srgb, white 12%, transparent);
+  border-color: color-mix(in srgb, white 70%, transparent);
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .hero-grid {
     grid-template-columns: auto 1fr;
     gap: 28px;
   }
+
   .hero-cta {
     grid-column: 1 / -1;
     flex-direction: row;
@@ -271,41 +272,49 @@ const issueNo = computed(() => String(new Date().getMonth() + 1).padStart(2, '0'
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .hero-inner {
     padding: 36px 24px 32px;
   }
+
   .hero-topline {
     margin-bottom: 18px;
     font-size: 11px;
     letter-spacing: 2px;
   }
+
   .hero-title {
     font-size: clamp(34px, 10vw, 44px);
   }
+
   .hero-sub {
     font-size: 14px;
     margin-bottom: 22px;
   }
+
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 24px;
     text-align: center;
   }
+
   .hero-portrait {
     align-items: center;
   }
+
   .hero-detail {
     text-align: center;
   }
+
   .hero-meta {
     justify-content: center;
   }
+
   .hero-cta {
-    flex-direction: row;
+    flex-flow: row wrap;
     justify-content: center;
-    flex-wrap: wrap;
   }
+
   .cta-btn {
     padding: 10px 20px;
     font-size: 13px;

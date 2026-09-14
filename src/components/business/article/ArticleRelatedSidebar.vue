@@ -52,13 +52,16 @@ const emit = defineEmits<{
 .related-sidebar::-webkit-scrollbar {
   width: 4px;
 }
+
 .related-sidebar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .related-sidebar::-webkit-scrollbar-thumb {
-  background: #d0e7ff;
+  background: var(--brand-primary-soft);
   border-radius: 2px;
 }
+
 .related-sidebar::-webkit-scrollbar-thumb:hover {
   background: var(--brand-primary);
 }
@@ -66,14 +69,14 @@ const emit = defineEmits<{
 .sidebar-header {
   margin-bottom: 28px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #eef2f6;
+  border-bottom: 1px solid var(--mist-050);
 }
 
 .sidebar-eyebrow {
   display: block;
   font-size: 11px;
   letter-spacing: 2px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 10px;
@@ -82,10 +85,11 @@ const emit = defineEmits<{
 .sidebar-title {
   font-size: 24px;
   font-weight: 900;
-  color: #0a0f1a;
+  color: var(--navy-950);
   letter-spacing: -1px;
   margin: 0;
 }
+
 .sidebar-title em {
   font-style: italic;
   font-weight: 300;
@@ -110,8 +114,8 @@ const emit = defineEmits<{
 }
 
 .sidebar-card:hover {
-  background: #f8fbff;
-  border-color: #d0e7ff;
+  background: var(--brand-primary-wash);
+  border-color: var(--brand-primary-soft);
   transform: translateX(4px);
 }
 
@@ -123,7 +127,7 @@ const emit = defineEmits<{
 .card-num {
   font-size: 11px;
   font-weight: 700;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
@@ -149,7 +153,7 @@ const emit = defineEmits<{
 .card-title {
   font-size: 13px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--ink-800);
   margin: 0;
   line-height: 1.45;
   letter-spacing: -0.2px;
@@ -161,7 +165,7 @@ const emit = defineEmits<{
 
 .card-meta {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 500;
   letter-spacing: 0.5px;
   font-variant-numeric: tabular-nums;
@@ -170,13 +174,13 @@ const emit = defineEmits<{
 
 .card-arrow {
   font-size: 14px;
-  color: #d0d5db;
+  color: #d0d5db; /* stylelint-disable-line color-no-hex, function-allowed-list */
   transition: all 0.3s ease;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
-@media (max-width: 992px) {
+@media (width <= 992px) {
   .related-sidebar {
     position: static;
   }

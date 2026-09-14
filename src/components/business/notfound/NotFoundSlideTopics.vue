@@ -248,7 +248,7 @@ function goTo(route: string) {
 .reveal-anim[data-anim="3"] { transition-delay: 0.3s; }
 
 /* ========== 响应式 ========== */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .nf-topics-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px 0;
@@ -263,7 +263,7 @@ function goTo(route: string) {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .nf-section-head {
     flex-direction: column;
     align-items: flex-start;
@@ -295,7 +295,7 @@ function goTo(route: string) {
   }
 }
 
-@media (max-height: 760px) {
+@media (height <= 760px) {
   .nf-section-head {
     margin-bottom: 14px;
   }

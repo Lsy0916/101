@@ -85,21 +85,21 @@ const filterByTopic = (tag: string) => {
 }
 
 .sidebar-card {
-  background: #f8fbff;
-  border: 1px solid #eef2f6;
+  background: var(--brand-primary-wash);
+  border: 1px solid var(--mist-050);
   border-radius: 16px;
   padding: 22px 24px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .sidebar-card:hover {
-  border-color: #d0e7ff;
-  box-shadow: 0 6px 18px rgba(0, 82, 217, 0.06);
+  border-color: var(--brand-primary-soft);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 6%, transparent);
 }
 
 .sidebar-card.guidelines-card {
-  background: rgba(0, 82, 217, 0.04);
-  border-color: #d0e7ff;
+  background: color-mix(in srgb, var(--brand-primary) 4%, transparent);
+  border-color: var(--brand-primary-soft);
 }
 
 .sidebar-head {
@@ -112,7 +112,7 @@ const filterByTopic = (tag: string) => {
 .sidebar-title {
   font-size: 13px;
   font-weight: 800;
-  color: #111827;
+  color: var(--ink-900);
   margin: 0;
   letter-spacing: 0.5px;
 }
@@ -122,7 +122,7 @@ const filterByTopic = (tag: string) => {
   align-items: center;
   gap: 5px;
   font-size: 11px;
-  color: #10b981;
+  color: var(--success-500);
   font-weight: 600;
 }
 
@@ -130,10 +130,10 @@ const filterByTopic = (tag: string) => {
   content: '';
   width: 6px;
   height: 6px;
-  background: #10b981;
+  background: var(--success-500);
   border-radius: 50%;
   display: inline-block;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--success-500) 15%, transparent);
 }
 
 /* 活跃同学 */
@@ -144,7 +144,7 @@ const filterByTopic = (tag: string) => {
 
 .member-avatar {
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid white;
   transition: transform 0.2s ease;
 }
 
@@ -156,7 +156,7 @@ const filterByTopic = (tag: string) => {
 .members-more {
   margin-left: 12px;
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -173,11 +173,11 @@ const filterByTopic = (tag: string) => {
   align-items: center;
   gap: 4px;
   padding: 6px 12px;
-  background: #f8fbff;
-  border: 1px solid #eef2f6;
+  background: var(--brand-primary-wash);
+  border: 1px solid var(--mist-050);
   border-radius: 16px;
   font-size: 12px;
-  color: #4b5563;
+  color: var(--ink-600);
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
@@ -185,14 +185,14 @@ const filterByTopic = (tag: string) => {
 }
 
 .cloud-tag:hover {
-  background: #f0f7ff;
-  border-color: #d0e7ff;
+  background: var(--brand-primary-faint);
+  border-color: var(--brand-primary-soft);
   color: var(--brand-primary);
   transform: translateY(-2px);
 }
 
 .cloud-hash {
-  color: #9ca3af;
+  color: var(--ink-400);
   font-weight: 700;
 }
 
@@ -202,14 +202,14 @@ const filterByTopic = (tag: string) => {
 
 .cloud-count {
   font-size: 10px;
-  color: #9ca3af;
+  color: var(--ink-400);
   font-variant-numeric: tabular-nums;
   margin-left: 2px;
 }
 
 /* 社区公约 */
 .guidelines-card {
-  background: linear-gradient(160deg, #f8fbff 0%, #ffffff 100%);
+  background: linear-gradient(160deg, var(--brand-primary-wash) 0%, white 100%);
 }
 
 .guidelines-list {
@@ -239,11 +239,11 @@ const filterByTopic = (tag: string) => {
 
 .rule-text {
   font-size: 13px;
-  color: #4b5563;
+  color: var(--ink-600);
   line-height: 1.5;
 }
 
-@media (max-width: 1100px) {
+@media (width <= 1100px) {
   .sidebar-column {
     position: static;
     order: 2;

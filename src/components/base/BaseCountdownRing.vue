@@ -105,7 +105,7 @@ onMounted(() => {
 .ring-num {
   font-size: 2.4em;
   font-weight: 800;
-  color: #000;
+  color: black;
   line-height: 1;
   letter-spacing: -1px;
   font-variant-numeric: tabular-nums;
@@ -113,7 +113,7 @@ onMounted(() => {
 
 .ring-unit {
   font-size: 0.7em;
-  color: #9ca3af;
+  color: var(--ink-400);
   letter-spacing: 1px;
   font-weight: 600;
   text-transform: uppercase;
