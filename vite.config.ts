@@ -3,10 +3,13 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    // GitHub Pages 项目站点部署在 /101/ 子路径下；
+    // 仅构建时启用，本地 dev/仍为根路径
+    base: command === 'build' ? '/101/' : '/',
     plugins: [
       vue(),
       // vueDevTools(),
